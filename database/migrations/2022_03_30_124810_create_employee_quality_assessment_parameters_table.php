@@ -15,7 +15,14 @@ return new class extends Migration
     {
         Schema::create('employee_quality_assessment_parameters', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('employee_quality_assessment_id');
+            $table->unsignedBigInteger('quality_assessment_list_parameter_id');
+            $table->string('column_type');
+            $table->text('real_value');
+            $table->text('value');
+            $table->text('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

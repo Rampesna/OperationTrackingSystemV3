@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,7 +14,14 @@ return new class extends Migration
     {
         Schema::create('employee_quality_assessments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('quality_assessment_list_id');
+            $table->date('date');
+            $table->string('call_number');
+            $table->string('call_url');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

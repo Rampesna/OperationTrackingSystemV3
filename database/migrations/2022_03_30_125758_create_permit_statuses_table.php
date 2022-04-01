@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('permit_statuses', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('color');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
