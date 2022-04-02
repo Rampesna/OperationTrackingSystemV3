@@ -11,4 +11,14 @@ use Laravel\Sanctum\HasApiTokens;
 class Employee extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function jobDepartments()
+    {
+        return $this->belongsToMany(JobDepartment::class);
+    }
 }

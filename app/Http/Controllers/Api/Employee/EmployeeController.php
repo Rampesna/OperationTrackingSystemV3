@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Employee;
 
-use App\Interfaces\IEmployeeService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\EmployeeController\LoginRequest;
+use App\Interfaces\Eloquent\IEmployeeService;
 
 class EmployeeController extends Controller
 {

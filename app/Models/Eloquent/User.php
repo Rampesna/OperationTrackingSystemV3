@@ -12,5 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class);
+    }
 }

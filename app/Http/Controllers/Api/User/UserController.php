@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Interfaces\IUserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\UserController\LoginRequest;
+use App\Interfaces\Eloquent\IUserService;
 
 class UserController extends Controller
 {

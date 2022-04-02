@@ -2,11 +2,11 @@
 
 namespace App\Services\Eloquent;
 
-use App\Interfaces\IUserService;
+use App\Interfaces\Eloquent\IUserService;
 use App\Models\Eloquent\User;
+use App\Traits\Response;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
-use App\Traits\Response;
 
 class UserService implements IUserService
 {

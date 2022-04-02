@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Interfaces\Eloquent;
 
-interface IUserService extends IModelService
+interface IUserService extends IEloquentService
 {
     /**
      * @param string $email

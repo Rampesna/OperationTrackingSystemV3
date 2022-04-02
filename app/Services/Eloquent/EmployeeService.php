@@ -2,11 +2,11 @@
 
 namespace App\Services\Eloquent;
 
-use App\Interfaces\IEmployeeService;
+use App\Interfaces\Eloquent\IEmployeeService;
 use App\Models\Eloquent\Employee;
+use App\Traits\Response;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
-use App\Traits\Response;
 
 class EmployeeService implements IEmployeeService
 {
@@ -35,6 +35,38 @@ class EmployeeService implements IEmployeeService
     )
     {
         return Employee::where('email', $email)->first();
+    }
+
+    /**
+     * @param string $keyword
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param array $companyIds
+     * @param int $leave
+     */
+    public function index(
+        string $keyword,
+        int    $pageIndex = 0,
+        int    $pageSize = 10,
+        array  $companyIds = [],
+        int    $leave = 0
+    )
+    {
+        $employees = Employee::with([
+            'company',
+            'jobDepartments',
+        ])->whereIn('company_id', $companyIds)->where('leave', $leave);
+
+        if (!empty($keyword)) {
+            $employees->where(function ($employees) use ($keyword) {
+                $employees->where('name', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('identity', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('phone', 'LIKE', '%' . $keyword . '%');
+            });
+        }
+
+        return $this->success('Employees', $employees->skip($pageIndex * $pageSize)->take($pageSize)->get());
     }
 
     /**

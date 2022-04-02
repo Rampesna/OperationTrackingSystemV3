@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Interfaces\Eloquent;
 
-interface IModelService
+interface IEloquentService
 {
     public function getAll();
 
