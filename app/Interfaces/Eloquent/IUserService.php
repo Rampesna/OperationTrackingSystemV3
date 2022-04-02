@@ -20,6 +20,15 @@ interface IUserService extends IEloquentService
         string $password
     );
 
+    /**
+     * @param int $userId
+     * @param int $theme
+     */
+    public function swapTheme(
+        int $userId,
+        int $theme
+    );
+
     public function create(
         int    $roleId,
         string $name,

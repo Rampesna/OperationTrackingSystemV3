@@ -105,6 +105,10 @@ button::-moz-focus-inner {
   border: 0;
 }
 
+.tox[dir=rtl] .tox-icon--flip svg {
+  transform: rotateY(180deg);
+}
+
 .tox .accessibility-issue__header {
   align-items: center;
   display: flex;
@@ -491,7 +495,7 @@ button::-moz-focus-inner {
   display: flex;
   height: 24px;
   justify-content: center;
-  padding: calc(4px - 1px);
+  padding: 3px;
   width: 24px;
 }
 
@@ -546,7 +550,7 @@ button::-moz-focus-inner {
 .tox input.tox-checkbox__input:focus + .tox-checkbox__icons {
   border-radius: 3px;
   box-shadow: inset 0 0 0 1px #207ab7;
-  padding: calc(4px - 1px);
+  padding: 3px;
 }
 
 .tox:not([dir=rtl]) .tox-checkbox__label {
@@ -685,12 +689,6 @@ button::-moz-focus-inner {
   color: #fff;
 }
 
-.tox .tox-collection__item--state-disabled {
-  background-color: transparent;
-  color: rgba(255, 255, 255, 0.5);
-  cursor: not-allowed;
-}
-
 .tox .tox-collection__item-icon,
 .tox .tox-collection__item-checkmark {
   align-items: center;
@@ -746,6 +744,16 @@ button::-moz-focus-inner {
 
 .tox .tox-collection__item-caret svg {
   fill: #fff;
+}
+
+.tox .tox-collection__item--state-disabled {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+.tox .tox-collection__item--state-disabled .tox-collection__item-caret svg {
+  fill: rgba(255, 255, 255, 0.5);
 }
 
 .tox .tox-collection--list .tox-collection__item:not(.tox-collection__item--enabled) .tox-collection__item-checkmark svg {
@@ -884,14 +892,6 @@ button::-moz-focus-inner {
 
 .tox[dir=rtl] .tox-collection--list .tox-collection__item > .tox-collection__item-label:first-child {
   margin-right: 4px;
-}
-
-.tox[dir=rtl] .tox-collection__item-icon-rtl {
-  /* stylelint-disable-next-line no-descending-specificity */
-}
-
-.tox[dir=rtl] .tox-collection__item-icon-rtl .tox-collection__item-icon svg {
-  transform: rotateY(180deg);
 }
 
 .tox[dir=rtl] .tox-collection__item-accessory {
@@ -2035,15 +2035,15 @@ body.tox-dialog__disable-scroll {
 }
 
 .tox .tox-form__grid--2col > .tox-form__group {
-  width: calc(50% - (8px / 2));
+  width: calc(50% - 4px);
 }
 
 .tox .tox-form__grid--3col > .tox-form__group {
-  width: calc(100% / 3 - (8px / 2));
+  width: calc(33.3333333333% - 4px);
 }
 
 .tox .tox-form__grid--4col > .tox-form__group {
-  width: calc(25% - (8px / 2));
+  width: calc(25% - 4px);
 }
 
 .tox .tox-form__controls-h-stack {
@@ -2288,14 +2288,11 @@ body.tox-dialog__disable-scroll {
 .tox-fullscreen {
   border: 0;
   height: 100%;
-  left: 0;
   margin: 0;
   overflow: hidden;
   -ms-scroll-chaining: none;
   overscroll-behavior: none;
   padding: 0;
-  position: fixed;
-  top: 0;
   touch-action: pinch-zoom;
   width: 100%;
 }
@@ -2304,13 +2301,16 @@ body.tox-dialog__disable-scroll {
   display: none;
 }
 
-.tox.tox-tinymce.tox-fullscreen {
-  background-color: transparent;
+.tox.tox-tinymce.tox-fullscreen,
+.tox-shadowhost.tox-fullscreen {
+  left: 0;
+  position: fixed;
+  top: 0;
   z-index: 1200;
 }
 
-.tox-shadowhost.tox-fullscreen {
-  z-index: 1200;
+.tox.tox-tinymce.tox-fullscreen {
+  background-color: transparent;
 }
 
 .tox-fullscreen .tox.tox-tinymce-aux,
@@ -2631,6 +2631,7 @@ body.tox-dialog__disable-scroll {
 }
 
 .tox .tox-notification a {
+  cursor: pointer;
   text-decoration: underline;
 }
 
@@ -2797,8 +2798,19 @@ body.tox-dialog__disable-scroll {
   transition: width 0.1s ease;
 }
 
-.tox .tox-pop--resizing .tox-toolbar {
+.tox .tox-pop--resizing .tox-toolbar,
+.tox .tox-pop--resizing .tox-toolbar__group {
   flex-wrap: nowrap;
+}
+
+.tox .tox-pop--transition {
+  transition: 0.15s ease;
+  transition-property: left, right, top, bottom;
+}
+
+.tox .tox-pop--transition::before,
+.tox .tox-pop--transition::after {
+  transition: all 0.15s, visibility 0s, opacity 0.075s ease 0.075s;
 }
 
 .tox .tox-pop__dialog {
@@ -2825,8 +2837,15 @@ body.tox-dialog__disable-scroll {
   content: "";
   display: block;
   height: 0;
+  opacity: 1;
   position: absolute;
   width: 0;
+}
+
+.tox .tox-pop.tox-pop--inset::before,
+.tox .tox-pop.tox-pop--inset::after {
+  opacity: 0;
+  transition: all 0s 0.15s, visibility 0s, opacity 0.075s ease;
 }
 
 .tox .tox-pop.tox-pop--bottom::before,
@@ -3446,10 +3465,6 @@ body.tox-dialog__disable-scroll {
   border: 1px solid #000000;
   border-radius: 3px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-.tox[dir=rtl] .tox-tbtn__icon-rtl svg {
-  transform: rotateY(180deg);
 }
 
 .tox .tox-toolbar__group {

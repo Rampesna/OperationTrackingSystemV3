@@ -55,9 +55,29 @@ class UserService implements IUserService
         }
 
         return $this->success('User logged in successfully', [
-            'token' => $this->generateSanctumToken($user),
-            'oAuth' => $this->generateOAuthToken($user)
+            'token' => $this->generateSanctumToken($user)
         ]);
+    }
+
+    /**
+     * @param int $userId
+     * @param int $theme
+     */
+    public function swapTheme(
+        int $userId,
+        int $theme
+    )
+    {
+        $user = $this->getById($userId);
+
+        if (!$user) {
+            return $this->error('User not found', 404);
+        }
+
+        $user->theme = $theme;
+        $user->save();
+
+        return $this->success('Theme changed successfully', null);
     }
 
     /**
@@ -67,7 +87,12 @@ class UserService implements IUserService
         User $user
     )
     {
-        return $user->createToken('userApiToken')->plainTextToken;
+        $token = $user->createToken('userApiToken')->plainTextToken;
+
+        $user->api_token = $token;
+        $user->save();
+
+        return $token;
     }
 
     /**

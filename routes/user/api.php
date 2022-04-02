@@ -10,4 +10,6 @@ Route::middleware([
     'auth:user_api'
 ])->group(function () {
 
+    Route::post('swapTheme', [\App\Http\Controllers\Api\User\UserController::class, 'swapTheme'])->name('user.api.swapTheme');
+
 });

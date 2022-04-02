@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /**
  * Copyright (c) Tiny Technologies, Inc. All rights reserved.
  * Licensed under the LGPL or a commercial license.
@@ -27,101 +26,101 @@
 }
 
 .tinymce-mobile-icon-arrow-back::before {
-  content: "";
+  content: "\e5cd";
 }
 
 .tinymce-mobile-icon-image::before {
-  content: "";
+  content: "\e412";
 }
 
 .tinymce-mobile-icon-cancel-circle::before {
-  content: "";
+  content: "\e5c9";
 }
 
 .tinymce-mobile-icon-full-dot::before {
-  content: "";
+  content: "\e061";
 }
 
 .tinymce-mobile-icon-align-center::before {
-  content: "";
+  content: "\e234";
 }
 
 .tinymce-mobile-icon-align-left::before {
-  content: "";
+  content: "\e236";
 }
 
 .tinymce-mobile-icon-align-right::before {
-  content: "";
+  content: "\e237";
 }
 
 .tinymce-mobile-icon-bold::before {
-  content: "";
+  content: "\e238";
 }
 
 .tinymce-mobile-icon-italic::before {
-  content: "";
+  content: "\e23f";
 }
 
 .tinymce-mobile-icon-unordered-list::before {
-  content: "";
+  content: "\e241";
 }
 
 .tinymce-mobile-icon-ordered-list::before {
-  content: "";
+  content: "\e242";
 }
 
 .tinymce-mobile-icon-font-size::before {
-  content: "";
+  content: "\e245";
 }
 
 .tinymce-mobile-icon-underline::before {
-  content: "";
+  content: "\e249";
 }
 
 .tinymce-mobile-icon-link::before {
-  content: "";
+  content: "\e157";
 }
 
 .tinymce-mobile-icon-unlink::before {
-  content: "";
+  content: "\eca2";
 }
 
 .tinymce-mobile-icon-color::before {
-  content: "";
+  content: "\e891";
 }
 
 .tinymce-mobile-icon-previous::before {
-  content: "";
+  content: "\e314";
 }
 
 .tinymce-mobile-icon-next::before {
-  content: "";
+  content: "\e315";
 }
 
 .tinymce-mobile-icon-large-font::before,
 .tinymce-mobile-icon-style-formats::before {
-  content: "";
+  content: "\e264";
 }
 
 .tinymce-mobile-icon-undo::before {
-  content: "";
+  content: "\e166";
 }
 
 .tinymce-mobile-icon-redo::before {
-  content: "";
+  content: "\e15a";
 }
 
 .tinymce-mobile-icon-removeformat::before {
-  content: "";
+  content: "\e239";
 }
 
 .tinymce-mobile-icon-small-font::before {
-  content: "";
+  content: "\e906";
 }
 
 .tinymce-mobile-icon-readonly-back::before,
 .tinymce-mobile-format-matches::after {
-  content: "";
+  content: "\e5ca";
 }
 
 .tinymce-mobile-icon-small-heading::before {
@@ -139,11 +138,11 @@
 }
 
 .tinymce-mobile-mask-edit-icon::before {
-  content: "";
+  content: "\e254";
 }
 
 .tinymce-mobile-icon-back::before {
-  content: "";
+  content: "\e5c4";
 }
 
 .tinymce-mobile-icon-heading::before {
@@ -224,7 +223,7 @@
 }
 
 .tinymce-mobile-outer-container .tinymce-mobile-disabled-mask .tinymce-mobile-content-container .tinymce-mobile-content-tap-section .tinymce-mobile-mask-tap-icon::before {
-  content: "";
+  content: "\e900";
   font-family: "tinymce-mobile", sans-serif;
 }
 
@@ -655,13 +654,13 @@
 
 .tinymce-mobile-styles-menu .tinymce-mobile-styles-collapser .tinymce-mobile-styles-collapse-icon::before {
   color: #455a64;
-  content: "";
+  content: "\e314";
   font-family: "tinymce-mobile", sans-serif;
 }
 
 .tinymce-mobile-styles-menu .tinymce-mobile-styles-item.tinymce-mobile-styles-item-is-menu::after {
   color: #455a64;
-  content: "";
+  content: "\e315";
   font-family: "tinymce-mobile", sans-serif;
   padding-left: 1em;
   padding-right: 1em;

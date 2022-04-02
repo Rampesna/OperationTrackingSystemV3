@@ -23,6 +23,8 @@ return new class extends Migration {
             $table->string('image')->nullable();
             $table->bigInteger('default_company_id')->nullable();
             $table->boolean('suspend')->default(0);
+            $table->boolean('theme')->default(0);
+            $table->string('api_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -378,7 +378,7 @@ pre[class*=language-] {
   height: 10px;
   position: absolute;
   width: 10px;
-  z-index: 10000;
+  z-index: 1298;
 }
 
 .mce-content-body div.mce-resizehandle:hover {

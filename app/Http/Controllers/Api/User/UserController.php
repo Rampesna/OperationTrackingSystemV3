@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\UserController\LoginRequest;
+use App\Http\Requests\Api\User\UserController\SwapThemeRequest;
 use App\Interfaces\Eloquent\IUserService;
 
 class UserController extends Controller
@@ -23,6 +24,14 @@ class UserController extends Controller
         return $this->userService->login(
             $request->email,
             $request->password
+        );
+    }
+
+    public function swapTheme(SwapThemeRequest $request)
+    {
+        return $this->userService->swapTheme(
+            $request->user()->id,
+            $request->theme
         );
     }
 }
