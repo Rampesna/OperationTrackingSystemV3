@@ -12,7 +12,7 @@
         </div>
 
         <div class="d-flex align-items-center flex-lg-grow-0">
-            <a href="#" class="d-lg-none">
+            <a href="{{ route('user.web.dashboard.index') }}" class="d-lg-none">
                 <img alt="Logo" src="{{ asset('assets/media/logos/favicon.png') }}" class="h-30px" />
             </a>
         </div>

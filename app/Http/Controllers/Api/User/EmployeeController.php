@@ -28,12 +28,11 @@ class EmployeeController extends Controller
             }
         }
 
-        return $this->employeeService->index(
-            $request->keyword,
+        return $this->success('Users', $this->employeeService->index(
             $request->pageIndex,
             $request->pageSize,
             $request->companyIds,
             $request->leave
-        );
+        ));
     }
 }

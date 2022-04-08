@@ -38,35 +38,26 @@ class EmployeeService implements IEmployeeService
     }
 
     /**
-     * @param string $keyword
      * @param int $pageIndex
      * @param int $pageSize
      * @param array $companyIds
      * @param int $leave
      */
     public function index(
-        string $keyword,
-        int    $pageIndex = 0,
-        int    $pageSize = 10,
-        array  $companyIds = [],
-        int    $leave = 0
+        int   $pageIndex = 0,
+        int   $pageSize = 10,
+        array $companyIds = [],
+        int   $leave = 0
     )
     {
-        $employees = Employee::with([
+        return Employee::with([
             'company',
             'jobDepartments',
-        ])->whereIn('company_id', $companyIds)->where('leave', $leave);
-
-        if (!empty($keyword)) {
-            $employees->where(function ($employees) use ($keyword) {
-                $employees->where('name', 'LIKE', '%' . $keyword . '%')
-                    ->orWhere('email', 'LIKE', '%' . $keyword . '%')
-                    ->orWhere('identity', 'LIKE', '%' . $keyword . '%')
-                    ->orWhere('phone', 'LIKE', '%' . $keyword . '%');
-            });
-        }
-
-        return $this->success('Employees', $employees->skip($pageIndex * $pageSize)->take($pageSize)->get());
+        ])->whereIn('company_id', $companyIds)
+            ->where('leave', $leave)
+            ->skip($pageIndex * $pageSize)
+            ->take($pageSize)
+            ->get();
     }
 
     /**

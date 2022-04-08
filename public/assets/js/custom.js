@@ -192,11 +192,11 @@ function checkScreen() {
 
     }
 
-    if (detectMobile()) {
-        $('#kt_aside_menu_wrapper').removeClass('top-0').addClass('top-25');
-    } else {
-        $('#kt_aside_menu_wrapper').removeClass('top-25').addClass('top-0');
-    }
+    // if (detectMobile()) {
+    //     $('#kt_aside_menu_wrapper').removeClass('top-0').addClass('top-25');
+    // } else {
+    //     $('#kt_aside_menu_wrapper').removeClass('top-25').addClass('top-0');
+    // }
 }
 
 $(window).resize(function () {
