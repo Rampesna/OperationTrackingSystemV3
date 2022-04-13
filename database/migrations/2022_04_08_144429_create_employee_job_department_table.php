@@ -12,11 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('priorities', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::create('employee_job_department', function (Blueprint $table) {
+            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('job_department_id');
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('priorities');
+        Schema::dropIfExists('employee_job_department');
     }
 };

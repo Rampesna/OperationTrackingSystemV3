@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Queue extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class);
+    }
 }

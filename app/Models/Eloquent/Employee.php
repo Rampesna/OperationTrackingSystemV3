@@ -17,6 +17,16 @@ class Employee extends Authenticatable
         return $this->belongsTo(Company::class);
     }
 
+    public function queues()
+    {
+        return $this->belongsToMany(Queue::class);
+    }
+
+    public function competences()
+    {
+        return $this->belongsToMany(Competence::class);
+    }
+
     public function jobDepartments()
     {
         return $this->belongsToMany(JobDepartment::class);

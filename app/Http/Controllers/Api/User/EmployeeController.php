@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\EmployeeController\IndexRequest;
+use App\Http\Requests\Api\User\EmployeeController\GetByCompaniesRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Traits\Response;
 
@@ -18,7 +18,7 @@ class EmployeeController extends Controller
         $this->employeeService = $employeeService;
     }
 
-    public function index(IndexRequest $request)
+    public function getByCompanies(GetByCompaniesRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
 
@@ -28,7 +28,7 @@ class EmployeeController extends Controller
             }
         }
 
-        return $this->success('Users', $this->employeeService->index(
+        return $this->success('Users', $this->employeeService->getByCompanies(
             $request->pageIndex,
             $request->pageSize,
             $request->companyIds,

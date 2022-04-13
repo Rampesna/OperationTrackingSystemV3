@@ -12,12 +12,12 @@ interface IUserService extends IEloquentService
     );
 
     /**
-     * @param string $email
-     * @param string $password
+     * @param int $userId
+     * @param int $companyId
      */
-    public function login(
-        string $email,
-        string $password
+    public function swapCompany(
+        int $userId,
+        int $companyId
     );
 
     /**
@@ -27,6 +27,13 @@ interface IUserService extends IEloquentService
     public function swapTheme(
         int $userId,
         int $theme
+    );
+
+    /**
+     * @param int $userId
+     */
+    public function getCompanies(
+        int $userId
     );
 
     public function create(

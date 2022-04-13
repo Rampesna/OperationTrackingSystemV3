@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Eloquent\ICompetenceService;
 use App\Interfaces\Eloquent\IEmployeeService;
+use App\Interfaces\Eloquent\IJobDepartmentService;
+use App\Interfaces\Eloquent\IPriorityService;
+use App\Interfaces\Eloquent\IQueueService;
 use App\Interfaces\Eloquent\IUserService;
 use App\Interfaces\OperationApi\IDataScanningService;
 use App\Interfaces\OperationApi\IExamSystemService;
@@ -10,10 +14,15 @@ use App\Interfaces\OperationApi\IJobsSystemService;
 use App\Interfaces\OperationApi\IOperationService;
 use App\Interfaces\OperationApi\IOtsSystemService;
 use App\Interfaces\OperationApi\IPersonReportService;
+use App\Interfaces\OperationApi\IPersonSystemService;
 use App\Interfaces\OperationApi\ISpecialReportService;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Interfaces\OperationApi\ITvScreenService;
+use App\Services\Eloquent\CompetenceService;
 use App\Services\Eloquent\EmployeeService;
+use App\Services\Eloquent\JobDepartmentService;
+use App\Services\Eloquent\PriorityService;
+use App\Services\Eloquent\QueueService;
 use App\Services\Eloquent\UserService;
 use App\Services\OperationApi\DataScanningService;
 use App\Services\OperationApi\ExamSystemService;
@@ -21,6 +30,7 @@ use App\Services\OperationApi\JobsSystemService;
 use App\Services\OperationApi\OperationService;
 use App\Services\OperationApi\OtsSystemService;
 use App\Services\OperationApi\PersonReportService;
+use App\Services\OperationApi\PersonSystemService;
 use App\Services\OperationApi\SpecialReportService;
 use App\Services\OperationApi\SurveySystemService;
 use App\Services\OperationApi\TvScreenService;
@@ -38,6 +48,10 @@ class InterfaceServiceProvider extends ServiceProvider
         // Eloquent Services
         $this->app->bind(IUserService::class, UserService::class);
         $this->app->bind(IEmployeeService::class, EmployeeService::class);
+        $this->app->bind(IJobDepartmentService::class, JobDepartmentService::class);
+        $this->app->bind(IQueueService::class, QueueService::class);
+        $this->app->bind(ICompetenceService::class, CompetenceService::class);
+        $this->app->bind(IPriorityService::class, PriorityService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);
@@ -46,6 +60,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IOperationService::class, OperationService::class);
         $this->app->bind(IOtsSystemService::class, OtsSystemService::class);
         $this->app->bind(IPersonReportService::class, PersonReportService::class);
+        $this->app->bind(IPersonSystemService::class, PersonSystemService::class);
         $this->app->bind(ISpecialReportService::class, SpecialReportService::class);
         $this->app->bind(ISurveySystemService::class, SurveySystemService::class);
         $this->app->bind(ITvScreenService::class, TvScreenService::class);

@@ -1,5 +1,9 @@
 <script>
 
+    $(document).ready(function() {
+        $('#loader').hide();
+    } );
+
     var applicationFilterer = $('#application_filter');
 
     applicationFilterer.keyup(function () {

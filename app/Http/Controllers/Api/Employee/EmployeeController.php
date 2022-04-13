@@ -20,9 +20,16 @@ class EmployeeController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        return $this->employeeService->login(
-            $request->email,
-            $request->password
-        );
+        if (!$employee = $this->employeeService->getByEmail($request->email)) {
+            return $this->error('Employee not found', 404);
+        }
+
+        if (!checkPassword($request->password, $employee->password)) {
+            return $this->error('Password is incorrect', 401);
+        }
+
+        return $this->success('Employee logged in successfully', [
+            'token' => $this->employeeService->generateSanctumToken($employee)
+        ]);
     }
 }

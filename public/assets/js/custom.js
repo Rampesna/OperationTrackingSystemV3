@@ -130,10 +130,6 @@ function reformatInvoiceNumber(datetime, number) {
     return (new Date(datetime)).getFullYear() + '-' + number.padStart(9, '0');
 }
 
-$(window).on('load', function () {
-    $("#loader").fadeOut(250);
-});
-
 $.sum = function (arr) {
     var r = 0;
     $.each(arr, function (i, v) {

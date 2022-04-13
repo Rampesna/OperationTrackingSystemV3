@@ -15,7 +15,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'];
     }
 
     public function GetSurveyEdit($id)

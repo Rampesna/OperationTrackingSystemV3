@@ -57,6 +57,7 @@
     var token = 'Bearer {{ auth()->user()->apiToken() }}';
     var toggleDarkTheme = $('#toggleDarkTheme');
     var QuickActionsButton = $('#QuickActionsButton');
+    var SelectedCompany = $('#SelectedCompany');
 
     toggleDarkTheme.change(function () {
         $('#loader').fadeIn(250);
@@ -84,6 +85,54 @@
 
     QuickActionsButton.click(function () {
         $('#QuickActionsModal').modal('show');
+    });
+
+    function getCompanies() {
+        $.ajax({
+            async: false,
+            type: 'get',
+            url: '{{ route('user.api.getCompanies') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                var defaultCompanyId = '{{ auth()->user()->defaultCompanyId() }}';
+                SelectedCompany.empty();
+                $.each(response.response, function (i, company) {
+                    SelectedCompany.append(`<option ${parseInt(defaultCompanyId) === parseInt(company.id) ? 'selected' : ''} value="${company.id}">${company.title}</option>`);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Firmalar Getirilirken Hata Oluştu! Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+            }
+        });
+    }
+
+    getCompanies();
+
+    SelectedCompany.change(function () {
+        var companyId = $(this).val();
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.swapCompany') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                companyId: companyId
+            },
+            success: function () {
+
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Firma Değiştirilirken Serviste Hata Oluştu! Lütfen Daha Sonra Tekrar Deneyin.');
+            }
+        });
     });
 
 </script>

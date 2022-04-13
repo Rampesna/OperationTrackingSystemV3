@@ -48,7 +48,7 @@ class OperationService extends OperationApiService implements IOperationService
             'CompanyId' => $companyId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'get', $headers, $params);
+        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'get', $headers, $params)['response'];
     }
 
     public function GetLostList()
@@ -268,7 +268,7 @@ class OperationService extends OperationApiService implements IOperationService
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'];
     }
 
     public function GetEmployeeWorkTasks()
@@ -278,7 +278,7 @@ class OperationService extends OperationApiService implements IOperationService
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'];
     }
 
     public function GetEmployeeGroupTasks()
@@ -288,7 +288,7 @@ class OperationService extends OperationApiService implements IOperationService
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'];
     }
 
     public function SetEmployee(

@@ -4,14 +4,10 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IUserService;
 use App\Models\Eloquent\User;
-use App\Traits\Response;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Hash;
 
 class UserService implements IUserService
 {
-    use Response;
-
     public function getAll()
     {
         return User::all();
@@ -38,25 +34,24 @@ class UserService implements IUserService
     }
 
     /**
-     * @param string $email
-     * @param string $password
+     * @param int $userId
+     * @param int $companyId
      */
-    public function login(
-        string $email,
-        string $password
+    public function swapCompany(
+        int $userId,
+        int $companyId
     )
     {
-        if (!$user = $this->getByEmail($email)) {
-            return $this->error('User not found', 404);
+        $user = $this->getById($userId);
+
+        if (!$user) {
+            return false;
         }
 
-        if (!Hash::check($password, $user->password)) {
-            return $this->error('Password is incorrect', 401);
-        }
+        $user->default_company_id = $companyId;
+        $user->save();
 
-        return $this->success('User logged in successfully', [
-            'token' => $this->generateSanctumToken($user)
-        ]);
+        return $user;
     }
 
     /**
@@ -71,13 +66,29 @@ class UserService implements IUserService
         $user = $this->getById($userId);
 
         if (!$user) {
-            return $this->error('User not found', 404);
+            return false;
         }
 
         $user->theme = $theme;
         $user->save();
 
-        return $this->success('Theme changed successfully', null);
+        return $user;
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function getCompanies(
+        int $userId
+    )
+    {
+        $user = $this->getById($userId);
+
+        if (!$user) {
+            return $this->error('User not found', 404);
+        }
+
+        return $user->companies;
     }
 
     /**

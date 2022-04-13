@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\EmployeeController;
+namespace App\Http\Requests\Api\User\EmployeeQueueController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class IndexRequest extends BaseApiRequest
+class GetQueueEmployeesRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class IndexRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            //
+            'queueId' => 'required'
         ];
     }
 }

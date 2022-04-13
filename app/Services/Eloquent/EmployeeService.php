@@ -4,14 +4,10 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Models\Eloquent\Employee;
-use App\Traits\Response;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Hash;
 
 class EmployeeService implements IEmployeeService
 {
-    use Response;
-
     public function getAll()
     {
         return Employee::all();
@@ -43,7 +39,7 @@ class EmployeeService implements IEmployeeService
      * @param array $companyIds
      * @param int $leave
      */
-    public function index(
+    public function getByCompanies(
         int   $pageIndex = 0,
         int   $pageSize = 10,
         array $companyIds = [],
@@ -61,26 +57,72 @@ class EmployeeService implements IEmployeeService
     }
 
     /**
-     * @param string $email
-     * @param string $password
+     * @param int $employeeId
      */
-    public function login(
-        string $email,
-        string $password
+    public function getEmployeeQueues(
+        int $employeeId
     )
     {
-        if (!$employee = $this->getByEmail($email)) {
-            return $this->error('Employee not found', 404);
-        }
+        return $this->getById($employeeId)->queues;
+    }
 
-        if (!Hash::check($password, $employee->password)) {
-            return $this->error('Password is incorrect', 401);
-        }
+    /**
+     * @param int $employeeId
+     * @param array $queueIds
+     */
+    public function setEmployeeQueues(
+        int   $employeeId,
+        array $queueIds
+    )
+    {
+        $employee = $this->getById($employeeId);
+        $employee->queues()->sync($queueIds);
+    }
 
-        return $this->success('Employee logged in successfully', [
-            'token' => $this->generateSanctumToken($employee),
-            'oAuth' => $this->generateOAuthToken($employee)
-        ]);
+    /**
+     * @param int $employeeId
+     */
+    public function getEmployeeCompetences(
+        int $employeeId
+    )
+    {
+        return $this->getById($employeeId)->competences;
+    }
+
+    /**
+     * @param int $employeeId
+     * @param array $competenceIds
+     */
+    public function setEmployeeCompetences(
+        int   $employeeId,
+        array $competenceIds
+    )
+    {
+        $employee = $this->getById($employeeId);
+        $employee->competences()->sync($competenceIds);
+    }
+
+    /**
+     * @param int $employeeId
+     */
+    public function getEmployeePriorities(
+        int $employeeId
+    )
+    {
+        return $this->getById($employeeId)->priorities;
+    }
+
+    /**
+     * @param int $employeeId
+     * @param array $priorityIds
+     */
+    public function setEmployeePriorities(
+        int   $employeeId,
+        array $priorityIds
+    )
+    {
+        $employee = $this->getById($employeeId);
+        $employee->priorities()->sync($priorityIds);
     }
 
     /**
