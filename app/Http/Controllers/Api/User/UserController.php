@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\UserController\LoginRequest;
 use App\Http\Requests\Api\User\UserController\GetCompaniesRequest;
+use App\Http\Requests\Api\User\UserController\LoginRequest;
 use App\Http\Requests\Api\User\UserController\SwapCompanyRequest;
 use App\Http\Requests\Api\User\UserController\SwapThemeRequest;
 use App\Interfaces\Eloquent\IUserService;
 use App\Traits\Response;
+use function checkPassword;
 
 class UserController extends Controller
 {
@@ -66,6 +67,5 @@ class UserController extends Controller
         return $this->success('User companies', $this->userService->getCompanies(
             $request->user()->id
         ));
-
     }
 }

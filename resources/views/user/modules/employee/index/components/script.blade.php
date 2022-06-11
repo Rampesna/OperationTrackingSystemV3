@@ -1,3 +1,26 @@
+<script src="{{ asset('assets/jqwidgets/jqxcore.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxbuttons.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxscrollbar.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxlistbox.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxdropdownlist.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxmenu.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.selection.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.columnsresize.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.filter.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.sort.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxdata.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.pager.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxnumberinput.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxwindow.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxdata.export.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.export.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxexport.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.grouping.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/globalization/globalize.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqgrid-localization.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jszip.min.js') }}"></script>
+
 <script>
 
     var UpdateEmployeeQueuesRow = $('#UpdateEmployeeQueuesRow');
@@ -9,8 +32,29 @@
     var UpdateEmployeeTasksRow = $('#UpdateEmployeeTasksRow');
     var UpdateEmployeeTasksButton = $('#UpdateEmployeeTasksButton');
 
+    var UpdateEmployeeWorkTasksRow = $('#UpdateEmployeeWorkTasksRow');
+    var UpdateEmployeeWorkTasksButton = $('#UpdateEmployeeWorkTasksButton');
+
+    var UpdateEmployeeGroupTasksRow = $('#UpdateEmployeeGroupTasksRow');
+    var UpdateEmployeeGroupTasksButton = $('#UpdateEmployeeGroupTasksButton');
+
     var SelectAllEmployeesButton = $('#SelectAllEmployeesButton');
     var DeSelectAllEmployeesButton = $('#DeSelectAllEmployeesButton');
+
+    var updateEmployeeJobDepartmentJobDepartmentId = $('#update_employee_job_department_job_department_id');
+    var UpdateEmployeeJobDepartmentButton = $('#UpdateEmployeeJobDepartmentButton');
+
+    var setEmployeeScriptScriptCode = $('#set_employee_script_script_code');
+    var SetEmployeeScriptButton = $('#SetEmployeeScriptButton');
+
+    var setEmployeeDataScanningDataScanningCode = $('#set_employee_data_scanning_data_scanning_code');
+    var SetEmployeeDataScanningButton = $('#SetEmployeeDataScanningButton');
+
+    var setEmployeeOtsLockTypeInput = $('#set_employee_ots_lock_type');
+    var SetEmployeeOtsLockTypeButton = $('#SetEmployeeOtsLockTypeButton');
+
+    var setEmployeeWorkToDoTypeJobCodeInput = $('#set_employee_work_to_do_type_job_code');
+    var SetEmployeeWorkToDoTypeButton = $('#SetEmployeeWorkToDoTypeButton');
 
     var keyword = $('#keyword');
     var selectedEmployees = [];
@@ -18,21 +62,30 @@
     var employeesRow = $('#employeesRow');
     var jobDepartmentFilterer = $('#jobDepartmentFilterer');
 
+    var createEmployeeTasksRow = $('#createEmployeeTasks');
+    var createEmployeeWorkTasksRow = $('#createEmployeeWorkTasks');
+    var createEmployeeGroupTasksRow = $('#createEmployeeGroupTasks');
+    var createEmployeeShiftGroups = $('#create_employee_shift_groups');
+    var createEmployeeShiftGroupId = $('#create_employee_shift_group_id');
+    var createEmployeeJobDepartmentId = $('#create_employee_job_department_id');
+
+    var CreateEmployeeButton = $('#CreateEmployeeButton');
+
+    var employeesGridDiv = $('#employeesGrid');
+
     function filterEmployees() {
         var employees = $('.employeeCard');
         $.each(employees, function (i, employeeCard) {
             var employeeName = $(employeeCard).data('name');
             var filterStatus = false;
-            var employeeJobDepartments = $(employeeCard).data('job-departments').toString().split(',');
+            var employeeJobDepartment = $(employeeCard).attr('data-job-department');
             var jobDepartmentsFromFilterer = jobDepartmentFilterer.val();
 
             if (jobDepartmentsFromFilterer.length > 0) {
-                $.each(employeeJobDepartments, function (i, employeeJobDepartment) {
-                    $.each(jobDepartmentsFromFilterer, function (i, jobDepartmentFromFilterer) {
-                        if (parseInt(employeeJobDepartment) === parseInt(jobDepartmentFromFilterer)) {
-                            filterStatus = true;
-                        }
-                    });
+                $.each(jobDepartmentsFromFilterer, function (i, jobDepartmentFromFilterer) {
+                    if (parseInt(employeeJobDepartment) === parseInt(jobDepartmentFromFilterer)) {
+                        filterStatus = true;
+                    }
                 });
             } else {
                 filterStatus = true;
@@ -63,6 +116,54 @@
         var aName = a.name.toLowerCase();
         var bName = b.name.toLowerCase();
         return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+    }
+
+    // Operations
+
+    function operations() {
+        if (selectedEmployees.length > 0) {
+            $('#operationsBatchActions').show();
+        } else {
+            $('#operationsBatchActions').hide();
+        }
+        $('#OperationsModal').modal('show');
+    }
+
+    function createEmployee() {
+        $('#create_employee_name').val('');
+        $('#create_employee_email').val('');
+        createEmployeeJobDepartmentId.val('');
+        $('#create_employee_santral_code').val('');
+        $('#create_employee_web_crm_user_id').val('');
+        $('#create_employee_web_crm_username').val('');
+        $('#create_employee_web_crm_password').val('');
+        $('#create_employee_progress_crm_username').val('');
+        $('#create_employee_progress_crm_password').val('');
+        $('.createEmployeeTaskCheckbox').prop('checked', false);
+        $('.createEmployeeWorkTaskCheckbox').prop('checked', false);
+        $('.createEmployeeGroupTaskCheckbox').prop('checked', false);
+        CreateEmployeeWizardStepper.goFirst();
+        $('#CreateEmployeeModal').modal('show');
+    }
+
+    function getEmployeeReport() {
+        $('#GetEmployeeReportModal').modal('show');
+    }
+
+    function setEmployeeScript() {
+        $('#SetEmployeeScriptModal').modal('show');
+    }
+
+    function setEmployeeDataScanning() {
+        $('#SetEmployeeDataScanningModal').modal('show');
+    }
+
+    function setEmployeeOtsLockType() {
+        $('#SetEmployeeOtsLockTypeModal').modal('show');
+    }
+
+    function setEmployeeWorkToDoType() {
+        $('#SetEmployeeWorkToDoTypeModal').modal('show');
     }
 
     // Update Methods
@@ -137,20 +238,121 @@
         });
     }
 
-    function updateEmployeeTasks() {
-        $('#UpdateEmployeeTasksModal').modal('show');
+    function updateEmployeeTasks(employeeGuid, employeeName) {
+        $('#loader').show();
+        $('#update_employee_tasks_employee_guid').val(employeeGuid);
+        $('#update_employee_tasks_employee_name_span').html(employeeName + ' - Kuyruk Görevleri Düzenle');
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.operation.getEmployeeTasksEdit') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                guid: employeeGuid
+            },
+            success: function (response) {
+                var updateEmployeeTaskCheckboxes = $('.updateEmployeeTaskCheckbox');
+                updateEmployeeTaskCheckboxes.prop('checked', false);
+                $.each(response.response, function (i, employeeTask) {
+                    $.each(updateEmployeeTaskCheckboxes, function (j, updateEmployeeTaskCheckbox) {
+                        if (parseInt(employeeTask.gorevKodu) === parseInt($(updateEmployeeTaskCheckbox).val())) {
+                            $(updateEmployeeTaskCheckbox).prop('checked', true);
+                        }
+                    });
+                });
+                $('#UpdateEmployeeTasksModal').modal('show');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Kuyruk Görevleri Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
     }
 
-    function updateEmployeeWorkTasks() {
-
+    function updateEmployeeWorkTasks(employeeGuid, employeeName) {
+        $('#loader').show();
+        $('#update_employee_work_tasks_employee_guid').val(employeeGuid);
+        $('#update_employee_work_tasks_employee_name_span').html(employeeName + ' - İş Görevleri Düzenle');
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.operation.getEmployeeWorkTasksEdit') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                guid: employeeGuid
+            },
+            success: function (response) {
+                var updateEmployeeWorkTaskCheckboxes = $('.updateEmployeeWorkTaskCheckbox');
+                updateEmployeeWorkTaskCheckboxes.prop('checked', false);
+                $.each(response.response, function (i, employeeWorkTask) {
+                    $.each(updateEmployeeWorkTaskCheckboxes, function (j, updateEmployeeWorkTaskCheckbox) {
+                        if (parseInt(employeeWorkTask.gorevKodu) === parseInt($(updateEmployeeWorkTaskCheckbox).val())) {
+                            $(updateEmployeeWorkTaskCheckbox).prop('checked', true);
+                        }
+                    });
+                });
+                $('#UpdateEmployeeWorkTasksModal').modal('show');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Kuyruk Görevleri Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
     }
 
-    function updateEmployeeGroupTasks() {
-
+    function updateEmployeeGroupTasks(employeeGuid, employeeName) {
+        $('#loader').show();
+        $('#update_employee_group_tasks_employee_guid').val(employeeGuid);
+        $('#update_employee_group_tasks_employee_name_span').html(employeeName + ' - Grupları Düzenle');
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.operation.getEmployeeGroupTasksEdit') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                guid: employeeGuid
+            },
+            success: function (response) {
+                console.log(response);
+                var updateEmployeeGroupTaskCheckboxes = $('.updateEmployeeGroupTaskCheckbox');
+                updateEmployeeGroupTaskCheckboxes.prop('checked', false);
+                $.each(response.response, function (i, employeeGroupTask) {
+                    $.each(updateEmployeeGroupTaskCheckboxes, function (j, updateEmployeeGroupTaskCheckbox) {
+                        if (parseInt(employeeGroupTask.uyumCrmGrupId) === parseInt($(updateEmployeeGroupTaskCheckbox).val())) {
+                            $(updateEmployeeGroupTaskCheckbox).prop('checked', true);
+                        }
+                    });
+                });
+                $('#UpdateEmployeeGroupTasksModal').modal('show');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Grupları Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
     }
 
-    function updateEmployeeJobDepartments() {
-
+    function updateEmployeeJobDepartment(employeeId, employeeName) {
+        $('#loader').show();
+        $('#update_employee_job_department_employee_id').val(employeeId);
+        $('#update_employee_job_department_employee_name_span').html(employeeName + ' - Departman Düzenle');
+        updateEmployeeJobDepartmentJobDepartmentId.val($(`#${employeeId}_employeeCard`).attr('data-job-department'));
+        $('#UpdateEmployeeJobDepartmentModal').modal('show');
+        setTimeout(function () {
+            $('#loader').hide();
+        }, 500);
     }
 
     // Get Methods
@@ -256,22 +458,24 @@
                 });
 
                 employees.sort(SortByName);
+                employeesForJqxGrid = [];
 
                 var avatar = '{{ asset('assets/media/logos/avatar.png') }}';
                 employeesRow.empty();
                 $.each(employees, function (i, employee) {
+                    employeesForJqxGrid.push({
+                        name: employee.name,
+                        company: employee.company ? employee.company.title : '',
+                        job_department: employee.job_department ? employee.job_department.name : '',
+                        identity: employee.identity,
+                        email: employee.email,
+                        santral_code: employee.santral_code,
+                    });
+
                     var eBadge = 'warning';
                     var gBadge = 'warning';
                     var tBadge = 'warning';
                     var yBadge = 'warning';
-
-                    var jobDepartments = '';
-                    var jobDepartmentsData = [];
-                    $.each(employee.job_departments, function (i, jobDepartment) {
-                        if (i !== 0) jobDepartments += ', ';
-                        jobDepartments += jobDepartment.name;
-                        jobDepartmentsData.push(jobDepartment.id);
-                    });
 
                     if (employee.image) {
                         avatar = '{{ asset('') }}' + employee.image;
@@ -292,7 +496,7 @@
                     }
 
                     employeesRow.append(`
-                    <div class="col-xl-3 col-12 employeeCard" data-id="${employee.id}" data-guid="${employee.guid}" data-name="${employee.name}" data-job-departments="${jobDepartmentsData}">
+                    <div class="col-xl-3 col-12 employeeCard" id="${employee.id}_employeeCard" data-id="${employee.id}" data-guid="${employee.guid}" data-name="${employee.name}" data-job-department="${employee.job_department ? employee.job_department.id : 0}">
                         <div class="card mb-5 mb-xl-8">
                             <div class="card-header border-0 py-0 mt-n4 mb-n7">
                                 <div class="card-toolbar">
@@ -320,16 +524,16 @@
                                              <a onclick="updateEmployeeCompetences(${employee.id}, '${employee.name}')" class="menu-link px-3">Yetkinlikler</a>
                                          </div>
                                          <div class="menu-item px-3">
-                                             <a onclick="updateEmployeeTasks(${employee.id}, '${employee.name}')" class="menu-link px-3">Kuyruk Görevleri</a>
+                                             <a onclick="updateEmployeeTasks(${employee.guid}, '${employee.name}')" class="menu-link px-3">Kuyruk Görevleri</a>
                                          </div>
                                          <div class="menu-item px-3">
-                                             <a onclick="updateEmployeeWorkTasks(${employee.id}, '${employee.name}')" class="menu-link px-3">İş Görevleri</a>
+                                             <a onclick="updateEmployeeWorkTasks(${employee.guid}, '${employee.name}')" class="menu-link px-3">İş Görevleri</a>
                                          </div>
                                          <div class="menu-item px-3">
-                                             <a onclick="updateEmployeeGroupTasks(${employee.id}, '${employee.name}')" class="menu-link px-3">Gruplar</a>
+                                             <a onclick="updateEmployeeGroupTasks(${employee.guid}, '${employee.name}')" class="menu-link px-3">Gruplar</a>
                                          </div>
                                          <div class="menu-item px-3 pb-3">
-                                             <a onclick="updateEmployeeJobDepartments(${employee.id}, '${employee.name}')" class="menu-link px-3">Departmanlar</a>
+                                             <a onclick="updateEmployeeJobDepartment(${employee.id}, '${employee.name}')" class="menu-link px-3">Departman</a>
                                          </div>
                                       </ul>
                                 </div>
@@ -351,8 +555,8 @@
                                     </div>
                                     <br>
                                     <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-1">${employee.name}</a>
-                                    <div class="fs-6 fw-bold text-muted mb-2 text-center">
-                                        ${jobDepartments}
+                                    <div class="fs-6 fw-bold text-muted mb-2 text-center" id="employee_${employee.id}_job_department_span">
+                                        ${employee.job_department ? employee.job_department.name : ''}
                                     </div>
                                     <div class="fs-6 fw-bold text-muted">
                                         <i class="fas fa-headset"></i><span class="ms-3">${employee.santral_code ?? '--'}</span>
@@ -369,6 +573,75 @@
                         </div>
                     </div>
                     `);
+                });
+
+                var employeesSource = {
+                    localdata: employeesForJqxGrid,
+                    datatype: "array",
+                    datafields: [
+                        {name: 'name', type: 'string'},
+                        {name: 'company', type: 'string'},
+                        {name: 'job_department', type: 'string'},
+                        {name: 'identity', type: 'string'},
+                        {name: 'email', type: 'string'},
+                        {name: 'santral_code', type: 'string'},
+                    ]
+                };
+                var employeesDataAdapter = new $.jqx.dataAdapter(employeesSource);
+                employeesGridDiv.jqxGrid({
+                    width: '100%',
+                    height: '500',
+                    source: employeesDataAdapter,
+                    columnsresize: true,
+                    groupable: true,
+                    theme: jqxGridGlobalTheme,
+                    filterable: true,
+                    showfilterrow: true,
+                    localization: getLocalization('tr'),
+                    columns: [
+                        {
+                            text: 'Personel',
+                            dataField: 'name',
+                            columntype: 'textbox',
+                        },
+                        {
+                            text: 'Şirket',
+                            dataField: 'company',
+                            columntype: 'textbox',
+                        },
+                        {
+                            text: 'Departman',
+                            dataField: 'job_department',
+                            columntype: 'textbox',
+                        },
+                        {
+                            text: 'Kimlik Numarası',
+                            dataField: 'identity',
+                            columntype: 'textbox',
+                        },
+                        {
+                            text: 'E-posta Adresi',
+                            dataField: 'email',
+                            columntype: 'textbox',
+                        },
+                        {
+                            text: 'Santral Dahilisi',
+                            dataField: 'santral_code',
+                            columntype: 'textbox',
+                        }
+                    ]
+                });
+                employeesGridDiv.on('contextmenu', function () {
+                    return false;
+                });
+                employeesGridDiv.on('rowclick', function (event) {
+                    if (event.args.rightclick) {
+                        $("#employeesGrid").jqxGrid('selectrow', event.args.rowindex);
+                        var scrollTop = $(window).scrollTop();
+                        var scrollLeft = $(window).scrollLeft();
+                        contextMenu.jqxMenu('open', parseInt(event.args.originalEvent.clientX) + 5 + scrollLeft, parseInt(event.args.originalEvent.clientY) + 5 + scrollTop);
+                        return false;
+                    }
                 });
                 $('#loader').hide();
             },
@@ -394,8 +667,15 @@
             },
             success: function (response) {
                 jobDepartmentFilterer.empty();
+                updateEmployeeJobDepartmentJobDepartmentId.empty();
                 $.each(response.response, function (index, jobDepartment) {
                     jobDepartmentFilterer.append(`
+                    <option value="${jobDepartment.id}">${jobDepartment.name}</option>
+                    `);
+                    updateEmployeeJobDepartmentJobDepartmentId.append(`
+                    <option value="${jobDepartment.id}">${jobDepartment.name}</option>
+                    `);
+                    createEmployeeJobDepartmentId.append(`
                     <option value="${jobDepartment.id}">${jobDepartment.name}</option>
                     `);
                 });
@@ -470,6 +750,35 @@
         });
     }
 
+    function getShiftGroups() {
+        var companyId = SelectedCompany.val();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.shiftGroup.getByCompanyId') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                companyId: companyId,
+                pageIndex: 0,
+                pageSize: 1000
+            },
+            success: function (response) {
+                createEmployeeShiftGroups.empty();
+                createEmployeeShiftGroupId.empty();
+                $.each(response.response.shiftGroups, function (i, shiftGroup) {
+                    createEmployeeShiftGroups.append(`<option value="${shiftGroup.id}">${shiftGroup.name}</option>`);
+                    createEmployeeShiftGroupId.append(`<option value="${shiftGroup.id}">${shiftGroup.name}</option>`);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Vardiya Grubu Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+            }
+        });
+    }
+
     function getEmployeeTasks() {
         $.ajax({
             type: 'get',
@@ -487,6 +796,14 @@
                         <div class="form-check form-check-custom form-check-solid">
                             <input class="form-check-input updateEmployeeTaskCheckbox" type="checkbox" data-crm-group-code="${employeeTask.uyumCrmGrupKodu}" data-crm-lost-group-code="${employeeTask.uyumCrmKayipGrupKodu}" value="${employeeTask.kodu}" id="updateEmployeeTaskCheckbox_${employeeTask.kodu}">
                             <label class="form-check-label" for="updateEmployeeTaskCheckbox_${employeeTask.kodu}">${employeeTask.adi}</label>
+                        </div>
+                    </div>
+                    `);
+                    createEmployeeTasksRow.append(`
+                    <div class="col-xl-6 mb-5">
+                        <div class="form-check form-check-custom form-check-solid">
+                            <input class="form-check-input createEmployeeTaskCheckbox" type="checkbox" data-crm-group-code="${employeeTask.uyumCrmGrupKodu}" data-crm-lost-group-code="${employeeTask.uyumCrmKayipGrupKodu}" value="${employeeTask.kodu}" id="createEmployeeTaskCheckbox_${employeeTask.kodu}">
+                            <label class="form-check-label" for="createEmployeeTaskCheckbox_${employeeTask.kodu}">${employeeTask.adi}</label>
                         </div>
                     </div>
                     `);
@@ -509,7 +826,25 @@
             },
             data: {},
             success: function (response) {
-                console.log(response);
+                UpdateEmployeeWorkTasksRow.empty();
+                $.each(response.response, function (i, employeeWorkTask) {
+                    UpdateEmployeeWorkTasksRow.append(`
+                    <div class="col-xl-6 mb-5">
+                        <div class="form-check form-check-custom form-check-solid">
+                            <input class="form-check-input updateEmployeeWorkTaskCheckbox" type="checkbox" value="${employeeWorkTask.kodu}" id="updateEmployeeWorkTaskCheckbox_${employeeWorkTask.kodu}">
+                            <label class="form-check-label" for="updateEmployeeWorkTaskCheckbox_${employeeWorkTask.kodu}">${employeeWorkTask.adi}</label>
+                        </div>
+                    </div>
+                    `);
+                    createEmployeeWorkTasksRow.append(`
+                    <div class="col-xl-6 mb-5">
+                        <div class="form-check form-check-custom form-check-solid">
+                            <input class="form-check-input createEmployeeWorkTaskCheckbox" type="checkbox" value="${employeeWorkTask.kodu}" id="createEmployeeWorkTaskCheckbox_${employeeWorkTask.kodu}">
+                            <label class="form-check-label" for="createEmployeeWorkTaskCheckbox_${employeeWorkTask.kodu}">${employeeWorkTask.adi}</label>
+                        </div>
+                    </div>
+                    `);
+                });
             },
             error: function (error) {
                 console.log(error);
@@ -528,7 +863,25 @@
             },
             data: {},
             success: function (response) {
-                console.log(response);
+                UpdateEmployeeGroupTasksRow.empty();
+                $.each(response.response, function (i, employeeGroupTask) {
+                    UpdateEmployeeGroupTasksRow.append(`
+                    <div class="col-xl-6 mb-5">
+                        <div class="form-check form-check-custom form-check-solid">
+                            <input class="form-check-input updateEmployeeGroupTaskCheckbox" type="checkbox" value="${employeeGroupTask.kodu}" id="updateEmployeeGroupTaskCheckbox_${employeeGroupTask.kodu}">
+                            <label class="form-check-label" for="updateEmployeeGroupTaskCheckbox_${employeeGroupTask.kodu}">${employeeGroupTask.adi}</label>
+                        </div>
+                    </div>
+                    `);
+                    createEmployeeGroupTasksRow.append(`
+                    <div class="col-xl-6 mb-5">
+                        <div class="form-check form-check-custom form-check-solid">
+                            <input class="form-check-input createEmployeeGroupTaskCheckbox" type="checkbox" value="${employeeGroupTask.kodu}" id="createEmployeeGroupTaskCheckbox_${employeeGroupTask.kodu}">
+                            <label class="form-check-label" for="createEmployeeGroupTaskCheckbox_${employeeGroupTask.kodu}">${employeeGroupTask.adi}</label>
+                        </div>
+                    </div>
+                    `);
+                });
             },
             error: function (error) {
                 console.log(error);
@@ -537,11 +890,62 @@
         });
     }
 
+    // Get Operation Methods
+
+    function getScripts() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.surveySystem.getSurveyList') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                var scripts = response.response;
+                scripts.sort((a, b) => b.id - a.id);
+                setEmployeeScriptScriptCode.empty();
+                $.each(scripts, function (i, survey) {
+                    setEmployeeScriptScriptCode.append(`<option value="${survey.kodu}">(${survey.kodu}) - ${survey.adi}</option>`);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Script Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+            }
+        });
+    }
+
+    function getDataScannings() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.personSystem.getPersonDataScanList') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                setEmployeeDataScanningDataScanningCode.empty();
+                $.each(response.response, function (i, dataScanning) {
+                    setEmployeeDataScanningDataScanningCode.append(`<option value="${dataScanning.grupKodu}">${dataScanning.grupAdi}</option>`);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Data Tarama Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+            }
+        });
+    }
+
     getQueues();
     getCompetences();
+    getShiftGroups();
     getEmployeeTasks();
     getEmployeeWorkTasks();
     getEmployeeGroupTasks();
+    getScripts();
+    getDataScannings();
     getEmployees();
     getJobDepartments();
 
@@ -782,6 +1186,479 @@
                 console.log(error);
                 toastr.error('Personel Yetkinlikleri Güncellenirken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
                 $('#loader').hide();
+            }
+        });
+    });
+
+    UpdateEmployeeTasksButton.click(function () {
+        $('#loader').show();
+        var guid = $('#update_employee_tasks_employee_guid').val();
+        var tasks = [];
+        var updateEmployeeTaskCheckboxes = $('.updateEmployeeTaskCheckbox');
+        $.each(updateEmployeeTaskCheckboxes, function (i, checkbox) {
+            if ($(this).is(':checked')) {
+                tasks.push(parseInt($(this).val()));
+            }
+        });
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.operation.setEmployeeTasksInsert') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                guid: guid,
+                tasks: tasks
+            },
+            success: function () {
+                toastr.success('Personel Kuyruk Görevleri Başarıyla Güncellendi.');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Kuyruk Görevleri Güncellenirken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
+    });
+
+    UpdateEmployeeWorkTasksButton.click(function () {
+        $('#loader').show();
+        var guid = $('#update_employee_work_tasks_employee_guid').val();
+        var workTasks = [];
+        var updateEmployeeWorkTaskCheckboxes = $('.updateEmployeeWorkTaskCheckbox');
+        $.each(updateEmployeeWorkTaskCheckboxes, function (i, checkbox) {
+            if ($(this).is(':checked')) {
+                workTasks.push(parseInt($(this).val()));
+            }
+        });
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.operation.setEmployeeWorkTasksInsert') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                guid: guid,
+                workTasks: workTasks
+            },
+            success: function () {
+                toastr.success('Personel İş Görevleri Başarıyla Güncellendi.');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel İş Görevleri Güncellenirken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
+    });
+
+    UpdateEmployeeGroupTasksButton.click(function () {
+        $('#loader').show();
+        var guid = $('#update_employee_group_tasks_employee_guid').val();
+        var groupTasks = [];
+        var updateEmployeeGroupTaskCheckboxes = $('.updateEmployeeGroupTaskCheckbox');
+        $.each(updateEmployeeGroupTaskCheckboxes, function (i, checkbox) {
+            if ($(this).is(':checked')) {
+                groupTasks.push(parseInt($(this).val()));
+            }
+        });
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.operation.setEmployeeGroupTasksInsert') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                guid: guid,
+                groupTasks: groupTasks
+            },
+            success: function () {
+                toastr.success('Personel Grupları Başarıyla Güncellendi.');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Grupları Güncellenirken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
+    });
+
+    UpdateEmployeeJobDepartmentButton.click(function () {
+        $('#loader').show();
+        var employeeId = $('#update_employee_job_department_employee_id').val();
+        var jobDepartmentId = updateEmployeeJobDepartmentJobDepartmentId.val();
+        var jobDepartmentName = updateEmployeeJobDepartmentJobDepartmentId.find('option:selected').text();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.employee.updateJobDepartment') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                employeeId: employeeId,
+                jobDepartmentId: jobDepartmentId
+            },
+            success: function () {
+                toastr.success('Personel Departmanı Başarıyla Güncellendi.');
+                $(`#employee_${employeeId}_job_department_span`).html(jobDepartmentName);
+                $(`#${employeeId}_employeeCard`).attr('data-job-department', jobDepartmentId);
+                filterEmployees();
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Departmanı Güncellenirken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
+    });
+
+    SetEmployeeScriptButton.click(function () {
+        $('#loader').show();
+        var surveyCode = setEmployeeScriptScriptCode.val();
+        var guids = [];
+        $.each(selectedEmployees, function (i, selectedEmployee) {
+            guids.push(selectedEmployee.guid);
+        });
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.surveySystem.setSurveyPersonConnect') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                surveyCode: surveyCode,
+                guids: guids
+            },
+            success: function () {
+                toastr.success('Personel Scripti Başarıyla Güncellendi.');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Scripti Güncellenirken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
+    });
+
+    SetEmployeeDataScanningButton.click(function () {
+        $('#loader').show();
+        var groupCode = setEmployeeDataScanningDataScanningCode.val();
+        var guids = [];
+        $.each(selectedEmployees, function (i, selectedEmployee) {
+            guids.push(selectedEmployee.guid);
+        });
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.personSystem.setPersonDataScan') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                groupCode: groupCode,
+                guids: guids
+            },
+            success: function () {
+                toastr.success('Personel Data Taraması Başarıyla Güncellendi.');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Data Taraması Güncellenirken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
+    });
+
+    SetEmployeeOtsLockTypeButton.click(function () {
+        $('#loader').show();
+        var otsLockType = setEmployeeOtsLockTypeInput.val();
+        var guids = [];
+        $.each(selectedEmployees, function (i, selectedEmployee) {
+            guids.push(selectedEmployee.guid);
+        });
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.personSystem.setPersonDisplayType') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                otsLockType: otsLockType,
+                guids: guids
+            },
+            success: function () {
+                toastr.success('Personel Kilit Ekranı Türü Başarıyla Güncellendi.');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Kilit Ekranı Türü Güncellenirken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
+    });
+
+    SetEmployeeWorkToDoTypeButton.click(function () {
+        $('#loader').show();
+        var jobCode = setEmployeeWorkToDoTypeJobCodeInput.val();
+        var guids = [];
+        $.each(selectedEmployees, function (i, selectedEmployee) {
+            guids.push(selectedEmployee.guid);
+        });
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.personSystem.setPersonWorkToDoType') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                jobCode: jobCode,
+                guids: guids
+            },
+            success: function () {
+                toastr.success('Personel Yapılacak İşler Başarıyla Atandı.');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Yapılacak İşler Atanırken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                $('#loader').hide();
+            }
+        });
+    });
+
+    $('body').on('contextmenu', function (e) {
+        if (detectMobile()) {
+            return false;
+        } else {
+            if (selectedEmployees.length > 0) {
+                $('#batchActions').show();
+            } else {
+                $('#batchActions').hide();
+            }
+
+            var top = e.pageY - 10;
+            var left = e.pageX - 10;
+
+            $("#context-menu").css({
+                display: "block",
+                top: top,
+                left: left
+            });
+
+            return false;
+        }
+    }).on("click", function () {
+        $("#context-menu").hide();
+    }).on('focusout', function () {
+        $("#context-menu").hide();
+    });
+
+    // Wizard
+
+    CreateEmployeeWizardStepperSelector = document.querySelector("#CreateEmployeeWizardStepper");
+
+    CreateEmployeeWizardStepper = new KTStepper(CreateEmployeeWizardStepperSelector);
+
+    CreateEmployeeWizardStepper.on("kt.stepper.next", (function (e) {
+        if (e.getCurrentStepIndex() === 1) {
+            var name = $('#create_employee_name').val();
+            var email = $('#create_employee_email').val();
+            var jobDepartmentId = createEmployeeJobDepartmentId.val();
+
+            if (!name) {
+                toastr.warning('Ad Soyad Boş Olamaz');
+                $('#create_employee_name').focus();
+            } else if (!email) {
+                toastr.warning('E-posta Adresi Boş Olamaz');
+                $('#create_employee_email').focus();
+            } else if (!jobDepartmentId) {
+                toastr.warning('Departman Seçimi Zorunludur!');
+            } else {
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('user.api.employee.getByEmail') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        email: email
+                    },
+                    success: function (response) {
+                        if (response.response !== null) {
+                            toastr.error('Bu E-posta Adresi Zaten Kayıtlı.');
+                        } else {
+                            e.goNext();
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error('E-posta Kontrolü Yapılırken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                    }
+                });
+            }
+        } else if (e.getCurrentStepIndex() === 2) {
+            var webCrmUserId = $('#create_employee_web_crm_user_id').val();
+            var webCrmUsername = $('#create_employee_web_crm_username').val();
+            var webCrmPassword = $('#create_employee_web_crm_password').val();
+            var progressCrmUsername = $('#create_employee_progress_crm_username').val();
+            var progressCrmPassword = $('#create_employee_progress_crm_password').val();
+
+            if (!webCrmUserId) {
+                toastr.warning('Web CRM Kullanıcı ID Boş Olamaz');
+                $('#create_employee_web_crm_user_id').focus();
+            } else if (!webCrmUsername) {
+                toastr.warning('Web CRM Kullanıcı Adı Boş Olamaz');
+                $('#create_employee_web_crm_username').focus();
+            } else if (!webCrmPassword) {
+                toastr.warning('Web CRM Şifresi Boş Olamaz');
+                $('#create_employee_web_crm_password').focus();
+            } else if (!progressCrmUsername) {
+                toastr.warning('Progress CRM Kullanıcı Adı Boş Olamaz');
+                $('#create_employee_progress_crm_username').focus();
+            } else if (!progressCrmPassword) {
+                toastr.warning('Progress CRM Şifresi Boş Olamaz');
+                $('#create_employee_progress_crm_password').focus();
+            } else {
+                e.goNext();
+            }
+        } else {
+            e.goNext();
+        }
+    }));
+
+    CreateEmployeeWizardStepper.on("kt.stepper.previous", (function (e) {
+        e.goPrevious();
+    }));
+
+    CreateEmployeeWizardStepper.on("kt.stepper.click", function (stepper) {
+        stepper.goTo(stepper.getClickedStepIndex());
+    });
+
+    CreateEmployeeButton.click(function () {
+        $('#loader').show();
+        var guid = null;
+        var roleId = 1;
+        var companyId = SelectedCompany.val();
+        var name = $('#create_employee_name').val();
+        var email = $('#create_employee_email').val();
+        var phone = null;
+        var jobDepartmentId = createEmployeeJobDepartmentId.val();
+        var username = email.split('@')[0];
+        var santralCode = $('#create_employee_santral_code').val();
+        var password = '123456';
+        var webCrmUserId = $('#create_employee_web_crm_user_id').val();
+        var webCrmUsername = $('#create_employee_web_crm_username').val();
+        var webCrmPassword = $('#create_employee_web_crm_password').val();
+        var progressCrmUsername = $('#create_employee_progress_crm_username').val();
+        var progressCrmPassword = $('#create_employee_progress_crm_password').val();
+
+        var tasks = [];
+        var createEmployeeTaskCheckboxes = $('.createEmployeeTaskCheckbox:checked');
+        $.each(createEmployeeTaskCheckboxes, function (i, task) {
+            var gorevKodu = $(task).val();
+            var UyumCrmGrupKodu = $(task).data('crm-group-code');
+            var UyumCrmKayipGrupKodu = $(task).data('crm-lost-group-code');
+            tasks.push({
+                gorevKodu: gorevKodu,
+                UyumCrmGrupKodu: UyumCrmGrupKodu,
+                UyumCrmKayipGrupKodu: UyumCrmKayipGrupKodu
+            });
+        });
+
+        var workTasks = [];
+        var createEmployeeWorkTaskCheckboxes = $('.createEmployeeWorkTaskCheckbox:checked');
+        $.each(createEmployeeWorkTaskCheckboxes, function (i, workTask) {
+            workTasks.push({
+                gorevKodu: $(workTask).val(),
+            });
+        });
+
+        var groupTasks = [];
+        var createEmployeeGroupTaskCheckboxes = $('.createEmployeeGroupTaskCheckbox:checked');
+        $.each(createEmployeeGroupTaskCheckboxes, function (i, groupTask) {
+            groupTasks.push($(this).val());
+        });
+
+        var shiftGroupIds = $('#create_employee_shift_groups').val();
+        var shiftGroupId = $('#create_employee_shift_group_id').val();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.employee.create') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                guid: guid,
+                companyId: companyId,
+                roleId: roleId,
+                jobDepartmentId: jobDepartmentId,
+                name: name,
+                email: email,
+                phone: phone,
+                santralCode: santralCode,
+                password: password,
+            },
+            success: function (response) {
+                var employee = response.response;
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('user.api.employeeShiftGroup.setEmployeeShiftGroups') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        employeeId: employee.id,
+                        shiftGroupIds: shiftGroupIds,
+                    },
+                    success: function () {
+                        $('#CreateEmployeeModal').modal('hide');
+                        getEmployees();
+                        toastr.success('Personel Başarıyla Oluşturuldu.');
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $('#loader').hide();
+                        toastr.error('Personel Vardiya Grubu Atalamarı Yapılırken Serviste Hata Oluştu.');
+                    }
+                });
+            },
+            error: function (error) {
+                $('#loader').hide();
+                console.log(error);
+                if (error.status === 422) {
+                    var errors = error.responseJSON.response;
+                    $.each(errors, function (key, value) {
+                        if (key === 'email') {
+                            if (value[0] === 'The email has already been taken.') {
+                                toastr.error('Bu E-posta Adresi Zaten Kayıtlı.');
+                            }
+                        }
+                    });
+                } else {
+                    toastr.error('Personel Oluşturulurken Serviste Bir Sorun Oluştu. Lütfen Geliştirici Ekibiyle İletişime Geçin.');
+                }
             }
         });
     });

@@ -14,15 +14,21 @@ class JobDepartmentService implements IJobDepartmentService
 
     public function getById(int $id)
     {
-        return JobDepartment::find($id);
+        return JobDepartment::find(
+            $id
+        );
     }
 
-    public function delete(int $id)
+    public function delete(
+        int $id
+    )
     {
         return JobDepartment::destroy($id);
     }
 
-    public function getByCompanyId($companyId)
+    public function getByCompanyId(
+        int $companyId
+    )
     {
         return JobDepartment::where('company_id', $companyId)->get();
     }

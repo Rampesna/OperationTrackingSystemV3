@@ -7,5 +7,7 @@ interface IJobDepartmentService extends IEloquentService
     /**
      * @param int $companyId
      */
-    public function getByCompanyId($companyId);
+    public function getByCompanyId(
+        int $companyId
+    );
 }

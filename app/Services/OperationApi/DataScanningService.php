@@ -14,7 +14,7 @@ class DataScanningService extends OperationApiService implements IDataScanningSe
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'];
     }
 
     public function SetDataScanning($jobList)
@@ -37,7 +37,18 @@ class DataScanningService extends OperationApiService implements IDataScanningSe
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
 
-    public function GetDataScanNumbersList($startDate, $endDate, $tableName, $officeCodes)
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $tableName
+     * @param array $officeCodes
+     */
+    public function GetDataScanNumbersList(
+        string $startDate,
+        string $endDate,
+        string $tableName,
+        array  $officeCodes
+    )
     {
         $endpoint = "DataScanning/GetDataScanNumbersList";
         $headers = [
@@ -54,10 +65,14 @@ class DataScanningService extends OperationApiService implements IDataScanningSe
 
 //        return $parameters;
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $body);
+        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $body)['response'];
     }
 
-    public function GetDataScanSummaryList($startDate, $endDate, $officeCodes)
+    public function GetDataScanSummaryList(
+        $startDate,
+        $endDate,
+        $officeCodes
+    )
     {
         $endpoint = "DataScanning/GetDataScanSummaryList";
         $headers = [
@@ -73,10 +88,23 @@ class DataScanningService extends OperationApiService implements IDataScanningSe
 
 //        return $parameters;
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $body);
+        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $body)['response'];
     }
 
-    public function GetDataScanningDetails($startDate, $endDate, $tableName, $type, $officeCodes)
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $tableName
+     * @param string $type
+     * @param array $officeCodes
+     */
+    public function GetDataScanningDetails(
+        $startDate,
+        $endDate,
+        $tableName,
+        $type,
+        $officeCodes
+    )
     {
         $endpoint = "DataScanning/GetDataScanningDetails";
         $headers = [
@@ -94,7 +122,7 @@ class DataScanningService extends OperationApiService implements IDataScanningSe
 
 //        return $parameters;
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $body);
+        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $body)['response'];
     }
 
     public function SetDataScanTables(

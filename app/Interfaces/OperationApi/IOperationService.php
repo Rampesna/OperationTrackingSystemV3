@@ -100,17 +100,19 @@ interface IOperationService
     public function GetEmployeeGroupTasks();
 
     public function SetEmployee(
+        $id,
         $companyId,
+        $email,
         $username,
         $password,
         $nameSurname,
         $assignmentAuth,
         $educationAuth,
-        $uyumCrmUsername,
-        $uyumCrmPassword,
-        $uyumCrmUserId,
-        $uyumProgressCrmUsername,
-        $uyumProgressCrmPassword,
+        $webCrmUserId,
+        $webCrmUsername,
+        $webCrmPassword,
+        $progressCrmUsername,
+        $progressCrmPassword,
         $activeJobDescription,
         $role,
         $groupCode,
@@ -118,35 +120,50 @@ interface IOperationService
         $followerLeader,
         $followerLeaderAssistant,
         $callScanCode,
-        $email,
-        $internal,
+        $santralCode,
         $taskList = [],
-        $workTaskList = [],
-        $id = null
+        $workTaskList = []
     );
 
     public function GetEmployeeTasksEdit(
-        $id
+        $guid
     );
 
+    /**
+     * @param int $guid
+     */
     public function GetEmployeeWorkTasksEdit(
-        $id
+        int $guid
     );
 
+    /**
+     * @param int $guid
+     */
     public function GetEmployeeGroupTasksEdit(
-        $id
+        int $guid
     );
 
     public function SetEmployeeTasksInsert(
-        $list
+        int        $guid,
+        array|null $tasks = []
     );
 
+    /**
+     * @param int $guid
+     * @param array $workTasks
+     */
     public function SetEmployeeWorkTasksInsert(
-        $list
+        int        $guid,
+        array|null $workTasks = []
     );
 
+    /**
+     * @param int $guid
+     * @param array $groupTasks
+     */
     public function SetEmployeeGroupTasksInsert(
-        $list
+        int        $guid,
+        array|null $groupTasks = []
     );
 
     public function SetEmployeeTasksDelete(

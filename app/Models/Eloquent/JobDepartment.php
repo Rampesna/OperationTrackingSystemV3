@@ -12,6 +12,6 @@ class JobDepartment extends Model
 
     public function employees()
     {
-        return $this->belongsToMany(Employee::class);
+        return $this->hasMany(Employee::class);
     }
 }

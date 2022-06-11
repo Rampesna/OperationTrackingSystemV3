@@ -58,6 +58,11 @@
     var toggleDarkTheme = $('#toggleDarkTheme');
     var QuickActionsButton = $('#QuickActionsButton');
     var SelectedCompany = $('#SelectedCompany');
+    var jqxGridGlobalTheme = 'metro';
+
+    @if(auth()->user()->theme() == 1)
+        jqxGridGlobalTheme = 'metrodark';
+    @endif
 
     toggleDarkTheme.change(function () {
         $('#loader').fadeIn(250);

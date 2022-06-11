@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\SurveySystemController\GetSurveyListRequest;
+use App\Http\Requests\Api\User\SurveySystemController\SetSurveyPersonConnectRequest;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Traits\Response;
 
@@ -11,15 +12,23 @@ class SurveySystemController extends Controller
 {
     use Response;
 
-    private $personSystemService;
+    private $surveySystemService;
 
-    public function __construct(ISurveySystemService $personSystemService)
+    public function __construct(ISurveySystemService $surveySystemService)
     {
-        $this->personSystemService = $personSystemService;
+        $this->surveySystemService = $surveySystemService;
     }
 
     public function getSurveyList(GetSurveyListRequest $request)
     {
-        return $this->success('Survey list', $this->personSystemService->GetSurveyList());
+        return $this->success('Survey list', $this->surveySystemService->GetSurveyList());
+    }
+
+    public function setSurveyPersonConnect(SetSurveyPersonConnectRequest $request)
+    {
+        return $this->success('Employee surveys successfully set', $this->surveySystemService->SetSurveyPersonConnect(
+            $request->surveyCode,
+            $request->guids
+        ));
     }
 }

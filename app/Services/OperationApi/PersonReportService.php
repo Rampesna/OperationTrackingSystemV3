@@ -219,14 +219,16 @@ class PersonReportService extends OperationApiService implements IPersonReportSe
         return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $body);
     }
 
-    public function GetPersonAppointmentReport($officeCodes)
+    public function GetPersonAppointmentReport(
+        $officeCodes
+    )
     {
         $endpoint = "PersonReport/GetPersonAppointmentReport";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $officeCodes);
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $officeCodes)['response'];
     }
 
     public function GetPersonLeaveTheJobReport($officeCodes)

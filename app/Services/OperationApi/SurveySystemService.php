@@ -456,12 +456,27 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
 
-    public function SetSurveyPersonConnect($list)
+    /**
+     * @param int $surveyCode
+     * @param array $guids
+     */
+    public function SetSurveyPersonConnect(
+        int   $surveyCode,
+        array $guids
+    )
     {
         $endpoint = "SurveySystem/SetSurveyPersonConnect";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
+
+        $list = [];
+        foreach ($guids as $guid) {
+            $list[] = [
+                'grupKodu' => $surveyCode,
+                'personId' => $guid
+            ];
+        }
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }

@@ -11,7 +11,7 @@ abstract class OperationApiService
 
     public function __construct()
     {
-        $this->baseUrl = env('OPERATION_API_BASE_URL', 'http://operasyonapi.ayssoft.com/api/');
+        $this->baseUrl = env('OPERATION_API_BASE_URL', 'https://operasyonapi.ayssoft.com/api/');
         if (!isset($_SESSION['accessTokenExpireTime']) && !isset($_SESSION['accessToken'])) {
             $this->_token = $this->Login();
             $_SESSION['accessTokenExpireTime'] = time() + 10800;

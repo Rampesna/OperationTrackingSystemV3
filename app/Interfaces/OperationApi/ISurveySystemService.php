@@ -149,8 +149,13 @@ interface ISurveySystemService
         $list
     );
 
+    /**
+     * @param int $surveyCode
+     * @param array $guids
+     */
     public function SetSurveyPersonConnect(
-        $list
+        int   $surveyCode,
+        array $guids
     );
 
     public function GetSurveyReport(

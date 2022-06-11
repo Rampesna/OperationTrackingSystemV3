@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
-        <a href="#" class="mb-12">
+        <a class="mb-12">
             <img alt="Logo" src="{{ asset('assets/media/logos/favicon.png') }}" class="h-75px" />
         </a>
         <div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
@@ -19,6 +19,14 @@
                         <a href="#" class="link-primary fs-6 fw-bolder" tabindex="-1">Şifremi Unuttum</a>
                     </div>
                     <input id="password" type="password" class="form-control form-control-lg form-control-solid" autocomplete="off" />
+                </div>
+                <div class="fv-row mb-10">
+                    <div class="form-check form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="" id="remember" checked />
+                        <label class="form-check-label" for="remember">
+                            Oturumu Açık Tut
+                        </label>
+                    </div>
                 </div>
                 <div class="text-center">
                     <button type="button" id="LoginButton" class="btn btn-lg btn-primary w-100 mb-5">Giriş Yap</button>

@@ -34,12 +34,23 @@ class PersonSystemService extends OperationApiService implements IPersonSystemSe
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response'];
     }
 
-    public function SetPersonDisplayType($list)
+    public function SetPersonDisplayType(
+        int   $otsLockType,
+        array $guids
+    )
     {
         $endpoint = "PersonSystem/SetPersonDisplayType";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
+
+        $list = [];
+        foreach ($guids as $guid) {
+            $list[] = [
+                'id' => $guid,
+                "ekranKilitTuru" => $otsLockType
+            ];
+        }
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
@@ -54,22 +65,48 @@ class PersonSystemService extends OperationApiService implements IPersonSystemSe
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'];
     }
 
-    public function SetPersonDataScan($list)
+    /**
+     * @param int $groupCode
+     * @param array $guids
+     */
+    public function SetPersonDataScan(
+        int   $groupCode,
+        array $guids
+    )
     {
         $endpoint = "PersonSystem/SetPersonDataScan";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
+        $list = [];
+        foreach ($guids as $guid) {
+            $list[] = [
+                'grupKodu' => $groupCode,
+                'personId' => $guid
+            ];
+        }
+
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
 
-    public function SetPersonWorkToDoType($list)
+    public function SetPersonWorkToDoType(
+        int   $jobCode,
+        array $guids
+    )
     {
         $endpoint = "PersonSystem/SetPersonWorkToDoType";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
+
+        $list = [];
+        foreach ($guids as $guid) {
+            $list[] = [
+                'id' => $guid,
+                'yapilacakIslerKodu' => $jobCode
+            ];
+        }
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }

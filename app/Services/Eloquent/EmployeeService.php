@@ -38,20 +38,33 @@ class EmployeeService implements IEmployeeService
      * @param int $pageSize
      * @param array $companyIds
      * @param int $leave
+     * @param string|null $keyword
+     * @param array|null $jobDepartmentIds
      */
     public function getByCompanies(
-        int   $pageIndex = 0,
-        int   $pageSize = 10,
-        array $companyIds = [],
-        int   $leave = 0
+        int         $pageIndex = 0,
+        int         $pageSize = 10,
+        array       $companyIds = [],
+        int         $leave = 0,
+        string|null $keyword = null,
+        array|null  $jobDepartmentIds = []
     )
     {
-        return Employee::with([
+        $employees = Employee::with([
             'company',
-            'jobDepartments',
+            'jobDepartment',
         ])->whereIn('company_id', $companyIds)
-            ->where('leave', $leave)
-            ->skip($pageIndex * $pageSize)
+            ->where('leave', $leave);
+
+        if ($keyword) {
+            $employees->where('name', 'like', '%' . $keyword . '%');
+        }
+
+        if ($jobDepartmentIds && count($jobDepartmentIds) > 0) {
+            $employees->whereIn('job_department_id', $jobDepartmentIds);
+        }
+
+        return $employees->orderBy('name')->skip($pageIndex * $pageSize)
             ->take($pageSize)
             ->get();
     }
@@ -105,24 +118,38 @@ class EmployeeService implements IEmployeeService
     /**
      * @param int $employeeId
      */
-    public function getEmployeePriorities(
+    public function getEmployeeShiftGroups(
         int $employeeId
     )
     {
-        return $this->getById($employeeId)->priorities;
+        return $this->getById($employeeId)->shiftGroups;
     }
 
     /**
      * @param int $employeeId
-     * @param array $priorityIds
+     * @param array $shiftGroupIds
      */
-    public function setEmployeePriorities(
+    public function setEmployeeShiftGroups(
         int   $employeeId,
-        array $priorityIds
+        array $shiftGroupIds
     )
     {
         $employee = $this->getById($employeeId);
-        $employee->priorities()->sync($priorityIds);
+        $employee->shiftGroups()->sync($shiftGroupIds);
+    }
+
+    /**
+     * @param int $employeeId
+     * @param int $jobDepartmentId
+     */
+    public function updateJobDepartment(
+        int $employeeId,
+        int $jobDepartmentId
+    )
+    {
+        $employee = $this->getById($employeeId);
+        $employee->job_department_id = $jobDepartmentId;
+        return $employee->save();
     }
 
     /**
@@ -145,24 +172,42 @@ class EmployeeService implements IEmployeeService
         return Crypt::encrypt($employee->id);
     }
 
+    /**
+     * @param int|null $guid
+     * @param int $companyId
+     * @param int $roleId
+     * @param int $jobDepartmentId
+     * @param string $name
+     * @param string $email
+     * @param string|null $phone
+     * @param string|null $identity
+     * @param string|null $santralCode
+     * @param string|null $password
+     */
     public function create(
-        int    $roleId,
-        string $name,
-        string $email,
-        string $phoneNumber = null,
-        string $identificationNumber = null,
-        int    $defaultCompanyId = null,
-        string $password
+        ?int    $guid,
+        int     $companyId,
+        int     $roleId,
+        int     $jobDepartmentId,
+        string  $name,
+        string  $email,
+        ?string $phone,
+        ?string $identity,
+        ?string $santralCode,
+        ?string $password
     )
     {
         $employee = new Employee();
+        $employee->guid = $guid;
+        $employee->company_id = $companyId;
         $employee->role_id = $roleId;
+        $employee->job_department_id = $jobDepartmentId;
         $employee->name = $name;
         $employee->email = $email;
-        $employee->phone_number = $phoneNumber;
-        $employee->identification_number = $identificationNumber;
-        $employee->default_company_id = $defaultCompanyId;
-        $employee->password = $password;
+        $employee->phone = $phone;
+        $employee->identity = $identity;
+        $employee->santral_code = $santralCode;
+        $employee->password = bcrypt($password);
         $employee->save();
 
         return $employee;

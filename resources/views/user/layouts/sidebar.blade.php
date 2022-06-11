@@ -331,8 +331,8 @@
                 <span class="btn-label">Ayarlar</span>
             </button>
             <div class="dropdown-menu text-center w-100">
-                <a href="#" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="Genel">
-                    <span class="text-dark">Genel</span>
+                <a href="{{ route('user.web.shiftGroup.index') }}" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="Genel">
+                    <span class="text-dark">Vardiya Grupları</span>
                 </a>
             </div>
         </div>

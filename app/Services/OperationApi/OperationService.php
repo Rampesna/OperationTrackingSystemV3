@@ -244,7 +244,7 @@ class OperationService extends OperationApiService implements IOperationService
             'BitisTarihi' => $endDate
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)->getBody();
     }
 
     public function SetUserInterest($guid)
@@ -292,17 +292,19 @@ class OperationService extends OperationApiService implements IOperationService
     }
 
     public function SetEmployee(
+        $id,
         $companyId,
+        $email,
         $username,
         $password,
         $nameSurname,
         $assignmentAuth,
         $educationAuth,
-        $uyumCrmUsername,
-        $uyumCrmPassword,
-        $uyumCrmUserId,
-        $uyumProgressCrmUsername,
-        $uyumProgressCrmPassword,
+        $webCrmUserId,
+        $webCrmUsername,
+        $webCrmPassword,
+        $progressCrmUsername,
+        $progressCrmPassword,
         $activeJobDescription,
         $role,
         $groupCode,
@@ -310,11 +312,9 @@ class OperationService extends OperationApiService implements IOperationService
         $followerLeader,
         $followerLeaderAssistant,
         $callScanCode,
-        $email,
-        $internal,
+        $santralCode,
         $taskList = [],
-        $workTaskList = [],
-        $id = null
+        $workTaskList = []
     )
     {
         $endpoint = "Operation/SetEmployee";
@@ -330,11 +330,11 @@ class OperationService extends OperationApiService implements IOperationService
             'kullaniciAdSoyad' => $nameSurname,
             'yetkiGorevlendirme' => $assignmentAuth,
             'yetkiEgitim' => $educationAuth,
-            'uyumCrmUserName' => $uyumCrmUsername,
-            'uyumCrmPassword' => $uyumCrmPassword,
-            'uyumCrmUserId' => $uyumCrmUserId,
-            'uyumProgressUserName' => $uyumProgressCrmUsername,
-            'uyumProgressUserPassword' => $uyumProgressCrmPassword,
+            'uyumCrmUserId' => $webCrmUserId,
+            'uyumCrmUserName' => $webCrmUsername,
+            'uyumCrmPassword' => $webCrmPassword,
+            'uyumProgressUserName' => $progressCrmUsername,
+            'uyumProgressUserPassword' => $progressCrmPassword,
             'aktifGorevTanimi' => $activeJobDescription,
             'rol' => $role,
             'grupKodu' => $groupCode,
@@ -343,17 +343,15 @@ class OperationService extends OperationApiService implements IOperationService
             'takipLiderYardimcisi' => $followerLeaderAssistant,
             'cagriTaramaKodu' => $callScanCode,
             'kullaniciMail' => $email,
-            'dahili' => $internal,
+            'dahili' => $santralCode,
             'taskList' => $taskList,
             'workTaskList' => $workTaskList
         ];
 
-//        return $params;
-
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
     }
 
-    public function GetEmployeeTasksEdit($id)
+    public function GetEmployeeTasksEdit($guid)
     {
         $endpoint = "Operation/GetEmployeeTasksEdit";
         $headers = [
@@ -361,13 +359,18 @@ class OperationService extends OperationApiService implements IOperationService
         ];
 
         $params = [
-            'Id' => $id
+            'Id' => $guid
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'];
     }
 
-    public function GetEmployeeWorkTasksEdit($id)
+    /**
+     * @param int $guid
+     */
+    public function GetEmployeeWorkTasksEdit(
+        int $guid
+    )
     {
         $endpoint = "Operation/GetEmployeeWorkTasksEdit";
         $headers = [
@@ -375,13 +378,18 @@ class OperationService extends OperationApiService implements IOperationService
         ];
 
         $params = [
-            'Id' => $id
+            'Id' => $guid
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'];
     }
 
-    public function GetEmployeeGroupTasksEdit($id)
+    /**
+     * @param int $guid
+     */
+    public function GetEmployeeGroupTasksEdit(
+        int $guid
+    )
     {
         $endpoint = "Operation/GetEmployeeGroupTasksEdit";
         $headers = [
@@ -389,40 +397,102 @@ class OperationService extends OperationApiService implements IOperationService
         ];
 
         $params = [
-            'Id' => $id
+            'Id' => $guid
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'];
     }
 
-    public function SetEmployeeTasksInsert($list)
+    public function SetEmployeeTasksInsert(
+        int        $guid,
+        array|null $tasks = []
+    )
     {
         $endpoint = "Operation/SetEmployeeTasksInsert";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        $employeeTasks = $this->GetEmployeeTasksEdit($guid);
+        foreach ($employeeTasks ?? [] as $employeeTask) {
+            $this->SetEmployeeTasksDelete($employeeTask['id']);
+        }
+
+        $list = [];
+        if ($tasks != null) {
+            foreach ($tasks as $task) {
+                $list[] = [
+                    'kullanicilarId' => $guid,
+                    'gorevKodu' => $task
+                ];
+            }
+        }
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response'];
     }
 
-    public function SetEmployeeWorkTasksInsert($list)
+    /**
+     * @param int $guid
+     * @param array $workTasks
+     */
+    public function SetEmployeeWorkTasksInsert(
+        int        $guid,
+        array|null $workTasks = []
+    )
     {
         $endpoint = "Operation/SetEmployeeWorkTasksInsert";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        $employeeWorkTasks = $this->GetEmployeeWorkTasksEdit($guid);
+        foreach ($employeeWorkTasks ?? [] as $employeeWorkTask) {
+            $this->SetEmployeeWorkTasksDelete($employeeWorkTask['id']);
+        }
+
+        $list = [];
+        if ($workTasks != null) {
+            foreach ($workTasks as $workTask) {
+                $list[] = [
+                    'kullanicilarId' => $guid,
+                    'gorevKodu' => $workTask
+                ];
+            }
+        }
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response'];
     }
 
-    public function SetEmployeeGroupTasksInsert($list)
+    /**
+     * @param int $guid
+     * @param array $groupTasks
+     */
+    public function SetEmployeeGroupTasksInsert(
+        int        $guid,
+        array|null $groupTasks = []
+    )
     {
         $endpoint = "Operation/SetEmployeeGroupTasksInsert";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        $employeeGroupTasks = $this->GetEmployeeGroupTasksEdit($guid);
+        foreach ($employeeGroupTasks ?? [] as $employeeGroupTask) {
+            $this->SetEmployeeGroupTasksDelete($employeeGroupTask['id']);
+        }
+
+        $list = [];
+        if ($groupTasks != null) {
+            foreach ($groupTasks as $groupTask) {
+                $list[] = [
+                    'kullanicilarId' => $guid,
+                    'gorevKodu' => $groupTask
+                ];
+            }
+        }
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response'];
     }
 
     public function SetEmployeeTasksDelete($id)

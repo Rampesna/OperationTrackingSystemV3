@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\EmployeeQueueController\GetEmployeeQueuesRequest;
+use App\Http\Requests\Api\User\EmployeeQueueController\GetQueueEmployeesRequest;
+use App\Http\Requests\Api\User\EmployeeQueueController\SetEmployeeQueuesRequest;
+use App\Http\Requests\Api\User\EmployeeQueueController\SetQueueEmployeesRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IQueueService;
-use App\Http\Requests\Api\User\EmployeeQueueController\GetEmployeeQueuesRequest;
-use App\Http\Requests\Api\User\EmployeeQueueController\SetEmployeeQueuesRequest;
-use App\Http\Requests\Api\User\EmployeeQueueController\GetQueueEmployeesRequest;
-use App\Http\Requests\Api\User\EmployeeQueueController\SetQueueEmployeesRequest;
 use App\Traits\Response;
 
 class EmployeeQueueController extends Controller

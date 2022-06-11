@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\Eloquent\IQueueService;
 use App\Http\Requests\Api\User\QueueController\GetByCompanyIdRequest;
+use App\Interfaces\Eloquent\IQueueService;
 use App\Traits\Response;
 
 class QueueController extends Controller

@@ -84,11 +84,7 @@ class UserService implements IUserService
     {
         $user = $this->getById($userId);
 
-        if (!$user) {
-            return $this->error('User not found', 404);
-        }
-
-        return $user->companies;
+        return $user ? $user->companies : null;
     }
 
     /**
@@ -104,16 +100,6 @@ class UserService implements IUserService
         $user->save();
 
         return $token;
-    }
-
-    /**
-     * @param User $user
-     */
-    public function generateOAuthToken(
-        User $user
-    )
-    {
-        return Crypt::encrypt($user->id);
     }
 
     public function create(

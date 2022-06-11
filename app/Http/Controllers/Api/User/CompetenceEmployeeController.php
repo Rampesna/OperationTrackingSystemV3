@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\Eloquent\IEmployeeService;
-use App\Interfaces\Eloquent\ICompetenceService;
-use App\Http\Requests\Api\User\CompetenceEmployeeController\GetEmployeeCompetencesRequest;
-use App\Http\Requests\Api\User\CompetenceEmployeeController\SetEmployeeCompetencesRequest;
 use App\Http\Requests\Api\User\CompetenceEmployeeController\GetCompetenceEmployeesRequest;
+use App\Http\Requests\Api\User\CompetenceEmployeeController\GetEmployeeCompetencesRequest;
 use App\Http\Requests\Api\User\CompetenceEmployeeController\SetCompetenceEmployeesRequest;
+use App\Http\Requests\Api\User\CompetenceEmployeeController\SetEmployeeCompetencesRequest;
+use App\Interfaces\Eloquent\ICompetenceService;
+use App\Interfaces\Eloquent\IEmployeeService;
 use App\Traits\Response;
 
 class CompetenceEmployeeController extends Controller

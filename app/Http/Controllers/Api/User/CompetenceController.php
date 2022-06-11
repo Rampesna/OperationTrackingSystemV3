@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\Eloquent\ICompetenceService;
 use App\Http\Requests\Api\User\CompetenceController\GetByCompanyIdRequest;
+use App\Interfaces\Eloquent\ICompetenceService;
 use App\Traits\Response;
 
 class CompetenceController extends Controller

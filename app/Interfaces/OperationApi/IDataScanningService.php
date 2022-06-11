@@ -7,19 +7,31 @@ interface IDataScanningService
 {
     public function GetDataScanTables();
 
+    /**
+     * @param array $jobList
+     */
     public function SetDataScanning(
         $jobList
     );
 
+    /**
+     * @param array $list
+     */
     public function SetCallDataScanning(
         $list
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $tableName
+     * @param array $officeCodes
+     */
     public function GetDataScanNumbersList(
-        $startDate,
-        $endDate,
-        $tableName,
-        $officeCodes
+        string $startDate,
+        string $endDate,
+        string $tableName,
+        array  $officeCodes
     );
 
     public function GetDataScanSummaryList(
@@ -28,6 +40,13 @@ interface IDataScanningService
         $officeCodes
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $tableName
+     * @param string $type
+     * @param array $officeCodes
+     */
     public function GetDataScanningDetails(
         $startDate,
         $endDate,

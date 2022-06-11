@@ -27,8 +27,13 @@ class Employee extends Authenticatable
         return $this->belongsToMany(Competence::class);
     }
 
-    public function jobDepartments()
+    public function jobDepartment()
     {
-        return $this->belongsToMany(JobDepartment::class);
+        return $this->belongsTo(JobDepartment::class);
+    }
+
+    public function shiftGroups()
+    {
+        return $this->belongsToMany(ShiftGroup::class);
     }
 }

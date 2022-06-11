@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('guid')->nullable();
             $table->bigInteger('company_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
+            $table->bigInteger('job_department_id')->unsigned()->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();

@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\Web\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Laravel\Sanctum\PersonalAccessToken;
+use App\Http\Requests\Web\User\AuthenticationController\OAuthRequest;
+use App\Interfaces\Eloquent\IPersonalAccessTokenService;
 
 class AuthenticationController extends Controller
 {
+    private $personelAccessTokenService;
+
+    public function __construct(IPersonalAccessTokenService $personalAccessTokenService)
+    {
+        $this->personelAccessTokenService = $personalAccessTokenService;
+    }
+
     public function login()
     {
         if (auth()->guard('user_web')->check()) {
@@ -17,9 +24,9 @@ class AuthenticationController extends Controller
         return view('user.modules.authentication.login.index');
     }
 
-    public function oAuth(Request $request)
+    public function oAuth(OAuthRequest $request)
     {
-        if (!$token = PersonalAccessToken::findToken($request->token)) {
+        if (!$token = $this->personelAccessTokenService->findToken($request->token)) {
             return redirect()->route('user.web.authentication.login.index');
         }
 
@@ -27,7 +34,7 @@ class AuthenticationController extends Controller
             return redirect()->route('user.web.authentication.login.index');
         }
 
-        auth()->guard('user_web')->login($user);
+        auth()->guard('user_web')->login($user, $request->remember);
 
         return redirect()->route('user.web.dashboard.index');
     }

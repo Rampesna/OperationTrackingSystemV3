@@ -16,25 +16,31 @@ interface IPersonSystemService
     );
 
     /**
-     * @param array $list
+     * @param int $otsLockType
+     * @param array $guids
      */
     public function SetPersonDisplayType(
-        $list
+        int   $otsLockType,
+        array $list
     );
 
     public function GetPersonDataScanList();
 
     /**
-     * @param array $list
+     * @param int $groupCode
+     * @param array $guids
      */
     public function SetPersonDataScan(
-        $list
+        int   $groupCode,
+        array $guids
     );
 
     /**
-     * @param array $list
+     * @param int $jobCode
+     * @param array $guids
      */
     public function SetPersonWorkToDoType(
-        $list
+        int   $jobCode,
+        array $guids
     );
 }

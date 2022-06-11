@@ -7,7 +7,16 @@ use App\Interfaces\OperationApi\ISpecialReportService;
 
 class SpecialReportService extends OperationApiService implements ISpecialReportService
 {
-    public function GetSpecialReport($startDate, $endDate, $query)
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $query
+     */
+    public function GetSpecialReport(
+        string $startDate,
+        string $endDate,
+        string $query
+    )
     {
         $endpoint = "SpecialReport/GetSpecialReport";
         $headers = [
@@ -20,6 +29,6 @@ class SpecialReportService extends OperationApiService implements ISpecialReport
             'Sorgu' => $query
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response'];
     }
 }
