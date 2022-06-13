@@ -36,11 +36,9 @@
         var startDate = $('#startDate').val();
         var endDate = $('#endDate').val();
         var companyIds = [];
-        if (parseInt(SelectedCompany.val()) === 1 || parseInt(SelectedCompany.val()) === 1) {
-            companyIds = [1, 2];
-        } else {
-            companyIds = [parseInt(SelectedCompany.val())];
-        }
+        $.each(SelectedCompanies.val(), function (i, SelectedCompany) {
+            companyIds.push(parseInt(SelectedCompany));
+        });
 
         if (!startDate) {
             toastr.warning('Başlangıç Tarihi Seçiniz.');

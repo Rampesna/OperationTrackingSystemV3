@@ -32,13 +32,13 @@ class User extends Authenticatable
         return $this->email;
     }
 
-    public function defaultCompanyId()
-    {
-        return $this->default_company_id;
-    }
-
     public function companies()
     {
         return $this->belongsToMany(Company::class);
+    }
+
+    public function selectedCompanies()
+    {
+        return $this->belongsToMany(Company::class, 'user_selected_company');
     }
 }

@@ -14,6 +14,11 @@ class ShiftGroup extends Model
         'employees_count',
     ];
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function employees()
     {
         return $this->belongsToMany(Employee::class);

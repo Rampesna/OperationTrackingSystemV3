@@ -11,6 +11,7 @@
 
     // Create Variables
 
+    var createShiftGroupCompanyId = $('#create_shift_group_company_id');
     var createShiftGroupAddType = $('#create_shift_group_add_type');
     var createShiftGroupEmployees = $('#create_shift_group_employees');
     var createShiftGroupGetBreakWhileFoodTime = $('#create_shift_group_get_break_while_food_time');
@@ -40,6 +41,7 @@
 
     // Update Variables
 
+    var updateShiftGroupCompanyId = $('#update_shift_group_company_id');
     var updateShiftGroupAddType = $('#update_shift_group_add_type');
     var updateShiftGroupEmployees = $('#update_shift_group_employees');
     var updateShiftGroupGetBreakWhileFoodTime = $('#update_shift_group_get_break_while_food_time');
@@ -72,6 +74,7 @@
     var DeleteShiftGroupButton = $('#DeleteShiftGroupButton');
 
     function createShiftGroup() {
+        createShiftGroupCompanyId.val('');
         $('#create_shift_group_order').val('');
         $('#create_shift_group_name').val('');
         createShiftGroupAddType.val('1');
@@ -138,6 +141,7 @@
                 id: id,
             },
             success: function (response) {
+                updateShiftGroupCompanyId.val(response.response.company_id);
                 $('#update_shift_group_order').val(response.response.order);
                 $('#update_shift_group_name').val(response.response.name);
                 updateShiftGroupAddType.val(response.response.add_type);
@@ -205,22 +209,52 @@
         $('#DeleteShiftGroupModal').modal('show');
     }
 
+    function getCompanies() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.getCompanies') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                createShiftGroupCompanyId.empty();
+                updateShiftGroupCompanyId.empty();
+                $.each(response.response, function (i, company) {
+                    createShiftGroupCompanyId.append($('<option>', {
+                        value: company.id,
+                        text: company.title
+                    }));
+                    updateShiftGroupCompanyId.append($('<option>', {
+                        value: company.id,
+                        text: company.title
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Şirketler Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
     function getShiftGroups() {
         $('#loader').show();
-        var companyId = SelectedCompany.val();
+        var companyIds = SelectedCompanies.val();
         var pageIndex = parseInt(page.html()) - 1;
         var pageSize = pageSizeSelector.val();
         var keyword = keywordFilter.val();
 
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.shiftGroup.getByCompanyId') }}',
+            url: '{{ route('user.api.shiftGroup.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {
-                companyId: companyId,
+                companyIds: companyIds,
                 pageIndex: pageIndex,
                 pageSize: pageSize,
                 keyword: keyword,
@@ -240,6 +274,9 @@
                     <tr>
                         <td>
                             ${shiftGroup.order}
+                        </td>
+                        <td>
+                            ${shiftGroup.company ? shiftGroup.company.title : ''}
                         </td>
                         <td>
                             ${shiftGroup.name}
@@ -276,7 +313,7 @@
     }
 
     function getEmployeesByCompanies() {
-        var companyIds = parseInt(SelectedCompany.val()) === 1 || parseInt(SelectedCompany.val()) === 2 ? [1, 2] : [parseInt(SelectedCompany.val())];
+        var companyIds = SelectedCompanies.val();
         $.ajax({
             type: 'get',
             url: '{{ route('user.api.employee.getByCompanies') }}',
@@ -309,10 +346,11 @@
         });
     }
 
+    getCompanies();
     getShiftGroups();
     getEmployeesByCompanies();
 
-    SelectedCompany.change(function () {
+    SelectedCompanies.change(function () {
         getShiftGroups();
         getEmployeesByCompanies();
     });
@@ -383,7 +421,7 @@
     });
 
     CreateShiftGroupButton.click(function () {
-        var companyId = SelectedCompany.val();
+        var companyId = createShiftGroupCompanyId.val();
         var order = $('#create_shift_group_order').val();
         var name = $('#create_shift_group_name').val();
         var addType = createShiftGroupAddType.val();
@@ -433,7 +471,10 @@
         var sundayEmployeeFromShiftGroup = $('#create_shift_group_sunday_employee_from_shift_group').is(':checked') ? 1 : 0;
         var sundayEmployeeFromShiftGroupId = createShiftGroupSundayEmployeeFromShiftGroupId.val();
 
-        if (!order) {
+        if (!companyId) {
+            toastr.warning('Firma Seçilmedi');
+            CreateShiftGroupWizardStepper.goTo(1);
+        } else if (!order) {
             toastr.warning('Sıra Girilmedi');
             CreateShiftGroupWizardStepper.goTo(1);
         } else if (!name) {
@@ -640,7 +681,7 @@
 
     UpdateShiftGroupButton.click(function () {
         var id = $('#update_shift_group_id').val();
-        var companyId = SelectedCompany.val();
+        var companyId = updateShiftGroupCompanyId.val();
         var order = $('#update_shift_group_order').val();
         var name = $('#update_shift_group_name').val();
         var addType = updateShiftGroupAddType.val();
@@ -690,7 +731,10 @@
         var sundayEmployeeFromShiftGroup = $('#update_shift_group_sunday_employee_from_shift_group').is(':checked') ? 1 : 0;
         var sundayEmployeeFromShiftGroupId = updateShiftGroupSundayEmployeeFromShiftGroupId.val();
 
-        if (!order) {
+        if (!companyId) {
+            toastr.warning('Firma Seçilmedi');
+            UpdateShiftGroupWizardStepper.goTo(1);
+        } else if (!order) {
             toastr.warning('Sıra Girilmedi');
             UpdateShiftGroupWizardStepper.goTo(1);
         } else if (!name) {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\ShiftGroupController;
+namespace App\Http\Requests\Api\User\JobDepartmentController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class GetByCompanyIdRequest extends BaseApiRequest
+class GetByCompanyIdsRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class GetByCompanyIdRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'companyId' => 'required',
+            'companyIds' => 'required|array',
         ];
     }
 }

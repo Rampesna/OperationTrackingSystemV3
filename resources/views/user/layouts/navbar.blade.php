@@ -24,9 +24,9 @@
                 </div>
             </div>
             <div class="d-flex align-items-stretch flex-shrink-0">
-                <div class="d-flex align-items-center ms-1 ms-lg-3" style="width: 200px">
-                    <label for="SelectedCompany"></label>
-                    <select id="SelectedCompany" class="form-select form-select-solid select2-hidden-accessible" data-control="select2" data-placeholder="Firma Seçimi" aria-hidden="true">
+                <div class="d-flex align-items-center ms-1 ms-lg-3">
+                    <label for="SelectedCompanies"></label>
+                    <select id="SelectedCompanies" class="selectpicker" data-placeholder="Firma Seçimi" multiple>
 
                     </select>
                 </div>

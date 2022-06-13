@@ -30,22 +30,14 @@
 
     function getGetPersonAppointmentReport() {
         var companyIds = [];
-        if (parseInt(SelectedCompany.val()) === 1 || parseInt(SelectedCompany.val()) === 1) {
-            companyIds = [
+        $.each(SelectedCompanies.val(), function (i, SelectedCompany) {
+            companyIds.push(
                 {
-                    'ofisKodu': 1
-                },
-                {
-                    'ofisKodu': 2
+                    'ofisKodu': parseInt(SelectedCompany)
                 }
-            ];
-        } else {
-            companyIds = [
-                {
-                    'ofisKodu': parseInt(SelectedCompany.val())
-                }
-            ];
-        }
+            );
+        });
+
         $.ajax({
             type: 'get',
             url: '{{ route('user.api.personReport.getPersonAppointmentReport') }}',

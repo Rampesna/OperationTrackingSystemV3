@@ -73,6 +73,7 @@
                         <thead>
                         <tr class="text-start text-dark fw-bolder fs-7 gs-0">
                             <th class="">Sıra</th>
+                            <th class="">Bağlı Olduğu Firma</th>
                             <th class="">Grup Adı</th>
                             <th class="">Personel Sayısı</th>
                         </tr>

@@ -5,9 +5,9 @@ namespace App\Interfaces\Eloquent;
 interface IJobDepartmentService extends IEloquentService
 {
     /**
-     * @param int $companyId
+     * @param array $companyIds
      */
-    public function getByCompanyId(
-        int $companyId
+    public function getByCompanyIds(
+        array $companyIds
     );
 }

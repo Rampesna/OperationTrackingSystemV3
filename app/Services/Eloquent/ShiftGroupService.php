@@ -30,14 +30,16 @@ class ShiftGroupService implements IShiftGroupService
         return ShiftGroup::destroy($id);
     }
 
-    public function getByCompanyId(
-        int         $companyId,
+    public function getByCompanyIds(
+        array       $companyIds,
         int         $pageIndex = 0,
         int         $pageSize = 10,
         string|null $keyword = null
     )
     {
-        $shiftGroups = ShiftGroup::where('company_id', $companyId);
+        $shiftGroups = ShiftGroup::with([
+            'company'
+        ])->whereIn('company_id', $companyIds);
 
         if ($keyword) {
             $shiftGroups->where('name', 'like', '%' . $keyword . '%');
@@ -47,7 +49,7 @@ class ShiftGroupService implements IShiftGroupService
             'totalCount' => $shiftGroups->count(),
             'pageIndex' => $pageIndex,
             'pageSize' => $pageSize,
-            'shiftGroups' => $shiftGroups->orderBy('order', 'asc')->skip($pageSize * $pageIndex)
+            'shiftGroups' => $shiftGroups->orderBy('order')->skip($pageSize * $pageIndex)
                 ->take($pageSize)
                 ->get()
         ];

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\CompetenceController\GetByCompanyIdRequest;
+use App\Http\Requests\Api\User\CompetenceController\GetByCompanyIdsRequest;
 use App\Interfaces\Eloquent\ICompetenceService;
 use App\Traits\Response;
 
@@ -18,8 +18,8 @@ class CompetenceController extends Controller
         $this->competenceService = $competenceService;
     }
 
-    public function getByCompanyId(GetByCompanyIdRequest $request)
+    public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
-        return $this->success('Competences', $this->competenceService->getByCompanyId($request->companyId));
+        return $this->success('Competences', $this->competenceService->getByCompanyIds($request->companyIds));
     }
 }

@@ -23,7 +23,9 @@
 
 <script>
 
-    $('#loader').hide();
+    $(document).ready(function () {
+        $('#loader').hide();
+    });
 
     var startDateInput = $('#startDate');
     var endDateInput = $('#endDate');

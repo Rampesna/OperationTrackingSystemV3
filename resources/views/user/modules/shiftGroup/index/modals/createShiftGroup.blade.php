@@ -31,6 +31,14 @@
                         <form class="mx-auto mw-700px w-100 pt-15 pb-10 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" id="createEmployeeForm">
                             <div class="current" data-kt-stepper-element="content">
                                 <div class="row w-xl-1000px">
+                                    <div class="col-xl-4 mb-5">
+                                        <div class="form-group">
+                                            <label for="create_shift_group_company_id" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                                <span class="required">Firma Seçimi</span>
+                                            </label>
+                                            <select id="create_shift_group_company_id" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Firma Seçimi"></select>
+                                        </div>
+                                    </div>
                                     <div class="col-xl-2 mb-5">
                                         <div class="form-group">
                                             <label for="create_shift_group_order" class="d-flex align-items-center fs-6 fw-bold mb-2">
@@ -39,7 +47,7 @@
                                             <input id="create_shift_group_order" type="text" class="form-control form-control-solid onlyNumber" placeholder="Sıra" aria-hidden="true">
                                         </div>
                                     </div>
-                                    <div class="col-xl-10 mb-5">
+                                    <div class="col-xl-6 mb-5">
                                         <div class="form-group">
                                             <label for="create_shift_group_name" class="d-flex align-items-center fs-6 fw-bold mb-2">
                                                 <span class="required">Vardiya Grubu Adı</span>

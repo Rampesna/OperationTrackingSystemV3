@@ -84,7 +84,45 @@ class UserService implements IUserService
     {
         $user = $this->getById($userId);
 
-        return $user ? $user->companies : null;
+        return $user ? $user->companies : [];
+    }
+
+    /**
+     * @param int $userId
+     * @param array $companyIds
+     */
+    public function setCompanies(
+        int   $userId,
+        array $companyIds
+    )
+    {
+        $user = $this->getById($userId);
+        $user->companies()->sync($companyIds);
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function getSelectedCompanies(
+        int $userId
+    )
+    {
+        $user = $this->getById($userId);
+
+        return $user ? $user->selectedCompanies : [];
+    }
+
+    /**
+     * @param int $userId
+     * @param array $companyIds
+     */
+    public function setSelectedCompanies(
+        int   $userId,
+        array $companyIds
+    )
+    {
+        $user = $this->getById($userId);
+        $user->selectedCompanies()->sync($companyIds);
     }
 
     /**

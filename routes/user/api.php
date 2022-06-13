@@ -11,7 +11,9 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('getCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'getCompanies'])->name('user.api.getCompanies');
-    Route::post('swapCompany', [\App\Http\Controllers\Api\User\UserController::class, 'swapCompany'])->name('user.api.swapCompany');
+    Route::post('setCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'setCompanies'])->name('user.api.setCompanies');
+    Route::get('getSelectedCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'getSelectedCompanies'])->name('user.api.getSelectedCompanies');
+    Route::post('setSelectedCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'setSelectedCompanies'])->name('user.api.setSelectedCompanies');
     Route::post('swapTheme', [\App\Http\Controllers\Api\User\UserController::class, 'swapTheme'])->name('user.api.swapTheme');
 
     Route::prefix('employee')->group(function () {
@@ -22,7 +24,7 @@ Route::middleware([
     });
 
     Route::prefix('jobDepartment')->group(function () {
-        Route::get('getByCompanyId', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'getByCompanyId'])->name('user.api.jobDepartment.getByCompanyId');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'getByCompanyIds'])->name('user.api.jobDepartment.getByCompanyIds');
     });
 
     Route::prefix('operation')->group(function () {
@@ -65,15 +67,15 @@ Route::middleware([
     });
 
     Route::prefix('queue')->group(function () {
-        Route::get('getByCompanyId', [\App\Http\Controllers\Api\User\QueueController::class, 'getByCompanyId'])->name('user.api.queue.getByCompanyId');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\QueueController::class, 'getByCompanyIds'])->name('user.api.queue.getByCompanyIds');
     });
 
     Route::prefix('competence')->group(function () {
-        Route::get('getByCompanyId', [\App\Http\Controllers\Api\User\CompetenceController::class, 'getByCompanyId'])->name('user.api.competence.getByCompanyId');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\CompetenceController::class, 'getByCompanyIds'])->name('user.api.competence.getByCompanyIds');
     });
 
     Route::prefix('shiftGroup')->group(function () {
-        Route::get('getByCompanyId', [\App\Http\Controllers\Api\User\ShiftGroupController::class, 'getByCompanyId'])->name('user.api.shiftGroup.getByCompanyId');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\ShiftGroupController::class, 'getByCompanyIds'])->name('user.api.shiftGroup.getByCompanyIds');
         Route::get('getById', [\App\Http\Controllers\Api\User\ShiftGroupController::class, 'getById'])->name('user.api.shiftGroup.getById');
         Route::post('create', [\App\Http\Controllers\Api\User\ShiftGroupController::class, 'create'])->name('user.api.shiftGroup.create');
         Route::put('update', [\App\Http\Controllers\Api\User\ShiftGroupController::class, 'update'])->name('user.api.shiftGroup.update');

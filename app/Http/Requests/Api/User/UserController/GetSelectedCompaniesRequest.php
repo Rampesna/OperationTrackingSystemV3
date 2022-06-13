@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\QueueController;
+namespace App\Http\Requests\Api\User\UserController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class GetByCompanyIdRequest extends BaseApiRequest
+class GetSelectedCompaniesRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class GetByCompanyIdRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'companyId' => 'required'
+            //
         ];
     }
 }

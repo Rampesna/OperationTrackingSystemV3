@@ -5,13 +5,13 @@ namespace App\Interfaces\Eloquent;
 interface IShiftGroupService extends IEloquentService
 {
     /**
-     * @param int $companyId
+     * @param array $companyIds
      * @param int $pageIndex
      * @param int $pageSize
      * @param string|null $keyword
      */
-    public function getByCompanyId(
-        int         $companyId,
+    public function getByCompanyIds(
+        array       $companyIds,
         int         $pageIndex = 0,
         int         $pageSize = 10,
         string|null $keyword = null

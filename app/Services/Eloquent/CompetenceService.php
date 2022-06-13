@@ -22,9 +22,16 @@ class CompetenceService implements ICompetenceService
         return Competence::destroy($id);
     }
 
-    public function getByCompanyId($companyId)
+    /**
+     * @param array $companyIds
+     */
+    public function getByCompanyIds(
+        array $companyIds
+    )
     {
-        return Competence::where('company_id', $companyId)->get();
+        return Competence::with([
+            'company'
+        ])->whereIn('company_id', $companyIds)->get();
     }
 
     /**

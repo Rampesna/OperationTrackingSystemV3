@@ -12,16 +12,16 @@
     var jobDepartmentFilter = $('#jobDepartment');
 
     function getJobDepartments() {
-        var companyId = SelectedCompany.val();
+        var companyIds = SelectedCompanies.val();
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.jobDepartment.getByCompanyId') }}',
+            url: '{{ route('user.api.jobDepartment.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {
-                companyId: companyId
+                companyIds: companyIds
             },
             success: function (response) {
                 jobDepartmentFilter.empty();
@@ -79,7 +79,7 @@
         },
 
         events: function (info, successCallback, failureCallback) {
-            var companyIds = parseInt(SelectedCompany.val()) === 1 || parseInt(SelectedCompany.val()) === 2 ? [1, 2] : [parseInt(SelectedCompany.val())];
+            var companyIds = SelectedCompanies.val();
             $.ajax({
                 url: '{{ route('user.api.shift.getByCompanyIds') }}',
                 dataType: 'json',
@@ -133,6 +133,11 @@
     });
 
     FilterButton.click(function () {
+        calendar.refetchEvents();
+    });
+
+    SelectedCompanies.change(function () {
+        getJobDepartments();
         calendar.refetchEvents();
     });
 

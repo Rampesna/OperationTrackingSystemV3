@@ -15,28 +15,36 @@
                 <div class="row">
                     <div id="CreateEmployeeWizardStepper" class="stepper stepper-links d-flex flex-column pt-15 between" data-kt-stepper="true">
                         <div class="stepper-nav mb-5">
-                            <div class="stepper-item current" data-kt-stepper-element="nav">
+                            <div class="stepper-item current" data-kt-stepper-element="nav" data-kt-stepper-action="step">
                                 <h3 class="stepper-title">Genel Bilgiler</h3>
                             </div>
-                            <div class="stepper-item pending" data-kt-stepper-element="nav">
+                            <div class="stepper-item pending" data-kt-stepper-element="nav" data-kt-stepper-action="step">
                                 <h3 class="stepper-title">CRM Bilgileri</h3>
                             </div>
-                            <div class="stepper-item pending" data-kt-stepper-element="nav">
+                            <div class="stepper-item pending" data-kt-stepper-element="nav" data-kt-stepper-action="step">
                                 <h3 class="stepper-title">Kuyruk Görevleri</h3>
                             </div>
-                            <div class="stepper-item pending" data-kt-stepper-element="nav">
+                            <div class="stepper-item pending" data-kt-stepper-element="nav" data-kt-stepper-action="step">
                                 <h3 class="stepper-title">İş Görevleri</h3>
                             </div>
-                            <div class="stepper-item pending" data-kt-stepper-element="nav">
+                            <div class="stepper-item pending" data-kt-stepper-element="nav" data-kt-stepper-action="step">
                                 <h3 class="stepper-title">Gruplar</h3>
                             </div>
-                            <div class="stepper-item pending" data-kt-stepper-element="nav">
+                            <div class="stepper-item pending" data-kt-stepper-element="nav" data-kt-stepper-action="step">
                                 <h3 class="stepper-title">Vardiya</h3>
                             </div>
                         </div>
                         <form class="mx-auto mw-700px w-100 pt-15 pb-10 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" id="createEmployeeForm">
                             <div class="current" data-kt-stepper-element="content">
                                 <div class="row w-xl-1000px">
+                                    <div class="col-xl-12 mb-5">
+                                        <div class="form-group">
+                                            <label for="create_employee_company_id" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                                <span class="required">Firma Seçimi</span>
+                                            </label>
+                                            <select id="create_employee_company_id" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Firma Seçimi"></select>
+                                        </div>
+                                    </div>
                                     <div class="col-xl-6 mb-5">
                                         <div class="form-group">
                                             <label for="create_employee_name" class="d-flex align-items-center fs-6 fw-bold mb-2">
@@ -132,7 +140,7 @@
                                             <label for="create_employee_shift_groups" class="d-flex align-items-center fs-6 fw-bold mb-2">
                                                 <span class="required">Dahil Edilecek Vardiya Grupları</span>
                                             </label>
-                                            <select id="create_employee_shift_groups" class="form-select form-select-solid select2Input" data-control="select2" multiple></select>
+                                            <select id="create_employee_shift_groups" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Dahil Edilecek Vardiya Grupları" multiple></select>
                                         </div>
                                     </div>
                                     <div class="col-xl-6 mb-5">
@@ -140,7 +148,7 @@
                                             <label for="create_employee_shift_group_id" class="d-flex align-items-center fs-6 fw-bold mb-2">
                                                 <span class="required">İlk Vardiya Seçimi</span>
                                             </label>
-                                            <select id="create_employee_shift_group_id" class="form-select form-select-solid select2Input" data-control="select2"></select>
+                                            <select id="create_employee_shift_group_id" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="İlk Vardiya Seçimi"></select>
                                         </div>
                                     </div>
                                 </div>

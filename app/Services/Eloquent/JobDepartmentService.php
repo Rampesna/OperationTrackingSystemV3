@@ -26,11 +26,13 @@ class JobDepartmentService implements IJobDepartmentService
         return JobDepartment::destroy($id);
     }
 
-    public function getByCompanyId(
-        int $companyId
+    public function getByCompanyIds(
+        array $companyIds
     )
     {
-        return JobDepartment::where('company_id', $companyId)->get();
+        return JobDepartment::with([
+            'company',
+        ])->whereIn('company_id', $companyIds)->get();
     }
 
 }

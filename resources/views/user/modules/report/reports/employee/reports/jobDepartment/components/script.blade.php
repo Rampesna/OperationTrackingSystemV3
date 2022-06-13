@@ -27,14 +27,10 @@
     var DownloadExcelButton = $('#DownloadExcelButton');
 
     function getEmployees() {
-        var companyId = SelectedCompany.val();
         var companyIds = [];
-
-        if (parseInt(companyId) === 1 || parseInt(companyId) === 2) {
-            companyIds = [1, 2];
-        } else {
-            companyIds.push(companyId);
-        }
+        $.each(SelectedCompanies.val(), function (i, SelectedCompany) {
+            companyIds.push(parseInt(SelectedCompany));
+        });
 
         $.ajax({
             type: 'get',
@@ -115,7 +111,7 @@
 
     getEmployees();
 
-    SelectedCompany.change(function () {
+    SelectedCompanies.change(function () {
         getEmployees();
     });
 

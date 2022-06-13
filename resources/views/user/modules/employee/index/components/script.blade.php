@@ -62,6 +62,7 @@
     var employeesRow = $('#employeesRow');
     var jobDepartmentFilterer = $('#jobDepartmentFilterer');
 
+    var createEmployeeCompanyId = $('#create_employee_company_id');
     var createEmployeeTasksRow = $('#createEmployeeTasks');
     var createEmployeeWorkTasksRow = $('#createEmployeeWorkTasks');
     var createEmployeeGroupTasksRow = $('#createEmployeeGroupTasks');
@@ -130,6 +131,7 @@
     }
 
     function createEmployee() {
+        createEmployeeCompanyId.val('');
         $('#create_employee_name').val('');
         $('#create_employee_email').val('');
         createEmployeeJobDepartmentId.val('');
@@ -142,6 +144,7 @@
         $('.createEmployeeTaskCheckbox').prop('checked', false);
         $('.createEmployeeWorkTaskCheckbox').prop('checked', false);
         $('.createEmployeeGroupTaskCheckbox').prop('checked', false);
+        createEmployeeShiftGroupId.val('');
         CreateEmployeeWizardStepper.goFirst();
         $('#CreateEmployeeModal').modal('show');
     }
@@ -359,14 +362,7 @@
 
     function getEmployees() {
         $('#loader').show();
-        var companyId = SelectedCompany.val();
-        var companyIds = [];
-
-        if (parseInt(companyId) === 1 || parseInt(companyId) === 2) {
-            companyIds = [1, 2];
-        } else {
-            companyIds.push(companyId);
-        }
+        var companyIds = SelectedCompanies.val();
 
         $.ajax({
             type: 'get',
@@ -384,48 +380,8 @@
             success: function (response) {
                 var employees = response.response;
                 var operationEmployees = [];
-                if (parseInt(companyId) === 1 || parseInt(companyId) === 2) {
-                    $.ajax({
-                        async: false,
-                        type: 'get',
-                        url: '{{ route('user.api.operation.getUserList') }}',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Authorization': token
-                        },
-                        data: {
-                            companyId: 1
-                        },
-                        success: function (response) {
-                            $.each(response.response, function (i, operationEmployee) {
-                                operationEmployees.push(operationEmployee);
-                            });
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                    $.ajax({
-                        async: false,
-                        type: 'get',
-                        url: '{{ route('user.api.operation.getUserList') }}',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Authorization': token
-                        },
-                        data: {
-                            companyId: 2
-                        },
-                        success: function (response) {
-                            $.each(response.response, function (i, operationEmployee) {
-                                operationEmployees.push(operationEmployee);
-                            });
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                } else {
+
+                $.each(companyIds, function (i, companyId) {
                     $.ajax({
                         async: false,
                         type: 'get',
@@ -446,7 +402,7 @@
                             console.log(error);
                         }
                     });
-                }
+                });
 
                 $.each(employees, function (i, employee) {
                     $.each(operationEmployees, function (j, operationEmployee) {
@@ -654,16 +610,16 @@
     }
 
     function getJobDepartments() {
-        var companyId = SelectedCompany.val();
+        var companyIds = SelectedCompanies.val();
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.jobDepartment.getByCompanyId') }}',
+            url: '{{ route('user.api.jobDepartment.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {
-                companyId: companyId
+                companyIds: companyIds
             },
             success: function (response) {
                 jobDepartmentFilterer.empty();
@@ -686,17 +642,39 @@
         });
     }
 
-    function getQueues() {
-        var companyId = SelectedCompany.val();
+    function getCompanies() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.queue.getByCompanyId') }}',
+            url: '{{ route('user.api.getCompanies') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                createEmployeeCompanyId.empty();
+                $.each(response.response, function (i, company) {
+                    createEmployeeCompanyId.append(`<option value="${company.id}">${company.title}</option>`);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Firma Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+            }
+        });
+    }
+
+    function getQueues() {
+        var companyIds = SelectedCompanies.val();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.queue.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {
-                companyId: companyId
+                companyIds: companyIds
             },
             success: function (response) {
                 UpdateEmployeeQueuesRow.empty();
@@ -719,16 +697,16 @@
     }
 
     function getCompetences() {
-        var companyId = SelectedCompany.val();
+        var companyIds = SelectedCompanies.val();
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.competence.getByCompanyId') }}',
+            url: '{{ route('user.api.competence.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {
-                companyId: companyId
+                companyIds: companyIds
             },
             success: function (response) {
                 UpdateEmployeeCompetencesRow.empty();
@@ -751,16 +729,16 @@
     }
 
     function getShiftGroups() {
-        var companyId = SelectedCompany.val();
+        var companyIds = SelectedCompanies.val();
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.shiftGroup.getByCompanyId') }}',
+            url: '{{ route('user.api.shiftGroup.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {
-                companyId: companyId,
+                companyIds: companyIds,
                 pageIndex: 0,
                 pageSize: 1000
             },
@@ -938,6 +916,7 @@
         });
     }
 
+    getCompanies();
     getQueues();
     getCompetences();
     getShiftGroups();
@@ -949,7 +928,7 @@
     getEmployees();
     getJobDepartments();
 
-    SelectedCompany.change(function () {
+    SelectedCompanies.change(function () {
         getQueues();
         getCompetences();
         getEmployeeTasks();
@@ -1478,71 +1457,7 @@
     CreateEmployeeWizardStepper = new KTStepper(CreateEmployeeWizardStepperSelector);
 
     CreateEmployeeWizardStepper.on("kt.stepper.next", (function (e) {
-        if (e.getCurrentStepIndex() === 1) {
-            var name = $('#create_employee_name').val();
-            var email = $('#create_employee_email').val();
-            var jobDepartmentId = createEmployeeJobDepartmentId.val();
-
-            if (!name) {
-                toastr.warning('Ad Soyad Boş Olamaz');
-                $('#create_employee_name').focus();
-            } else if (!email) {
-                toastr.warning('E-posta Adresi Boş Olamaz');
-                $('#create_employee_email').focus();
-            } else if (!jobDepartmentId) {
-                toastr.warning('Departman Seçimi Zorunludur!');
-            } else {
-                $.ajax({
-                    type: 'get',
-                    url: '{{ route('user.api.employee.getByEmail') }}',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': token
-                    },
-                    data: {
-                        email: email
-                    },
-                    success: function (response) {
-                        if (response.response !== null) {
-                            toastr.error('Bu E-posta Adresi Zaten Kayıtlı.');
-                        } else {
-                            e.goNext();
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error);
-                        toastr.error('E-posta Kontrolü Yapılırken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
-                    }
-                });
-            }
-        } else if (e.getCurrentStepIndex() === 2) {
-            var webCrmUserId = $('#create_employee_web_crm_user_id').val();
-            var webCrmUsername = $('#create_employee_web_crm_username').val();
-            var webCrmPassword = $('#create_employee_web_crm_password').val();
-            var progressCrmUsername = $('#create_employee_progress_crm_username').val();
-            var progressCrmPassword = $('#create_employee_progress_crm_password').val();
-
-            if (!webCrmUserId) {
-                toastr.warning('Web CRM Kullanıcı ID Boş Olamaz');
-                $('#create_employee_web_crm_user_id').focus();
-            } else if (!webCrmUsername) {
-                toastr.warning('Web CRM Kullanıcı Adı Boş Olamaz');
-                $('#create_employee_web_crm_username').focus();
-            } else if (!webCrmPassword) {
-                toastr.warning('Web CRM Şifresi Boş Olamaz');
-                $('#create_employee_web_crm_password').focus();
-            } else if (!progressCrmUsername) {
-                toastr.warning('Progress CRM Kullanıcı Adı Boş Olamaz');
-                $('#create_employee_progress_crm_username').focus();
-            } else if (!progressCrmPassword) {
-                toastr.warning('Progress CRM Şifresi Boş Olamaz');
-                $('#create_employee_progress_crm_password').focus();
-            } else {
-                e.goNext();
-            }
-        } else {
-            e.goNext();
-        }
+        e.goNext();
     }));
 
     CreateEmployeeWizardStepper.on("kt.stepper.previous", (function (e) {
@@ -1554,10 +1469,9 @@
     });
 
     CreateEmployeeButton.click(function () {
-        $('#loader').show();
         var guid = null;
         var roleId = 1;
-        var companyId = SelectedCompany.val();
+        var companyId = createEmployeeCompanyId.val();
         var name = $('#create_employee_name').val();
         var email = $('#create_employee_email').val();
         var phone = null;
@@ -1601,66 +1515,121 @@
         var shiftGroupIds = $('#create_employee_shift_groups').val();
         var shiftGroupId = $('#create_employee_shift_group_id').val();
 
-        $.ajax({
-            type: 'post',
-            url: '{{ route('user.api.employee.create') }}',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': token
-            },
-            data: {
-                guid: guid,
-                companyId: companyId,
-                roleId: roleId,
-                jobDepartmentId: jobDepartmentId,
-                name: name,
-                email: email,
-                phone: phone,
-                santralCode: santralCode,
-                password: password,
-            },
-            success: function (response) {
-                var employee = response.response;
-                $.ajax({
-                    type: 'post',
-                    url: '{{ route('user.api.employeeShiftGroup.setEmployeeShiftGroups') }}',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': token
-                    },
-                    data: {
-                        employeeId: employee.id,
-                        shiftGroupIds: shiftGroupIds,
-                    },
-                    success: function () {
-                        $('#CreateEmployeeModal').modal('hide');
-                        getEmployees();
-                        toastr.success('Personel Başarıyla Oluşturuldu.');
-                    },
-                    error: function (error) {
-                        console.log(error);
-                        $('#loader').hide();
-                        toastr.error('Personel Vardiya Grubu Atalamarı Yapılırken Serviste Hata Oluştu.');
-                    }
-                });
-            },
-            error: function (error) {
-                $('#loader').hide();
-                console.log(error);
-                if (error.status === 422) {
-                    var errors = error.responseJSON.response;
-                    $.each(errors, function (key, value) {
-                        if (key === 'email') {
-                            if (value[0] === 'The email has already been taken.') {
-                                toastr.error('Bu E-posta Adresi Zaten Kayıtlı.');
+        if (!companyId) {
+            toastr.warning('Şirket Seçimi Zorunludur.');
+            CreateEmployeeWizardStepper.goTo(1);
+        } else if (!name) {
+            toastr.warning('Ad Soyad Zorunludur.');
+            CreateEmployeeWizardStepper.goTo(1);
+        } else if (!email) {
+            toastr.warning('E-Posta Zorunludur.');
+            CreateEmployeeWizardStepper.goTo(1);
+        } else {
+            $.ajax({
+                type: 'get',
+                url: '{{ route('user.api.employee.getByEmail') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    email: email
+                },
+                success: function (response) {
+                    if (response.response !== null) {
+                        toastr.warning('Bu E-posta Adresi Zaten Kayıtlı.');
+                        CreateEmployeeWizardStepper.goTo(1);
+                    } else if (!jobDepartmentId) {
+                        toastr.warning('Departman Seçimi Zorunludur.');
+                        CreateEmployeeWizardStepper.goTo(1);
+                    } else if (!webCrmUserId) {
+                        toastr.warning('Web CRM Kullanıcı ID Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!webCrmUsername) {
+                        toastr.warning('Web CRM Kullanıcı Adı Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!webCrmPassword) {
+                        toastr.warning('Web CRM Şifresi Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!progressCrmUsername) {
+                        toastr.warning('Progress CRM Kullanıcı Adı Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!progressCrmPassword) {
+                        toastr.warning('Progress CRM Şifresi Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!shiftGroupId) {
+                        toastr.warning('İlk Vardiya Seçimi Zorunludur.');
+                        CreateEmployeeWizardStepper.goTo(6);
+                    } else {
+                        $('#loader').show();
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ route('user.api.employee.create') }}',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Authorization': token
+                            },
+                            data: {
+                                guid: guid,
+                                companyId: companyId,
+                                roleId: roleId,
+                                jobDepartmentId: jobDepartmentId,
+                                name: name,
+                                email: email,
+                                phone: phone,
+                                santralCode: santralCode,
+                                password: password,
+                            },
+                            success: function (response) {
+                                var employee = response.response;
+                                $.ajax({
+                                    type: 'post',
+                                    url: '{{ route('user.api.employeeShiftGroup.setEmployeeShiftGroups') }}',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Authorization': token
+                                    },
+                                    data: {
+                                        employeeId: employee.id,
+                                        shiftGroupIds: shiftGroupIds,
+                                    },
+                                    success: function () {
+                                        $('#CreateEmployeeModal').modal('hide');
+                                        getEmployees();
+                                        toastr.success('Personel Başarıyla Oluşturuldu.');
+                                    },
+                                    error: function (error) {
+                                        console.log(error);
+                                        $('#loader').hide();
+                                        toastr.error('Personel Vardiya Grubu Atalamarı Yapılırken Serviste Hata Oluştu.');
+                                    }
+                                });
+                            },
+                            error: function (error) {
+                                $('#loader').hide();
+                                console.log(error);
+                                if (error.status === 422) {
+                                    var errors = error.responseJSON.response;
+                                    $.each(errors, function (key, value) {
+                                        if (key === 'email') {
+                                            if (value[0] === 'The email has already been taken.') {
+                                                toastr.error('Bu E-posta Adresi Zaten Kayıtlı.');
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    toastr.error('Personel Oluşturulurken Serviste Bir Sorun Oluştu. Lütfen Geliştirici Ekibiyle İletişime Geçin.');
+                                }
                             }
-                        }
-                    });
-                } else {
-                    toastr.error('Personel Oluşturulurken Serviste Bir Sorun Oluştu. Lütfen Geliştirici Ekibiyle İletişime Geçin.');
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('E-posta Kontrolü Yapılırken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
                 }
-            }
-        });
+            });
+        }
     });
 
 </script>

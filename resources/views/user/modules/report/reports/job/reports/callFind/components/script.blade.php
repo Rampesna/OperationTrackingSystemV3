@@ -64,22 +64,13 @@
         var endDate = endDateInput.val();
         var tableName = dataScanningTablesInput.val();
         var companyIds = [];
-        if (parseInt(SelectedCompany.val()) === 1 || parseInt(SelectedCompany.val()) === 1) {
-            companyIds = [
+        $.each(SelectedCompanies.val(), function (i, SelectedCompany) {
+            companyIds.push(
                 {
-                    'ofisKodu': 1
-                },
-                {
-                    'ofisKodu': 2
+                    'ofisKodu': parseInt(SelectedCompany)
                 }
-            ];
-        } else {
-            companyIds = [
-                {
-                    'ofisKodu': parseInt(SelectedCompany.val())
-                }
-            ];
-        }
+            );
+        });
 
         if (!startDate) {
             toastr.warning('Başlangıç Tarihi Seçilmedi!');
@@ -126,22 +117,13 @@
         var tableName = dataScanningTablesInput.val();
         var type = $(this).data('type');
         var companyIds = [];
-        if (parseInt(SelectedCompany.val()) === 1 || parseInt(SelectedCompany.val()) === 1) {
-            companyIds = [
+        $.each(SelectedCompanies.val(), function (i, SelectedCompany) {
+            companyIds.push(
                 {
-                    'ofisKodu': 1
-                },
-                {
-                    'ofisKodu': 2
+                    'ofisKodu': parseInt(SelectedCompany)
                 }
-            ];
-        } else {
-            companyIds = [
-                {
-                    'ofisKodu': parseInt(SelectedCompany.val())
-                }
-            ];
-        }
+            );
+        });
 
         $.ajax({
             type: 'get',

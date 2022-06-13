@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\ShiftGroupController\GetByCompanyIdRequest;
+use App\Http\Requests\Api\User\ShiftGroupController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\ShiftGroupController\GetByIdRequest;
 use App\Http\Requests\Api\User\ShiftGroupController\CreateRequest;
 use App\Http\Requests\Api\User\ShiftGroupController\UpdateRequest;
@@ -22,16 +22,18 @@ class ShiftGroupController extends Controller
         $this->shiftGroupService = $shiftGroupService;
     }
 
-    public function getByCompanyId(GetByCompanyIdRequest $request)
+    public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
 
-        if (!in_array($request->companyId, $companyIds)) {
-            return $this->error('Unauthorized', 401);
+        foreach ($request->companyIds as $companyId) {
+            if (!in_array($companyId, $companyIds)) {
+                return $this->error('Unauthorized', 401);
+            }
         }
 
-        return $this->success('Shift groups', $this->shiftGroupService->getByCompanyId(
-            $request->companyId,
+        return $this->success('Shift groups', $this->shiftGroupService->getByCompanyIds(
+            $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
             $request->keyword

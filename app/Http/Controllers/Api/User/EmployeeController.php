@@ -25,6 +25,8 @@ class EmployeeController extends Controller
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
 
+        if (count($request->companyIds) == 0) return $this->error('Minimum one company is required.', 404);
+
         foreach ($request->companyIds as $companyId) {
             if (!in_array($companyId, $companyIds)) {
                 return $this->error('Unauthorized', 401);

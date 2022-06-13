@@ -33,13 +33,15 @@ class QueueService implements IQueueService
     }
 
     /**
-     * @param int $companyId
+     * @param array $companyIds
      */
-    public function getByCompanyId(
-        int $companyId
+    public function getByCompanyIds(
+        array $companyIds
     )
     {
-        return Queue::where('company_id', $companyId)->get();
+        return Queue::with([
+            'company'
+        ])->whereIn('company_id', $companyIds)->get();
     }
 
     /**
