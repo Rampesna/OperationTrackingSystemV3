@@ -116,4 +116,20 @@ Route::middleware([
         Route::get('getByCompanyId', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByCompanyId'])->name('user.api.shift.getByCompanyId');
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByCompanyIds'])->name('user.api.shift.getByCompanyIds');
     });
+
+    Route::prefix('operationApi')->group(function () {
+        Route::prefix('tvScreen')->group(function () {
+            Route::get('getJobList', [\App\Http\Controllers\Api\User\OperationApi\TvScreenController::class, 'getJobList'])->name('user.api.operationApi.tvScreen.getJobList');
+        });
+    });
+
+    Route::prefix('otsCallApi')->group(function () {
+        Route::prefix('tvScreen')->group(function () {
+            Route::get('getSantral', [\App\Http\Controllers\Api\User\OtsCallApi\TvScreenController::class, 'getSantral'])->name('user.api.otsCallApi.tvScreen.getSantral');
+        });
+    });
+
+    Route::prefix('netsantralApi')->group(function () {
+        Route::get('getSantral', [\App\Http\Controllers\Api\User\NetsantralApi\NetsantralApiController::class, 'getSantral'])->name('user.api.netsantralApi.getSantral');
+    });
 });

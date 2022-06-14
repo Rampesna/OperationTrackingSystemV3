@@ -67,6 +67,12 @@ Route::middleware([
 
     Route::prefix('santralMonitoring')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\SantralMonitoringController::class, 'index'])->name('user.web.santralMonitoring.index');
+
+        Route::prefix('monitor')->group(function () {
+            Route::get('job', [\App\Http\Controllers\Web\User\SantralMonitoring\MonitorController::class, 'job'])->name('user.web.santralMonitoring.monitor.job');
+            Route::get('employee', [\App\Http\Controllers\Web\User\SantralMonitoring\MonitorController::class, 'employee'])->name('user.web.santralMonitoring.monitor.employee');
+            Route::get('achievement', [\App\Http\Controllers\Web\User\SantralMonitoring\MonitorController::class, 'achievement'])->name('user.web.santralMonitoring.monitor.achievement');
+        });
     });
 
     Route::prefix('salesAndMarketing')->group(function () {

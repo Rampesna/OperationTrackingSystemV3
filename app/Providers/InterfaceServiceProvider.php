@@ -10,6 +10,7 @@ use App\Interfaces\Eloquent\IQueueService;
 use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
 use App\Interfaces\Eloquent\IUserService;
+use App\Interfaces\NetsantralApi\INetsantralApiService;
 use App\Interfaces\OperationApi\IDataScanningService;
 use App\Interfaces\OperationApi\IExamSystemService;
 use App\Interfaces\OperationApi\IJobsSystemService;
@@ -28,6 +29,7 @@ use App\Services\Eloquent\QueueService;
 use App\Services\Eloquent\ShiftGroupService;
 use App\Services\Eloquent\ShiftService;
 use App\Services\Eloquent\UserService;
+use App\Services\NetsantralApi\NetsantralApiService;
 use App\Services\OperationApi\DataScanningService;
 use App\Services\OperationApi\ExamSystemService;
 use App\Services\OperationApi\JobsSystemService;
@@ -71,6 +73,12 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ISpecialReportService::class, SpecialReportService::class);
         $this->app->bind(ISurveySystemService::class, SurveySystemService::class);
         $this->app->bind(ITvScreenService::class, TvScreenService::class);
+
+        // OtsCallApiServices
+        $this->app->bind(\App\Interfaces\OtsCallApi\ITvScreenService::class, \App\Services\OtsCallApi\TvScreenService::class);
+
+        // NetsantralApiServices
+        $this->app->bind(INetsantralApiService::class, NetsantralApiService::class);
     }
 
     /**

@@ -13,7 +13,7 @@ class TvScreenService extends OperationApiService implements ITvScreenService
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return json_decode($this->callApi($this->baseUrl . $endpoint, 'get', $headers)->getBody())->response;
     }
 
     public function GetStaffStatusList($companyId)

@@ -3,7 +3,7 @@
 <head>
     <title>@yield('title'){{ config('app.name') }}</title>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.png') }}"/>
     <meta name="viewport" content="width=device-width, shrink-to-fit=no" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 
@@ -15,6 +15,8 @@
         <link id="themeBundle" href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     @endif
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('assets/plugins/custom/selectpicker/css/bootstrap-select.css') }}" rel="stylesheet" type="text/css"/>
 
     @yield('customStyles')
 
@@ -49,9 +51,12 @@
 
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
+<script src="{{ asset('assets/plugins/custom/selectpicker/js/bootstrap-select.js') }}"></script>
+
 <script>
 
     var token = 'Bearer {{ auth()->user()->apiToken() }}';
+    var SelectedCompanies = $('#SelectedCompanies');
 
 </script>
 
