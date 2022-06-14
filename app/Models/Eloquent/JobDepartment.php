@@ -15,6 +15,11 @@ class JobDepartment extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function type()
+    {
+        return $this->belongsTo(JobDepartmentType::class, 'type_id', 'id');
+    }
+
     public function employees()
     {
         return $this->hasMany(Employee::class);

@@ -35,18 +35,18 @@
 
     var ReportButton = $('#ReportButton');
 
-    function getSpecialReportsByCompanyId() {
+    function getSpecialReportsByCompanyIds() {
         $('#loader').show();
-        var companyId = SelectedCompany.val();
+        var companyIds = SelectedCompanies.val();
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.specialReport.getByCompanyId') }}',
+            url: '{{ route('user.api.specialReport.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {
-                companyId: companyId,
+                companyIds: companyIds,
             },
             success: function (response) {
                 allSpecialReports = response.response;
@@ -64,10 +64,10 @@
         });
     }
 
-    getSpecialReportsByCompanyId();
+    getSpecialReportsByCompanyIds();
 
-    SelectedCompany.change(function () {
-        getSpecialReportsByCompanyId();
+    SelectedCompanies.change(function () {
+        getSpecialReportsByCompanyIds();
     });
 
     ReportButton.click(function () {
@@ -86,7 +86,7 @@
             var query = allSpecialReports.find(report => parseInt(report.id) === parseInt(specialReportId)).query;
             $.ajax({
                 type: 'get',
-                url: '{{ route('user.api.operationSpecialReport.getSpecialReport') }}',
+                url: '{{ route('user.api.operationApi.specialReport.getSpecialReport') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token

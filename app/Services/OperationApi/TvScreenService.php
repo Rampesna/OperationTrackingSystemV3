@@ -4,6 +4,7 @@
 namespace App\Services\OperationApi;
 
 use App\Interfaces\OperationApi\ITvScreenService;
+use GuzzleHttp\Client;
 
 class TvScreenService extends OperationApiService implements ITvScreenService
 {
@@ -16,18 +17,60 @@ class TvScreenService extends OperationApiService implements ITvScreenService
         return json_decode($this->callApi($this->baseUrl . $endpoint, 'get', $headers)->getBody())->response;
     }
 
-    public function GetStaffStatusList($companyId)
+    /**
+     * @param array $companyIds
+     */
+    public function GetStaffStatusList(
+        array $companyIds
+    )
     {
+        $companies = [];
+
+        foreach ($companyIds as $companyId) {
+            $companies[] = intval($companyId);
+        }
+
         $endpoint = "TvScreen/GetStaffStatusList";
+
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json'
         ];
 
-        $params = [
-            'CompanyId' => $companyId
+        $client = new Client;
+        $response = $client->request('post', $this->baseUrl . $endpoint, [
+            'headers' => $headers,
+            'body' => json_encode($companies),
+            'query' => []
+        ]);
+
+        return json_decode($response->getBody())->response;
+    }
+
+    /**
+     * @param array $employeeGuids
+     */
+    public function GetStaffStatusUserList(
+        array $employeeGuids
+    )
+    {
+        $endpoint = "TvScreen/GetStaffStatusUserList";
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json'
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'get', $headers, $params);
+        $client = new Client;
+        $response = $client->request('post', $this->baseUrl . $endpoint, [
+            'headers' => $headers,
+            'body' => json_encode($employeeGuids),
+            'query' => []
+        ]);
+
+        return json_decode($response->getBody())->response;
     }
 
     public function GetStaffStarList()

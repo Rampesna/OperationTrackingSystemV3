@@ -18,7 +18,22 @@
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <div class="row">
-
+                            <div class="col-xl-6 mb-5">
+                                <div class="form-group">
+                                    <label for="set_call_data_scanning_file" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                        <span>Aktarım Dosyası</span>
+                                    </label>
+                                    <input id="set_call_data_scanning_file" type="file" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-5">
+                                <div class="form-group">
+                                    <label for="set_call_data_scanning_survey_id" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                        <span>Anket Seçimi</span>
+                                    </label>
+                                    <select id="set_call_data_scanning_survey_id" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Anket Seçimi" aria-hidden="true"></select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="text-center">

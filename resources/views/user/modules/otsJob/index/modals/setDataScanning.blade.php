@@ -18,7 +18,38 @@
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <div class="row">
-
+                            <div class="col-xl-6 mb-5">
+                                <div class="form-group">
+                                    <label for="set_data_scanning_file" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                        <span>Aktarım Dosyası</span>
+                                    </label>
+                                    <input id="set_data_scanning_file" type="file" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-5">
+                                <div class="form-group">
+                                    <label for="set_data_scanning_table_name" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                        <span>Tablo Adı</span>
+                                    </label>
+                                    <select id="set_data_scanning_table_name" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Tablo Adı" aria-hidden="true"></select>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-5">
+                                <div class="form-group">
+                                    <label for="set_data_scanning_process_name" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                        <span>İşlem Adı</span>
+                                    </label>
+                                    <input id="set_data_scanning_process_name" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-5">
+                                <div class="form-group">
+                                    <label for="set_data_scanning_priority" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                        <span>Öncelik</span>
+                                    </label>
+                                    <input id="set_data_scanning_priority" type="number" class="form-control onlyNumber">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="text-center">

@@ -18,6 +18,7 @@ Route::middleware([
 
     Route::prefix('employee')->group(function () {
         Route::get('getByCompanies', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanies'])->name('user.api.employee.getByCompanies');
+        Route::get('getByJobDepartmentTypeIds', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByJobDepartmentTypeIds'])->name('user.api.employee.getByJobDepartmentTypeIds');
         Route::get('getByEmail', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByEmail'])->name('user.api.employee.getByEmail');
         Route::post('create', [\App\Http\Controllers\Api\User\EmployeeController::class, 'create'])->name('user.api.employee.create');
         Route::post('updateJobDepartment', [\App\Http\Controllers\Api\User\EmployeeController::class, 'updateJobDepartment'])->name('user.api.employee.updateJobDepartment');
@@ -25,45 +26,6 @@ Route::middleware([
 
     Route::prefix('jobDepartment')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'getByCompanyIds'])->name('user.api.jobDepartment.getByCompanyIds');
-    });
-
-    Route::prefix('operation')->group(function () {
-        Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationController::class, 'getUserList'])->name('user.api.operation.getUserList');
-        Route::get('getEmployeeTasks', [\App\Http\Controllers\Api\User\OperationController::class, 'getEmployeeTasks'])->name('user.api.operation.getEmployeeTasks');
-        Route::get('getEmployeeTasksEdit', [\App\Http\Controllers\Api\User\OperationController::class, 'getEmployeeTasksEdit'])->name('user.api.operation.getEmployeeTasksEdit');
-        Route::post('setEmployeeTasksInsert', [\App\Http\Controllers\Api\User\OperationController::class, 'setEmployeeTasksInsert'])->name('user.api.operation.setEmployeeTasksInsert');
-        Route::get('getEmployeeWorkTasks', [\App\Http\Controllers\Api\User\OperationController::class, 'getEmployeeWorkTasks'])->name('user.api.operation.getEmployeeWorkTasks');
-        Route::get('getEmployeeWorkTasksEdit', [\App\Http\Controllers\Api\User\OperationController::class, 'getEmployeeWorkTasksEdit'])->name('user.api.operation.getEmployeeWorkTasksEdit');
-        Route::post('setEmployeeWorkTasksInsert', [\App\Http\Controllers\Api\User\OperationController::class, 'setEmployeeWorkTasksInsert'])->name('user.api.operation.setEmployeeWorkTasksInsert');
-        Route::get('getEmployeeGroupTasks', [\App\Http\Controllers\Api\User\OperationController::class, 'getEmployeeGroupTasks'])->name('user.api.operation.getEmployeeGroupTasks');
-        Route::get('getEmployeeGroupTasksEdit', [\App\Http\Controllers\Api\User\OperationController::class, 'getEmployeeGroupTasksEdit'])->name('user.api.operation.getEmployeeGroupTasksEdit');
-        Route::post('setEmployeeGroupTasksInsert', [\App\Http\Controllers\Api\User\OperationController::class, 'setEmployeeGroupTasksInsert'])->name('user.api.operation.setEmployeeGroupTasksInsert');
-        Route::post('setEmployee', [\App\Http\Controllers\Api\User\OperationController::class, 'setEmployee'])->name('user.api.operation.setEmployee');
-        Route::get('getDataScreening', [\App\Http\Controllers\Api\User\OperationController::class, 'getDataScreening'])->name('user.api.operation.getDataScreening');
-    });
-
-    Route::prefix('personSystem')->group(function () {
-        Route::get('getPersonDataScanList', [\App\Http\Controllers\Api\User\PersonSystemController::class, 'getPersonDataScanList'])->name('user.api.personSystem.getPersonDataScanList');
-        Route::post('setPersonAuthority', [\App\Http\Controllers\Api\User\PersonSystemController::class, 'setPersonAuthority'])->name('user.api.personSystem.setPersonAuthority');
-        Route::post('setPersonDataScan', [\App\Http\Controllers\Api\User\PersonSystemController::class, 'setPersonDataScan'])->name('user.api.personSystem.setPersonDataScan');
-        Route::post('setPersonDisplayType', [\App\Http\Controllers\Api\User\PersonSystemController::class, 'setPersonDisplayType'])->name('user.api.personSystem.setPersonDisplayType');
-        Route::post('setPersonWorkToDoType', [\App\Http\Controllers\Api\User\PersonSystemController::class, 'setPersonWorkToDoType'])->name('user.api.personSystem.setPersonWorkToDoType');
-    });
-
-    Route::prefix('surveySystem')->group(function () {
-        Route::get('getSurveyList', [\App\Http\Controllers\Api\User\SurveySystemController::class, 'getSurveyList'])->name('user.api.surveySystem.getSurveyList');
-        Route::post('setSurveyPersonConnect', [\App\Http\Controllers\Api\User\SurveySystemController::class, 'setSurveyPersonConnect'])->name('user.api.surveySystem.setSurveyPersonConnect');
-    });
-
-    Route::prefix('dataScanning')->group(function () {
-        Route::get('getDataScanTables', [\App\Http\Controllers\Api\User\DataScanningController::class, 'getDataScanTables'])->name('user.api.dataScanning.getDataScanTables');
-        Route::get('getDataScanNumbersList', [\App\Http\Controllers\Api\User\DataScanningController::class, 'getDataScanNumbersList'])->name('user.api.dataScanning.getDataScanNumbersList');
-        Route::get('getDataScanningDetails', [\App\Http\Controllers\Api\User\DataScanningController::class, 'getDataScanningDetails'])->name('user.api.dataScanning.getDataScanningDetails');
-        Route::get('getDataScanSummaryList', [\App\Http\Controllers\Api\User\DataScanningController::class, 'getDataScanSummaryList'])->name('user.api.dataScanning.getDataScanSummaryList');
-    });
-
-    Route::prefix('personReport')->group(function () {
-        Route::get('getPersonAppointmentReport', [\App\Http\Controllers\Api\User\PersonReportController::class, 'getPersonAppointmentReport'])->name('user.api.personReport.getPersonAppointmentReport');
     });
 
     Route::prefix('queue')->group(function () {
@@ -80,6 +42,10 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\User\ShiftGroupController::class, 'create'])->name('user.api.shiftGroup.create');
         Route::put('update', [\App\Http\Controllers\Api\User\ShiftGroupController::class, 'update'])->name('user.api.shiftGroup.update');
         Route::delete('delete', [\App\Http\Controllers\Api\User\ShiftGroupController::class, 'delete'])->name('user.api.shiftGroup.delete');
+    });
+
+    Route::prefix('jobDepartmentType')->group(function () {
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\JobDepartmentTypeController::class, 'getByCompanyIds'])->name('user.api.jobDepartmentType.getByCompanyIds');
     });
 
     Route::prefix('employeeQueue')->group(function () {
@@ -104,11 +70,7 @@ Route::middleware([
     });
 
     Route::prefix('specialReport')->group(function () {
-        Route::get('getByCompanyId', [\App\Http\Controllers\Api\User\SpecialReportController::class, 'getByCompanyId'])->name('user.api.specialReport.getByCompanyId');
-    });
-
-    Route::prefix('operationSpecialReport')->group(function () {
-        Route::get('getSpecialReport', [\App\Http\Controllers\Api\User\OperationSpecialReportController::class, 'getSpecialReport'])->name('user.api.operationSpecialReport.getSpecialReport');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\SpecialReportController::class, 'getByCompanyIds'])->name('user.api.specialReport.getByCompanyIds');
     });
 
     Route::prefix('shift')->group(function () {
@@ -118,8 +80,54 @@ Route::middleware([
     });
 
     Route::prefix('operationApi')->group(function () {
+        Route::prefix('operation')->group(function () {
+            Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');
+            Route::get('getEmployeeTasks', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getEmployeeTasks'])->name('user.api.operationApi.operation.getEmployeeTasks');
+            Route::get('getEmployeeTasksEdit', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getEmployeeTasksEdit'])->name('user.api.operationApi.operation.getEmployeeTasksEdit');
+            Route::post('setEmployeeTasksInsert', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setEmployeeTasksInsert'])->name('user.api.operationApi.operation.setEmployeeTasksInsert');
+            Route::get('getEmployeeWorkTasks', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getEmployeeWorkTasks'])->name('user.api.operationApi.operation.getEmployeeWorkTasks');
+            Route::get('getEmployeeWorkTasksEdit', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getEmployeeWorkTasksEdit'])->name('user.api.operationApi.operation.getEmployeeWorkTasksEdit');
+            Route::post('setEmployeeWorkTasksInsert', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setEmployeeWorkTasksInsert'])->name('user.api.operationApi.operation.setEmployeeWorkTasksInsert');
+            Route::get('getEmployeeGroupTasks', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getEmployeeGroupTasks'])->name('user.api.operationApi.operation.getEmployeeGroupTasks');
+            Route::get('getEmployeeGroupTasksEdit', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getEmployeeGroupTasksEdit'])->name('user.api.operationApi.operation.getEmployeeGroupTasksEdit');
+            Route::post('setEmployeeGroupTasksInsert', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setEmployeeGroupTasksInsert'])->name('user.api.operationApi.operation.setEmployeeGroupTasksInsert');
+            Route::post('setEmployee', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setEmployee'])->name('user.api.operationApi.operation.setEmployee');
+            Route::get('getDataScreening', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getDataScreening'])->name('user.api.operationApi.operation.getDataScreening');
+        });
+
+        Route::prefix('personSystem')->group(function () {
+            Route::get('getPersonDataScanList', [\App\Http\Controllers\Api\User\OperationApi\PersonSystemController::class, 'getPersonDataScanList'])->name('user.api.operationApi.personSystem.getPersonDataScanList');
+            Route::post('setPersonAuthority', [\App\Http\Controllers\Api\User\OperationApi\PersonSystemController::class, 'setPersonAuthority'])->name('user.api.operationApi.personSystem.setPersonAuthority');
+            Route::post('setPersonDataScan', [\App\Http\Controllers\Api\User\OperationApi\PersonSystemController::class, 'setPersonDataScan'])->name('user.api.operationApi.personSystem.setPersonDataScan');
+            Route::post('setPersonDisplayType', [\App\Http\Controllers\Api\User\OperationApi\PersonSystemController::class, 'setPersonDisplayType'])->name('user.api.operationApi.personSystem.setPersonDisplayType');
+            Route::post('setPersonWorkToDoType', [\App\Http\Controllers\Api\User\OperationApi\PersonSystemController::class, 'setPersonWorkToDoType'])->name('user.api.operationApi.personSystem.setPersonWorkToDoType');
+        });
+
         Route::prefix('tvScreen')->group(function () {
             Route::get('getJobList', [\App\Http\Controllers\Api\User\OperationApi\TvScreenController::class, 'getJobList'])->name('user.api.operationApi.tvScreen.getJobList');
+            Route::get('getStaffStatusList', [\App\Http\Controllers\Api\User\OperationApi\TvScreenController::class, 'getStaffStatusList'])->name('user.api.operationApi.tvScreen.getStaffStatusList');
+            Route::get('getStaffStatusUserList', [\App\Http\Controllers\Api\User\OperationApi\TvScreenController::class, 'getStaffStatusUserList'])->name('user.api.operationApi.tvScreen.getStaffStatusUserList');
+        });
+
+        Route::prefix('specialReport')->group(function () {
+            Route::get('getSpecialReport', [\App\Http\Controllers\Api\User\OperationApi\SpecialReportController::class, 'getSpecialReport'])->name('user.api.operationApi.specialReport.getSpecialReport');
+        });
+
+        Route::prefix('personReport')->group(function () {
+            Route::get('getPersonAppointmentReport', [\App\Http\Controllers\Api\User\OperationApi\PersonReportController::class, 'getPersonAppointmentReport'])->name('user.api.operationApi.personReport.getPersonAppointmentReport');
+            Route::get('getPersonnelAchievementRanking', [\App\Http\Controllers\Api\User\OperationApi\PersonReportController::class, 'getPersonnelAchievementRanking'])->name('user.api.operationApi.personReport.getPersonnelAchievementRanking');
+        });
+
+        Route::prefix('dataScanning')->group(function () {
+            Route::get('getDataScanTables', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'getDataScanTables'])->name('user.api.operationApi.dataScanning.getDataScanTables');
+            Route::get('getDataScanNumbersList', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'getDataScanNumbersList'])->name('user.api.operationApi.dataScanning.getDataScanNumbersList');
+            Route::get('getDataScanningDetails', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'getDataScanningDetails'])->name('user.api.operationApi.dataScanning.getDataScanningDetails');
+            Route::get('getDataScanSummaryList', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'getDataScanSummaryList'])->name('user.api.operationApi.dataScanning.getDataScanSummaryList');
+        });
+
+        Route::prefix('surveySystem')->group(function () {
+            Route::get('getSurveyList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyList'])->name('user.api.operationApi.surveySystem.getSurveyList');
+            Route::post('setSurveyPersonConnect', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyPersonConnect'])->name('user.api.operationApi.surveySystem.setSurveyPersonConnect');
         });
     });
 

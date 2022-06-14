@@ -133,14 +133,28 @@ class PersonReportService extends OperationApiService implements IPersonReportSe
         return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'get', $headers, $parameters);
     }
 
-    public function GetPersonnelAchievementRanking()
+    /**
+     * @param array $employeeGuids
+     */
+    public function GetPersonnelAchievementRanking(
+        array $employeeGuids
+    )
     {
         $endpoint = "PersonReport/GetPersonnelAchievementRanking";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json'
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        $client = new Client;
+        $response = $client->request('get', $this->baseUrl . $endpoint, [
+            'headers' => $headers,
+            'body' => json_encode($employeeGuids),
+            'query' => []
+        ]);
+
+        return json_decode($response->getBody())->response;
     }
 
     public function GetPersonnelJobReportList($startDate, $endDate)

@@ -10,4 +10,11 @@ interface IJobDepartmentService extends IEloquentService
     public function getByCompanyIds(
         array $companyIds
     );
+
+    /**
+     * @param array $typeIds
+     */
+    public function getByTypeIds(
+        array $typeIds
+    );
 }

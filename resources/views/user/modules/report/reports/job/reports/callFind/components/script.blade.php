@@ -36,7 +36,7 @@
     function getDataScanningTables() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.dataScanning.getDataScanTables') }}',
+            url: '{{ route('user.api.operationApi.dataScanning.getDataScanTables') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -83,7 +83,7 @@
             reportRow.hide();
             $.ajax({
                 type: 'get',
-                url: '{{ route('user.api.dataScanning.getDataScanNumbersList') }}',
+                url: '{{ route('user.api.operationApi.dataScanning.getDataScanNumbersList') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token
@@ -127,7 +127,7 @@
 
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.dataScanning.getDataScanningDetails') }}',
+            url: '{{ route('user.api.operationApi.dataScanning.getDataScanningDetails') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token

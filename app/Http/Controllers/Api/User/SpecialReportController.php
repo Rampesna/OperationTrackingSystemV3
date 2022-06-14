@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\SpecialReportController\GetByCompanyIdRequest;
+use App\Http\Requests\Api\User\SpecialReportController\GetByCompanyIdsRequest;
 use App\Interfaces\Eloquent\ISpecialReportService;
 use App\Traits\Response;
 
@@ -18,8 +18,8 @@ class SpecialReportController extends Controller
         $this->specialReportService = $specialReportService;
     }
 
-    public function getByCompanyId(GetByCompanyIdRequest $request)
+    public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
-        return $this->success('Special reports', $this->specialReportService->getByCompanyId($request->companyId));
+        return $this->success('Special reports', $this->specialReportService->getByCompanyIds($request->companyIds));
     }
 }

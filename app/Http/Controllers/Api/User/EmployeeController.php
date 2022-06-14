@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\EmployeeController\CreateRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompaniesRequest;
+use App\Http\Requests\Api\User\EmployeeController\GetByJobDepartmentTypeIdsRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByEmailRequest;
 use App\Http\Requests\Api\User\EmployeeController\UpdateJobDepartmentRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
+use App\Interfaces\Eloquent\IJobDepartmentService;
 use App\Traits\Response;
 
 class EmployeeController extends Controller
@@ -33,12 +35,24 @@ class EmployeeController extends Controller
             }
         }
 
-        return $this->success('Users', $this->employeeService->getByCompanies(
+        return $this->success('Employees', $this->employeeService->getByCompanies(
             $request->pageIndex,
             $request->pageSize,
             $request->companyIds,
             $request->leave
         ));
+    }
+
+    public function getByJobDepartmentTypeIds(GetByJobDepartmentTypeIdsRequest $request, IJobDepartmentService $jobDepartmentService)
+    {
+        $jobDepartments = $jobDepartmentService->getByTypeIds($request->jobDepartmentTypeIds);
+        $employees = collect();
+
+        foreach ($jobDepartments as $jobDepartment) {
+            $employees = $employees->merge($jobDepartment->employees);
+        }
+
+        return $this->success('Employees', $employees);
     }
 
     public function getByEmail(GetByEmailRequest $request)

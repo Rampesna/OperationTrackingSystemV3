@@ -14,9 +14,12 @@
 
 @section('content')
 
+    @include('user.modules.santralMonitoring.index.modals.employeeMonitoringSettings')
+    @include('user.modules.santralMonitoring.index.modals.achievementMonitoringSettings')
+
     <div class="row">
 
-        <a href="{{ route('user.web.santralMonitoring.monitor.job') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
+        <a href="{{ route('user.web.santralMonitoring.monitor.job') }}" target="_blank" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
@@ -34,7 +37,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('user.web.santralMonitoring.monitor.employee') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
+        <a onclick="employeeMonitoringSettings()" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
@@ -53,7 +56,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('user.web.santralMonitoring.monitor.achievement') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
+        <a onclick="achievementMonitoringSettings()" target="_blank" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">

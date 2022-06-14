@@ -7,8 +7,18 @@ interface ITvScreenService
 {
     public function GetJobList();
 
+    /**
+     * @param array $companyIds
+     */
     public function GetStaffStatusList(
-        $companyId
+        array $companyId
+    );
+
+    /**
+     * @param array $employeeGuids
+     */
+    public function GetStaffStatusUserList(
+        array $employeeGuids
     );
 
     public function GetStaffStarList();

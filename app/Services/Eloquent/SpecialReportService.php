@@ -29,12 +29,14 @@ class SpecialReportService implements ISpecialReportService
     }
 
     /**
-     * @param int $companyId
+     * @param array $companyIds
      */
-    public function getByCompanyId(
-        int $companyId
+    public function getByCompanyIds(
+        array $companyIds
     )
     {
-        return SpecialReport::where('company_id', $companyId)->get();
+        return SpecialReport::with([
+            'company',
+        ])->whereIn('company_id', $companyIds)->get();
     }
 }

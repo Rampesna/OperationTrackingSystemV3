@@ -54,7 +54,7 @@
             if (parseInt(reportType) === 1) {
                 $.ajax({
                     type: 'get',
-                    url: '{{ route('user.api.operation.getDataScreening') }}',
+                    url: '{{ route('user.api.operationApi.operation.getDataScreening') }}',
                     headers: {
                         'Accept': 'application/json',
                         'Authorization': token

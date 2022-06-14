@@ -48,7 +48,7 @@
             $('#loader').show();
             $.ajax({
                 type: 'get',
-                url: '{{ route('user.api.dataScanning.getDataScanSummaryList') }}',
+                url: '{{ route('user.api.operationApi.dataScanning.getDataScanSummaryList') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token

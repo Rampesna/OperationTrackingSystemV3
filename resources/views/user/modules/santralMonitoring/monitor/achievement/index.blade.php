@@ -7,7 +7,7 @@
 
 @section('content')
 
-
+    <div class="row" style="margin-top: -120px" id="achievementsRow"></div>
 
 @endsection
 

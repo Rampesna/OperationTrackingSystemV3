@@ -40,7 +40,7 @@
 
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.personReport.getPersonAppointmentReport') }}',
+            url: '{{ route('user.api.operationApi.personReport.getPersonAppointmentReport') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token

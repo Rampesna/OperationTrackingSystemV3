@@ -247,7 +247,7 @@
         $('#update_employee_tasks_employee_name_span').html(employeeName + ' - Kuyruk Görevleri Düzenle');
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.operation.getEmployeeTasksEdit') }}',
+            url: '{{ route('user.api.operationApi.operation.getEmployeeTasksEdit') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -282,7 +282,7 @@
         $('#update_employee_work_tasks_employee_name_span').html(employeeName + ' - İş Görevleri Düzenle');
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.operation.getEmployeeWorkTasksEdit') }}',
+            url: '{{ route('user.api.operationApi.operation.getEmployeeWorkTasksEdit') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -317,7 +317,7 @@
         $('#update_employee_group_tasks_employee_name_span').html(employeeName + ' - Grupları Düzenle');
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.operation.getEmployeeGroupTasksEdit') }}',
+            url: '{{ route('user.api.operationApi.operation.getEmployeeGroupTasksEdit') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -385,7 +385,7 @@
                     $.ajax({
                         async: false,
                         type: 'get',
-                        url: '{{ route('user.api.operation.getUserList') }}',
+                        url: '{{ route('user.api.operationApi.operation.getUserList') }}',
                         headers: {
                             'Accept': 'application/json',
                             'Authorization': token
@@ -760,7 +760,7 @@
     function getEmployeeTasks() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.operation.getEmployeeTasks') }}',
+            url: '{{ route('user.api.operationApi.operation.getEmployeeTasks') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -797,7 +797,7 @@
     function getEmployeeWorkTasks() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.operation.getEmployeeWorkTasks') }}',
+            url: '{{ route('user.api.operationApi.operation.getEmployeeWorkTasks') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -834,7 +834,7 @@
     function getEmployeeGroupTasks() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.operation.getEmployeeGroupTasks') }}',
+            url: '{{ route('user.api.operationApi.operation.getEmployeeGroupTasks') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -873,7 +873,7 @@
     function getScripts() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.surveySystem.getSurveyList') }}',
+            url: '{{ route('user.api.operationApi.surveySystem.getSurveyList') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -897,7 +897,7 @@
     function getDataScannings() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.personSystem.getPersonDataScanList') }}',
+            url: '{{ route('user.api.operationApi.personSystem.getPersonDataScanList') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -962,7 +962,7 @@
 
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.personSystem.setPersonAuthority') }}',
+            url: '{{ route('user.api.operationApi.personSystem.setPersonAuthority') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -995,7 +995,7 @@
 
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.personSystem.setPersonAuthority') }}',
+            url: '{{ route('user.api.operationApi.personSystem.setPersonAuthority') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -1028,7 +1028,7 @@
 
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.personSystem.setPersonAuthority') }}',
+            url: '{{ route('user.api.operationApi.personSystem.setPersonAuthority') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -1061,7 +1061,7 @@
 
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.personSystem.setPersonAuthority') }}',
+            url: '{{ route('user.api.operationApi.personSystem.setPersonAuthority') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -1182,7 +1182,7 @@
 
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.operation.setEmployeeTasksInsert') }}',
+            url: '{{ route('user.api.operationApi.operation.setEmployeeTasksInsert') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -1216,7 +1216,7 @@
 
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.operation.setEmployeeWorkTasksInsert') }}',
+            url: '{{ route('user.api.operationApi.operation.setEmployeeWorkTasksInsert') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -1250,7 +1250,7 @@
 
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.operation.setEmployeeGroupTasksInsert') }}',
+            url: '{{ route('user.api.operationApi.operation.setEmployeeGroupTasksInsert') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -1312,7 +1312,7 @@
         });
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.surveySystem.setSurveyPersonConnect') }}',
+            url: '{{ route('user.api.operationApi.surveySystem.setSurveyPersonConnect') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -1342,7 +1342,7 @@
         });
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.personSystem.setPersonDataScan') }}',
+            url: '{{ route('user.api.operationApi.personSystem.setPersonDataScan') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -1372,7 +1372,7 @@
         });
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.personSystem.setPersonDisplayType') }}',
+            url: '{{ route('user.api.operationApi.personSystem.setPersonDisplayType') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -1402,7 +1402,7 @@
         });
         $.ajax({
             type: 'post',
-            url: '{{ route('user.api.personSystem.setPersonWorkToDoType') }}',
+            url: '{{ route('user.api.operationApi.personSystem.setPersonWorkToDoType') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token

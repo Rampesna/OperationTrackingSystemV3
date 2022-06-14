@@ -32,7 +32,19 @@ class JobDepartmentService implements IJobDepartmentService
     {
         return JobDepartment::with([
             'company',
+            'type',
+            'employees',
         ])->whereIn('company_id', $companyIds)->get();
     }
 
+    public function getByTypeIds(
+        array $typeIds
+    )
+    {
+        return JobDepartment::with([
+            'company',
+            'type',
+            'employees',
+        ])->whereIn('type_id', $typeIds)->get();
+    }
 }

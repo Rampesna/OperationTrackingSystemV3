@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Interfaces\Eloquent\ICompetenceService;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IJobDepartmentService;
+use App\Interfaces\Eloquent\IJobDepartmentTypeService;
 use App\Interfaces\Eloquent\IPersonalAccessTokenService;
 use App\Interfaces\Eloquent\IQueueService;
 use App\Interfaces\Eloquent\IShiftGroupService;
@@ -24,6 +25,7 @@ use App\Interfaces\OperationApi\ITvScreenService;
 use App\Services\Eloquent\CompetenceService;
 use App\Services\Eloquent\EmployeeService;
 use App\Services\Eloquent\JobDepartmentService;
+use App\Services\Eloquent\JobDepartmentTypeService;
 use App\Services\Eloquent\PersonalAccessTokenService;
 use App\Services\Eloquent\QueueService;
 use App\Services\Eloquent\ShiftGroupService;
@@ -61,6 +63,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IPersonalAccessTokenService::class, PersonalAccessTokenService::class);
         $this->app->bind(\App\Interfaces\Eloquent\ISpecialReportService::class, \App\Services\Eloquent\SpecialReportService::class);
         $this->app->bind(IShiftService::class, ShiftService::class);
+        $this->app->bind(IJobDepartmentTypeService::class, JobDepartmentTypeService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

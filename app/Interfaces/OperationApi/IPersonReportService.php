@@ -40,7 +40,12 @@ interface IPersonReportService
         $id
     );
 
-    public function GetPersonnelAchievementRanking();
+    /**
+     * @param array $employeeGuids
+     */
+    public function GetPersonnelAchievementRanking(
+        array $employeeGuids
+    );
 
     public function GetPersonnelJobReportList(
         $startDate,
