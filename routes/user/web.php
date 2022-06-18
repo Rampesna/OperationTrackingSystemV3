@@ -77,6 +77,22 @@ Route::middleware([
 
     Route::prefix('salesAndMarketing')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\SalesAndMarketingController::class, 'index'])->name('user.web.salesAndMarketing.index');
+
+        Route::prefix('modules')->group(function () {
+            Route::prefix('survey')->group(function () {
+                Route::get('index', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyController::class, 'index'])->name('user.web.salesAndMarketing.modules.survey.index');
+                Route::get('question', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyController::class, 'question'])->name('user.web.salesAndMarketing.modules.survey.question');
+                Route::get('examine', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyController::class, 'examine'])->name('user.web.salesAndMarketing.modules.survey.examine');
+
+                Route::prefix('report')->group(function () {
+                    Route::get('general', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyReportController::class, 'general'])->name('user.web.salesAndMarketing.modules.survey.report.general');
+                    Route::get('detail', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyReportController::class, 'detail'])->name('user.web.salesAndMarketing.modules.survey.report.detail');
+                    Route::get('employee', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyReportController::class, 'employee'])->name('user.web.salesAndMarketing.modules.survey.report.employee');
+                });
+            });
+            Route::get('seller', [\App\Http\Controllers\Web\User\SalesAndMarketing\SellerController::class, 'index'])->name('user.web.salesAndMarketing.modules.seller.index');
+            Route::get('product', [\App\Http\Controllers\Web\User\SalesAndMarketing\ProductController::class, 'index'])->name('user.web.salesAndMarketing.modules.product.index');
+        });
     });
 
     Route::prefix('academy')->group(function () {

@@ -79,6 +79,14 @@ Route::middleware([
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByCompanyIds'])->name('user.api.shift.getByCompanyIds');
     });
 
+    Route::prefix('project')->group(function () {
+        Route::get('getByUserId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getByUserId'])->name('user.api.project.getByUserId');
+    });
+
+    Route::prefix('commercialCompany')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\CommercialCompanyController::class, 'getAll'])->name('user.api.commercialCompany.getAll');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');
@@ -123,11 +131,45 @@ Route::middleware([
             Route::get('getDataScanNumbersList', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'getDataScanNumbersList'])->name('user.api.operationApi.dataScanning.getDataScanNumbersList');
             Route::get('getDataScanningDetails', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'getDataScanningDetails'])->name('user.api.operationApi.dataScanning.getDataScanningDetails');
             Route::get('getDataScanSummaryList', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'getDataScanSummaryList'])->name('user.api.operationApi.dataScanning.getDataScanSummaryList');
+            Route::post('setDataScanning', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'setDataScanning'])->name('user.api.operationApi.dataScanning.setDataScanning');
+            Route::post('setCallDataScanning', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'setCallDataScanning'])->name('user.api.operationApi.dataScanning.setCallDataScanning');
         });
 
         Route::prefix('surveySystem')->group(function () {
             Route::get('getSurveyList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyList'])->name('user.api.operationApi.surveySystem.getSurveyList');
             Route::post('setSurveyPersonConnect', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyPersonConnect'])->name('user.api.operationApi.surveySystem.setSurveyPersonConnect');
+            Route::post('setSurvey', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurvey'])->name('user.api.operationApi.surveySystem.setSurvey');
+            Route::get('getSurveyEdit', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyEdit'])->name('user.api.operationApi.surveySystem.getSurveyEdit');
+            Route::post('setSurveyDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyDelete'])->name('user.api.operationApi.surveySystem.setSurveyDelete');
+            Route::post('setSurveyGroupConnect', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyGroupConnect'])->name('user.api.operationApi.surveySystem.setSurveyGroupConnect');
+            Route::get('getSurveyQuestionsList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyQuestionsList'])->name('user.api.operationApi.surveySystem.getSurveyQuestionsList');
+            Route::get('getSurveyAnswersList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyAnswersList'])->name('user.api.operationApi.surveySystem.getSurveyAnswersList');
+            Route::get('getSurveyQuestionEdit', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyQuestionEdit'])->name('user.api.operationApi.surveySystem.getSurveyQuestionEdit');
+            Route::get('getSurveyProductList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyProductList'])->name('user.api.operationApi.surveySystem.getSurveyProductList');
+            Route::get('getSurveyAnswerEdit', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyAnswerEdit'])->name('user.api.operationApi.surveySystem.getSurveyAnswerEdit');
+            Route::get('getSurveyAnswersCategoryConnectList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyAnswersCategoryConnectList'])->name('user.api.operationApi.surveySystem.getSurveyAnswersCategoryConnectList');
+            Route::get('getSurveyAnswersConnectList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyAnswersConnectList'])->name('user.api.operationApi.surveySystem.getSurveyAnswersConnectList');
+            Route::get('getSurveyAnswersProductConnectList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyAnswersProductConnectList'])->name('user.api.operationApi.surveySystem.getSurveyAnswersProductConnectList');
+            Route::post('setSurveyQuestions', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyQuestions'])->name('user.api.operationApi.surveySystem.setSurveyQuestions');
+            Route::post('setSurveyQuestionsDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyQuestionsDelete'])->name('user.api.operationApi.surveySystem.setSurveyQuestionsDelete');
+            Route::post('setSurveyAnswers', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyAnswers'])->name('user.api.operationApi.surveySystem.setSurveyAnswers');
+            Route::post('setSurveyAnswersCategoryConnect', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyAnswersCategoryConnect'])->name('user.api.operationApi.surveySystem.setSurveyAnswersCategoryConnect');
+            Route::post('setSurveyAnswersConnect', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyAnswersConnect'])->name('user.api.operationApi.surveySystem.setSurveyAnswersConnect');
+            Route::post('setSurveyAnswersProductConnect', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyAnswersProductConnect'])->name('user.api.operationApi.surveySystem.setSurveyAnswersProductConnect');
+            Route::post('setSurveyAnswersDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyAnswersDelete'])->name('user.api.operationApi.surveySystem.setSurveyAnswersDelete');
+            Route::get('getSurveyReport', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyReport'])->name('user.api.operationApi.surveySystem.getSurveyReport');
+            Route::get('getSurveyReportWantedDetails', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyReportWantedDetails'])->name('user.api.operationApi.surveySystem.getSurveyReportWantedDetails');
+            Route::get('getSurveyReportRemainingDetails', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyReportRemainingDetails'])->name('user.api.operationApi.surveySystem.getSurveyReportRemainingDetails');
+            Route::get('getSurveyReportStatusDetails', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyReportStatusDetails'])->name('user.api.operationApi.surveySystem.getSurveyReportStatusDetails');
+            Route::get('getSurveyDetailReport', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyDetailReport'])->name('user.api.operationApi.surveySystem.getSurveyDetailReport');
+            Route::get('getSurveyDetailReportGroupById', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyDetailReportGroupById'])->name('user.api.operationApi.surveySystem.getSurveyDetailReportGroupById');
+        });
+
+        Route::prefix('jobsSystem')->group(function () {
+            Route::post('setJobsExcel', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobsExcel'])->name('user.api.operationApi.jobsSystem.setJobsExcel');
+            Route::post('setJobsClosedExcel', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobsClosedExcel'])->name('user.api.operationApi.jobsSystem.setJobsClosedExcel');
+            Route::post('setJobSuspend', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobSuspend'])->name('user.api.operationApi.jobsSystem.setJobSuspend');
+            Route::post('setJobCaseWorkDelete', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobCaseWorkDelete'])->name('user.api.operationApi.jobsSystem.setJobCaseWorkDelete');
         });
     });
 

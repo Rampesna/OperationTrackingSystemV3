@@ -18,7 +18,7 @@
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <div class="row">
-                            <div class="col-xl-6 mb-5">
+                            <div class="col-xl-4 mb-5">
                                 <div class="form-group">
                                     <label for="set_jobs_excel_file" class="d-flex align-items-center fs-6 fw-bold mb-2">
                                         <span>Aktarım Dosyası</span>
@@ -26,7 +26,7 @@
                                     <input id="set_jobs_excel_file" type="file" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-xl-6 mb-5">
+                            <div class="col-xl-4 mb-5">
                                 <div class="form-group">
                                     <label for="set_jobs_excel_type" class="d-flex align-items-center fs-6 fw-bold mb-2">
                                         <span>İş Türü</span>
@@ -38,11 +38,19 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-xl-4 mb-5">
+                                <div class="form-group">
+                                    <label for="set_jobs_excel_commercial_company_id" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                        <span>Firma Türü</span>
+                                    </label>
+                                    <select id="set_jobs_excel_commercial_company_id" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Firma Türü" aria-hidden="true"></select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">İptal</button>
-                        <button type="button" class="btn btn-primary" id="SetJobsExcelButton">Kaydet</button>
+                        <button type="button" class="btn btn-primary" id="SetJobsExcelButton">Aktar</button>
                     </div>
                 </div>
             </div>

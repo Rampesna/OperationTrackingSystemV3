@@ -14,7 +14,6 @@
         <link id="themePlugin" href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"/>
         <link id="themeBundle" href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css"/>
     @endif
-    <link href="{{ asset('assets/bootstrapSelect/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css"/>
 
     <link href="{{ asset('assets/plugins/custom/selectpicker/css/bootstrap-select.css') }}" rel="stylesheet" type="text/css"/>

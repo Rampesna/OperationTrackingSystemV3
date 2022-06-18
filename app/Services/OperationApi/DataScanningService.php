@@ -17,7 +17,9 @@ class DataScanningService extends OperationApiService implements IDataScanningSe
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'];
     }
 
-    public function SetDataScanning($jobList)
+    public function SetDataScanning(
+        array $jobList
+    )
     {
         $endpoint = "DataScanning/SetDataScanning";
         $headers = [
@@ -27,14 +29,16 @@ class DataScanningService extends OperationApiService implements IDataScanningSe
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList);
     }
 
-    public function SetCallDataScanning($list)
+    public function SetCallDataScanning(
+        array $jobList
+    )
     {
         $endpoint = "DataScanning/SetCallDataScanning";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList);
     }
 
     /**

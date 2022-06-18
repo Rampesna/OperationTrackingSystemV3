@@ -54,7 +54,7 @@
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">İptal</button>
-                        <button type="button" class="btn btn-primary" id="SetDataScanningButton">Kaydet</button>
+                        <button type="button" class="btn btn-primary" id="SetDataScanningButton">Aktar</button>
                     </div>
                 </div>
             </div>

@@ -38,7 +38,7 @@
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">İptal</button>
-                        <button type="button" class="btn btn-primary" id="SetCallDataScanningButton">Kaydet</button>
+                        <button type="button" class="btn btn-primary" id="SetCallDataScanningButton">Aktar</button>
                     </div>
                 </div>
             </div>

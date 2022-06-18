@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Eloquent\ICommercialCompanyService;
 use App\Interfaces\Eloquent\ICompetenceService;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IJobDepartmentService;
 use App\Interfaces\Eloquent\IJobDepartmentTypeService;
 use App\Interfaces\Eloquent\IPersonalAccessTokenService;
+use App\Interfaces\Eloquent\IProjectService;
 use App\Interfaces\Eloquent\IQueueService;
 use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
@@ -22,11 +24,13 @@ use App\Interfaces\OperationApi\IPersonSystemService;
 use App\Interfaces\OperationApi\ISpecialReportService;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Interfaces\OperationApi\ITvScreenService;
+use App\Services\Eloquent\CommercialCompanyService;
 use App\Services\Eloquent\CompetenceService;
 use App\Services\Eloquent\EmployeeService;
 use App\Services\Eloquent\JobDepartmentService;
 use App\Services\Eloquent\JobDepartmentTypeService;
 use App\Services\Eloquent\PersonalAccessTokenService;
+use App\Services\Eloquent\ProjectService;
 use App\Services\Eloquent\QueueService;
 use App\Services\Eloquent\ShiftGroupService;
 use App\Services\Eloquent\ShiftService;
@@ -64,6 +68,8 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(\App\Interfaces\Eloquent\ISpecialReportService::class, \App\Services\Eloquent\SpecialReportService::class);
         $this->app->bind(IShiftService::class, ShiftService::class);
         $this->app->bind(IJobDepartmentTypeService::class, JobDepartmentTypeService::class);
+        $this->app->bind(ICommercialCompanyService::class, CommercialCompanyService::class);
+        $this->app->bind(IProjectService::class, ProjectService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

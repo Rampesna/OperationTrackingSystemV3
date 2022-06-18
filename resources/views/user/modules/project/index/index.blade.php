@@ -14,7 +14,7 @@
 
 @section('content')
 
-
+    <div class="row" id="projects"></div>
 
 @endsection
 
@@ -25,3 +25,4 @@
 @section('customScripts')
     @include('user.modules.project.index.components.script')
 @endsection
+

@@ -11,14 +11,14 @@ interface IDataScanningService
      * @param array $jobList
      */
     public function SetDataScanning(
-        $jobList
+        array $jobList
     );
 
     /**
-     * @param array $list
+     * @param array $jobList
      */
     public function SetCallDataScanning(
-        $list
+        array $jobList
     );
 
     /**

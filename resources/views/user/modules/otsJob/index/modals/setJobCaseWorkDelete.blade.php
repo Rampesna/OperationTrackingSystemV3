@@ -18,12 +18,19 @@
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <div class="row">
-
+                            <div class="col-xl-12 mb-5">
+                                <div class="form-group">
+                                    <label for="set_job_case_work_delete_id" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                        <span>Faaliyet ID</span>
+                                    </label>
+                                    <input id="set_job_case_work_delete_id" type="text" class="form-control">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">İptal</button>
-                        <button type="button" class="btn btn-primary" id="SetJobCaseWorkDeleteButton">Kaydet</button>
+                        <button type="button" class="btn btn-danger" id="SetJobCaseWorkDeleteButton">Sil</button>
                     </div>
                 </div>
             </div>

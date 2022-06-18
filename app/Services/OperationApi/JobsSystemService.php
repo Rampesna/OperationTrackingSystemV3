@@ -7,14 +7,19 @@ use App\Interfaces\OperationApi\IJobsSystemService;
 
 class JobsSystemService extends OperationApiService implements IJobsSystemService
 {
-    public function SetJobsExcel($jobList)
+    /**
+     * @param array $jobList
+     */
+    public function SetJobsExcel(
+        array $jobList
+    )
     {
         $endpoint = "JobsSystem/SetJobsExcel";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList);
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList)->getBody();
     }
 
     public function SetJobsUyumIsId($id, $priority, $type)
@@ -43,7 +48,9 @@ class JobsSystemService extends OperationApiService implements IJobsSystemServic
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers);
     }
 
-    public function SetJobCaseWorkDelete($id)
+    public function SetJobCaseWorkDelete(
+        string|int $id
+    )
     {
         $endpoint = "JobsSystem/SetJobCaseWorkDelete";
         $headers = [
@@ -57,7 +64,9 @@ class JobsSystemService extends OperationApiService implements IJobsSystemServic
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
     }
 
-    public function SetJobsClosedExcel($jobList)
+    public function SetJobsClosedExcel(
+        array $jobList
+    )
     {
         $endpoint = "JobsSystem/SetJobsClosedExcel";
         $headers = [

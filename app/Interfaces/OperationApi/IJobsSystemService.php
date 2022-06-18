@@ -5,8 +5,11 @@ namespace App\Interfaces\OperationApi;
 
 interface IJobsSystemService
 {
+    /**
+     * @param array $jobList
+     */
     public function SetJobsExcel(
-        $jobList
+        array $jobList
     );
 
     public function SetJobsUyumIsId(
@@ -17,11 +20,17 @@ interface IJobsSystemService
 
     public function SetJobSuspend();
 
+    /**
+     * @param string|int $id
+     */
     public function SetJobCaseWorkDelete(
-        $id
+        string|int $id
     );
 
+    /**
+     * @param array $jobList
+     */
     public function SetJobsClosedExcel(
-        $jobList
+        array $jobList
     );
 }

@@ -23,7 +23,7 @@
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">İptal</button>
-                        <button type="button" class="btn btn-primary" id="SetJobSuspendButton">Kaydet</button>
+                        <button type="button" class="btn btn-primary" id="SetJobSuspendButton">Aktif Et</button>
                     </div>
                 </div>
             </div>

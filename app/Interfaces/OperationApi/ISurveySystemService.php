@@ -7,44 +7,68 @@ interface ISurveySystemService
 {
     public function GetSurveyList();
 
+    /**
+     * @param int $id
+     */
     public function GetSurveyEdit(
-        $id
+        int $id
     );
 
+    /**
+     * @param int $surveyCode
+     */
     public function GetSurveyQuestionsList(
-        $surveyCode
+        int $surveyCode
     );
 
+    /**
+     * @param int $questionId
+     */
     public function GetSurveyQuestionEdit(
-        $id
+        int $questionId
     );
 
+    /**
+     * @param int $questionId
+     */
     public function GetSurveyAnswersList(
-        $questionId
+        int $questionId
     );
 
+    /**
+     * @param int $answerId
+     */
     public function GetSurveyAnswerEdit(
-        $id
+        int $answerId
     );
 
     public function GetSurveyGroupConnectList(
         $surveyCode
     );
 
+    /**
+     * @param int $answerId
+     */
     public function GetSurveyAnswersConnectList(
-        $id
+        int $answerId
     );
 
+    /**
+     * @param int $answerId
+     */
     public function GetSurveyAnswersCategoryConnectList(
-        $id
+        int $answerId
     );
 
     public function GetSurveyProductList();
 
     public function GetSurveySellerList();
 
+    /**
+     * @param int $answerId
+     */
     public function GetSurveyAnswersProductConnectList(
-        $answerId
+        int $answerId
     );
 
     public function GetSurveySellerEdit(
@@ -59,60 +83,110 @@ interface ISurveySystemService
         $productId
     );
 
+    /**
+     * @param int|null $id
+     * @param int $code
+     * @param string $name
+     * @param string $description
+     * @param string $customerInformation1
+     * @param string $customerInformation2
+     * @param string|null $serviceProduct
+     * @param string $callReason
+     * @param int $opportunity
+     * @param int $call
+     * @param int $dialPlan
+     * @param int $opportunityRedirectToSeller
+     * @param int $dialPlanRedirectToSeller
+     * @param int $additionalProductOpportunity
+     * @param int $additionalProductCallPlan
+     * @param int $sellerRedirectionType
+     * @param string|null $emailTitle
+     * @param string|null $emailContent
+     * @param string $jobResource
+     * @param string|null $listCode
+     * @param string|null $status
+     * @param array|null $callList
+     */
     public function SetSurvey(
-        $id,
-        $code,
-        $name,
-        $description,
-        $customer_information_1,
-        $customer_information_2,
-        $service_or_product,
-        $call_reason,
-        $opportunity,
-        $call,
-        $dial_plan,
-        $opportunity_redirect_to_seller,
-        $dial_plan_redirect_to_seller,
-        $additional_product_opportunity,
-        $additional_product_call_plan,
-        $seller_redirection_type,
-        $email_title,
-        $email_content,
-        $job_resource,
-        $list_code,
-        $status,
-        $callList = []
+        int|null    $id,
+        int         $code,
+        string      $name,
+        string      $description,
+        string      $customerInformation1,
+        string      $customerInformation2,
+        string|null $serviceProduct,
+        string      $callReason,
+        int         $opportunity,
+        int         $call,
+        int         $dialPlan,
+        int         $opportunityRedirectToSeller,
+        int         $dialPlanRedirectToSeller,
+        int         $additionalProductOpportunity,
+        int         $additionalProductCallPlan,
+        int         $sellerRedirectionType,
+        string|null $emailTitle,
+        string|null $emailContent,
+        string      $jobResource,
+        string|null $listCode,
+        string|null $status,
+        array|null  $callList = []
     );
 
+    /**
+     * @param int|null $id
+     * @param string $question
+     * @param int $typeId
+     * @param int $additionalQuestion
+     * @param int $order
+     * @param int $surveyCode
+     * @param string|null $description
+     * @param int $required
+     */
     public function SetSurveyQuestions(
-        $id,
-        $question,
-        $question_type_id,
-        $additional_question,
-        $order_number,
-        $group_code,
-        $description,
-        $compulsory
+        int|null    $id,
+        string      $question,
+        int         $typeId,
+        int         $additionalQuestion,
+        int         $order,
+        int         $surveyCode,
+        string|null $description,
+        int         $required
     );
 
+    /**
+     * @param int|null $id
+     * @param int $questionId
+     * @param string $answer
+     * @param int $order
+     * @param string $columns
+     */
     public function SetSurveyAnswers(
-        $id,
-        $question_id,
-        $answer,
-        $order_number,
-        $columns
+        int|null $id,
+        int      $questionId,
+        string   $answer,
+        int      $order,
+        string   $columns
     );
 
+    /**
+     * @param int $id
+     */
     public function SetSurveyDelete(
-        $id
+        int $id
     );
 
+    /**
+     * @param int $questionId
+     */
     public function SetSurveyQuestionsDelete(
-        $id
+        int $questionId
     );
 
+    /**
+     * @param int $answerId
+     */
     public function SetSurveyAnswersDelete(
-        $id
+        int $answerId
     );
 
     public function SetSurveyAnswersConnectDelete(
@@ -120,21 +194,34 @@ interface ISurveySystemService
         $code
     );
 
+    /**
+     * @param array $categories
+     */
     public function SetSurveyAnswersCategoryConnect(
-        $list
+        array $categories
     );
 
+    /**
+     * @param int $surveyCode
+     * @param int $subSurveyCode
+     */
     public function SetSurveyGroupConnect(
-        $mainCode,
-        $additionalCode
+        $surveyCode,
+        $subSurveyCode
     );
 
+    /**
+     * @param array $questions
+     */
     public function SetSurveyAnswersConnect(
-        $list
+        array $questions
     );
 
+    /**
+     * @param array $products
+     */
     public function SetSurveyAnswersProductConnect(
-        $list
+        array $products
     );
 
     public function SetSurveySellerConnect(
@@ -158,34 +245,60 @@ interface ISurveySystemService
         array $guids
     );
 
+    /**
+     * @param int $surveyCode
+     * @param string $startDate
+     * @param string $endDate
+     * @param array $companyIds
+     */
     public function GetSurveyReport(
-        $code,
-        $startDate,
-        $endDate
+        int    $surveyCode,
+        string $startDate,
+        string $endDate,
+        array  $companyIds
     );
 
+    /**
+     * @param int $surveyCode
+     * @param string $startDate
+     * @param string $endDate
+     * @param array $statusCodes
+     */
     public function GetSurveyReportStatusDetails(
-        $code,
-        $startDate,
-        $endDate,
-        $list
+        int    $surveyCode,
+        string $startDate,
+        string $endDate,
+        array  $statusCodes
     );
 
+    /**
+     * @param int $surveyCode
+     */
     public function GetSurveyReportWantedDetails(
-        $code,
-        $startDate,
-        $endDate
+        int $surveyCode,
     );
 
+    /**
+     * @param int $surveyCode
+     * @param string $startDate
+     * @param string $endDate
+     */
     public function GetSurveyReportRemainingDetails(
-        $code,
-        $startDate,
-        $endDate
+        int    $surveyCode,
+        string $startDate,
+        string $endDate
     );
 
+    /**
+     * @param int $surveyCode
+     * @param string $startDate
+     * @param string $endDate
+     * @param array $companyIds
+     */
     public function GetSurveyDetailReport(
-        $code,
-        $startDate,
-        $endDate
+        int    $surveyCode,
+        string $startDate,
+        string $endDate,
+        array  $companyIds
     );
 }
