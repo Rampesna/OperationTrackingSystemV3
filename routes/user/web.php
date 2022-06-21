@@ -141,6 +141,12 @@ Route::middleware([
 
     Route::prefix('project')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\ProjectController::class, 'index'])->name('user.web.project.index');
+        Route::get('overview/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'overview'])->name('user.web.project.overview');
+        Route::get('task/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'task'])->name('user.web.project.task');
+        Route::get('managementTask/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'managementTask'])->name('user.web.project.managementTask');
+        Route::get('note/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'note'])->name('user.web.project.note');
+        Route::get('file/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'file'])->name('user.web.project.file');
+        Route::get('supportRequest/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'supportRequest'])->name('user.web.project.supportRequest');
     });
 
     Route::prefix('inventory')->group(function () {

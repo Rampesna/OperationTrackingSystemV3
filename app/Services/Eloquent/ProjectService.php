@@ -19,7 +19,7 @@ class ProjectService implements IProjectService
     )
     {
         return Project::with([
-
+            'status'
         ])->findOrFail($id);
     }
 
@@ -38,13 +38,51 @@ class ProjectService implements IProjectService
 
         ])->whereIn('company_id', $companyIds)->get();
     }
-    
+
     public function getByProjectIds(
         array $projectIds
     )
     {
         return Project::with([
-
+            'status'
         ])->whereIn('id', $projectIds)->get();
+    }
+
+    /**
+     * @param int $projectId
+     */
+    public function getSubtasksByProjectId(
+        int $projectId
+    )
+    {
+        return $this->getById($projectId)->subtasks()->get()->toArray();
+    }
+
+    /**
+     * @param int $projectId
+     * @param int $management
+     */
+    public function getBoardsByProjectId(
+        int $projectId,
+        int $management
+    )
+    {
+        return $this->getById($projectId)->boards()->where('management', $management)->get()->toArray();
+    }
+
+    /**
+     * @param array $projectIds
+     */
+    public function getSubtasksByProjectIds(
+        array $projectIds
+    )
+    {
+        $subtasks = [];
+
+        foreach ($projectIds as $projectId) {
+            $subtasks = array_merge($subtasks, $this->getSubtasksByProjectId($projectId));
+        }
+
+        return $subtasks;
     }
 }

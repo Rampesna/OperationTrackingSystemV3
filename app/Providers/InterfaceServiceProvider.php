@@ -12,6 +12,7 @@ use App\Interfaces\Eloquent\IProjectService;
 use App\Interfaces\Eloquent\IQueueService;
 use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
+use App\Interfaces\Eloquent\ISubTaskService;
 use App\Interfaces\Eloquent\IUserService;
 use App\Interfaces\NetsantralApi\INetsantralApiService;
 use App\Interfaces\OperationApi\IDataScanningService;
@@ -34,6 +35,7 @@ use App\Services\Eloquent\ProjectService;
 use App\Services\Eloquent\QueueService;
 use App\Services\Eloquent\ShiftGroupService;
 use App\Services\Eloquent\ShiftService;
+use App\Services\Eloquent\SubTaskService;
 use App\Services\Eloquent\UserService;
 use App\Services\NetsantralApi\NetsantralApiService;
 use App\Services\OperationApi\DataScanningService;
@@ -70,6 +72,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IJobDepartmentTypeService::class, JobDepartmentTypeService::class);
         $this->app->bind(ICommercialCompanyService::class, CommercialCompanyService::class);
         $this->app->bind(IProjectService::class, ProjectService::class);
+        $this->app->bind(ISubTaskService::class, SubTaskService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

@@ -17,4 +17,27 @@ interface IProjectService extends IEloquentService
     public function getByProjectIds(
         array $projectIds
     );
+
+    /**
+     * @param int $projectId
+     */
+    public function getSubtasksByProjectId(
+        int $projectId
+    );
+
+    /**
+     * @param int $projectId
+     * @param int $management
+     */
+    public function getBoardsByProjectId(
+        int $projectId,
+        int $management
+    );
+
+    /**
+     * @param array $projectIds
+     */
+    public function getSubtasksByProjectIds(
+        array $projectIds
+    );
 }

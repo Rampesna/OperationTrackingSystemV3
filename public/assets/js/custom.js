@@ -1,3 +1,54 @@
+const months = [
+    {
+        id: 1,
+        name: 'Ocak'
+    },
+    {
+        id: 2,
+        name: 'Şubat'
+    },
+    {
+        id: 3,
+        name: 'Mart'
+    },
+    {
+        id: 4,
+        name: 'Nisan'
+    },
+    {
+        id: 5,
+        name: 'Mayıs'
+    },
+    {
+        id: 6,
+        name: 'Haziran'
+    },
+    {
+        id: 7,
+        name: 'Temmuz'
+    },
+    {
+        id: 8,
+        name: 'Ağustos'
+    },
+    {
+        id: 9,
+        name: 'Eylül'
+    },
+    {
+        id: 10,
+        name: 'Ekim'
+    },
+    {
+        id: 11,
+        name: 'Kasım'
+    },
+    {
+        id: 12,
+        name: 'Aralık'
+    }
+];
+
 Inputmask({mask: "(999) 999-9999"}).mask(".phoneMask");
 
 Inputmask({mask: "9999 9999 9999 9999"}).mask(".creditCardMask");
@@ -122,6 +173,22 @@ function reformatDatetimeTo_DD_MM_YYYY_HH_ii_WithDot(date) {
     return String(formattedDate.getDate()).padStart(2, '0') + '.' +
         String(formattedDate.getMonth() + 1).padStart(2, '0') + '.' +
         formattedDate.getFullYear() + ', ' +
+        String(formattedDate.getHours()).padStart(2, '0') + ':' +
+        String(formattedDate.getMinutes()).padStart(2, '0');
+}
+
+function reformatDatetimeToDateForHuman(date) {
+    var formattedDate = new Date(date);
+    return String(formattedDate.getDate()).padStart(2, '0') + ' ' +
+        months.find(date => date.id === formattedDate.getMonth() + 1).name + ', ' +
+        formattedDate.getFullYear();
+}
+
+function reformatDatetimeToDatetimeForHuman(date) {
+    var formattedDate = new Date(date);
+    return String(formattedDate.getDate()).padStart(2, '0') + ' ' +
+        months.find(date => date.id === formattedDate.getMonth() + 1).name + ', ' +
+        formattedDate.getFullYear() + ' ' +
         String(formattedDate.getHours()).padStart(2, '0') + ':' +
         String(formattedDate.getMinutes()).padStart(2, '0');
 }
