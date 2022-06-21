@@ -21,7 +21,7 @@ class BoardController extends Controller
     public function updateOrder(UpdateOrderRequest $request)
     {
         return $this->success('Boards', $this->boardService->updateOrder(
-            $request->boardList
+            $request->boards
         ));
     }
 }

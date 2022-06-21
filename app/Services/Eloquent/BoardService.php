@@ -3,18 +3,18 @@
 namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IBoardService;
-use App\Models\Eloquent\Task;
+use App\Models\Eloquent\Board;
 
 class BoardService implements IBoardService
 {
     public function getAll()
     {
-        return Task::all();
+        return Board::all();
     }
 
     public function getById(int $id)
     {
-        return Task::find($id);
+        return Board::find($id);
     }
 
     public function delete(int $id)
@@ -23,15 +23,15 @@ class BoardService implements IBoardService
     }
 
     public function updateOrder(
-        array $boardList
+        array $boards
     )
     {
-        foreach ($boardList as $key => $value) {
-            if ($key && $value && gettype($key) == 'integer' && $key != 0) {
-                $board = $this->getById($key);
-                $board->order = $value;
-                $board->save();
-            };
+        foreach ($boards as $board) {
+            $getBoard = $this->getById($board['id']);
+            if ($getBoard) {
+                $getBoard->order = $board['order'];
+                $getBoard->save();
+            }
         }
     }
 

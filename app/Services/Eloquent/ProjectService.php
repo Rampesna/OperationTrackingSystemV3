@@ -67,7 +67,14 @@ class ProjectService implements IProjectService
         int $management
     )
     {
-        return $this->getById($projectId)->boards()->where('management', $management)->get()->toArray();
+        return $this->getById($projectId)->boards()->with([
+            'tasks' => function ($tasks) {
+                $tasks->with([
+                    'subTasks',
+                    'priority'
+                ]);
+            }
+        ])->where('management', $management)->get()->toArray();
     }
 
     /**

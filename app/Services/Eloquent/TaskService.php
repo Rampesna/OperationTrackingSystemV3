@@ -12,17 +12,24 @@ class TaskService implements ITaskService
         return Task::all();
     }
 
-    public function getById(int $id)
+    public function getById(
+        int $id
+    )
     {
         return Task::find($id);
     }
 
-    public function delete(int $id)
+    public function delete(
+        int $id
+    )
     {
         return $this->getById($id)->delete();
     }
 
-    public function updateBoard(int $taskId, int $boardId)
+    public function updateBoard(
+        int $taskId,
+        int $boardId
+    )
     {
         $task = $this->getById($taskId);
         $task->board_id = $boardId;
@@ -31,4 +38,49 @@ class TaskService implements ITaskService
         return $task;
     }
 
+    /**
+     * @param array $tasks
+     */
+    public function updateOrder(
+        array $tasks
+    )
+    {
+        foreach ($tasks as $task) {
+            $getTask = $this->getById(intval($task['id']));
+            if ($getTask) {
+                $getTask->order = intval($task['order']);
+                $getTask->save();
+            }
+        }
+    }
+
+    /**
+     * @param int $taskId
+     */
+    public function getFilesById(
+        int $taskId
+    )
+    {
+        return $this->getById($taskId)->files;
+    }
+
+    /**
+     * @param int $taskId
+     */
+    public function getSubTasksById(
+        int $taskId
+    )
+    {
+        return $this->getById($taskId)->subTasks;
+    }
+
+    /**
+     * @param int $taskId
+     */
+    public function getCommentsById(
+        int $taskId
+    )
+    {
+        return $this->getById($taskId)->comments;
+    }
 }

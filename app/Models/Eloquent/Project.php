@@ -22,12 +22,12 @@ class Project extends Model
 
     public function boards()
     {
-        return $this->hasMany(Board::class);
+        return $this->hasMany(Board::class)->orderBy('order');
     }
 
     public function tasks()
     {
-        return $this->hasManyThrough(Task::class, Board::class);
+        return $this->hasManyThrough(Task::class, Board::class)->orderBy('order');
     }
 
     public function subTasks()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\User\BoardController;
+namespace App\Http\Requests\Api\User\TaskController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
@@ -24,7 +24,7 @@ class UpdateOrderRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'boards' => 'required',
+            'tasks' => 'required|array',
         ];
     }
 }

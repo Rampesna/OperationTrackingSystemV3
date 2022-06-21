@@ -5,9 +5,9 @@ namespace App\Interfaces\Eloquent;
 interface IBoardService extends IEloquentService
 {
     /**
-     * @param array $boardList
+     * @param array $boards
      */
     public function updateOrder(
-        array $boardList
+        array $boards
     );
 }

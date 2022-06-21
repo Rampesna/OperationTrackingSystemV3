@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->unsignedBigInteger('priority_id')->nullable();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
-            $table->string('requester_type')->nullable();
             $table->unsignedBigInteger('requester_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();

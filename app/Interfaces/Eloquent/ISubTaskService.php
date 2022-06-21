@@ -17,4 +17,31 @@ interface ISubTaskService extends IEloquentService
     public function getByProjectIds(
         array $projectIds
     );
+
+    /**
+     * @param int $taskId
+     * @param string $name
+     */
+    public function create(
+        int    $taskId,
+        string $name
+    );
+
+    /**
+     * @param int $id
+     * @param string $name
+     */
+    public function update(
+        int    $id,
+        string $name
+    );
+
+    /**
+     * @param int $id
+     * @param int $checked
+     */
+    public function setChecked(
+        int $id,
+        int $checked
+    );
 }

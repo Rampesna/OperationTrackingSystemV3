@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Eloquent\IBoardService;
 use App\Interfaces\Eloquent\ICommercialCompanyService;
 use App\Interfaces\Eloquent\ICompetenceService;
 use App\Interfaces\Eloquent\IEmployeeService;
@@ -13,6 +14,8 @@ use App\Interfaces\Eloquent\IQueueService;
 use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
 use App\Interfaces\Eloquent\ISubTaskService;
+use App\Interfaces\Eloquent\ITaskPriorityService;
+use App\Interfaces\Eloquent\ITaskService;
 use App\Interfaces\Eloquent\IUserService;
 use App\Interfaces\NetsantralApi\INetsantralApiService;
 use App\Interfaces\OperationApi\IDataScanningService;
@@ -25,6 +28,7 @@ use App\Interfaces\OperationApi\IPersonSystemService;
 use App\Interfaces\OperationApi\ISpecialReportService;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Interfaces\OperationApi\ITvScreenService;
+use App\Services\Eloquent\BoardService;
 use App\Services\Eloquent\CommercialCompanyService;
 use App\Services\Eloquent\CompetenceService;
 use App\Services\Eloquent\EmployeeService;
@@ -36,6 +40,8 @@ use App\Services\Eloquent\QueueService;
 use App\Services\Eloquent\ShiftGroupService;
 use App\Services\Eloquent\ShiftService;
 use App\Services\Eloquent\SubTaskService;
+use App\Services\Eloquent\TaskPriorityService;
+use App\Services\Eloquent\TaskService;
 use App\Services\Eloquent\UserService;
 use App\Services\NetsantralApi\NetsantralApiService;
 use App\Services\OperationApi\DataScanningService;
@@ -72,7 +78,10 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IJobDepartmentTypeService::class, JobDepartmentTypeService::class);
         $this->app->bind(ICommercialCompanyService::class, CommercialCompanyService::class);
         $this->app->bind(IProjectService::class, ProjectService::class);
+        $this->app->bind(IBoardService::class, BoardService::class);
+        $this->app->bind(ITaskService::class, TaskService::class);
         $this->app->bind(ISubTaskService::class, SubTaskService::class);
+        $this->app->bind(ITaskPriorityService::class, TaskPriorityService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

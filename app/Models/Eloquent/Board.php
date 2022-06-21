@@ -9,4 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Board extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class)->orderBy('order');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

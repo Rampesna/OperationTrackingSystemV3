@@ -16,10 +16,13 @@
 
     @include('user.modules.project.layouts.overview')
 
-    <input type="hidden" id="board_id">
-    <input type="hidden" id="task_id">
-    <input type="file" style="display: none" id="taskFile">
-    <div id="boards" class="mt-15"></div>
+    <button id="updateTaskDrawerButton" style="display: none"></button>
+
+    @include('user.modules.project.task.drawers.updateTask')
+
+    <input type="hidden" id="selected_board_id">
+    <input type="hidden" id="selected_task_id">
+    <div id="boards" class="mt-5"></div>
 
 @endsection
 

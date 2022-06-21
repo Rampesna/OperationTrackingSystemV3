@@ -161,6 +161,13 @@ function reformatDatetimeTo_YYYY_MM_DD_WithDot(date) {
         String(formattedDate.getDate()).padStart(2, '0');
 }
 
+function reformatDatetimeTo_YYYY_MM_DD(date) {
+    var formattedDate = new Date(date);
+    return formattedDate.getFullYear() + '-' +
+        String(formattedDate.getMonth() + 1).padStart(2, '0') + '-' +
+        String(formattedDate.getDate()).padStart(2, '0');
+}
+
 function reformatDatetimeTo_DD_MM_YYYY_WithDot(date) {
     var formattedDate = new Date(date);
     return String(formattedDate.getDate()).padStart(2, '0') + '.' +

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\BoardController;
+namespace App\Http\Requests\Api\User\TaskController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class UpdateOrderRequest extends BaseApiRequest
+class GetCommentsByIdRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class UpdateOrderRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'boards' => 'required',
+            'id' => 'required|integer',
         ];
     }
 }
