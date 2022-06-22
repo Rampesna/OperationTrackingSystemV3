@@ -169,4 +169,28 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\ShiftGroupController::class, 'index'])->name('user.web.shiftGroup.index');
     });
 
+    Route::prefix('user')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\UserController::class, 'index'])->name('user.web.user.index');
+    });
+
+    Route::prefix('company')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\CompanyController::class, 'index'])->name('user.web.company.index');
+    });
+
+    Route::prefix('queue')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\QueueController::class, 'index'])->name('user.web.queue.index');
+    });
+
+    Route::prefix('competence')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\CompetenceController::class, 'index'])->name('user.web.competence.index');
+    });
+
+    Route::prefix('jobDepartment')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\JobDepartmentController::class, 'index'])->name('user.web.jobDepartment.index');
+    });
+
+    Route::prefix('userRole')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\UserRoleController::class, 'index'])->name('user.web.userRole.index');
+    });
+
 });

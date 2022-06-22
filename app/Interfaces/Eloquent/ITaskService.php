@@ -21,6 +21,15 @@ interface ITaskService extends IEloquentService
     );
 
     /**
+     * @param int $id
+     * @param array $parameters
+     */
+    public function updateByParameters(
+        int   $id,
+        array $parameters
+    );
+
+    /**
      * @param int $taskId
      */
     public function getFilesById(

@@ -86,6 +86,7 @@
     var updateTaskDrawerButton = $('#updateTaskDrawerButton');
     var CreateSubTaskSelectedTaskButton = $('#CreateSubTaskSelectedTaskButton');
     var CreateSubTaskSelectedTaskInput = $('#CreateSubTaskSelectedTaskInput');
+    var DeleteTaskButton = $('#DeleteTaskButton');
 
     var selectedTaskSubTasksRow = $('#selectedTaskSubTasksRow');
 
@@ -96,6 +97,11 @@
     });
 
     var updateTaskNameInput = $('#update_task_name');
+    var updateTaskStartDateInput = $('#update_task_start_date');
+    var updateTaskEndDateInput = $('#update_task_end_date');
+    var updateTaskPriorityIdInput = $('#update_task_priority_id');
+    var updateTaskRequesterIdInput = $('#update_task_requester_id');
+    var updateTaskDescriptionInput = $('#update_task_description');
 
     // Kanban Definitions
 
@@ -105,7 +111,7 @@
         widthBoard: '290px',
         dragBoards: true,
         click: function (el) {
-            taskId.val(el.dataset.eid);
+            $('#selected_task_id').val(el.dataset.eid);
         },
         dragEl: function (el, source) {
             if (el.dataset.draggable === 'false') {
@@ -114,7 +120,7 @@
         },
         dropEl: function (el, source) {
             $.ajax({
-                type: 'post',
+                type: 'put',
                 url: '{{ route('user.api.task.updateBoard') }}',
                 headers: {
                     'Accept': 'application/json',
@@ -144,7 +150,7 @@
                     });
                 });
                 $.ajax({
-                    type: 'post',
+                    type: 'put',
                     url: '{{ route('user.api.board.updateOrder') }}',
                     headers: {
                         'Accept': 'application/json',
@@ -193,7 +199,7 @@
                 });
             });
             $.ajax({
-                type: 'post',
+                type: 'put',
                 url: '{{ route('user.api.task.updateOrder') }}',
                 headers: {
                     'Accept': 'application/json',
@@ -359,10 +365,14 @@
             },
             data: {},
             success: function (response) {
-
+                updateTaskPriorityIdInput.empty();
+                $.each(response.response, function (i, taskPriority) {
+                    updateTaskPriorityIdInput.append(`<option value="${taskPriority.id}">${taskPriority.name}</option>`);
+                });
             },
-            error: function () {
-
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görev Öncelikleri Listesi Alınırken Serviste Bir Hata Oluştu.');
             }
         });
     }
@@ -385,12 +395,12 @@
                 id: id,
             },
             success: function (response) {
-                $('#update_task_name').val(response.response.name);
-                $('#update_task_start_date').val(reformatDatetimeTo_YYYY_MM_DD(response.response.start_date));
-                $('#update_task_end_date').val(reformatDatetimeTo_YYYY_MM_DD(response.response.end_date));
-                $('#update_task_priority_id').val(response.response.priority_id);
-                $('#update_task_requester_id').val(response.response.requester_id);
-                $('#update_task_description').val(response.response.description);
+                updateTaskNameInput.val(response.response.name);
+                updateTaskStartDateInput.val(reformatDatetimeTo_YYYY_MM_DD(response.response.start_date));
+                updateTaskEndDateInput.val(reformatDatetimeTo_YYYY_MM_DD(response.response.end_date));
+                updateTaskPriorityIdInput.val(response.response.priority_id).select2();
+                updateTaskRequesterIdInput.val(response.response.requester_id);
+                updateTaskDescriptionInput.val(response.response.description);
                 $('#loader').hide();
             },
             error: function (error) {
@@ -437,8 +447,6 @@
                 id: id,
             },
             success: function (response) {
-                console.log(response);
-
                 selectedTaskSubTasksRow.empty();
                 $.each(response.response, function (i, subTask) {
                     selectedTaskSubTasksRow.append(`
@@ -476,7 +484,7 @@
                 id: id,
             },
             success: function (response) {
-                console.log(response);
+
             },
             error: function (error) {
                 console.log(error);
@@ -485,8 +493,15 @@
         });
     }
 
-    // ------------------- Selected Task Functions End -------------------
+    function deleteTask() {
+        $('#DeleteTaskModal').modal('show');
+    }
 
+    function taskFiles() {
+        $('#TaskFilesModal').modal('show');
+    }
+
+    // ------------------- Selected Task Functions End -------------------
 
 
     // ------------------- Selected Task Transactions Start -------------------
@@ -495,7 +510,6 @@
         var taskId = $(this).data('id');
         $('#selected_task_id').val(taskId);
         getSelectedTask();
-        getSelectedTaskFiles();
         getSelectedTaskSubTasks();
         getSelectedTaskComments();
         updateTaskDrawerButton.trigger('click');
@@ -505,22 +519,242 @@
         var id = $('#selected_task_id').val();
         var name = $(this).val();
 
-        console.log({
-            id: id,
-            name: name
-        });
+        if (!name) {
+            toastr.warning('Görev Adı Boş Olamaz! Değişiklikler Kaydedilmedi');
+        } else {
+            var parameters = [{
+                attribute: 'name',
+                value: name
+            }];
+
+            updateTaskNameInput.attr('disabled', true);
+
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.task.updateByParameters') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                    parameters: parameters
+                },
+                success: function () {
+                    fetchBoards();
+                    updateTaskNameInput.attr('disabled', false);
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Görev Başlığı Güncellenirken Serviste Bir Sorun Olutşu!');
+                    updateTaskNameInput.attr('disabled', false);
+                }
+            });
+        }
     });
 
     updateTaskNameInput.keypress(function (e) {
-        var id = $('#selected_task_id').val();
-        var name = $(this).val();
-
         if (e.which === 13) {
-            console.log({
-                id: id,
-                name: name
-            });
+            updateTaskNameInput.attr('disabled', true);
         }
+    });
+
+    updateTaskStartDateInput.focusout(function () {
+        var id = $('#selected_task_id').val();
+        var startDate = $(this).val();
+        var parameters = [{
+            attribute: 'start_date',
+            value: startDate
+        }];
+
+        updateTaskStartDateInput.attr('disabled', true);
+
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.task.updateByParameters') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+                parameters: parameters
+            },
+            success: function () {
+                updateTaskStartDateInput.attr('disabled', false);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görev Başlangıç Tarihi Güncellenirken Serviste Bir Sorun Olutşu!');
+                updateTaskStartDateInput.attr('disabled', false);
+            }
+        });
+    });
+
+    updateTaskStartDateInput.keypress(function (e) {
+        if (e.which === 13) {
+            updateTaskStartDateInput.attr('disabled', true);
+        }
+    });
+
+    updateTaskEndDateInput.focusout(function () {
+        var id = $('#selected_task_id').val();
+        var startDate = $(this).val();
+        var parameters = [{
+            attribute: 'end_date',
+            value: startDate
+        }];
+
+        updateTaskEndDateInput.attr('disabled', true);
+
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.task.updateByParameters') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+                parameters: parameters
+            },
+            success: function () {
+                updateTaskEndDateInput.attr('disabled', false);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görev Bitiş Tarihi Güncellenirken Serviste Bir Sorun Olutşu!');
+                updateTaskEndDateInput.attr('disabled', false);
+            }
+        });
+    });
+
+    updateTaskEndDateInput.keypress(function (e) {
+        if (e.which === 13) {
+            updateTaskEndDateInput.attr('disabled', true);
+        }
+    });
+
+    updateTaskPriorityIdInput.change(function (e) {
+        var id = $('#selected_task_id').val();
+        var priorityId = $(this).val();
+        var parameters = [{
+            attribute: 'priority_id',
+            value: priorityId
+        }];
+
+        updateTaskPriorityIdInput.attr('disabled', true);
+
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.task.updateByParameters') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+                parameters: parameters
+            },
+            success: function () {
+                fetchBoards();
+                updateTaskPriorityIdInput.attr('disabled', false);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görev Öncelik Durumu Güncellenirken Serviste Bir Sorun Olutşu!');
+                updateTaskPriorityIdInput.attr('disabled', false);
+            }
+        });
+    });
+
+    updateTaskRequesterIdInput.change(function (e) {
+        var id = $('#selected_task_id').val();
+        var requesterId = $(this).val();
+        var parameters = [{
+            attribute: 'requester_id',
+            value: requesterId
+        }];
+
+        updateTaskRequesterIdInput.attr('disabled', true);
+
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.task.updateByParameters') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+                parameters: parameters
+            },
+            success: function () {
+                updateTaskRequesterIdInput.attr('disabled', false);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görev Talep Sahibi Güncellenirken Serviste Bir Sorun Olutşu!');
+                updateTaskRequesterIdInput.attr('disabled', false);
+            }
+        });
+    });
+
+    updateTaskDescriptionInput.focusout(function () {
+        var id = $('#selected_task_id').val();
+        var description = $(this).val();
+        var parameters = [{
+            attribute: 'description',
+            value: description
+        }];
+
+        updateTaskDescriptionInput.attr('disabled', true);
+
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.task.updateByParameters') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+                parameters: parameters
+            },
+            success: function () {
+                updateTaskDescriptionInput.attr('disabled', false);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görev Açıklaması Güncellenirken Serviste Bir Sorun Olutşu!');
+                updateTaskDescriptionInput.attr('disabled', false);
+            }
+        });
+    });
+
+    DeleteTaskButton.click(function () {
+        var id = $('#selected_task_id').val();
+        $('#DeleteTaskModal').modal('hide');
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('user.api.task.delete') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function () {
+                updateTaskDrawerButton.trigger('click');
+                fetchBoards();
+                toastr.success('Görev Başarıyla Silindi!');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görev Silinirken Serviste Bir Sorun Olutşu!');
+            }
+        });
     });
 
     $(document).delegate(".sublistToggleIcon", "click", function () {
@@ -528,7 +762,6 @@
     });
 
     // ------------------- Selected Task Transactions End -------------------
-
 
 
     // ------------------- Sub Task Transactions Start -------------------

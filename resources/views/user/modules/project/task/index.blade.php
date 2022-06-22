@@ -20,6 +20,9 @@
 
     @include('user.modules.project.task.drawers.updateTask')
 
+    @include('user.modules.project.task.modals.deleteTask')
+    @include('user.modules.project.task.modals.taskFiles')
+
     <input type="hidden" id="selected_board_id">
     <input type="hidden" id="selected_task_id">
     <div id="boards" class="mt-5"></div>

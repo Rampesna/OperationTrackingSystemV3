@@ -9,6 +9,8 @@ use App\Http\Requests\Api\User\TaskController\GetSubTasksByIdRequest;
 use App\Http\Requests\Api\User\TaskController\GetCommentsByIdRequest;
 use App\Http\Requests\Api\User\TaskController\UpdateBoardRequest;
 use App\Http\Requests\Api\User\TaskController\UpdateOrderRequest;
+use App\Http\Requests\Api\User\TaskController\UpdateByParametersRequest;
+use App\Http\Requests\Api\User\TaskController\DeleteRequest;
 use App\Interfaces\Eloquent\ITaskService;
 use App\Traits\Response;
 
@@ -55,6 +57,21 @@ class TaskController extends Controller
     {
         return $this->success('Task', $this->taskService->updateOrder(
             $request->tasks
+        ));
+    }
+
+    public function updateByParameters(UpdateByParametersRequest $request)
+    {
+        return $this->success('Task', $this->taskService->updateByParameters(
+            $request->id,
+            $request->parameters
+        ));
+    }
+
+    public function delete(DeleteRequest $request)
+    {
+        return $this->success('Task deleted', $this->taskService->delete(
+            $request->id,
         ));
     }
 }

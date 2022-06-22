@@ -55,6 +55,24 @@ class TaskService implements ITaskService
     }
 
     /**
+     * @param int $id
+     * @param array $parameters
+     */
+    public function updateByParameters(
+        int   $id,
+        array $parameters
+    )
+    {
+        $task = $this->getById($id);
+        foreach ($parameters as $parameter) {
+            $task->{$parameter['attribute']} = $parameter['value'];
+        }
+        $task->save();
+
+        return $task;
+    }
+
+    /**
      * @param int $taskId
      */
     public function getFilesById(

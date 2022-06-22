@@ -13,7 +13,7 @@
                     <div class="col-xl-12">
                         <div class="input-group mb-5">
                             <input type="text" class="form-control form-control-solid" id="update_task_name" aria-label="Görev Başlığı" style="border: none">
-                            <button class="btn btn-icon btn-danger" id="DeleteTaskButton">
+                            <button class="btn btn-icon btn-danger" onclick="deleteTask()">
                                 <i class="fa fa-sm fa-trash-alt"></i>
                             </button>
                         </div>
@@ -67,15 +67,9 @@
                         <textarea class="form-control form-control-solid" id="update_task_description" rows="3" aria-label="Açıklama" style="border: none"></textarea>
                     </div>
                 </div>
-                <hr>
                 <div class="row mt-5">
-                    <div class="col-xl-4">
-                        <input type="file" class="form-control" placeholder="Yeni Dosya" aria-label="Yeni Dosya" id="AddFileSelectedTaskInput" />
-                    </div>
-                    <div class="col-xl-8">
-                        <div class="row" id="selectedTaskFilesRow">
-
-                        </div>
+                    <div class="col-xl-12 text-end">
+                        <button class="btn btn-primary btn-sm" onclick="taskFiles()">Göreve Bağlı Dosyaları Görüntülemek İçin Tıklayın</button>
                     </div>
                 </div>
                 <hr>
