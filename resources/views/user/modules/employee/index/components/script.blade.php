@@ -708,11 +708,13 @@
                 'Authorization': token
             },
             data: {
-                companyIds: companyIds
+                companyIds: companyIds,
+                pageIndex: 0,
+                pageSize: 1000,
             },
             success: function (response) {
                 UpdateEmployeeCompetencesRow.empty();
-                $.each(response.response, function (i, competence) {
+                $.each(response.response.competences, function (i, competence) {
                     UpdateEmployeeCompetencesRow.append(`
                     <div class="col-xl-6 mb-5">
                         <div class="form-check form-check-custom form-check-solid">

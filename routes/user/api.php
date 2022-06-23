@@ -77,6 +77,10 @@ Route::middleware([
 
     Route::prefix('competence')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\CompetenceController::class, 'getByCompanyIds'])->name('user.api.competence.getByCompanyIds');
+        Route::get('getById', [\App\Http\Controllers\Api\User\CompetenceController::class, 'getById'])->name('user.api.competence.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\CompetenceController::class, 'create'])->name('user.api.competence.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\CompetenceController::class, 'update'])->name('user.api.competence.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\CompetenceController::class, 'delete'])->name('user.api.competence.delete');
     });
 
     Route::prefix('shiftGroup')->group(function () {

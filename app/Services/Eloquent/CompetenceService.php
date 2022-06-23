@@ -24,14 +24,35 @@ class CompetenceService implements ICompetenceService
 
     /**
      * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $companyIds
+     * @param string $keyword
      */
     public function getByCompanyIds(
-        array $companyIds
+        array  $companyIds,
+        int    $pageIndex = 0,
+        int    $pageSize = 10,
+        string $keyword = null
     )
     {
-        return Competence::with([
+        $competences = Competence::with([
             'company'
-        ])->whereIn('company_id', $companyIds)->get();
+        ])->whereIn('company_id', $companyIds);
+
+        if ($keyword) {
+            $competences->where(function ($query) use ($keyword) {
+                $query->where('name', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        return [
+            'totalCount' => $competences->count(),
+            'pageIndex' => $pageIndex,
+            'pageSize' => $pageSize,
+            'competences' => $competences->skip($pageSize * $pageIndex)
+                ->take($pageSize)
+                ->get()
+        ];
     }
 
     /**
@@ -57,4 +78,39 @@ class CompetenceService implements ICompetenceService
         $competence->employees()->sync($employeeIds);
     }
 
+    /**
+     * @param int $companyId
+     * @param string $name
+     */
+    public function create(
+        int    $companyId,
+        string $name
+    )
+    {
+        $competence = new Competence();
+        $competence->company_id = $companyId;
+        $competence->name = $name;
+        $competence->save();
+
+        return $competence;
+    }
+
+    /**
+     * @param int $id
+     * @param int $companyId
+     * @param string $name
+     */
+    public function update(
+        int    $id,
+        int    $companyId,
+        string $name
+    )
+    {
+        $competence = $this->getById($id);
+        $competence->company_id = $companyId;
+        $competence->name = $name;
+        $competence->save();
+
+        return $competence;
+    }
 }
