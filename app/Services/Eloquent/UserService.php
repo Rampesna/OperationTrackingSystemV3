@@ -102,6 +102,19 @@ class UserService implements IUserService
 
     /**
      * @param int $userId
+     * @param int $companyId
+     */
+    public function setSingleCompany(
+        int $userId,
+        int $companyId
+    )
+    {
+        $user = $this->getById($userId);
+        $user->companies()->attach([$companyId]);
+    }
+
+    /**
+     * @param int $userId
      */
     public function getSelectedCompanies(
         int $userId

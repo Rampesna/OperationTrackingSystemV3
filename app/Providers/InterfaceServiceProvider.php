@@ -3,8 +3,11 @@
 namespace App\Providers;
 
 use App\Interfaces\Eloquent\IBoardService;
+use App\Interfaces\Eloquent\IBranchService;
 use App\Interfaces\Eloquent\ICommercialCompanyService;
+use App\Interfaces\Eloquent\ICompanyService;
 use App\Interfaces\Eloquent\ICompetenceService;
+use App\Interfaces\Eloquent\IDepartmentService;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IJobDepartmentService;
 use App\Interfaces\Eloquent\IJobDepartmentTypeService;
@@ -16,6 +19,7 @@ use App\Interfaces\Eloquent\IShiftService;
 use App\Interfaces\Eloquent\ISubTaskService;
 use App\Interfaces\Eloquent\ITaskPriorityService;
 use App\Interfaces\Eloquent\ITaskService;
+use App\Interfaces\Eloquent\ITitleService;
 use App\Interfaces\Eloquent\IUserService;
 use App\Interfaces\NetsantralApi\INetsantralApiService;
 use App\Interfaces\OperationApi\IDataScanningService;
@@ -29,8 +33,11 @@ use App\Interfaces\OperationApi\ISpecialReportService;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Interfaces\OperationApi\ITvScreenService;
 use App\Services\Eloquent\BoardService;
+use App\Services\Eloquent\BranchService;
 use App\Services\Eloquent\CommercialCompanyService;
+use App\Services\Eloquent\CompanyService;
 use App\Services\Eloquent\CompetenceService;
+use App\Services\Eloquent\DepartmentService;
 use App\Services\Eloquent\EmployeeService;
 use App\Services\Eloquent\JobDepartmentService;
 use App\Services\Eloquent\JobDepartmentTypeService;
@@ -42,6 +49,7 @@ use App\Services\Eloquent\ShiftService;
 use App\Services\Eloquent\SubTaskService;
 use App\Services\Eloquent\TaskPriorityService;
 use App\Services\Eloquent\TaskService;
+use App\Services\Eloquent\TitleService;
 use App\Services\Eloquent\UserService;
 use App\Services\NetsantralApi\NetsantralApiService;
 use App\Services\OperationApi\DataScanningService;
@@ -66,6 +74,10 @@ class InterfaceServiceProvider extends ServiceProvider
     public function register()
     {
         // Eloquent Services
+        $this->app->bind(ICompanyService::class, CompanyService::class);
+        $this->app->bind(IBranchService::class, BranchService::class);
+        $this->app->bind(IDepartmentService::class, DepartmentService::class);
+        $this->app->bind(ITitleService::class, TitleService::class);
         $this->app->bind(IUserService::class, UserService::class);
         $this->app->bind(IEmployeeService::class, EmployeeService::class);
         $this->app->bind(IJobDepartmentService::class, JobDepartmentService::class);

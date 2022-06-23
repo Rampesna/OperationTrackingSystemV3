@@ -24,7 +24,9 @@ class GetByCompanyIdsRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'companyIds' => 'required|array'
+            'companyIds' => 'required|array',
+            'pageIndex'  => 'required|integer|min:0',
+            'pageSize'   => 'required|integer|min:1',
         ];
     }
 }

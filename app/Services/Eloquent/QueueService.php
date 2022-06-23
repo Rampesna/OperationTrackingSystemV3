@@ -34,14 +34,36 @@ class QueueService implements IQueueService
 
     /**
      * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $companyIds
+     * @param string $keyword
      */
     public function getByCompanyIds(
-        array $companyIds
+        array  $companyIds,
+        int    $pageIndex = 0,
+        int    $pageSize = 10,
+        string $keyword = null
     )
     {
-        return Queue::with([
+        $queues = Queue::with([
             'company'
-        ])->whereIn('company_id', $companyIds)->get();
+        ])->whereIn('company_id', $companyIds);
+
+        if ($keyword) {
+            $queues->where(function ($query) use ($keyword) {
+                $query->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('short', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        return [
+            'totalCount' => $queues->count(),
+            'pageIndex' => $pageIndex,
+            'pageSize' => $pageSize,
+            'queues' => $queues->skip($pageSize * $pageIndex)
+                ->take($pageSize)
+                ->get()
+        ];
     }
 
     /**
@@ -65,5 +87,59 @@ class QueueService implements IQueueService
     {
         $queue = $this->getById($queueId);
         $queue->employees()->sync($employeeIds);
+    }
+
+    /**
+     * @param int $companyId
+     * @param string $name
+     * @param string $short
+     * @param int|null $groupCode
+     * @param int|null $otsCode
+     */
+    public function create(
+        int    $companyId,
+        string $name,
+        string $short,
+        ?int   $groupCode = null,
+        ?int   $otsCode = null
+    )
+    {
+        $queue = new Queue;
+        $queue->company_id = $companyId;
+        $queue->name = $name;
+        $queue->short = $short;
+        $queue->group_code = $groupCode;
+        $queue->ots_code = $otsCode;
+        $queue->save();
+
+        return $queue;
+    }
+
+    /**
+     * @param int $id
+     * @param int $companyId
+     * @param string $name
+     * @param string $short
+     * @param int|null $groupCode
+     * @param int|null $otsCode
+     */
+    public function update(
+        int    $id,
+        int    $companyId,
+        string $name,
+        string $short,
+        ?int   $groupCode = null,
+        ?int   $otsCode = null
+    )
+    {
+        $queue = $this->getById($id);
+        $queue->company_id = $companyId;
+        $queue->name = $name;
+        $queue->short = $short;
+        $queue->group_code = $groupCode;
+        $queue->ots_code = $otsCode;
+        $queue->save();
+
+        return $queue;
     }
 }

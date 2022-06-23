@@ -47,6 +47,15 @@ interface IUserService extends IEloquentService
 
     /**
      * @param int $userId
+     * @param int $companyId
+     */
+    public function setSingleCompany(
+        int $userId,
+        int $companyId
+    );
+
+    /**
+     * @param int $userId
      */
     public function getSelectedCompanies(
         int $userId

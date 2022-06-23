@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\UserController\GetCompaniesRequest;
 use App\Http\Requests\Api\User\UserController\SetCompaniesRequest;
+use App\Http\Requests\Api\User\UserController\SetSingleCompanyRequest;
 use App\Http\Requests\Api\User\UserController\GetSelectedCompaniesRequest;
 use App\Http\Requests\Api\User\UserController\SetSelectedCompaniesRequest;
 use App\Http\Requests\Api\User\UserController\LoginRequest;
@@ -12,7 +13,6 @@ use App\Http\Requests\Api\User\UserController\SwapCompanyRequest;
 use App\Http\Requests\Api\User\UserController\SwapThemeRequest;
 use App\Interfaces\Eloquent\IUserService;
 use App\Traits\Response;
-use function checkPassword;
 
 class UserController extends Controller
 {
@@ -81,6 +81,14 @@ class UserController extends Controller
         return $this->success('User companies', $this->userService->setCompanies(
             $request->user()->id,
             $request->companyIds
+        ));
+    }
+
+    public function setSingleCompany(SetSingleCompanyRequest $request)
+    {
+        return $this->success('User companies', $this->userService->setSingleCompany(
+            $request->user()->id,
+            $request->companyId
         ));
     }
 

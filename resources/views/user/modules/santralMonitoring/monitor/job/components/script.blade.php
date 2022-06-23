@@ -68,9 +68,11 @@
             },
             data: {
                 companyIds: companyIds,
+                pageIndex: 0,
+                pageSize: 1000,
             },
             success: function (response) {
-                allQueues = response.response;
+                allQueues = response.response.queues;
             },
             error: function (error) {
                 console.log(error);

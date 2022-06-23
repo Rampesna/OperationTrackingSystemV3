@@ -674,11 +674,13 @@
                 'Authorization': token
             },
             data: {
-                companyIds: companyIds
+                companyIds: companyIds,
+                pageIndex: 0,
+                pageSize: 1000,
             },
             success: function (response) {
                 UpdateEmployeeQueuesRow.empty();
-                $.each(response.response, function (i, queue) {
+                $.each(response.response.queues, function (i, queue) {
                     UpdateEmployeeQueuesRow.append(`
                     <div class="col-xl-6 mb-5">
                         <div class="form-check form-check-custom form-check-solid">

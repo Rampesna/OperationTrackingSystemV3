@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Department extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function titles()
+    {
+        return $this->hasMany(Title::class);
+    }
 }

@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Branch extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function departments()
+    {
+        return $this->hasMany(Department::class);
+    }
 }

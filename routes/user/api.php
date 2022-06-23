@@ -12,9 +12,48 @@ Route::middleware([
 
     Route::get('getCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'getCompanies'])->name('user.api.getCompanies');
     Route::post('setCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'setCompanies'])->name('user.api.setCompanies');
+    Route::post('setSingleCompany', [\App\Http\Controllers\Api\User\UserController::class, 'setSingleCompany'])->name('user.api.setSingleCompany');
     Route::get('getSelectedCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'getSelectedCompanies'])->name('user.api.getSelectedCompanies');
     Route::post('setSelectedCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'setSelectedCompanies'])->name('user.api.setSelectedCompanies');
     Route::post('swapTheme', [\App\Http\Controllers\Api\User\UserController::class, 'swapTheme'])->name('user.api.swapTheme');
+
+    Route::prefix('company')->group(function () {
+        Route::get('tree', [\App\Http\Controllers\Api\User\CompanyController::class, 'tree'])->name('user.api.company.tree');
+        Route::get('getById', [\App\Http\Controllers\Api\User\CompanyController::class, 'getById'])->name('user.api.company.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\CompanyController::class, 'create'])->name('user.api.company.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\CompanyController::class, 'update'])->name('user.api.company.update');
+    });
+
+    Route::prefix('commercialCompany')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\CommercialCompanyController::class, 'getAll'])->name('user.api.commercialCompany.getAll');
+    });
+
+    Route::prefix('branch')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\BranchController::class, 'getAll'])->name('user.api.branch.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\BranchController::class, 'getById'])->name('user.api.branch.getById');
+        Route::get('getByCompanyId', [\App\Http\Controllers\Api\User\BranchController::class, 'getByCompanyId'])->name('user.api.branch.getByCompanyId');
+        Route::post('create', [\App\Http\Controllers\Api\User\BranchController::class, 'create'])->name('user.api.branch.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\BranchController::class, 'update'])->name('user.api.branch.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\BranchController::class, 'delete'])->name('user.api.branch.delete');
+    });
+
+    Route::prefix('department')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\DepartmentController::class, 'getAll'])->name('user.api.department.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\DepartmentController::class, 'getById'])->name('user.api.department.getById');
+        Route::get('getByBranchId', [\App\Http\Controllers\Api\User\DepartmentController::class, 'getByBranchId'])->name('user.api.department.getByBranchId');
+        Route::post('create', [\App\Http\Controllers\Api\User\DepartmentController::class, 'create'])->name('user.api.department.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\DepartmentController::class, 'update'])->name('user.api.department.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\DepartmentController::class, 'delete'])->name('user.api.department.delete');
+    });
+
+    Route::prefix('title')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\TitleController::class, 'getAll'])->name('user.api.title.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\TitleController::class, 'getById'])->name('user.api.title.getById');
+        Route::get('getByDepartmentId', [\App\Http\Controllers\Api\User\TitleController::class, 'getByDepartmentId'])->name('user.api.title.getByDepartmentId');
+        Route::post('create', [\App\Http\Controllers\Api\User\TitleController::class, 'create'])->name('user.api.title.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\TitleController::class, 'update'])->name('user.api.title.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\TitleController::class, 'delete'])->name('user.api.title.delete');
+    });
 
     Route::prefix('employee')->group(function () {
         Route::get('getByCompanies', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanies'])->name('user.api.employee.getByCompanies');
@@ -30,6 +69,10 @@ Route::middleware([
 
     Route::prefix('queue')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\QueueController::class, 'getByCompanyIds'])->name('user.api.queue.getByCompanyIds');
+        Route::get('getById', [\App\Http\Controllers\Api\User\QueueController::class, 'getById'])->name('user.api.queue.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\QueueController::class, 'create'])->name('user.api.queue.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\QueueController::class, 'update'])->name('user.api.queue.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\QueueController::class, 'delete'])->name('user.api.queue.delete');
     });
 
     Route::prefix('competence')->group(function () {
@@ -112,10 +155,6 @@ Route::middleware([
 
     Route::prefix('taskPriority')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\TaskPriorityController::class, 'getAll'])->name('user.api.taskPriority.getAll');
-    });
-
-    Route::prefix('commercialCompany')->group(function () {
-        Route::get('getAll', [\App\Http\Controllers\Api\User\CommercialCompanyController::class, 'getAll'])->name('user.api.commercialCompany.getAll');
     });
 
     Route::prefix('operationApi')->group(function () {
