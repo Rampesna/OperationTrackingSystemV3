@@ -65,6 +65,10 @@ Route::middleware([
 
     Route::prefix('jobDepartment')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'getByCompanyIds'])->name('user.api.jobDepartment.getByCompanyIds');
+        Route::get('getById', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'getById'])->name('user.api.jobDepartment.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'create'])->name('user.api.jobDepartment.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'update'])->name('user.api.jobDepartment.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'delete'])->name('user.api.jobDepartment.delete');
     });
 
     Route::prefix('queue')->group(function () {

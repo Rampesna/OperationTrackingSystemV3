@@ -24,6 +24,14 @@ class JobDepartmentTypeController extends Controller
 
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
+        $companyIds = $request->user()->companies->pluck('id')->toArray();
+
+        foreach ($request->companyIds as $companyId) {
+            if (!in_array($companyId, $companyIds)) {
+                return $this->error('Unauthorized', 401);
+            }
+        }
+
         return $this->success('Job department types', $this->jobDepartmentTypeService->getByCompanyIds(
             $request->companyIds,
             $request->pageIndex,

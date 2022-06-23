@@ -24,6 +24,14 @@ class QueueController extends Controller
 
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
+        $companyIds = $request->user()->companies->pluck('id')->toArray();
+
+        foreach ($request->companyIds as $companyId) {
+            if (!in_array($companyId, $companyIds)) {
+                return $this->error('Unauthorized', 401);
+            }
+        }
+
         return $this->success('Queues', $this->queueService->getByCompanyIds(
             $request->companyIds,
             $request->pageIndex,
