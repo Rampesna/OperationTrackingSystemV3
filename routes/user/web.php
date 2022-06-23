@@ -189,6 +189,10 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\JobDepartmentController::class, 'index'])->name('user.web.jobDepartment.index');
     });
 
+    Route::prefix('jobDepartmentType')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\JobDepartmentTypeController::class, 'index'])->name('user.web.jobDepartmentType.index');
+    });
+
     Route::prefix('userRole')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\UserRoleController::class, 'index'])->name('user.web.userRole.index');
     });

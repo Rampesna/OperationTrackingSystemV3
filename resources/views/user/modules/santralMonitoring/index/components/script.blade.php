@@ -50,6 +50,8 @@
             },
             data: {
                 companyIds: companyIds,
+                pageIndex: 0,
+                pageSize: 1000
             },
             success: function (response) {
                 employeeMonitoringJobDepartmentTypeIdsSelector.empty();
