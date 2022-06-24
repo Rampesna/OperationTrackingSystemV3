@@ -4,10 +4,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('authentication')->group(function () {
     Route::post('login', [\App\Http\Controllers\Api\User\UserController::class, 'login'])->name('user.api.login');
+    Route::post('sendPasswordResetEmail', [\App\Http\Controllers\Api\User\UserController::class, 'sendPasswordResetEmail'])->name('api.user.sendPasswordResetEmail');
+    Route::post('resetPassword', [\App\Http\Controllers\Api\User\UserController::class, 'resetPassword'])->name('api.user.resetPassword');
 });
 
 Route::middleware([
-    'auth:user_api'
+    'auth:user_api',
+    'UserCheckSuspend'
 ])->group(function () {
 
     Route::get('getCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'getCompanies'])->name('user.api.getCompanies');
@@ -17,7 +20,24 @@ Route::middleware([
     Route::post('setSelectedCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'setSelectedCompanies'])->name('user.api.setSelectedCompanies');
     Route::post('swapTheme', [\App\Http\Controllers\Api\User\UserController::class, 'swapTheme'])->name('user.api.swapTheme');
 
+    Route::prefix('user')->group(function () {
+        Route::get('getById', [\App\Http\Controllers\Api\User\UserController::class, 'getById'])->name('user.api.user.getById');
+        Route::get('getByEmail', [\App\Http\Controllers\Api\User\UserController::class, 'getByEmail'])->name('user.api.user.getByEmail');
+        Route::post('create', [\App\Http\Controllers\Api\User\UserController::class, 'create'])->name('user.api.user.create');
+        Route::post('setUserCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'setUserCompanies'])->name('user.api.user.setUserCompanies');
+        Route::put('update', [\App\Http\Controllers\Api\User\UserController::class, 'update'])->name('user.api.user.update');
+        Route::put('setSuspend', [\App\Http\Controllers\Api\User\UserController::class, 'setSuspend'])->name('user.api.user.setSuspend');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\UserController::class, 'delete'])->name('user.api.user.delete');
+    });
+
+    Route::prefix('userRole')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\UserRoleController::class, 'getAll'])->name('user.api.userRole.getAll');
+        Route::get('getAllUserRoles', [\App\Http\Controllers\Api\User\UserRoleController::class, 'getAllUserRoles'])->name('user.api.userRole.getAllUserRoles');
+        Route::get('getById', [\App\Http\Controllers\Api\User\UserRoleController::class, 'getById'])->name('user.api.userRole.getById');
+    });
+
     Route::prefix('company')->group(function () {
+        Route::get('getUsersByCompanyIds', [\App\Http\Controllers\Api\User\CompanyController::class, 'getUsersByCompanyIds'])->name('user.api.company.getUsersByCompanyIds');
         Route::get('tree', [\App\Http\Controllers\Api\User\CompanyController::class, 'tree'])->name('user.api.company.tree');
         Route::get('getById', [\App\Http\Controllers\Api\User\CompanyController::class, 'getById'])->name('user.api.company.getById');
         Route::post('create', [\App\Http\Controllers\Api\User\CompanyController::class, 'create'])->name('user.api.company.create');

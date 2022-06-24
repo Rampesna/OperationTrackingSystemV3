@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\User\UserController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class SwapCompanyRequest extends BaseApiRequest
+class CreateRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,11 @@ class SwapCompanyRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'companyId' => 'required'
+            'roleId' => 'required|integer',
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'nullable',
+            'identity' => 'nullable',
         ];
     }
 }

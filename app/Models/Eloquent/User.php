@@ -32,6 +32,11 @@ class User extends Authenticatable
         return $this->email;
     }
 
+    public function role()
+    {
+        return $this->belongsTo(UserRole::class, 'role_id', 'id');
+    }
+
     public function companies()
     {
         return $this->belongsToMany(Company::class);

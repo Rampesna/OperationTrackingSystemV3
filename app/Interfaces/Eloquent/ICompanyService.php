@@ -5,6 +5,19 @@ namespace App\Interfaces\Eloquent;
 interface ICompanyService extends IEloquentService
 {
     /**
+     * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     */
+    public function getUsersByCompanyIds(
+        array   $companyIds,
+        int     $pageIndex = 0,
+        int     $pageSize = 10,
+        ?string $keyword = null
+    );
+
+    /**
      * @param int $id
      */
     public function tree(

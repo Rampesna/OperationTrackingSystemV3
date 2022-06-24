@@ -6,18 +6,11 @@ interface IUserService extends IEloquentService
 {
     /**
      * @param string $email
+     * @param int|null $exceptId
      */
     public function getByEmail(
-        string $email
-    );
-
-    /**
-     * @param int $userId
-     * @param int $companyId
-     */
-    public function swapCompany(
-        int $userId,
-        int $companyId
+        string $email,
+        ?int   $exceptId = null
     );
 
     /**
@@ -70,15 +63,53 @@ interface IUserService extends IEloquentService
         array $companyIds
     );
 
+    /**
+     * @param int $roleId
+     * @param string $name
+     * @param string $email
+     * @param string|null $phone
+     * @param string|null $identity
+     */
     public function create(
-        int    $roleId,
-        string $name,
-        string $email,
-        string $phoneNumber = null,
-        string $identificationNumber = null,
-        int    $defaultCompanyId = null,
-        string $password
+        int     $roleId,
+        string  $name,
+        string  $email,
+        ?string $phone = null,
+        ?string $identity = null
     );
 
-    public function update();
+    /**
+     * @param int $id
+     * @param int $roleId
+     * @param string $name
+     * @param string $email
+     * @param string|null $phone
+     * @param string|null $identity
+     */
+    public function update(
+        int     $id,
+        int     $roleId,
+        string  $name,
+        string  $email,
+        ?string $phone = null,
+        ?string $identity = null
+    );
+
+    /**
+     * @param int $userId
+     * @param int $suspend
+     */
+    public function setSuspend(
+        int $userId,
+        int $suspend
+    );
+
+    /**
+     * @param int $userId
+     * @param string $password
+     */
+    public function updatePassword(
+        int    $userId,
+        string $password
+    );
 }

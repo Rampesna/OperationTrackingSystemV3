@@ -3,8 +3,12 @@
 namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IUserService;
+use App\Mail\User\ForgotPasswordEmail;
+use App\Mail\User\WelcomeEmail;
 use App\Models\Eloquent\User;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserService implements IUserService
 {
@@ -20,38 +24,27 @@ class UserService implements IUserService
         int $id
     )
     {
-        return User::find($id);
+        return User::with([
+            'companies'
+        ])->find($id);
     }
 
     /**
      * @param string $email
+     * @param int|null $exceptId
      */
     public function getByEmail(
-        string $email
+        string $email,
+        ?int   $exceptId = null
     )
     {
-        return User::where('email', $email)->first();
-    }
+        $user = User::where('email', $email);
 
-    /**
-     * @param int $userId
-     * @param int $companyId
-     */
-    public function swapCompany(
-        int $userId,
-        int $companyId
-    )
-    {
-        $user = $this->getById($userId);
-
-        if (!$user) {
-            return false;
+        if ($exceptId) {
+            $user->where('id', '!=', $exceptId);
         }
 
-        $user->default_company_id = $companyId;
-        $user->save();
-
-        return $user;
+        return $user->first();
     }
 
     /**
@@ -153,32 +146,95 @@ class UserService implements IUserService
         return $token;
     }
 
+    /**
+     * @param int $roleId
+     * @param string $name
+     * @param string $email
+     * @param string|null $phone
+     * @param string|null $identity
+     */
     public function create(
-        int    $roleId,
-        string $name,
-        string $email,
-        string $phoneNumber = null,
-        string $identificationNumber = null,
-        int    $defaultCompanyId = null,
-        string $password
+        int     $roleId,
+        string  $name,
+        string  $email,
+        ?string $phone = null,
+        ?string $identity = null
     )
     {
-        $user = new User();
+        $password = Str::random(8);
+
+        $user = new User;
         $user->role_id = $roleId;
         $user->name = $name;
         $user->email = $email;
-        $user->phone_number = $phoneNumber;
-        $user->identification_number = $identificationNumber;
-        $user->default_company_id = $defaultCompanyId;
-        $user->password = $password;
+        $user->phone = $phone;
+        $user->identity = $identity;
+        $user->password = bcrypt($password);
+        $user->save();
+
+        Mail::to($email)->send(new WelcomeEmail($email, $password));
+
+        return $user;
+    }
+
+    /**
+     * @param int $id
+     * @param int $roleId
+     * @param string $name
+     * @param string $email
+     * @param string|null $phone
+     * @param string|null $identity
+     */
+    public function update(
+        int     $id,
+        int     $roleId,
+        string  $name,
+        string  $email,
+        ?string $phone = null,
+        ?string $identity = null
+    )
+    {
+        $user = $this->getById($id);
+        $user->role_id = $roleId;
+        $user->name = $name;
+        $user->email = $email;
+        $user->phone = $phone;
+        $user->identity = $identity;
         $user->save();
 
         return $user;
     }
 
-    public function update()
+    /**
+     * @param int $userId
+     * @param int $suspend
+     */
+    public function setSuspend(
+        int $userId,
+        int $suspend
+    )
     {
+        $user = $this->getById($userId);
+        $user->suspend = $suspend;
+        $user->save();
 
+        return $user;
+    }
+
+    /**
+     * @param int $userId
+     * @param string $password
+     */
+    public function updatePassword(
+        int    $userId,
+        string $password
+    )
+    {
+        $user = $this->getById($userId);
+        $user->password = $password;
+        $user->save();
+
+        return $user;
     }
 
     /**

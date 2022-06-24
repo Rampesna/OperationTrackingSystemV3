@@ -117,12 +117,16 @@
                             ${competence.name}
                         </td>
                         <td class="text-end">
-                            <button onclick="updateCompetence(${competence.id})" class="btn btn-sm btn-icon btn-primary" title="Düzenle">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button onclick="deleteCompetence(${competence.id})" class="btn btn-sm btn-icon btn-danger ms-2" title="Sil">
-                                <i class="fa fa-trash-alt"></i>
-                            </button>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary btn-icon btn-sm" type="button" id="${competence.id}_Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="${competence.id}_Dropdown" style="width: 175px">
+                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateCompetence(${competence.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    <hr class="text-muted">
+                                    <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteCompetence(${competence.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     `);

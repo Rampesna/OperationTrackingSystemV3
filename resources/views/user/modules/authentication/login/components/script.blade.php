@@ -3,6 +3,10 @@
 
 <script>
 
+    $(document).ready(function () {
+        $('#loader').hide();
+    });
+
     var emailInput = $('#email');
     var passwordInput = $('#password');
     var LoginButton = $('#LoginButton');

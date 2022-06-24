@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\CompanyController\GetUsersByCompanyIdsRequest;
 use App\Http\Requests\Api\User\CompanyController\TreeRequest;
 use App\Http\Requests\Api\User\CompanyController\GetByIdRequest;
 use App\Http\Requests\Api\User\CompanyController\CreateRequest;
@@ -19,6 +20,24 @@ class CompanyController extends Controller
     public function __construct(ICompanyService $companyService)
     {
         $this->companyService = $companyService;
+    }
+
+    public function getUsersByCompanyIds(GetUsersByCompanyIdsRequest $request)
+    {
+        $userCompanies = $request->user()->companies()->pluck('id')->toArray();
+
+        foreach ($request->companyIds as $companyId) {
+            if (!in_array($companyId, $userCompanies)) {
+                return $this->error('Company not found', 404);
+            }
+        }
+
+        return $this->success('Users', $this->companyService->getUsersByCompanyIds(
+            $request->companyIds,
+            $request->pageIndex,
+            $request->pageSize,
+            $request->keyword
+        ));
     }
 
     public function tree(TreeRequest $request)

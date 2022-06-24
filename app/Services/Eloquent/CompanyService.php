@@ -32,6 +32,42 @@ class CompanyService implements ICompanyService
         return Company::destroy($id);
     }
 
+    /**
+     * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     */
+    public function getUsersByCompanyIds(
+        array   $companyIds,
+        int     $pageIndex = 0,
+        int     $pageSize = 10,
+        ?string $keyword = null
+    )
+    {
+        $users = Company::with([
+            'users' => function ($users) use ($keyword) {
+                $users->with([
+                    'role'
+                ])->where(function ($users) use ($keyword) {
+                    $users->where('name', 'like', '%' . $keyword . '%')
+                        ->orWhere('email', 'like', '%' . $keyword . '%');
+                });
+            }
+        ])->whereIn('id', $companyIds)->get()->map(function ($company) {
+            return $company->users;
+        })->collapse()->unique('id');
+
+        return [
+            'totalCount' => $users->count(),
+            'pageIndex' => $pageIndex,
+            'pageSize' => $pageSize,
+            'users' => $users->skip($pageSize * $pageIndex)
+                ->take($pageSize)
+                ->all()
+        ];
+    }
+
     public function tree(
         int $id
     )
