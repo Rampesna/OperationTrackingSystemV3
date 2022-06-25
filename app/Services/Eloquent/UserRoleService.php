@@ -46,6 +46,58 @@ class UserRoleService implements IUserRoleService
         return UserRole::find($id);
     }
 
+    /**
+     * @param int $roleId
+     */
+    public function getUserPermissions(
+        int $roleId
+    )
+    {
+        return UserRole::find($roleId)->userPermissions;
+    }
+
+    /**
+     * @param int $roleId
+     * @param array $userPermissionIds
+     */
+    public function setUserPermissions(
+        int   $roleId,
+        array $userPermissionIds
+    )
+    {
+        return UserRole::find($roleId)->userPermissions()->sync($userPermissionIds);
+    }
+
+    /**
+     * @param string $name
+     */
+    public function create(
+        string $name
+    )
+    {
+        $userRole = new UserRole;
+        $userRole->name = $name;
+        $userRole->save();
+
+        return $userRole;
+    }
+
+    /**
+     * @param int $id
+     * @param string $name
+     */
+    public function update(
+        int    $id,
+        string $name
+    )
+    {
+        $userRole = $this->getById($id);
+        $userRole->name = $name;
+        $userRole->save();
+
+        return $userRole;
+    }
+
     public function delete(
         int $id
     )

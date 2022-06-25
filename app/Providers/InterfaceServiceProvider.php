@@ -21,6 +21,7 @@ use App\Interfaces\Eloquent\ISubTaskService;
 use App\Interfaces\Eloquent\ITaskPriorityService;
 use App\Interfaces\Eloquent\ITaskService;
 use App\Interfaces\Eloquent\ITitleService;
+use App\Interfaces\Eloquent\IUserPermissionService;
 use App\Interfaces\Eloquent\IUserRoleService;
 use App\Interfaces\Eloquent\IUserService;
 use App\Interfaces\NetsantralApi\INetsantralApiService;
@@ -53,6 +54,7 @@ use App\Services\Eloquent\SubTaskService;
 use App\Services\Eloquent\TaskPriorityService;
 use App\Services\Eloquent\TaskService;
 use App\Services\Eloquent\TitleService;
+use App\Services\Eloquent\UserPermissionService;
 use App\Services\Eloquent\UserRoleService;
 use App\Services\Eloquent\UserService;
 use App\Services\NetsantralApi\NetsantralApiService;
@@ -100,6 +102,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ITaskPriorityService::class, TaskPriorityService::class);
         $this->app->bind(IUserRoleService::class, UserRoleService::class);
         $this->app->bind(IPasswordResetService::class, PasswordResetService::class);
+        $this->app->bind(IUserPermissionService::class, UserPermissionService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

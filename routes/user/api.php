@@ -34,6 +34,17 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\UserRoleController::class, 'getAll'])->name('user.api.userRole.getAll');
         Route::get('getAllUserRoles', [\App\Http\Controllers\Api\User\UserRoleController::class, 'getAllUserRoles'])->name('user.api.userRole.getAllUserRoles');
         Route::get('getById', [\App\Http\Controllers\Api\User\UserRoleController::class, 'getById'])->name('user.api.userRole.getById');
+        Route::get('getUserPermissions', [\App\Http\Controllers\Api\User\UserRoleController::class, 'getUserPermissions'])->name('user.api.userRole.getUserPermissions');
+        Route::post('setUserPermissions', [\App\Http\Controllers\Api\User\UserRoleController::class, 'setUserPermissions'])->name('user.api.userRole.setUserPermissions');
+        Route::post('create', [\App\Http\Controllers\Api\User\UserRoleController::class, 'create'])->name('user.api.userRole.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\UserRoleController::class, 'update'])->name('user.api.userRole.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\UserRoleController::class, 'delete'])->name('user.api.userRole.delete');
+    });
+
+    Route::prefix('userPermission')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\UserPermissionController::class, 'getAll'])->name('user.api.userPermission.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\UserPermissionController::class, 'getById'])->name('user.api.userPermission.getById');
+        Route::get('getByTopId', [\App\Http\Controllers\Api\User\UserPermissionController::class, 'getByTopId'])->name('user.api.userPermission.getByTopId');
     });
 
     Route::prefix('company')->group(function () {
