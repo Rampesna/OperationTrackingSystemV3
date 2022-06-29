@@ -231,7 +231,7 @@
     });
 
     SetCallDataScanningButton.click(function () {
-        var file = $('#set_data_scanning_file')[0].files[0];
+        var file = $('#set_call_data_scanning_file')[0].files[0];
         var surveyId = setCallDataScanningSurveyId.val();
 
         if (!file) {
@@ -255,6 +255,7 @@
                 },
                 data: formData,
                 success: function (response) {
+                    console.log(response);
                     $('#loader').hide();
                     toastr.success('Çağrı Taramalar Başarıyla Aktarıldı');
                 },

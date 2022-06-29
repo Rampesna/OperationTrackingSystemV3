@@ -13,6 +13,7 @@ use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyQues
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyAnswersListRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyQuestionEditRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyProductListRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyProductEditRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyAnswerEditRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyAnswersCategoryConnectListRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyAnswersConnectListRequest;
@@ -29,6 +30,10 @@ use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyRepo
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyReportRemainingDetailsRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyReportStatusDetailsRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyDetailReportRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveySellerListRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySellerConnectRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySellerDeleteRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyProductRequest;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Traits\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -135,6 +140,13 @@ class SurveySystemController extends Controller
     public function getSurveyProductList(GetSurveyProductListRequest $request)
     {
         return $this->success('Product list', $this->surveySystemService->GetSurveyProductList());
+    }
+
+    public function getSurveyProductEdit(GetSurveyProductEditRequest $request)
+    {
+        return $this->success('Product', $this->surveySystemService->GetSurveyProductEdit(
+            $request->productId
+        ));
     }
 
     public function getSurveyAnswerEdit(GetSurveyAnswerEditRequest $request)
@@ -281,5 +293,31 @@ class SurveySystemController extends Controller
                 $request->companyIds
             )
         )->groupBy('id')->all());
+    }
+
+    public function getSurveySellerList(GetSurveySellerListRequest $request)
+    {
+        return $this->success('Survey seller list', $this->surveySystemService->GetSurveySellerList());
+    }
+
+    public function setSurveySellerConnect(SetSurveySellerConnectRequest $request)
+    {
+        return $this->success('Set survey seller connect', $this->surveySystemService->SetSurveySellerConnect(
+            $request->sellers
+        ));
+    }
+
+    public function setSurveySellerDelete(SetSurveySellerDeleteRequest $request)
+    {
+        return $this->success('Survey seller deleted', $this->surveySystemService->setSurveySellerDelete(
+            $request->sellerId
+        ));
+    }
+
+    public function setSurveyProduct(SetSurveyProductRequest $request)
+    {
+        return $this->success('Set survey product', $this->surveySystemService->SetSurveyProduct(
+            $request->products
+        ));
     }
 }

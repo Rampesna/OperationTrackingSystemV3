@@ -79,8 +79,11 @@ interface ISurveySystemService
         $sellerCode
     );
 
+    /**
+     * @param int $productId
+     */
     public function GetSurveyProductEdit(
-        $productId
+        int $productId
     );
 
     /**
@@ -224,16 +227,25 @@ interface ISurveySystemService
         array $products
     );
 
+    /**
+     * @param array $sellers
+     */
     public function SetSurveySellerConnect(
-        $list
+        array $sellers
     );
 
+    /**
+     * @param int $sellerId
+     */
     public function SetSurveySellerDelete(
-        $sellerId
+        int $sellerId
     );
 
+    /**
+     * @param array $products
+     */
     public function SetSurveyProduct(
-        $list
+        array $products
     );
 
     /**

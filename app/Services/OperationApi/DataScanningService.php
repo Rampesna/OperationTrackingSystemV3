@@ -38,7 +38,7 @@ class DataScanningService extends OperationApiService implements IDataScanningSe
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList);
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList)->getBody()->getContents();
     }
 
     /**

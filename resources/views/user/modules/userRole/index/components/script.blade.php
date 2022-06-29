@@ -69,6 +69,7 @@
             },
             success: function (response) {
                 $('#UpdateUserRoleModal').modal('show');
+                $('#update_user_role_name').val(response.response.name);
                 $('#loader').hide();
             },
             error: function (error) {

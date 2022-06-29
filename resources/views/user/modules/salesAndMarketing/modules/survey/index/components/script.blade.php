@@ -584,4 +584,9 @@
         }
     });
 
+    $('body').on('contextmenu', function () {
+        transactions();
+        return false;
+    });
+
 </script>

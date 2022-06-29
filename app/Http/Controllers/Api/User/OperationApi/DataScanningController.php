@@ -84,21 +84,39 @@ class DataScanningController extends Controller
 
     public function setCallDataScanning(SetCallDataScanningRequest $request)
     {
+        set_time_limit(86400);
         $file = $request->file('file');
 
         $jobList = [];
+        $responses = [];
         $jobs = Excel::toCollection(null, $file);
 
         foreach ($jobs[0] as $job) {
             $jobList[] = [
-                'anketId' => $request->surveyId,
+                'anketId' => intval($request->surveyId),
                 'musteriAdi' => $job[0] ?? '',
                 'musteriTel' => $job[1] ?? '',
                 'yetkili' => $job[2] ?? '',
-                'cariId' => $job[3] ?? ''
+                'cariId' => $job[3] ?? '',
             ];
         }
 
-        return $this->success('Call data scannings', $this->dataScanningService->SetCallDataScanning($jobList));
+        if (count($jobList) > 100) {
+            $list = collect($jobList)->chunk(100)->toArray();
+            foreach ($list as $jList) {
+                retry:
+                try {
+                    $responses[] = $this->dataScanningService->SetCallDataScanning($jList);
+                    sleep(5);
+                } catch (\Exception $exception) {
+                    sleep(10);
+                    goto retry;
+                }
+            }
+        } else {
+            $responses[] = $this->dataScanningService->SetCallDataScanning($jobList);
+        }
+
+        return $this->success('Call data scannings', $responses);
     }
 }

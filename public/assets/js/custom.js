@@ -83,6 +83,13 @@ function initializeMoneyInputMask() {
     }).mask(".moneyMask");
 }
 
+function groupBy(array, key) {
+    return array.reduce((result, obj) => {
+        (result[obj[key]] = result[obj[key]] || []).push(obj);
+        return result;
+    }, {});
+}
+
 function initializeCurrencyInputMask() {
     Inputmask({
         mask: "*{1,20}.*{8,8}",
