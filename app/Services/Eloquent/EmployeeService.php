@@ -24,6 +24,16 @@ class EmployeeService implements IEmployeeService
     }
 
     /**
+     * @param array $ids
+     */
+    public function getByIds(
+        array $ids
+    )
+    {
+        return Employee::whereIn('id', $ids)->get();
+    }
+
+    /**
      * @param string $email
      */
     public function getByEmail(
@@ -31,6 +41,27 @@ class EmployeeService implements IEmployeeService
     )
     {
         return Employee::where('email', $email)->first();
+    }
+
+    /**
+     * @param int $employeeId
+     * @param int $theme
+     */
+    public function swapTheme(
+        int $employeeId,
+        int $theme
+    )
+    {
+        $employee = $this->getById($employeeId);
+
+        if (!$employee) {
+            return false;
+        }
+
+        $employee->theme = $theme;
+        $employee->save();
+
+        return $employee;
     }
 
     /**
@@ -159,7 +190,12 @@ class EmployeeService implements IEmployeeService
         Employee $employee
     )
     {
-        return $employee->createToken('employeeApiToken')->plainTextToken;
+        $token = $employee->createToken('employeeApiToken')->plainTextToken;
+
+        $employee->api_token = $token;
+        $employee->save();
+
+        return $token;
     }
 
     /**

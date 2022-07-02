@@ -14,12 +14,12 @@ return new class extends Migration {
     {
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('company_id');
-            $table->unsignedTinyInteger('employee_id');
-            $table->unsignedTinyInteger('shift_group_id');
-            $table->unsignedTinyInteger('created_by');
-            $table->unsignedTinyInteger('last_updated_by')->nullable();
-            $table->unsignedTinyInteger('deleted_by')->nullable();
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('shift_group_id');
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('last_updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->text('description')->nullable();

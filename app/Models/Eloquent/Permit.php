@@ -9,4 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Permit extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function status()
+    {
+        return $this->belongsTo(PermitStatus::class, 'status_id', 'id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(PermitType::class, 'type_id', 'id');
+    }
 }

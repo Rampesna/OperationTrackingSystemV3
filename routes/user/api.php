@@ -161,8 +161,11 @@ Route::middleware([
 
     Route::prefix('shift')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\ShiftController::class, 'getAll'])->name('user.api.shift.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\ShiftController::class, 'getById'])->name('user.api.shift.getById');
         Route::get('getByCompanyId', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByCompanyId'])->name('user.api.shift.getByCompanyId');
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByCompanyIds'])->name('user.api.shift.getByCompanyIds');
+        Route::post('robot', [\App\Http\Controllers\Api\User\ShiftController::class, 'robot'])->name('user.api.shift.robot');
+        Route::delete('deleteByIds', [\App\Http\Controllers\Api\User\ShiftController::class, 'deleteByIds'])->name('user.api.shift.deleteByIds');
     });
 
     Route::prefix('project')->group(function () {
@@ -214,6 +217,7 @@ Route::middleware([
             Route::post('setEmployeeGroupTasksInsert', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setEmployeeGroupTasksInsert'])->name('user.api.operationApi.operation.setEmployeeGroupTasksInsert');
             Route::post('setEmployee', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setEmployee'])->name('user.api.operationApi.operation.setEmployee');
             Route::get('getDataScreening', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getDataScreening'])->name('user.api.operationApi.operation.getDataScreening');
+            Route::post('setStaffParameter', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setStaffParameter'])->name('user.api.operationApi.operation.setStaffParameter');
         });
 
         Route::prefix('personSystem')->group(function () {

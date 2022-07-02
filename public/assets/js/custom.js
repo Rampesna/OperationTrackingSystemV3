@@ -207,6 +207,11 @@ function reformatDatetimeToDatetimeForHuman(date) {
         String(formattedDate.getMinutes()).padStart(2, '0');
 }
 
+function getWeekDayOfDate(date) {
+    var formattedDate = new Date(date);
+    return parseInt(formattedDate.getDay());
+}
+
 function reformatInvoiceNumber(datetime, number) {
     return (new Date(datetime)).getFullYear() + '-' + number.padStart(9, '0');
 }

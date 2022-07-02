@@ -15,6 +15,7 @@ use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeGroup
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeTasksInsertRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeWorkTasksInsertRequest;
+use App\Http\Requests\Api\User\OperationApi\OperationController\SetStaffParameterRequest;
 use App\Interfaces\OperationApi\IOperationService;
 use App\Traits\Response;
 
@@ -113,6 +114,13 @@ class OperationController extends Controller
         return $this->success('Data screening', $this->operationService->GetDataScreening(
             $request->startDate,
             $request->endDate
+        ));
+    }
+
+    public function setStaffParameter(SetStaffParameterRequest $request)
+    {
+        return $this->success('Set staff parameter', $this->operationService->SetStaffParameter(
+            $request->staffParameters
         ));
     }
 }

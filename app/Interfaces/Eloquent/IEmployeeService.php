@@ -12,6 +12,22 @@ interface IEmployeeService extends IEloquentService
     );
 
     /**
+     * @param int $employeeId
+     * @param int $theme
+     */
+    public function swapTheme(
+        int $employeeId,
+        int $theme
+    );
+
+    /**
+     * @param array $ids
+     */
+    public function getByIds(
+        array $ids
+    );
+
+    /**
      * @param int $pageIndex
      * @param int $pageSize
      * @param array $companyIds

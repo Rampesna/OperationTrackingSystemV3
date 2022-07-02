@@ -56,7 +56,7 @@
             success: function (response) {
                 employeeMonitoringJobDepartmentTypeIdsSelector.empty();
                 achievementMonitoringJobDepartmentTypeIdsSelector.empty();
-                $.each(response.response, function (i, jobDepartmentType) {
+                $.each(response.response.jobDepartmentTypes, function (i, jobDepartmentType) {
                     employeeMonitoringJobDepartmentTypeIdsSelector.append(`<option value="${jobDepartmentType.id}">${jobDepartmentType.name}</option>`);
                     achievementMonitoringJobDepartmentTypeIdsSelector.append(`<option value="${jobDepartmentType.id}">${jobDepartmentType.name}</option>`);
                 });

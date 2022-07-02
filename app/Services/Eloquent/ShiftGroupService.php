@@ -30,6 +30,18 @@ class ShiftGroupService implements IShiftGroupService
         return ShiftGroup::destroy($id);
     }
 
+    /**
+     * @param int $companyId
+     */
+    public function getByCompanyId(
+        int $companyId
+    )
+    {
+        return ShiftGroup::with([
+            'employees'
+        ])->where('company_id', $companyId)->orderBy('order')->get();
+    }
+
     public function getByCompanyIds(
         array       $companyIds,
         int         $pageIndex = 0,

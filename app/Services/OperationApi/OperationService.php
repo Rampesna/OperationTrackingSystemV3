@@ -551,14 +551,19 @@ class OperationService extends OperationApiService implements IOperationService
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
     }
 
-    public function SetStaffParameter($list)
+    /**
+     * @param array $staffParameters
+     */
+    public function SetStaffParameter(
+        array $staffParameters
+    )
     {
         $endpoint = "Operation/SetStaffParameter";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $staffParameters)['response'];
     }
 
     public function GetStaffParameterEdit($id)

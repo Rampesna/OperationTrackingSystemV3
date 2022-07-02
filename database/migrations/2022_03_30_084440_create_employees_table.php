@@ -27,6 +27,8 @@ return new class extends Migration {
             $table->string('password');
             $table->boolean('leave')->default(0);
             $table->boolean('suspend')->default(0);
+            $table->boolean('theme')->default(0);
+            $table->string('api_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

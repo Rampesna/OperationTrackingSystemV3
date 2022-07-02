@@ -48,7 +48,7 @@ return [
 
         'employee_web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'employees',
         ],
 
         'market_web' => [

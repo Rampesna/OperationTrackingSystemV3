@@ -182,8 +182,11 @@ interface IOperationService
         $id
     );
 
+    /**
+     * @param array $staffParameters
+     */
     public function SetStaffParameter(
-        $list
+        array $staffParameters
     );
 
     public function GetStaffParameterEdit(

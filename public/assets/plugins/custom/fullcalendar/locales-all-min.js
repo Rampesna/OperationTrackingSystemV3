@@ -1203,7 +1203,7 @@
         },
         weekText: "Hf",
         allDayText: "Tüm gün",
-        moreLinkText: "Daha Fazla",
+        moreLinkText: "Daha",
         noEventsText: "Gösterilecek Etkinlik Yok"
     }, {
         code: "ug",
