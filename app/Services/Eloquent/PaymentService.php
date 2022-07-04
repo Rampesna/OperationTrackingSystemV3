@@ -31,6 +31,7 @@ class PaymentService implements IPaymentService
         int    $typeId,
         int    $statusId,
         string $date,
+        int    $amount,
         string $description
     )
     {
@@ -39,6 +40,7 @@ class PaymentService implements IPaymentService
         $payment->type_id = $typeId;
         $payment->status_id = $statusId;
         $payment->date = $date;
+        $payment->amount = $amount;
         $payment->description = $description;
         $payment->save();
 

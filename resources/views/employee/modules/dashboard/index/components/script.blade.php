@@ -305,8 +305,29 @@
         });
     }
 
-    function getFoods() {
+    function getFoodListChecks() {
+        var startDate = reformatDatetime(calendar.currentData.dateProfile.activeRange.start);
+        var endDate = reformatDatetime(calendar.currentData.dateProfile.activeRange.end);
 
+        $.ajax({
+            type: 'get',
+            url: '',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                startDate: startDate,
+                endDate: endDate,
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Yemek Listesi Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
     }
 
     getPermits();
@@ -314,6 +335,7 @@
     getPayments();
     getPermitTypes();
     getOvertimeTypes();
+    getPaymentTypes();
 
     function createPermit() {
         createPermitTypeId.val('');
@@ -334,6 +356,7 @@
     function createPayment() {
         createPaymentTypeId.val('');
         $('#create_payment_date').val('');
+        $('#create_payment_amount').val('');
         $('#create_payment_description').val('');
         $('#CreatePaymentModal').modal('show');
     }
@@ -429,12 +452,15 @@
     CreatePaymentButton.click(function () {
         var typeId = createOvertimeTypeId.val();
         var date = $('#create_payment_date').val();
+        var amount = $('#create_payment_amount').val();
         var description = $('#create_payment_description').val();
 
         if (!typeId) {
             toastr.warning('Fazla Mesai Türü Seçimi Zorunludur.');
         } else if (!date) {
             toastr.warning('Tarih Seçimi Zorunludur.');
+        } else if (!amount) {
+            toastr.warning('İstenilen Miktar Boş Olamaz.');
         } else if (!description) {
             toastr.warning('Açıklama Zorunludur.');
         } else {
@@ -450,6 +476,7 @@
                 data: {
                     typeId: typeId,
                     date: date,
+                    amount: amount,
                     description: description,
                 },
                 success: function () {

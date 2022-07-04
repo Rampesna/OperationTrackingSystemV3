@@ -39,6 +39,16 @@
                         </div>
                         <div class="row mb-5">
                             <div class="col-xl-3 mt-3">
+                                <label for="create_payment_amount" class="font-weight-bolder">İstenilen Miktar</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <input id="create_payment_amount" type="number" class="form-control form-control-solid onlyNumber">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
                                 <label for="create_payment_description" class="font-weight-bolder">Açıklamalar</label>
                             </div>
                             <div class="col-xl-9">

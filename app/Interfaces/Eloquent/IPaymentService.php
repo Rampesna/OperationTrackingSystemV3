@@ -9,6 +9,7 @@ interface IPaymentService extends IEloquentService
      * @param int $typeId
      * @param int $statusId
      * @param string $date
+     * @param int $amount
      * @param string $description
      */
     public function create(
@@ -16,6 +17,7 @@ interface IPaymentService extends IEloquentService
         int    $typeId,
         int    $statusId,
         string $date,
+        int    $amount,
         string $description
     );
 

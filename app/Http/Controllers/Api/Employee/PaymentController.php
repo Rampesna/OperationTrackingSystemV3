@@ -35,6 +35,7 @@ class PaymentController extends Controller
             $request->typeId,
             1,
             $request->date,
+            $request->amount,
             $request->description
         ));
     }
