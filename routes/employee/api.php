@@ -14,16 +14,21 @@ Route::middleware([
 
     Route::prefix('shift')->group(function () {
         Route::get('getDateBetweenByEmployeeId', [\App\Http\Controllers\Api\Employee\ShiftController::class, 'getDateBetweenByEmployeeId'])->name('employee.api.shift.getDateBetweenByEmployeeId');
+        Route::get('getById', [\App\Http\Controllers\Api\Employee\ShiftController::class, 'getById'])->name('employee.api.shift.getById');
     });
 
     Route::prefix('permit')->group(function () {
         Route::get('getDateBetween', [\App\Http\Controllers\Api\Employee\PermitController::class, 'getDateBetween'])->name('employee.api.permit.getDateBetween');
+        Route::get('getById', [\App\Http\Controllers\Api\Employee\PermitController::class, 'getById'])->name('employee.api.permit.getById');
         Route::post('create', [\App\Http\Controllers\Api\Employee\PermitController::class, 'create'])->name('employee.api.permit.create');
+        Route::put('update', [\App\Http\Controllers\Api\Employee\PermitController::class, 'update'])->name('employee.api.permit.update');
     });
 
     Route::prefix('overtime')->group(function () {
         Route::get('getDateBetween', [\App\Http\Controllers\Api\Employee\OvertimeController::class, 'getDateBetween'])->name('employee.api.overtime.getDateBetween');
+        Route::get('getById', [\App\Http\Controllers\Api\Employee\OvertimeController::class, 'getById'])->name('employee.api.overtime.getById');
         Route::post('create', [\App\Http\Controllers\Api\Employee\OvertimeController::class, 'create'])->name('employee.api.overtime.create');
+        Route::put('update', [\App\Http\Controllers\Api\Employee\OvertimeController::class, 'update'])->name('employee.api.overtime.update');
     });
 
     Route::prefix('payment')->group(function () {
@@ -41,6 +46,14 @@ Route::middleware([
 
     Route::prefix('paymentType')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\Employee\PaymentTypeController::class, 'getAll'])->name('employee.api.paymentType.getAll');
+    });
+
+    Route::prefix('foodList')->group(function () {
+        Route::get('getDateBetween', [\App\Http\Controllers\Api\Employee\FoodListController::class, 'getDateBetween'])->name('employee.api.foodList.getDateBetween');
+    });
+
+    Route::prefix('foodListCheck')->group(function () {
+        Route::get('getDateBetween', [\App\Http\Controllers\Api\Employee\FoodListCheckController::class, 'getDateBetween'])->name('employee.api.foodListCheck.getDateBetween');
     });
 
 });

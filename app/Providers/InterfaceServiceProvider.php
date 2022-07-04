@@ -9,6 +9,8 @@ use App\Interfaces\Eloquent\ICompanyService;
 use App\Interfaces\Eloquent\ICompetenceService;
 use App\Interfaces\Eloquent\IDepartmentService;
 use App\Interfaces\Eloquent\IEmployeeService;
+use App\Interfaces\Eloquent\IFoodListCheckService;
+use App\Interfaces\Eloquent\IFoodListService;
 use App\Interfaces\Eloquent\IJobDepartmentService;
 use App\Interfaces\Eloquent\IJobDepartmentTypeService;
 use App\Interfaces\Eloquent\IOvertimeService;
@@ -50,6 +52,8 @@ use App\Services\Eloquent\CompanyService;
 use App\Services\Eloquent\CompetenceService;
 use App\Services\Eloquent\DepartmentService;
 use App\Services\Eloquent\EmployeeService;
+use App\Services\Eloquent\FoodListCheckService;
+use App\Services\Eloquent\FoodListService;
 use App\Services\Eloquent\JobDepartmentService;
 use App\Services\Eloquent\JobDepartmentTypeService;
 use App\Services\Eloquent\OvertimeService;
@@ -125,6 +129,8 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IOvertimeTypeService::class, OvertimeTypeService::class);
         $this->app->bind(IPaymentService::class, PaymentService::class);
         $this->app->bind(IPaymentTypeService::class, PaymentTypeService::class);
+        $this->app->bind(IFoodListService::class, FoodListService::class);
+        $this->app->bind(IFoodListCheckService::class, FoodListCheckService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

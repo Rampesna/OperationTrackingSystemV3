@@ -16,7 +16,11 @@ class PermitService implements IPermitService
         int $id
     )
     {
-        return Permit::find($id);
+        return Permit::with([
+            'type',
+            'status',
+            'employee',
+        ])->find($id);
     }
 
     public function delete(
@@ -36,6 +40,28 @@ class PermitService implements IPermitService
     )
     {
         $permit = new Permit;
+        $permit->employee_id = $employeeId;
+        $permit->type_id = $typeId;
+        $permit->status_id = $statusId;
+        $permit->start_date = $startDate;
+        $permit->end_date = $endDate;
+        $permit->description = $description;
+        $permit->save();
+
+        return $permit;
+    }
+
+    public function update(
+        int    $id,
+        int    $employeeId,
+        int    $typeId,
+        int    $statusId,
+        string $startDate,
+        string $endDate,
+        string $description
+    )
+    {
+        $permit = Permit::find($id);
         $permit->employee_id = $employeeId;
         $permit->type_id = $typeId;
         $permit->status_id = $statusId;

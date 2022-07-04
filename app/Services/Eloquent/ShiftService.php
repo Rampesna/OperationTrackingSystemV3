@@ -35,7 +35,9 @@ class ShiftService implements IShiftService
 
     public function getById(int $id)
     {
-        return Shift::find($id);
+        return Shift::with([
+            'shiftGroup'
+        ])->find($id);
     }
 
     public function delete(int $id)

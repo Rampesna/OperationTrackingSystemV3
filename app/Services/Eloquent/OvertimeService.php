@@ -16,7 +16,11 @@ class OvertimeService implements IOvertimeService
         int $id
     )
     {
-        return Overtime::find($id);
+        return Overtime::with([
+            'type',
+            'status',
+            'employee',
+        ])->find($id);
     }
 
     public function delete(
@@ -36,6 +40,28 @@ class OvertimeService implements IOvertimeService
     )
     {
         $overtime = new Overtime;
+        $overtime->employee_id = $employeeId;
+        $overtime->type_id = $typeId;
+        $overtime->status_id = $statusId;
+        $overtime->start_date = $startDate;
+        $overtime->end_date = $endDate;
+        $overtime->description = $description;
+        $overtime->save();
+
+        return $overtime;
+    }
+
+    public function update(
+        int    $id,
+        int    $employeeId,
+        int    $typeId,
+        int    $statusId,
+        string $startDate,
+        string $endDate,
+        string $description
+    )
+    {
+        $overtime = Overtime::find($id);
         $overtime->employee_id = $employeeId;
         $overtime->type_id = $typeId;
         $overtime->status_id = $statusId;

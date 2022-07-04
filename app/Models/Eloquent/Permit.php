@@ -19,4 +19,9 @@ class Permit extends Model
     {
         return $this->belongsTo(PermitType::class, 'type_id', 'id');
     }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employee_id', 'id');
+    }
 }

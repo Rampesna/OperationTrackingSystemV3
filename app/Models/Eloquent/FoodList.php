@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class FoodList extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function foodListChecks()
+    {
+        return $this->hasMany(FoodListCheck::class, 'food_list_id', 'id');
+    }
 }

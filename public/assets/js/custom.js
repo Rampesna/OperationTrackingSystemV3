@@ -201,8 +201,8 @@ function reformatDatetimeToDateForHuman(date) {
 function reformatDatetimeToDatetimeForHuman(date) {
     var formattedDate = new Date(date);
     return String(formattedDate.getDate()).padStart(2, '0') + ' ' +
-        months.find(date => date.id === formattedDate.getMonth() + 1).name + ', ' +
-        formattedDate.getFullYear() + ' ' +
+        months.find(date => date.id === formattedDate.getMonth() + 1).name + ' ' +
+        formattedDate.getFullYear() + ', ' +
         String(formattedDate.getHours()).padStart(2, '0') + ':' +
         String(formattedDate.getMinutes()).padStart(2, '0');
 }

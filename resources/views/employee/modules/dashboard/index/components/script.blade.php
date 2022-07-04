@@ -8,12 +8,22 @@
     });
 
     var createPermitTypeId = $('#create_permit_type_id');
+    var updatePermitTypeId = $('#update_permit_type_id');
     var createOvertimeTypeId = $('#create_overtime_type_id');
+    var updateOvertimeTypeId = $('#update_overtime_type_id');
     var createPaymentTypeId = $('#create_payment_type_id');
+    var updatePaymentTypeId = $('#update_payment_type_id');
 
     var CreatePermitButton = $('#CreatePermitButton');
+    var UpdatePermitButton = $('#UpdatePermitButton');
     var CreateOvertimeButton = $('#CreateOvertimeButton');
+    var UpdateOvertimeButton = $('#UpdateOvertimeButton');
     var CreatePaymentButton = $('#CreatePaymentButton');
+    var UpdatePaymentButton = $('#UpdatePaymentButton');
+
+    var EditPermitButton = $('#EditPermitButton');
+    var EditOvertimeButton = $('#EditOvertimeButton');
+    var EditPaymentButton = $('#EditPaymentButton');
 
     const element = document.getElementById("calendar");
 
@@ -48,7 +58,109 @@
         },
 
         eventClick: function (info) {
+            var type = info.event._def.extendedProps.type;
+            var id = info.event._def.extendedProps._id;
 
+            $('.fc-popover-close').click();
+
+            if (type === 'shift') {
+                $('#loader').show();
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('employee.api.shift.getById') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        $('#show_shift_shift_group_name_span').html(response.response.shift_group ? response.response.shift_group.name : '--');
+                        $('#show_shift_start_date_span').html(reformatDatetimeToDatetimeForHuman(response.response.start_date));
+                        $('#show_shift_end_date_span').html(reformatDatetimeToDatetimeForHuman(response.response.end_date));
+                        $('#ShowShiftModal').modal('show');
+                        $('#loader').hide();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error('Vardiya Detayları Alınırken Serviste Bir Sorun Oluştu!');
+                        $('#loader').hide();
+                    }
+                });
+            } else if (type === 'permit') {
+                $('#loader').show();
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('employee.api.permit.getById') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        $('#update_permit_id').val(response.response.id);
+                        updatePermitTypeId.val(response.response.type_id);
+                        $('#update_permit_start_date').val(reformatDateForCalendar(response.response.start_date));
+                        $('#update_permit_end_date').val(reformatDateForCalendar(response.response.end_date));
+                        $('#update_permit_description').val(response.response.description);
+                        $('#show_permit_type_name_span').html(response.response.type ? response.response.type.name : '--');
+                        $('#show_permit_status_badge_span').html(response.response.status ? response.response.status.name : '--').removeClass().addClass(`badge badge-${response.response.status ? response.response.status.color : 'secondary'}`);
+                        $('#show_permit_start_date_span').html(reformatDatetimeToDatetimeForHuman(response.response.start_date));
+                        $('#show_permit_end_date_span').html(reformatDatetimeToDatetimeForHuman(response.response.end_date));
+                        $('#show_permit_description_input').val(response.response.description);
+                        parseInt(response.response.status_id) === 1 ? EditPermitButton.show() : EditPermitButton.hide();
+                        $('#ShowPermitModal').modal('show');
+                        $('#loader').hide();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error('İzin Detayları Alınırken Serviste Bir Sorun Oluştu!');
+                        $('#loader').hide();
+                    }
+                });
+            } else if (type === 'overtime') {
+                $('#loader').show();
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('employee.api.overtime.getById') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        $('#update_overtime_id').val(response.response.id);
+                        updateOvertimeTypeId.val(response.response.type_id);
+                        $('#update_overtime_start_date').val(reformatDateForCalendar(response.response.start_date));
+                        $('#update_overtime_end_date').val(reformatDateForCalendar(response.response.end_date));
+                        $('#update_overtime_description').val(response.response.description);
+                        $('#show_overtime_type_name_span').html(response.response.type ? response.response.type.name : '--');
+                        $('#show_overtime_status_badge_span').html(response.response.status ? response.response.status.name : '--').removeClass().addClass(`badge badge-${response.response.status ? response.response.status.color : 'secondary'}`);
+                        $('#show_overtime_start_date_span').html(reformatDatetimeToDatetimeForHuman(response.response.start_date));
+                        $('#show_overtime_end_date_span').html(reformatDatetimeToDatetimeForHuman(response.response.end_date));
+                        $('#show_overtime_description_input').val(response.response.description);
+                        parseInt(response.response.status_id) === 1 ? EditOvertimeButton.show() : EditOvertimeButton.hide();
+                        $('#ShowOvertimeModal').modal('show');
+                        $('#loader').hide();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error('Fazla Mesai Detayları Alınırken Serviste Bir Sorun Oluştu!');
+                        $('#loader').hide();
+                    }
+                });
+            } else if (type === 'payment') {
+                $('#ShowPaymentModal').modal('show');
+            } else if (type === 'foodListCheck') {
+                $('#ShowFoodListCheckModal').modal('show');
+            } else {
+                console.log(info.event._def);
+            }
         },
 
         datesSet: function (info) {
@@ -56,6 +168,7 @@
             getPermits();
             getOvertimes();
             getPayments();
+            getFoodListChecks();
         },
 
         events: [],
@@ -74,8 +187,10 @@
             data: {},
             success: function (response) {
                 createPermitTypeId.empty();
+                updatePermitTypeId.empty();
                 $.each(response.response, function (i, permitType) {
                     createPermitTypeId.append(`<option value="${permitType.id}">${permitType.name}</option>`);
+                    updatePermitTypeId.append(`<option value="${permitType.id}">${permitType.name}</option>`);
                 });
             },
             error: function (error) {
@@ -96,8 +211,10 @@
             data: {},
             success: function (response) {
                 createOvertimeTypeId.empty();
+                updateOvertimeTypeId.empty();
                 $.each(response.response, function (i, overtimeType) {
                     createOvertimeTypeId.append(`<option value="${overtimeType.id}">${overtimeType.name}</option>`);
+                    updateOvertimeTypeId.append(`<option value="${overtimeType.id}">${overtimeType.name}</option>`);
                 });
             },
             error: function (error) {
@@ -118,8 +235,10 @@
             data: {},
             success: function (response) {
                 createPaymentTypeId.empty();
+                updatePaymentTypeId.empty();
                 $.each(response.response, function (i, paymentType) {
                     createPaymentTypeId.append(`<option value="${paymentType.id}">${paymentType.name}</option>`);
+                    updatePaymentTypeId.append(`<option value="${paymentType.id}">${paymentType.name}</option>`);
                 });
             },
             error: function (error) {
@@ -311,7 +430,7 @@
 
         $.ajax({
             type: 'get',
-            url: '',
+            url: '{{ route('employee.api.foodListCheck.getDateBetween') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -321,7 +440,26 @@
                 endDate: endDate,
             },
             success: function (response) {
-                console.log(response);
+                $.each(calendar.getEvents(), function (i, event) {
+                    if (event._def.extendedProps.type === 'foodListCheck') {
+                        event.remove();
+                    }
+                });
+                calendar.addEventSource({
+                    events: $.map(response.response, function (foodListCheck) {
+                        return {
+                            _id: foodListCheck.id,
+                            id: foodListCheck.id,
+                            title: `${foodListCheck.food_list.name}`,
+                            start: reformatDateForCalendar(foodListCheck.food_list.date),
+                            end: reformatDateForCalendar(foodListCheck.food_list.date),
+                            type: 'foodListCheck',
+                            classNames: `bg-${foodListCheck.checked == null ? 'warning' : (foodListCheck.checked === 1 ? 'success' : 'danger')} text-white cursor-pointer ms-1 me-1`,
+                            backgroundColor: 'white',
+                            food_list_check_id: `${foodListCheck.id}`
+                        };
+                    }),
+                });
             },
             error: function (error) {
                 console.log(error);
@@ -333,6 +471,7 @@
     getPermits();
     getOvertimes();
     getPayments();
+    getFoodListChecks();
     getPermitTypes();
     getOvertimeTypes();
     getPaymentTypes();
@@ -345,12 +484,22 @@
         $('#CreatePermitModal').modal('show');
     }
 
+    function updatePermit() {
+        $('#ShowPermitModal').modal('hide');
+        $('#UpdatePermitModal').modal('show');
+    }
+
     function createOvertime() {
         createOvertimeTypeId.val('');
         $('#create_overtime_start_date').val('');
         $('#create_overtime_end_date').val('');
         $('#create_overtime_description').val('');
         $('#CreateOvertimeModal').modal('show');
+    }
+
+    function updateOvertime() {
+        $('#ShowOvertimeModal').modal('hide');
+        $('#UpdateOvertimeModal').modal('show');
     }
 
     function createPayment() {
@@ -405,6 +554,52 @@
         }
     });
 
+    UpdatePermitButton.click(function () {
+        var id = $('#update_permit_id').val();
+        var typeId = updatePermitTypeId.val();
+        var startDate = $('#update_permit_start_date').val();
+        var endDate = $('#update_permit_end_date').val();
+        var description = $('#update_permit_description').val();
+
+        if (!typeId) {
+            toastr.warning('İzin Türü Seçimi Zorunludur.');
+        } else if (!startDate) {
+            toastr.warning('Başlangıç Tarihi Seçimi Zorunludur.');
+        } else if (!endDate) {
+            toastr.warning('Bitiş Tarihi Seçimi Zorunludur.');
+        } else if (!description) {
+            toastr.warning('Açıklama Zorunludur.');
+        } else {
+            $('#loader').show();
+            $('#UpdatePermitModal').modal('hide');
+            $.ajax({
+                type: 'put',
+                url: '{{ route('employee.api.permit.update') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                    typeId: typeId,
+                    startDate: startDate,
+                    endDate: endDate,
+                    description: description,
+                },
+                success: function () {
+                    toastr.success('İzin Talebiniz Başarıyla Güncellendi.');
+                    getPermits();
+                    $('#loader').hide();
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('İzin Talebi Güncellenirken Serviste Bir Sorun Oluştu.');
+                    $('#loader').hide();
+                }
+            });
+        }
+    });
+
     CreateOvertimeButton.click(function () {
         var typeId = createOvertimeTypeId.val();
         var startDate = $('#create_overtime_start_date').val();
@@ -443,6 +638,52 @@
                 error: function (error) {
                     console.log(error);
                     toastr.error('Fazla Mesai Talebi Oluşturulurken Serviste Bir Sorun Oluştu.');
+                    $('#loader').hide();
+                }
+            });
+        }
+    });
+
+    UpdateOvertimeButton.click(function () {
+        var id = $('#update_overtime_id').val();
+        var typeId = updateOvertimeTypeId.val();
+        var startDate = $('#update_overtime_start_date').val();
+        var endDate = $('#update_overtime_end_date').val();
+        var description = $('#update_overtime_description').val();
+
+        if (!typeId) {
+            toastr.warning('Fazla Mesai Türü Seçimi Zorunludur.');
+        } else if (!startDate) {
+            toastr.warning('Başlangıç Tarihi Seçimi Zorunludur.');
+        } else if (!endDate) {
+            toastr.warning('Bitiş Tarihi Seçimi Zorunludur.');
+        } else if (!description) {
+            toastr.warning('Açıklama Zorunludur.');
+        } else {
+            $('#loader').show();
+            $('#UpdateOvertimeModal').modal('hide');
+            $.ajax({
+                type: 'put',
+                url: '{{ route('employee.api.overtime.update') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                    typeId: typeId,
+                    startDate: startDate,
+                    endDate: endDate,
+                    description: description,
+                },
+                success: function () {
+                    toastr.success('Fazla Mesai Talebiniz Başarıyla Güncellendi.');
+                    getOvertimes();
+                    $('#loader').hide();
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Fazla Mesai Talebi Güncellenirken Serviste Bir Sorun Oluştu.');
                     $('#loader').hide();
                 }
             });
@@ -491,6 +732,18 @@
                 }
             });
         }
+    });
+
+    EditPermitButton.click(function () {
+        updatePermit();
+    });
+
+    EditOvertimeButton.click(function () {
+        updateOvertime();
+    });
+
+    EditPaymentButton.click(function () {
+        updatePayment();
     });
 
 </script>

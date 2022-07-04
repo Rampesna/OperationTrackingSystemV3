@@ -15,8 +15,16 @@
 @section('content')
 
     @include('employee.modules.dashboard.index.modals.createPermit')
+    @include('employee.modules.dashboard.index.modals.updatePermit')
     @include('employee.modules.dashboard.index.modals.createOvertime')
+    @include('employee.modules.dashboard.index.modals.updateOvertime')
     @include('employee.modules.dashboard.index.modals.createPayment')
+    @include('employee.modules.dashboard.index.modals.updatePayment')
+    @include('employee.modules.dashboard.index.modals.showShift')
+    @include('employee.modules.dashboard.index.modals.showPermit')
+    @include('employee.modules.dashboard.index.modals.showOvertime')
+    @include('employee.modules.dashboard.index.modals.showPayment')
+    @include('employee.modules.dashboard.index.modals.showFoodListCheck')
 
     <div class="row">
         <div class="col-xl-5">

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Employee\PaymentController;
+namespace App\Http\Requests\Api\Employee\PermitController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class CreateRequest extends BaseApiRequest
+class UpdateRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class CreateRequest extends BaseApiRequest
     public function rules()
     {
         return [
+            'id' => 'required|integer',
             'typeId' => 'required|integer',
-            'date' => 'required',
-            'amount' => 'required|integer',
+            'startDate' => 'required',
+            'endDate' => 'required',
             'description' => 'required|string',
         ];
     }

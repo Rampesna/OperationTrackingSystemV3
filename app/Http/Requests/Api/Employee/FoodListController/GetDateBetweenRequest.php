@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Employee\PaymentController;
+namespace App\Http\Requests\Api\Employee\FoodListController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class CreateRequest extends BaseApiRequest
+class GetDateBetweenRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,8 @@ class CreateRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'typeId' => 'required|integer',
-            'date' => 'required',
-            'amount' => 'required|integer',
-            'description' => 'required|string',
+            'startDate' => 'required',
+            'endDate' => 'required',
         ];
     }
 }
