@@ -20,6 +20,7 @@
     var UpdateOvertimeButton = $('#UpdateOvertimeButton');
     var CreatePaymentButton = $('#CreatePaymentButton');
     var UpdatePaymentButton = $('#UpdatePaymentButton');
+    var UpdateFoodListCheckButton = $('#UpdateFoodListCheckButton');
 
     var EditPermitButton = $('#EditPermitButton');
     var EditOvertimeButton = $('#EditOvertimeButton');
@@ -188,7 +189,34 @@
                     }
                 });
             } else if (type === 'foodListCheck') {
-                $('#ShowFoodListCheckModal').modal('show');
+                $('#loader').show();
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('employee.api.foodListCheck.getById') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        $('#update_food_list_check_id').val(response.response.id);
+                        $('#update_food_list_check_food_list_name_span').html(response.response.food_list.name);
+                        $('#update_food_list_check_checked_badge_span').html(parseInt(response.response.checked) === 1 ? 'Yiyeceğim' : 'Yemeyeceğim').removeClass().addClass(`badge badge-${parseInt(response.response.checked) === 1 ? 'success' : 'danger'}`);
+                        $('#update_food_list_check_checked').val(response.response.checked);
+                        $('#update_food_list_check_liked').val(response.response.liked);
+                        $('#update_food_list_check_count').val(response.response.count);
+                        $('#update_food_list_check_description').val(response.response.description);
+                        $('#UpdateFoodListCheckModal').modal('show');
+                        $('#loader').hide();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error('Yemek Detayları Alınırken Serviste Bir Sorun Oluştu!');
+                        $('#loader').hide();
+                    }
+                });
             } else {
                 console.log(info.event._def);
             }
@@ -814,6 +842,43 @@
                 }
             });
         }
+    });
+
+    UpdateFoodListCheckButton.click(function () {
+        var id = $('#update_food_list_check_id').val();
+        var checked = $('#update_food_list_check_checked').val();
+        var liked = $('#update_food_list_check_liked').val();
+        var count = $('#update_food_list_check_count').val();
+        var description = $('#update_food_list_check_description').val();
+
+        $('#loader').show();
+
+        $.ajax({
+            type: 'put',
+            url: '{{ route('employee.api.foodListCheck.update') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+                checked: checked,
+                liked: liked,
+                count: count,
+                description: description,
+            },
+            success: function () {
+                $('#update_food_list_check_checked_badge_span').html(parseInt(checked) === 1 ? 'Yiyeceğim' : 'Yemeyeceğim').removeClass().addClass(`badge badge-${parseInt(checked) === 1 ? 'success' : 'danger'}`);
+                $('#loader').hide();
+                getFoodListChecks();
+                toastr.success('Başarıyla Güncellendi.');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Güncellenirken Serviste Bir Sorun Oluştu.');
+                $('#loader').hide();
+            }
+        });
     });
 
     EditPermitButton.click(function () {

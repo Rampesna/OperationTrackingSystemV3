@@ -56,6 +56,8 @@ Route::middleware([
 
     Route::prefix('foodListCheck')->group(function () {
         Route::get('getDateBetween', [\App\Http\Controllers\Api\Employee\FoodListCheckController::class, 'getDateBetween'])->name('employee.api.foodListCheck.getDateBetween');
+        Route::get('getById', [\App\Http\Controllers\Api\Employee\FoodListCheckController::class, 'getById'])->name('employee.api.foodListCheck.getById');
+        Route::put('update', [\App\Http\Controllers\Api\Employee\FoodListCheckController::class, 'update'])->name('employee.api.foodListCheck.update');
     });
 
 });

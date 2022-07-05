@@ -24,7 +24,9 @@ class FoodListCheckService implements IFoodListCheckService
         int $id
     )
     {
-        return FoodListCheck::find($id);
+        return FoodListCheck::with([
+            'foodList',
+        ])->find($id);
     }
 
     public function delete(
@@ -34,11 +36,6 @@ class FoodListCheckService implements IFoodListCheckService
         return $this->getById($id)->delete();
     }
 
-    /**
-     * @param int $employeeId
-     * @param string $startDate
-     * @param string $endDate
-     */
     public function getDateBetween(
         int    $employeeId,
         string $startDate,
@@ -55,5 +52,23 @@ class FoodListCheckService implements IFoodListCheckService
                     $endDate
                 )->pluck('id')->toArray()
             )->get();
+    }
+
+    public function update(
+        int      $id,
+        int|null $checked,
+        int|null $liked,
+        int      $count,
+        string|null   $description
+    )
+    {
+        $foodListCheck = $this->getById($id);
+        $foodListCheck->checked = $checked;
+        $foodListCheck->liked = $liked;
+        $foodListCheck->count = $count;
+        $foodListCheck->description = $description;
+        $foodListCheck->save();
+
+        return $foodListCheck;
     }
 }

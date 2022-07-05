@@ -24,7 +24,7 @@
     @include('employee.modules.dashboard.index.modals.showPermit')
     @include('employee.modules.dashboard.index.modals.showOvertime')
     @include('employee.modules.dashboard.index.modals.showPayment')
-    @include('employee.modules.dashboard.index.modals.showFoodListCheck')
+    @include('employee.modules.dashboard.index.modals.updateFoodListCheck')
 
     <div class="row">
         <div class="col-xl-5">
