@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\EmployeeController\LoginRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SwapThemeRequest;
+use App\Http\Requests\Api\Employee\EmployeeController\GetMarketPaymentsRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Traits\Response;
 
@@ -42,6 +43,13 @@ class EmployeeController extends Controller
         return $this->success('Theme swapped successfully', $this->employeeService->swapTheme(
             $request->user()->id,
             $request->theme
+        ));
+    }
+
+    public function getMarketPayments(GetMarketPaymentsRequest $request)
+    {
+        return $this->success('Market payments', $this->employeeService->getMarketPayments(
+            $request->user()->id
         ));
     }
 }

@@ -527,10 +527,41 @@
         });
     }
 
+    function getMarketPayments() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('employee.api.getMarketPayments') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                var income = 0;
+                var expense = 0;
+
+                $.each(response.response, function (i, marketPayment) {
+                    if (parseInt(marketPayment.direction) === 0) {
+                        income += parseInt(marketPayment.amount);
+                    } else if (parseInt(marketPayment.direction) === 1 && parseInt(marketPayment.completed) === 1) {
+                        expense += parseInt(marketPayment.amount);
+                    }
+                });
+
+                $('#employeeBalanceSpan').text(`${income - expense} ₺`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Market Ödemeleri Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
     getPermits();
     getOvertimes();
     getPayments();
     getFoodListChecks();
+    getMarketPayments();
     getPermitTypes();
     getOvertimeTypes();
     getPaymentTypes();
@@ -572,6 +603,11 @@
     function updatePayment() {
         $('#ShowPaymentModal').modal('hide');
         $('#UpdatePaymentModal').modal('show');
+    }
+
+    function createMarketPayment() {
+        $('#create_market_payment_amount').val('');
+        $('#CreateMarketPaymentModal').modal('show');
     }
 
     CreatePermitButton.click(function () {

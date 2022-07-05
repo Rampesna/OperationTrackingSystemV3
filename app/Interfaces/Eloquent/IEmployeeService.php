@@ -127,4 +127,11 @@ interface IEmployeeService extends IEloquentService
     );
 
     public function update();
+
+    /**
+     * @param int $employeeId
+     */
+    public function getMarketPayments(
+        int $employeeId
+    );
 }

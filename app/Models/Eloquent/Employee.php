@@ -61,4 +61,9 @@ class Employee extends Authenticatable
     {
         return $this->belongsToMany(ShiftGroup::class);
     }
+
+    public function marketPayments()
+    {
+        return $this->morphMany(MarketPayment::class, 'relation');
+    }
 }

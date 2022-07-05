@@ -81,15 +81,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6 mb-5">
+                <div onclick="createMarketPayment()" class="col-xl-6 mb-5">
                     <div class="card cursor-pointer h-lg-100">
                         <div class="card-body d-flex justify-content-between align-items-center flex-column">
-                            <div class="m-0">
-                                <span>
-                                    <i class="fa fa-2x fa-spinner fa-spin"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column mt-7">
+                            <span class="fw-bolder fs-2 mt-3" id="employeeBalanceSpan">
+                                <i class="fa fa-lg fa-spinner fa-spin"></i>
+                            </span>
+                            <div class="d-flex flex-column mt-3">
                                 <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Ödeme Yap</span>
                             </div>
                         </div>

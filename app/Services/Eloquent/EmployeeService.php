@@ -13,9 +13,6 @@ class EmployeeService implements IEmployeeService
         return Employee::all();
     }
 
-    /**
-     * @param int $id
-     */
     public function getById(
         int $id
     )
@@ -23,9 +20,6 @@ class EmployeeService implements IEmployeeService
         return Employee::find($id);
     }
 
-    /**
-     * @param array $ids
-     */
     public function getByIds(
         array $ids
     )
@@ -33,9 +27,6 @@ class EmployeeService implements IEmployeeService
         return Employee::whereIn('id', $ids)->get();
     }
 
-    /**
-     * @param string $email
-     */
     public function getByEmail(
         string $email
     )
@@ -43,10 +34,6 @@ class EmployeeService implements IEmployeeService
         return Employee::where('email', $email)->first();
     }
 
-    /**
-     * @param int $employeeId
-     * @param int $theme
-     */
     public function swapTheme(
         int $employeeId,
         int $theme
@@ -64,14 +51,6 @@ class EmployeeService implements IEmployeeService
         return $employee;
     }
 
-    /**
-     * @param int $pageIndex
-     * @param int $pageSize
-     * @param array $companyIds
-     * @param int $leave
-     * @param string|null $keyword
-     * @param array|null $jobDepartmentIds
-     */
     public function getByCompanies(
         int         $pageIndex = 0,
         int         $pageSize = 10,
@@ -100,9 +79,6 @@ class EmployeeService implements IEmployeeService
             ->get();
     }
 
-    /**
-     * @param int $employeeId
-     */
     public function getEmployeeQueues(
         int $employeeId
     )
@@ -110,10 +86,6 @@ class EmployeeService implements IEmployeeService
         return $this->getById($employeeId)->queues;
     }
 
-    /**
-     * @param int $employeeId
-     * @param array $queueIds
-     */
     public function setEmployeeQueues(
         int   $employeeId,
         array $queueIds
@@ -123,9 +95,6 @@ class EmployeeService implements IEmployeeService
         $employee->queues()->sync($queueIds);
     }
 
-    /**
-     * @param int $employeeId
-     */
     public function getEmployeeCompetences(
         int $employeeId
     )
@@ -133,10 +102,6 @@ class EmployeeService implements IEmployeeService
         return $this->getById($employeeId)->competences;
     }
 
-    /**
-     * @param int $employeeId
-     * @param array $competenceIds
-     */
     public function setEmployeeCompetences(
         int   $employeeId,
         array $competenceIds
@@ -146,9 +111,6 @@ class EmployeeService implements IEmployeeService
         $employee->competences()->sync($competenceIds);
     }
 
-    /**
-     * @param int $employeeId
-     */
     public function getEmployeeShiftGroups(
         int $employeeId
     )
@@ -156,10 +118,6 @@ class EmployeeService implements IEmployeeService
         return $this->getById($employeeId)->shiftGroups;
     }
 
-    /**
-     * @param int $employeeId
-     * @param array $shiftGroupIds
-     */
     public function setEmployeeShiftGroups(
         int   $employeeId,
         array $shiftGroupIds
@@ -169,10 +127,6 @@ class EmployeeService implements IEmployeeService
         $employee->shiftGroups()->sync($shiftGroupIds);
     }
 
-    /**
-     * @param int $employeeId
-     * @param int $jobDepartmentId
-     */
     public function updateJobDepartment(
         int $employeeId,
         int $jobDepartmentId
@@ -183,9 +137,6 @@ class EmployeeService implements IEmployeeService
         return $employee->save();
     }
 
-    /**
-     * @param Employee $employee
-     */
     public function generateSanctumToken(
         Employee $employee
     )
@@ -198,9 +149,6 @@ class EmployeeService implements IEmployeeService
         return $token;
     }
 
-    /**
-     * @param Employee $employee
-     */
     public function generateOAuthToken(
         Employee $employee
     )
@@ -208,18 +156,6 @@ class EmployeeService implements IEmployeeService
         return Crypt::encrypt($employee->id);
     }
 
-    /**
-     * @param int|null $guid
-     * @param int $companyId
-     * @param int $roleId
-     * @param int $jobDepartmentId
-     * @param string $name
-     * @param string $email
-     * @param string|null $phone
-     * @param string|null $identity
-     * @param string|null $santralCode
-     * @param string|null $password
-     */
     public function create(
         ?int    $guid,
         int     $companyId,
@@ -254,9 +190,13 @@ class EmployeeService implements IEmployeeService
 
     }
 
-    /**
-     * @param int $id
-     */
+    public function getMarketPayments(
+        int $employeeId
+    )
+    {
+        return $this->getById($employeeId)->marketPayments;
+    }
+
     public function delete(
         int $id
     )

@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Company::class, 'user_selected_company');
     }
+
+    public function marketPayments()
+    {
+        return $this->morphMany(MarketPayment::class, 'relation');
+    }
 }
