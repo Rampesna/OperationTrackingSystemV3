@@ -33,7 +33,9 @@ Route::middleware([
 
     Route::prefix('payment')->group(function () {
         Route::get('getDateBetween', [\App\Http\Controllers\Api\Employee\PaymentController::class, 'getDateBetween'])->name('employee.api.payment.getDateBetween');
+        Route::get('getById', [\App\Http\Controllers\Api\Employee\PaymentController::class, 'getById'])->name('employee.api.payment.getById');
         Route::post('create', [\App\Http\Controllers\Api\Employee\PaymentController::class, 'create'])->name('employee.api.payment.create');
+        Route::put('update', [\App\Http\Controllers\Api\Employee\PaymentController::class, 'update'])->name('employee.api.payment.update');
     });
 
     Route::prefix('permitType')->group(function () {

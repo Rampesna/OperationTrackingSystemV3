@@ -155,7 +155,38 @@
                     }
                 });
             } else if (type === 'payment') {
-                $('#ShowPaymentModal').modal('show');
+                $('#loader').show();
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('employee.api.payment.getById') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        $('#update_payment_id').val(response.response.id);
+                        updatePaymentTypeId.val(response.response.type_id);
+                        $('#update_payment_date').val(response.response.date);
+                        $('#update_payment_amount').val(response.response.amount);
+                        $('#update_payment_description').val(response.response.description);
+                        $('#show_payment_type_name_span').html(response.response.type ? response.response.type.name : '--');
+                        $('#show_payment_status_badge_span').html(response.response.status ? response.response.status.name : '--').removeClass().addClass(`badge badge-${response.response.status ? response.response.status.color : 'secondary'}`);
+                        $('#show_payment_date_span').html(reformatDatetimeToDateForHuman(response.response.date));
+                        $('#show_payment_amount_span').html(`${response.response.amount} ₺`);
+                        $('#show_payment_description_input').val(response.response.description);
+                        parseInt(response.response.status_id) === 1 ? EditPaymentButton.show() : EditPaymentButton.hide();
+                        $('#ShowPaymentModal').modal('show');
+                        $('#loader').hide();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error('Ödeme Detayları Alınırken Serviste Bir Sorun Oluştu!');
+                        $('#loader').hide();
+                    }
+                });
             } else if (type === 'foodListCheck') {
                 $('#ShowFoodListCheckModal').modal('show');
             } else {
@@ -510,6 +541,11 @@
         $('#CreatePaymentModal').modal('show');
     }
 
+    function updatePayment() {
+        $('#ShowPaymentModal').modal('hide');
+        $('#UpdatePaymentModal').modal('show');
+    }
+
     CreatePermitButton.click(function () {
         var typeId = createPermitTypeId.val();
         var startDate = $('#create_permit_start_date').val();
@@ -691,13 +727,13 @@
     });
 
     CreatePaymentButton.click(function () {
-        var typeId = createOvertimeTypeId.val();
+        var typeId = createPaymentTypeId.val();
         var date = $('#create_payment_date').val();
         var amount = $('#create_payment_amount').val();
         var description = $('#create_payment_description').val();
 
         if (!typeId) {
-            toastr.warning('Fazla Mesai Türü Seçimi Zorunludur.');
+            toastr.warning('Ödeme Türü Seçimi Zorunludur.');
         } else if (!date) {
             toastr.warning('Tarih Seçimi Zorunludur.');
         } else if (!amount) {
@@ -728,6 +764,52 @@
                 error: function (error) {
                     console.log(error);
                     toastr.error('Ödeme Talebi Oluşturulurken Serviste Bir Sorun Oluştu.');
+                    $('#loader').hide();
+                }
+            });
+        }
+    });
+
+    UpdatePaymentButton.click(function () {
+        var id = $('#update_payment_id').val();
+        var typeId = updatePaymentTypeId.val();
+        var date = $('#update_payment_date').val();
+        var amount = $('#update_payment_amount').val();
+        var description = $('#update_payment_description').val();
+
+        if (!typeId) {
+            toastr.warning('Ödeme Türü Seçimi Zorunludur.');
+        } else if (!date) {
+            toastr.warning('Tarih Seçimi Zorunludur.');
+        } else if (!amount) {
+            toastr.warning('İstenilen Miktar Boş Olamaz.');
+        } else if (!description) {
+            toastr.warning('Açıklama Zorunludur.');
+        } else {
+            $('#loader').show();
+            $('#UpdatePaymentModal').modal('hide');
+            $.ajax({
+                type: 'put',
+                url: '{{ route('employee.api.payment.update') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                    typeId: typeId,
+                    date: date,
+                    amount: amount,
+                    description: description,
+                },
+                success: function () {
+                    toastr.success('Ödeme Talebiniz Başarıyla Güncellendi.');
+                    getPayments();
+                    $('#loader').hide();
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Ödeme Talebi Güncellenirken Serviste Bir Sorun Oluştu.');
                     $('#loader').hide();
                 }
             });

@@ -14,10 +14,37 @@
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <div class="form fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="mb-13 text-center">
-                        <h1 class="mb-3">Ödeme Detayları</h1>
+                        <h1 class="mb-3" id="show_payment_type_name_span">
+                            <i class="fa fa-spinner fa-spin fa-2x"></i>
+                        </h1>
+                        <span id="show_payment_status_badge_span" class="badge badge-secondary">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </span>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-
+                        <div class="row text-center">
+                            <div class="col-6 border-right pb-4 pt-4">
+                                <label class="fw-bolder mb-2">Tarih</label>
+                                <h6 id="show_payment_date_span" class="fs-4 fw-bolder">
+                                    <i class="fa fa-spinner fa-spin fa-lg"></i>
+                                </h6>
+                            </div>
+                            <div class="col-6 pb-4 pt-4">
+                                <label class="fw-bolder mb-2">Miktar</label>
+                                <h6 id="show_payment_amount_span" class="fs-4 fw-bolder">
+                                    <i class="fa fa-spinner fa-spin fa-lg"></i>
+                                </h6>
+                            </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="row">
+                            <div class="col-xl-12 mb-5 text-center">
+                                <h5>Açıklamalar</h5>
+                            </div>
+                            <div class="col-xl-12">
+                                <textarea id="show_payment_description_input" aria-label="Açıklamalar" class="form-control form-control-solid" rows="4" disabled></textarea>
+                            </div>
+                        </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Kapat</button>

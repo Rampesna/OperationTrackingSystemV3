@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\OvertimeController\GetDateBetweenRequest;
 use App\Http\Requests\Api\Employee\OvertimeController\GetByIdRequest;
 use App\Http\Requests\Api\Employee\OvertimeController\CreateRequest;
+use App\Http\Requests\Api\Employee\OvertimeController\UpdateRequest;
 use App\Interfaces\Eloquent\IOvertimeService;
 use App\Traits\Response;
 
@@ -54,7 +55,7 @@ class OvertimeController extends Controller
         ));
     }
 
-    public function update(CreateRequest $request)
+    public function update(UpdateRequest $request)
     {
         $overtime = $this->overtimeService->getById(
             $request->id

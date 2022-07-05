@@ -16,7 +16,11 @@ class PaymentService implements IPaymentService
         int $id
     )
     {
-        return Payment::find($id);
+        return Payment::with([
+            'type',
+            'status',
+            'employee',
+        ])->find($id);
     }
 
     public function delete(
@@ -36,6 +40,28 @@ class PaymentService implements IPaymentService
     )
     {
         $payment = new Payment;
+        $payment->employee_id = $employeeId;
+        $payment->type_id = $typeId;
+        $payment->status_id = $statusId;
+        $payment->date = $date;
+        $payment->amount = $amount;
+        $payment->description = $description;
+        $payment->save();
+
+        return $payment;
+    }
+
+    public function update(
+        int    $id,
+        int    $employeeId,
+        int    $typeId,
+        int    $statusId,
+        string $date,
+        int    $amount,
+        string $description
+    )
+    {
+        $payment = Payment::find($id);
         $payment->employee_id = $employeeId;
         $payment->type_id = $typeId;
         $payment->status_id = $statusId;
