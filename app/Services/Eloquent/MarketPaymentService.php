@@ -51,4 +51,21 @@ class MarketPaymentService implements IMarketPaymentService
         return $marketPayment;
     }
 
+    public function getByCode(
+        string $code
+    )
+    {
+        return MarketPayment::where('code', $code)->orderBy('created_at', 'desc')->first();
+    }
+
+    public function setCompleted(
+        int $marketPaymentId
+    )
+    {
+        $marketPayment = $this->getById($marketPaymentId);
+        $marketPayment->completed = 1;
+        $marketPayment->save();
+
+        return $marketPayment;
+    }
 }

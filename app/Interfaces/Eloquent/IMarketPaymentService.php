@@ -24,4 +24,18 @@ interface IMarketPaymentService extends IEloquentService
         int     $direction,
         ?int    $completed
     );
+
+    /**
+     * @param string $code
+     */
+    public function getByCode(
+        string $code
+    );
+
+    /**
+     * @param int $marketPaymentId
+     */
+    public function setCompleted(
+        int $marketPaymentId
+    );
 }

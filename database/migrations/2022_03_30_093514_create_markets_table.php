@@ -17,7 +17,9 @@ return new class extends Migration {
             $table->string('code')->unique();
             $table->string('name');
             $table->string('password');
+            $table->string('api_token')->nullable();
             $table->boolean('suspended')->default(0);
+            $table->boolean('theme')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

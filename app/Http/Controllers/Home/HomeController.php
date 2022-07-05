@@ -17,7 +17,7 @@ class HomeController extends Controller
         }
 
         if (auth()->guard('market_web')->check()) {
-            return 'Market';
+            return redirect()->route('market.web.dashboard.index');
         }
 
         return view('home.modules.index.index');

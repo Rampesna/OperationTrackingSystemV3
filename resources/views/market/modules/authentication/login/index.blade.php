@@ -1,5 +1,5 @@
-@extends('employee.layouts.auth')
-@section('title', 'Personel Girişi | ')
+@extends('market.layouts.auth')
+@section('title', 'Market Girişi | ')
 
 @section('content')
 
@@ -10,8 +10,8 @@
         <div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
             <div class="form w-100">
                 <div class="fv-row mb-10">
-                    <label for="email" class="form-label fs-6 fw-bolder text-dark">E-posta Adresiniz</label>
-                    <input id="email" type="text" class="form-control form-control-lg form-control-solid emailMask" autocomplete="off" />
+                    <label for="code" class="form-label fs-6 fw-bolder text-dark">Market Kodunuz</label>
+                    <input id="code" type="text" class="form-control form-control-lg form-control-solid" autocomplete="off" />
                 </div>
                 <div class="fv-row mb-10">
                     <div class="d-flex flex-stack mb-2">
@@ -38,9 +38,9 @@
 @endsection
 
 @section('customStyles')
-    @include('employee.modules.authentication.login.components.style')
+    @include('market.modules.authentication.login.components.style')
 @endsection
 
 @section('customScripts')
-    @include('employee.modules.authentication.login.components.script')
+    @include('market.modules.authentication.login.components.script')
 @endsection

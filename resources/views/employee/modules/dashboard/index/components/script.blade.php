@@ -1,7 +1,6 @@
 <script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
 <script src="{{ asset('assets/plugins/custom/fullcalendar/locales-all-min.js') }}"></script>
-<script src="{{ asset('assets/plugins/custom/qrcode/html5-qrcode.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/custom/qrcode/qrcode.js') }}"></script>
+<script src="{{ asset('assets/plugins/custom/qrcode/creator.js') }}"></script>
 
 <script>
 
@@ -937,8 +936,7 @@
                     amount: amount,
                 },
                 success: function (response) {
-                    console.log(response);
-                    $('#qrcode').empty().qrcode(`test`);
+                    $('#qrcode').empty().qrcode(response.response.code);
                 },
                 error: function (error) {
                     console.log(error);

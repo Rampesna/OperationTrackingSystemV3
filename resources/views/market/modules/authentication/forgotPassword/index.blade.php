@@ -1,4 +1,4 @@
-@extends('employee.layouts.auth')
+@extends('market.layouts.auth')
 @section('title', 'Şifremi Unuttum | ')
 
 @section('content')
@@ -14,10 +14,10 @@
                 </div>
                 <div class="fv-row mb-10">
                     <div class="d-flex flex-stack mb-2">
-                        <label for="email" class="form-label fw-bolder text-dark fs-6 mb-0">E-posta Adresiniz</label>
-                        <a href="{{ route('employee.web.authentication.login.index') }}" class="link-primary fs-6 fw-bolder" tabindex="-1">Giriş Yapın</a>
+                        <label for="code" class="form-label fw-bolder text-dark fs-6 mb-0">Market Kodnuz</label>
+                        <a href="{{ route('market.web.authentication.login.index') }}" class="link-primary fs-6 fw-bolder" tabindex="-1">Giriş Yapın</a>
                     </div>
-                    <input id="email" type="text" class="form-control form-control-lg form-control-solid emailMask" autocomplete="off" />
+                    <input id="code" type="text" class="form-control form-control-lg form-control-solid emailMask" autocomplete="off" />
                 </div>
                 <div class="text-center">
                     <button type="button" id="ResetPasswordButton" class="btn btn-lg btn-primary w-100 mb-5">Gönder</button>
@@ -29,9 +29,9 @@
 @endsection
 
 @section('customStyles')
-    @include('employee.modules.authentication.forgotPassword.components.style')
+    @include('market.modules.authentication.forgotPassword.components.style')
 @endsection
 
 @section('customScripts')
-    @include('employee.modules.authentication.forgotPassword.components.script')
+    @include('market.modules.authentication.forgotPassword.components.script')
 @endsection

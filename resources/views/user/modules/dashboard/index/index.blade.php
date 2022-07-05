@@ -24,8 +24,8 @@
 
     <div class="row">
 
-        <a href="{{ route('user.web.employee.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Personeller">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Personeller">
+            <a href="{{ route('user.web.employee.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -41,11 +41,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Personeller</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.report.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Raporlar">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Raporlar">
+            <a href="{{ route('user.web.report.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -60,11 +60,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Raporlar</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.otsJob.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="OTS İşler">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="OTS İşler">
+            <a href="{{ route('user.web.otsJob.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -78,11 +78,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">OTS İşler</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.santralMonitoring.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Santral Takibi">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Santral Takibi">
+            <a href="{{ route('user.web.santralMonitoring.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -97,11 +97,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Santral Takibi</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.salesAndMarketing.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Satış/Pazarlama">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Satış/Pazarlama">
+            <a href="{{ route('user.web.salesAndMarketing.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -115,11 +115,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Satış Pazarlama</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.academy.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Akademi">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Akademi">
+            <a href="{{ route('user.web.academy.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -133,11 +133,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Akademi</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.shift.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Vardiya">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Vardiya">
+            <a href="{{ route('user.web.shift.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -151,11 +151,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Vardiya</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.saturdayPermit.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Cumartesi İzni">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Cumartesi İzni">
+            <a href="{{ route('user.web.saturdayPermit.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -170,11 +170,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Cumartesi İzni</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.specialReport.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Özel Raporlar">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Özel Raporlar">
+            <a href="{{ route('user.web.specialReport.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -188,11 +188,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Özel Raporlar</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.meeting.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Toplantı">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Toplantı">
+            <a href="{{ route('user.web.meeting.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -206,11 +206,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Toplantı</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.performance.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Performans">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Performans">
+            <a href="{{ route('user.web.performance.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -224,11 +224,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Performans</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.qualityAssessment.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Kalite Değerlendirme">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Kalite Değerlendirme">
+            <a href="{{ route('user.web.qualityAssessment.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -242,11 +242,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Kalite Değerlendirme</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.closingJob.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Kapanış İşleri">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Kapanış İşleri">
+            <a href="{{ route('user.web.closingJob.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -260,11 +260,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Kapanış İşleri</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.market.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Market">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Market">
+            <a href="{{ route('user.web.market.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -280,11 +280,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Market</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.humanResources.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="İnsan Kaynakları">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="İnsan Kaynakları">
+            <a href="{{ route('user.web.humanResources.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -300,11 +300,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">İnsan Kaynakları</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.recruiting.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="İşe Alım Yönetimi">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="İşe Alım Yönetimi">
+            <a href="{{ route('user.web.recruiting.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -319,11 +319,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">İşe Alım Yönetimi</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.project.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Projeler">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Projeler">
+            <a href="{{ route('user.web.project.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -337,11 +337,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Projeler</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.inventory.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Envanter">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Envanter">
+            <a href="{{ route('user.web.inventory.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -355,11 +355,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Envanter</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.assignment.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Görevlendirmeler">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Görevlendirmeler">
+            <a href="{{ route('user.web.assignment.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -373,11 +373,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Görevlendirmeler</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.ticket.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Destek Talepleri">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Destek Talepleri">
+            <a href="{{ route('user.web.ticket.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -391,11 +391,11 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Destek Talepleri</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="{{ route('user.web.screenMonitoring.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5 application" data-app-name="Ekran Takibi">
-            <div class="card h-lg-100">
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Ekran Takibi">
+            <a href="{{ route('user.web.screenMonitoring.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -409,8 +409,8 @@
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Ekran Takibi</span>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
     </div>
 

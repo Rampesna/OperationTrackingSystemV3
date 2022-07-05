@@ -1,4 +1,4 @@
-@extends('employee.layouts.auth')
+@extends('user.layouts.auth')
 @section('title', 'Şifrenizi Sıfırlayın | ')
 
 @section('content')
@@ -34,9 +34,9 @@
 @endsection
 
 @section('customStyles')
-    @include('employee.modules.authentication.resetPassword.components.style')
+    @include('user.modules.authentication.resetPassword.components.style')
 @endsection
 
 @section('customScripts')
-    @include('employee.modules.authentication.resetPassword.components.script')
+    @include('user.modules.authentication.resetPassword.components.script')
 @endsection

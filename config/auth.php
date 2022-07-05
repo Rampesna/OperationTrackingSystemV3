@@ -53,7 +53,7 @@ return [
 
         'market_web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'markets',
         ],
 
         'user_api' => [

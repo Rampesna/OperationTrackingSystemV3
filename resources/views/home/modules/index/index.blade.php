@@ -44,7 +44,7 @@
                             </a>
                         </div>
                         <div class="col-xl-4 mb-5">
-                            <div class="card cursor-pointer">
+                            <a href="{{ route('market.web.authentication.login.index') }}" class="card cursor-pointer">
                                 <div class="card-body d-flex flex-column flex-center">
                                     <div class="text-center">
                                         <span class="svg-icon svg-icon-muted svg-icon-5hx">
@@ -64,7 +64,7 @@
                                         </h1>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
