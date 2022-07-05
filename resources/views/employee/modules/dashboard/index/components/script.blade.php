@@ -1,5 +1,7 @@
 <script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
 <script src="{{ asset('assets/plugins/custom/fullcalendar/locales-all-min.js') }}"></script>
+<script src="{{ asset('assets/plugins/custom/qrcode/html5-qrcode.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/custom/qrcode/qrcode.js') }}"></script>
 
 <script>
 
@@ -21,6 +23,7 @@
     var CreatePaymentButton = $('#CreatePaymentButton');
     var UpdatePaymentButton = $('#UpdatePaymentButton');
     var UpdateFoodListCheckButton = $('#UpdateFoodListCheckButton');
+    var CreateMarketPaymentButton = $('#CreateMarketPaymentButton');
 
     var EditPermitButton = $('#EditPermitButton');
     var EditOvertimeButton = $('#EditOvertimeButton');
@@ -548,7 +551,7 @@
                     }
                 });
 
-                $('#employeeBalanceSpan').text(`${income - expense} ₺`);
+                $('#employeeBalanceSpan').text(`${reformatNumberToMoney(income - expense)} ₺`);
             },
             error: function (error) {
                 console.log(error);
@@ -915,6 +918,34 @@
                 $('#loader').hide();
             }
         });
+    });
+
+    CreateMarketPaymentButton.click(function () {
+        var amount = $('#create_market_payment_amount').val();
+
+        if (!amount) {
+            toastr.warning('Ödeme tutarı Boş Olamaz.');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '{{ route('employee.api.marketPayment.create') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    amount: amount,
+                },
+                success: function (response) {
+                    console.log(response);
+                    $('#qrcode').empty().qrcode(`test`);
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Ödeme Yapılırken Serviste Bir Sorun Oluştu.');
+                }
+            });
+        }
     });
 
     EditPermitButton.click(function () {

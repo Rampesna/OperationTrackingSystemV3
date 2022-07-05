@@ -20,6 +20,7 @@
     @include('employee.modules.dashboard.index.modals.updateOvertime')
     @include('employee.modules.dashboard.index.modals.createPayment')
     @include('employee.modules.dashboard.index.modals.updatePayment')
+    @include('employee.modules.dashboard.index.modals.createMarketPayment')
     @include('employee.modules.dashboard.index.modals.showShift')
     @include('employee.modules.dashboard.index.modals.showPermit')
     @include('employee.modules.dashboard.index.modals.showOvertime')
@@ -81,7 +82,7 @@
                         </div>
                     </div>
                 </div>
-                <div onclick="createMarketPayment()" class="col-xl-6 mb-5">
+                <div onclick="createMarketPayment()" class="col-xl-6 mb-5" disabled>
                     <div class="card cursor-pointer h-lg-100">
                         <div class="card-body d-flex justify-content-between align-items-center flex-column">
                             <span class="fw-bolder fs-2 mt-3" id="employeeBalanceSpan">

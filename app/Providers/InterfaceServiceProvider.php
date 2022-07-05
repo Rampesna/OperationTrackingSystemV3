@@ -13,6 +13,7 @@ use App\Interfaces\Eloquent\IFoodListCheckService;
 use App\Interfaces\Eloquent\IFoodListService;
 use App\Interfaces\Eloquent\IJobDepartmentService;
 use App\Interfaces\Eloquent\IJobDepartmentTypeService;
+use App\Interfaces\Eloquent\IMarketPaymentService;
 use App\Interfaces\Eloquent\IOvertimeService;
 use App\Interfaces\Eloquent\IOvertimeTypeService;
 use App\Interfaces\Eloquent\IPasswordResetService;
@@ -56,6 +57,7 @@ use App\Services\Eloquent\FoodListCheckService;
 use App\Services\Eloquent\FoodListService;
 use App\Services\Eloquent\JobDepartmentService;
 use App\Services\Eloquent\JobDepartmentTypeService;
+use App\Services\Eloquent\MarketPaymentService;
 use App\Services\Eloquent\OvertimeService;
 use App\Services\Eloquent\OvertimeTypeService;
 use App\Services\Eloquent\PasswordResetService;
@@ -131,6 +133,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IPaymentTypeService::class, PaymentTypeService::class);
         $this->app->bind(IFoodListService::class, FoodListService::class);
         $this->app->bind(IFoodListCheckService::class, FoodListCheckService::class);
+        $this->app->bind(IMarketPaymentService::class, MarketPaymentService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

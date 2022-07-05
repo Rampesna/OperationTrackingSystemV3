@@ -61,4 +61,8 @@ Route::middleware([
         Route::put('update', [\App\Http\Controllers\Api\Employee\FoodListCheckController::class, 'update'])->name('employee.api.foodListCheck.update');
     });
 
+    Route::prefix('marketPayment')->group(function () {
+        Route::post('create', [\App\Http\Controllers\Api\Employee\MarketPaymentController::class, 'create'])->name('employee.api.marketPayment.create');
+    });
+
 });
