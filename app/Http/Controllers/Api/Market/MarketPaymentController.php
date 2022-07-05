@@ -34,8 +34,12 @@ class MarketPaymentController extends Controller
     {
         $marketPayment = $this->marketPaymentService->getByCode($request->code);
 
-        if (!$marketPayment) {
+        if (!$marketPayment || $marketPayment->completed == 1) {
             return $this->error('Market payment not found', 404);
+        }
+
+        if ($marketPayment->relation->getBalanceAttribute() < $marketPayment->amount) {
+            return $this->error('Not enough money', 406);
         }
 
         return $this->success('Set market payment completed', $this->marketPaymentService->setCompleted(

@@ -66,4 +66,10 @@ class Employee extends Authenticatable
     {
         return $this->morphMany(MarketPayment::class, 'relation');
     }
+
+    public function getBalanceAttribute()
+    {
+        $marketPayments = $this->marketPayments;
+        return $marketPayments->where('direction', 0)->sum('amount') - $marketPayments->where('direction', 1)->where('completed', 1)->sum('amount');
+    }
 }
