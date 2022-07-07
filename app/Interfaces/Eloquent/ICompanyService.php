@@ -2,6 +2,8 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface ICompanyService extends IEloquentService
 {
     /**
@@ -9,6 +11,8 @@ interface ICompanyService extends IEloquentService
      * @param int $pageIndex
      * @param int $pageSize
      * @param string|null $keyword
+     *
+     * @return ServiceResponse
      */
     public function getUsersByCompanyIds(
         array   $companyIds,
@@ -19,6 +23,8 @@ interface ICompanyService extends IEloquentService
 
     /**
      * @param int $id
+     *
+     * @return ServiceResponse
      */
     public function tree(
         int $id
@@ -34,6 +40,8 @@ interface ICompanyService extends IEloquentService
      * @param int|null $uyumCrmBranchId
      * @param string|null $uyumCrmBranchCode
      * @param string|null $activeYear
+     *
+     * @return ServiceResponse
      */
     public function create(
         string  $title,
@@ -58,6 +66,8 @@ interface ICompanyService extends IEloquentService
      * @param int|null $uyumCrmBranchId
      * @param string|null $uyumCrmBranchCode
      * @param string|null $activeYear
+     *
+     * @return ServiceResponse
      */
     public function update(
         int     $id,

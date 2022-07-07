@@ -3,12 +3,19 @@
 
 namespace App\Interfaces\OperationApi;
 
+use App\Services\ServiceResponse;
+
 interface ISurveySystemService
 {
+    /**
+     * @return ServiceResponse
+     */
     public function GetSurveyList();
 
     /**
      * @param int $id
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyEdit(
         int $id
@@ -16,6 +23,8 @@ interface ISurveySystemService
 
     /**
      * @param int $surveyCode
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyQuestionsList(
         int $surveyCode
@@ -23,6 +32,8 @@ interface ISurveySystemService
 
     /**
      * @param int $questionId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyQuestionEdit(
         int $questionId
@@ -30,6 +41,8 @@ interface ISurveySystemService
 
     /**
      * @param int $questionId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyAnswersList(
         int $questionId
@@ -37,17 +50,26 @@ interface ISurveySystemService
 
     /**
      * @param int $answerId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyAnswerEdit(
         int $answerId
     );
 
+    /**
+     * @param int $surveyCode
+     *
+     * @return ServiceResponse
+     */
     public function GetSurveyGroupConnectList(
-        $surveyCode
+        int $surveyCode
     );
 
     /**
      * @param int $answerId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyAnswersConnectList(
         int $answerId
@@ -55,32 +77,54 @@ interface ISurveySystemService
 
     /**
      * @param int $answerId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyAnswersCategoryConnectList(
         int $answerId
     );
 
+    /**
+     * @return ServiceResponse
+     */
     public function GetSurveyProductList();
 
+    /**
+     * @return ServiceResponse
+     */
     public function GetSurveySellerList();
 
     /**
      * @param int $answerId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyAnswersProductConnectList(
         int $answerId
     );
 
+    /**
+     * @param int $sellerId
+     *
+     * @return ServiceResponse
+     */
     public function GetSurveySellerEdit(
         $sellerId
     );
 
+    /**
+     * @param string $sellerCode
+     *
+     * @return ServiceResponse
+     */
     public function GetSurveySellerCodeEdit(
-        $sellerCode
+        string $sellerCode
     );
 
     /**
      * @param int $productId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyProductEdit(
         int $productId
@@ -109,6 +153,8 @@ interface ISurveySystemService
      * @param string|null $listCode
      * @param string|null $status
      * @param array|null $callList
+     *
+     * @return ServiceResponse
      */
     public function SetSurvey(
         int|null    $id,
@@ -144,6 +190,8 @@ interface ISurveySystemService
      * @param int $surveyCode
      * @param string|null $description
      * @param int $required
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyQuestions(
         int|null    $id,
@@ -162,6 +210,8 @@ interface ISurveySystemService
      * @param string $answer
      * @param int $order
      * @param string $columns
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswers(
         int|null $id,
@@ -173,6 +223,8 @@ interface ISurveySystemService
 
     /**
      * @param int $id
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyDelete(
         int $id
@@ -180,6 +232,8 @@ interface ISurveySystemService
 
     /**
      * @param int $questionId
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyQuestionsDelete(
         int $questionId
@@ -187,18 +241,28 @@ interface ISurveySystemService
 
     /**
      * @param int $answerId
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswersDelete(
         int $answerId
     );
 
+    /**
+     * @param int $id
+     * @param int $code
+     *
+     * @return ServiceResponse
+     */
     public function SetSurveyAnswersConnectDelete(
-        $id,
-        $code
+        int $id,
+        int $code
     );
 
     /**
      * @param array $categories
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswersCategoryConnect(
         array $categories
@@ -207,14 +271,18 @@ interface ISurveySystemService
     /**
      * @param int $surveyCode
      * @param int $subSurveyCode
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyGroupConnect(
-        $surveyCode,
-        $subSurveyCode
+        int $surveyCode,
+        int $subSurveyCode
     );
 
     /**
      * @param array $questions
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswersConnect(
         array $questions
@@ -222,6 +290,8 @@ interface ISurveySystemService
 
     /**
      * @param array $products
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswersProductConnect(
         array $products
@@ -229,6 +299,8 @@ interface ISurveySystemService
 
     /**
      * @param array $sellers
+     *
+     * @return ServiceResponse
      */
     public function SetSurveySellerConnect(
         array $sellers
@@ -236,6 +308,8 @@ interface ISurveySystemService
 
     /**
      * @param int $sellerId
+     *
+     * @return ServiceResponse
      */
     public function SetSurveySellerDelete(
         int $sellerId
@@ -243,6 +317,8 @@ interface ISurveySystemService
 
     /**
      * @param array $products
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyProduct(
         array $products
@@ -251,6 +327,8 @@ interface ISurveySystemService
     /**
      * @param int $surveyCode
      * @param array $guids
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyPersonConnect(
         int   $surveyCode,
@@ -262,6 +340,8 @@ interface ISurveySystemService
      * @param string $startDate
      * @param string $endDate
      * @param array $companyIds
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyReport(
         int    $surveyCode,
@@ -275,6 +355,8 @@ interface ISurveySystemService
      * @param string $startDate
      * @param string $endDate
      * @param array $statusCodes
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyReportStatusDetails(
         int    $surveyCode,
@@ -285,6 +367,8 @@ interface ISurveySystemService
 
     /**
      * @param int $surveyCode
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyReportWantedDetails(
         int $surveyCode,
@@ -294,6 +378,8 @@ interface ISurveySystemService
      * @param int $surveyCode
      * @param string $startDate
      * @param string $endDate
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyReportRemainingDetails(
         int    $surveyCode,
@@ -306,6 +392,8 @@ interface ISurveySystemService
      * @param string $startDate
      * @param string $endDate
      * @param array $companyIds
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyDetailReport(
         int    $surveyCode,

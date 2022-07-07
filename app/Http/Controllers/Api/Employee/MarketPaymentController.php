@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\MarketPaymentController\CreateRequest;
 use App\Interfaces\Eloquent\IMarketPaymentService;
 use App\Traits\Response;
-use Illuminate\Support\Str;
 
 class MarketPaymentController extends Controller
 {

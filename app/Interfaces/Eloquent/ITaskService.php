@@ -2,11 +2,15 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface ITaskService extends IEloquentService
 {
     /**
      * @param int $taskId
      * @param int $boardId
+     *
+     * @return ServiceResponse
      */
     public function updateBoard(
         int $taskId,
@@ -15,6 +19,8 @@ interface ITaskService extends IEloquentService
 
     /**
      * @param array $taskList
+     *
+     * @return ServiceResponse
      */
     public function updateOrder(
         array $taskList
@@ -23,6 +29,8 @@ interface ITaskService extends IEloquentService
     /**
      * @param int $id
      * @param array $parameters
+     *
+     * @return ServiceResponse
      */
     public function updateByParameters(
         int   $id,
@@ -31,6 +39,8 @@ interface ITaskService extends IEloquentService
 
     /**
      * @param int $taskId
+     *
+     * @return ServiceResponse
      */
     public function getFilesById(
         int $taskId
@@ -38,6 +48,8 @@ interface ITaskService extends IEloquentService
 
     /**
      * @param int $taskId
+     *
+     * @return ServiceResponse
      */
     public function getSubTasksById(
         int $taskId
@@ -45,6 +57,8 @@ interface ITaskService extends IEloquentService
 
     /**
      * @param int $taskId
+     *
+     * @return ServiceResponse
      */
     public function getCommentsById(
         int $taskId

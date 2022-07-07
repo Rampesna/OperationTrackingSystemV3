@@ -2,11 +2,15 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IUserService extends IEloquentService
 {
     /**
      * @param string $email
      * @param int|null $exceptId
+     *
+     * @return ServiceResponse
      */
     public function getByEmail(
         string $email,
@@ -16,6 +20,8 @@ interface IUserService extends IEloquentService
     /**
      * @param int $userId
      * @param int $theme
+     *
+     * @return ServiceResponse
      */
     public function swapTheme(
         int $userId,
@@ -24,6 +30,8 @@ interface IUserService extends IEloquentService
 
     /**
      * @param int $userId
+     *
+     * @return ServiceResponse
      */
     public function getCompanies(
         int $userId
@@ -32,6 +40,8 @@ interface IUserService extends IEloquentService
     /**
      * @param int $userId
      * @param array $companyIds
+     *
+     * @return ServiceResponse
      */
     public function setCompanies(
         int   $userId,
@@ -41,6 +51,8 @@ interface IUserService extends IEloquentService
     /**
      * @param int $userId
      * @param int $companyId
+     *
+     * @return ServiceResponse
      */
     public function setSingleCompany(
         int $userId,
@@ -49,6 +61,8 @@ interface IUserService extends IEloquentService
 
     /**
      * @param int $userId
+     *
+     * @return ServiceResponse
      */
     public function getSelectedCompanies(
         int $userId
@@ -57,6 +71,8 @@ interface IUserService extends IEloquentService
     /**
      * @param int $userId
      * @param array $companyIds
+     *
+     * @return ServiceResponse
      */
     public function setSelectedCompanies(
         int   $userId,
@@ -69,6 +85,8 @@ interface IUserService extends IEloquentService
      * @param string $email
      * @param string|null $phone
      * @param string|null $identity
+     *
+     * @return ServiceResponse
      */
     public function create(
         int     $roleId,
@@ -85,6 +103,8 @@ interface IUserService extends IEloquentService
      * @param string $email
      * @param string|null $phone
      * @param string|null $identity
+     *
+     * @return ServiceResponse
      */
     public function update(
         int     $id,
@@ -98,6 +118,8 @@ interface IUserService extends IEloquentService
     /**
      * @param int $userId
      * @param int $suspend
+     *
+     * @return ServiceResponse
      */
     public function setSuspend(
         int $userId,
@@ -107,6 +129,8 @@ interface IUserService extends IEloquentService
     /**
      * @param int $userId
      * @param string $password
+     *
+     * @return ServiceResponse
      */
     public function updatePassword(
         int    $userId,

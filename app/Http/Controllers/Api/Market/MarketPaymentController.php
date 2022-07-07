@@ -43,7 +43,8 @@ class MarketPaymentController extends Controller
         }
 
         return $this->success('Set market payment completed', $this->marketPaymentService->setCompleted(
-            $marketPayment->id
+            $request->user()->id,
+            $marketPayment->id,
         ));
     }
 }

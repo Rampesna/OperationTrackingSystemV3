@@ -28,9 +28,14 @@
                             </div>
                         </div>
                         <hr class="text-muted">
-                        <div class="row">
+                        <div class="row mb-5">
                             <div class="col-xl-12 text-center">
                                 <div id="qrcode"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12 text-center">
+                                <span class="fw-bolder" id="pinCode"></span>
                             </div>
                         </div>
                     </div>

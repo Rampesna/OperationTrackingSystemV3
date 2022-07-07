@@ -11,6 +11,7 @@ Route::middleware([
 ])->group(function () {
 
     Route::post('swapTheme', [\App\Http\Controllers\Api\Market\MarketController::class, 'swapTheme'])->name('market.api.swapTheme');
+    Route::get('getMarketPayments', [\App\Http\Controllers\Api\Market\MarketController::class, 'getMarketPayments'])->name('market.api.getMarketPayments');
 
     Route::prefix('marketPayment')->group(function () {
         Route::post('getByCode', [\App\Http\Controllers\Api\Market\MarketPaymentController::class, 'getByCode'])->name('market.api.marketPayment.getByCode');

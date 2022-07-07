@@ -2,12 +2,16 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IFoodListCheckService extends IEloquentService
 {
     /**
      * @param int $employeeId
      * @param string $startDate
      * @param string $endDate
+     *
+     * @return ServiceResponse
      */
     public function getDateBetween(
         int    $employeeId,
@@ -21,6 +25,8 @@ interface IFoodListCheckService extends IEloquentService
      * @param int|null $liked
      * @param int $count
      * @param string|null $description
+     *
+     * @return ServiceResponse
      */
     public function update(
         int         $id,

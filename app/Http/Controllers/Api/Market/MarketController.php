@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Market;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Market\MarketController\LoginRequest;
 use App\Http\Requests\Api\Market\MarketController\SwapThemeRequest;
+use App\Http\Requests\Api\Market\MarketController\GetMarketPaymentsRequest;
 use App\Interfaces\Eloquent\IMarketService;
 use App\Traits\Response;
 
@@ -42,6 +43,13 @@ class MarketController extends Controller
         return $this->success('Theme swapped successfully', $this->marketService->swapTheme(
             $request->user()->id,
             $request->theme
+        ));
+    }
+
+    public function getMarketPayments(GetMarketPaymentsRequest $request)
+    {
+        return $this->success('Market payments', $this->marketService->getMarketPayments(
+            $request->user()->id
         ));
     }
 }

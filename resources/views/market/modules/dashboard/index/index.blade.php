@@ -29,7 +29,9 @@
                         </span>
                     </div>
                     <div class="d-flex flex-column mt-7">
-                        <span class="fw-bold fs-2hx text-success lh-1 ls-n2">0.00 ₺</span>
+                        <span class="fw-bold fs-2hx text-success lh-1 ls-n2" id="marketBalanceSpan">
+                            <i class="fa fa-spinner fa-spin fa-lg"></i>
+                        </span>
                     </div>
                     <div class="d-flex flex-column mt-7">
                         <span class="fw-bold fs-5 lh-1 ls-n2">Bakiye</span>

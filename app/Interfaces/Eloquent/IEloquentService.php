@@ -2,21 +2,30 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IEloquentService
 {
-    public function getAll();
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse;
 
     /**
      * @param int $id
+     *
+     * @return ServiceResponse
      */
     public function getById(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
+     *
+     * @return ServiceResponse
      */
     public function delete(
         int $id
-    );
+    ): ServiceResponse;
 }

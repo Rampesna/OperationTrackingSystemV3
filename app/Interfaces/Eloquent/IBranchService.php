@@ -2,10 +2,14 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IBranchService extends IEloquentService
 {
     /**
      * @param int $companyId
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyId(
         int $companyId
@@ -14,6 +18,8 @@ interface IBranchService extends IEloquentService
     /**
      * @param int $companyId
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function create(
         int    $companyId,
@@ -23,6 +29,8 @@ interface IBranchService extends IEloquentService
     /**
      * @param int $id
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,

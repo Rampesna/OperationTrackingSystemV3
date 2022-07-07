@@ -2,6 +2,8 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IOvertimeService extends IEloquentService
 {
     /**
@@ -11,6 +13,8 @@ interface IOvertimeService extends IEloquentService
      * @param string $startDate
      * @param string $endDate
      * @param string $description
+     *
+     * @return ServiceResponse
      */
     public function create(
         int    $employeeId,
@@ -29,6 +33,8 @@ interface IOvertimeService extends IEloquentService
      * @param string $startDate
      * @param string $endDate
      * @param string $description
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,
@@ -44,6 +50,8 @@ interface IOvertimeService extends IEloquentService
      * @param int $employeeId
      * @param string $startDate
      * @param string $endDate
+     *
+     * @return ServiceResponse
      */
     public function getDateBetween(
         int    $employeeId,

@@ -2,6 +2,8 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IShiftService extends IEloquentService
 {
     /**
@@ -10,6 +12,8 @@ interface IShiftService extends IEloquentService
      * @param string $endDate
      * @param string|null $keyword
      * @param array|null $jobDepartmentIds
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyId(
         int         $companyId,
@@ -23,6 +27,8 @@ interface IShiftService extends IEloquentService
      * @param int $employeeId
      * @param string $startDate
      * @param string $endDate
+     *
+     * @return ServiceResponse
      */
     public function getDateBetweenByEmployeeId(
         int    $employeeId,
@@ -37,6 +43,8 @@ interface IShiftService extends IEloquentService
      * @param string|null $keyword
      * @param array|null $jobDepartmentIds
      * @param array|null $shiftGroupIds
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyIds(
         array       $companyIds,
@@ -51,6 +59,8 @@ interface IShiftService extends IEloquentService
      * @param int $companyId
      * @param string $month
      * @param int $userId
+     *
+     * @return ServiceResponse
      */
     public function robot(
         int    $companyId,
@@ -60,6 +70,8 @@ interface IShiftService extends IEloquentService
 
     /**
      * @param array $shiftIds
+     *
+     * @return ServiceResponse
      */
     public function deleteByIds(
         array $shiftIds

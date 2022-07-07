@@ -2,10 +2,14 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IShiftGroupService extends IEloquentService
 {
     /**
      * @param int $companyId
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyId(
         int $companyId
@@ -16,6 +20,8 @@ interface IShiftGroupService extends IEloquentService
      * @param int $pageIndex
      * @param int $pageSize
      * @param string|null $keyword
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyIds(
         array       $companyIds,
@@ -26,6 +32,8 @@ interface IShiftGroupService extends IEloquentService
 
     /**
      * @param int $shiftGroupId
+     *
+     * @return ServiceResponse
      */
     public function getShiftGroupEmployees(
         int $shiftGroupId
@@ -34,6 +42,8 @@ interface IShiftGroupService extends IEloquentService
     /**
      * @param int $shiftGroupId
      * @param array $employeeIds
+     *
+     * @return ServiceResponse
      */
     public function setShiftGroupEmployees(
         int   $shiftGroupId,
@@ -90,6 +100,8 @@ interface IShiftGroupService extends IEloquentService
      * @param int $momentaryBreakBreakDuration
      * @param int $fridayAdditionalBreakDuration
      * @param int $suspendBreakUsing
+     *
+     * @return ServiceResponse
      */
     public function create(
         int         $companyId,
@@ -194,6 +206,8 @@ interface IShiftGroupService extends IEloquentService
      * @param int $momentaryBreakBreakDuration
      * @param int $fridayAdditionalBreakDuration
      * @param int $suspendBreakUsing
+     *
+     * @return ServiceResponse
      */
     public function update(
         int         $id,

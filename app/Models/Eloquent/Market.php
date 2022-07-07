@@ -36,4 +36,9 @@ class Market extends Authenticatable
     {
         return $this->belongsTo(MarketRole::class, 'role_id', 'id');
     }
+
+    public function marketPayments()
+    {
+        return $this->hasMany(MarketPayment::class, 'market_id', 'id');
+    }
 }

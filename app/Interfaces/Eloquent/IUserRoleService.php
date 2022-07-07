@@ -2,12 +2,16 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IUserRoleService extends IEloquentService
 {
     /**
      * @param int $pageIndex
      * @param int $pageSize
      * @param string|null $keyword
+     *
+     * @return ServiceResponse
      */
     public function getAllUserRoles(
         int     $pageIndex = 0,
@@ -17,6 +21,8 @@ interface IUserRoleService extends IEloquentService
 
     /**
      * @param int $roleId
+     *
+     * @return ServiceResponse
      */
     public function getUserPermissions(
         int $roleId
@@ -25,6 +31,8 @@ interface IUserRoleService extends IEloquentService
     /**
      * @param int $roleId
      * @param array $userPermissionIds
+     *
+     * @return ServiceResponse
      */
     public function setUserPermissions(
         int   $roleId,
@@ -33,6 +41,8 @@ interface IUserRoleService extends IEloquentService
 
     /**
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function create(
         string $name
@@ -41,6 +51,8 @@ interface IUserRoleService extends IEloquentService
     /**
      * @param int $id
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,

@@ -2,10 +2,14 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IEmployeeService extends IEloquentService
 {
     /**
      * @param string $email
+     *
+     * @return ServiceResponse
      */
     public function getByEmail(
         string $email
@@ -14,6 +18,8 @@ interface IEmployeeService extends IEloquentService
     /**
      * @param int $employeeId
      * @param int $theme
+     *
+     * @return ServiceResponse
      */
     public function swapTheme(
         int $employeeId,
@@ -22,6 +28,8 @@ interface IEmployeeService extends IEloquentService
 
     /**
      * @param array $ids
+     *
+     * @return ServiceResponse
      */
     public function getByIds(
         array $ids
@@ -34,6 +42,8 @@ interface IEmployeeService extends IEloquentService
      * @param int $leave
      * @param string|null $keyword
      * @param array|null $jobDepartmentIds
+     *
+     * @return ServiceResponse
      */
     public function getByCompanies(
         int         $pageIndex = 0,
@@ -46,6 +56,8 @@ interface IEmployeeService extends IEloquentService
 
     /**
      * @param int $employeeId
+     *
+     * @return ServiceResponse
      */
     public function getEmployeeQueues(
         int $employeeId
@@ -53,6 +65,8 @@ interface IEmployeeService extends IEloquentService
 
     /**
      * @param int $employeeId
+     *
+     * @return ServiceResponse
      */
     public function getEmployeeShiftGroups(
         int $employeeId
@@ -61,6 +75,8 @@ interface IEmployeeService extends IEloquentService
     /**
      * @param int $employeeId
      * @param array $shiftGroupIds
+     *
+     * @return ServiceResponse
      */
     public function setEmployeeShiftGroups(
         int   $employeeId,
@@ -70,6 +86,8 @@ interface IEmployeeService extends IEloquentService
     /**
      * @param int $employeeId
      * @param array $queueIds
+     *
+     * @return ServiceResponse
      */
     public function setEmployeeQueues(
         int   $employeeId,
@@ -78,6 +96,8 @@ interface IEmployeeService extends IEloquentService
 
     /**
      * @param int $employeeId
+     *
+     * @return ServiceResponse
      */
     public function getEmployeeCompetences(
         int $employeeId
@@ -86,6 +106,8 @@ interface IEmployeeService extends IEloquentService
     /**
      * @param int $employeeId
      * @param array $competenceIds
+     *
+     * @return ServiceResponse
      */
     public function setEmployeeCompetences(
         int   $employeeId,
@@ -95,6 +117,8 @@ interface IEmployeeService extends IEloquentService
     /**
      * @param int $employeeId
      * @param int $jobDepartmentId
+     *
+     * @return ServiceResponse
      */
     public function updateJobDepartment(
         int $employeeId,
@@ -112,6 +136,8 @@ interface IEmployeeService extends IEloquentService
      * @param string|null $identity
      * @param string|null $santralCode
      * @param string|null $password
+     *
+     * @return ServiceResponse
      */
     public function create(
         ?int    $guid,
@@ -130,6 +156,8 @@ interface IEmployeeService extends IEloquentService
 
     /**
      * @param int $employeeId
+     *
+     * @return ServiceResponse
      */
     public function getMarketPayments(
         int $employeeId

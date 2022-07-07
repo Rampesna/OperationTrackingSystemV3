@@ -2,6 +2,8 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface ICompetenceService extends IEloquentService
 {
     /**
@@ -9,6 +11,8 @@ interface ICompetenceService extends IEloquentService
      * @param int $pageIndex
      * @param int $companyIds
      * @param string $keyword
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyIds(
         array  $companyIds,
@@ -19,6 +23,8 @@ interface ICompetenceService extends IEloquentService
 
     /**
      * @param int $competenceId
+     *
+     * @return ServiceResponse
      */
     public function getCompetenceEmployees(
         int $competenceId
@@ -27,6 +33,8 @@ interface ICompetenceService extends IEloquentService
     /**
      * @param int $competenceId
      * @param array $employeeIds
+     *
+     * @return ServiceResponse
      */
     public function setCompetenceEmployees(
         int   $competenceId,
@@ -36,6 +44,8 @@ interface ICompetenceService extends IEloquentService
     /**
      * @param int $companyId
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function create(
         int    $companyId,
@@ -46,6 +56,8 @@ interface ICompetenceService extends IEloquentService
      * @param int $id
      * @param int $companyId
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,

@@ -2,6 +2,8 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IQueueService extends IEloquentService
 {
     /**
@@ -9,6 +11,8 @@ interface IQueueService extends IEloquentService
      * @param int $pageIndex
      * @param int $companyIds
      * @param string $keyword
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyIds(
         array  $companyIds,
@@ -19,6 +23,8 @@ interface IQueueService extends IEloquentService
 
     /**
      * @param int $queueId
+     *
+     * @return ServiceResponse
      */
     public function getQueueEmployees(
         int $queueId
@@ -27,6 +33,8 @@ interface IQueueService extends IEloquentService
     /**
      * @param int $queueId
      * @param array $employeeIds
+     *
+     * @return ServiceResponse
      */
     public function setQueueEmployees(
         int   $queueId,
@@ -39,6 +47,8 @@ interface IQueueService extends IEloquentService
      * @param string $short
      * @param int|null $groupCode
      * @param int|null $otsCode
+     *
+     * @return ServiceResponse
      */
     public function create(
         int    $companyId,
@@ -55,6 +65,8 @@ interface IQueueService extends IEloquentService
      * @param string $short
      * @param int|null $groupCode
      * @param int|null $otsCode
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,

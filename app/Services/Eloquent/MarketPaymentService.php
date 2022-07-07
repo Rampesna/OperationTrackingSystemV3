@@ -59,10 +59,12 @@ class MarketPaymentService implements IMarketPaymentService
     }
 
     public function setCompleted(
+        int $marketId,
         int $marketPaymentId
     )
     {
         $marketPayment = $this->getById($marketPaymentId);
+        $marketPayment->market_id = $marketId;
         $marketPayment->completed = 1;
         $marketPayment->save();
 

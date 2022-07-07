@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\Eloquent\IBoardService;
+use App\Traits\Response;
 
 class HomeController extends Controller
 {
+    use Response;
+
     public function index()
     {
         if (auth()->guard('user_web')->check()) {
@@ -21,5 +25,19 @@ class HomeController extends Controller
         }
 
         return view('home.modules.index.index');
+    }
+
+    public function test(IBoardService $boardService)
+    {
+        $result = $boardService->getAll();
+        return $result->getIsSuccess() ?
+            $this->success(
+                $result->getMessage(),
+                $result->getData(),
+                $result->getStatusCode()
+            ) : $this->error(
+                $result->getMessage(),
+                $result->getData()
+            );
     }
 }

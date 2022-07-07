@@ -2,6 +2,8 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IMarketPaymentService extends IEloquentService
 {
     /**
@@ -13,6 +15,8 @@ interface IMarketPaymentService extends IEloquentService
      * @param string|null $code
      * @param int $direction
      * @param int|null $completed
+     *
+     * @return ServiceResponse
      */
     public function create(
         ?int    $creatorId,
@@ -27,15 +31,21 @@ interface IMarketPaymentService extends IEloquentService
 
     /**
      * @param string $code
+     *
+     * @return ServiceResponse
      */
     public function getByCode(
         string $code
     );
 
     /**
+     * @param int $marketId
      * @param int $marketPaymentId
+     *
+     * @return ServiceResponse
      */
     public function setCompleted(
+        int $marketId,
         int $marketPaymentId
     );
 }

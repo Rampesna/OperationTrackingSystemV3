@@ -3,12 +3,19 @@
 
 namespace App\Interfaces\OperationApi;
 
+use App\Services\ServiceResponse;
+
 interface IDataScanningService
 {
+    /**
+     * @return ServiceResponse
+     */
     public function GetDataScanTables();
 
     /**
      * @param array $jobList
+     *
+     * @return ServiceResponse
      */
     public function SetDataScanning(
         array $jobList
@@ -16,6 +23,8 @@ interface IDataScanningService
 
     /**
      * @param array $jobList
+     *
+     * @return ServiceResponse
      */
     public function SetCallDataScanning(
         array $jobList
@@ -26,6 +35,8 @@ interface IDataScanningService
      * @param string $endDate
      * @param string $tableName
      * @param array $officeCodes
+     *
+     * @return ServiceResponse
      */
     public function GetDataScanNumbersList(
         string $startDate,
@@ -34,10 +45,17 @@ interface IDataScanningService
         array  $officeCodes
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param array $officeCodes
+     *
+     * @return ServiceResponse
+     */
     public function GetDataScanSummaryList(
-        $startDate,
-        $endDate,
-        $officeCodes
+        string $startDate,
+        string $endDate,
+        array  $officeCodes
     );
 
     /**
@@ -46,19 +64,29 @@ interface IDataScanningService
      * @param string $tableName
      * @param string $type
      * @param array $officeCodes
+     *
+     * @return ServiceResponse
      */
     public function GetDataScanningDetails(
-        $startDate,
-        $endDate,
-        $tableName,
-        $type,
-        $officeCodes
+        string $startDate,
+        string $endDate,
+        string $tableName,
+        string $type,
+        array  $officeCodes
     );
 
+    /**
+     * @param int $groupCode
+     * @param string $groupCode
+     * @param string $groupCode
+     * @param string $groupCode
+     *
+     * @return ServiceResponse
+     */
     public function SetDataScanTables(
-        $groupCode,
-        $description,
-        $tableName,
-        $groupName
+        int    $groupCode,
+        string $description,
+        string $tableName,
+        string $groupName
     );
 }

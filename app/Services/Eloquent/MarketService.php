@@ -70,6 +70,13 @@ class MarketService implements IMarketService
         return Crypt::encrypt($market->id);
     }
 
+    public function getMarketPayments(
+        int $marketId
+    )
+    {
+        return $this->getById($marketId)->marketPayments;
+    }
+
     public function delete(
         int $id
     )

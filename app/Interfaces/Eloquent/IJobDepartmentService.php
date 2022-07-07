@@ -2,6 +2,8 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IJobDepartmentService extends IEloquentService
 {
     /**
@@ -9,6 +11,8 @@ interface IJobDepartmentService extends IEloquentService
      * @param int $pageIndex
      * @param int $companyIds
      * @param string $keyword
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyIds(
         array  $companyIds,
@@ -19,6 +23,8 @@ interface IJobDepartmentService extends IEloquentService
 
     /**
      * @param array $typeIds
+     *
+     * @return ServiceResponse
      */
     public function getByTypeIds(
         array $typeIds
@@ -28,6 +34,8 @@ interface IJobDepartmentService extends IEloquentService
      * @param int $companyId
      * @param string $name
      * @param int|null $typeId
+     *
+     * @return ServiceResponse
      */
     public function create(
         int    $companyId,
@@ -40,6 +48,8 @@ interface IJobDepartmentService extends IEloquentService
      * @param int $companyId
      * @param string $name
      * @param int|null $typeId
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,

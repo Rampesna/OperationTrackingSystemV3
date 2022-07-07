@@ -2,6 +2,8 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IShiftGroupEmployeeUseListService extends IEloquentService
 {
     public function initialize();
@@ -9,6 +11,8 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
     /**
      * @param int $shiftGroupId
      * @param int $employeeId
+     *
+     * @return ServiceResponse
      */
     public function create(
         int $shiftGroupId,
@@ -17,6 +21,8 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
 
     /**
      * @param int $shiftGroupId
+     *
+     * @return ServiceResponse
      */
     public function setShiftGroupEmployeesNotUsed(
         int $shiftGroupId
@@ -24,6 +30,8 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
 
     /**
      * @param int $shiftGroupId
+     *
+     * @return ServiceResponse
      */
     public function getUsableShiftGroupEmployees(
         int $shiftGroupId
@@ -31,6 +39,8 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
 
     /**
      * @param int $shiftGroupId
+     *
+     * @return ServiceResponse
      */
     public function getUsedShiftGroupEmployees(
         int $shiftGroupId
@@ -39,6 +49,8 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
     /**
      * @param int $shiftGroupId
      * @param int $employeeId
+     *
+     * @return ServiceResponse
      */
     public function setUsedShiftGroupEmployee(
         int $shiftGroupId,

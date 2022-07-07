@@ -3,80 +3,166 @@
 
 namespace App\Interfaces\OperationApi;
 
+use App\Services\ServiceResponse;
+
 interface IPersonReportService
 {
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonReport(
-        $startDate,
-        $endDate
+        string $startDate,
+        string $endDate
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param array $list
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonLogReport(
-        $startDate,
-        $endDate,
-        $list
+        string $startDate,
+        string $endDate,
+        array  $list
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param int $employeeId
+     *
+     * @return ServiceResponse
+     */
     public function GetSinglePersonLogReport(
-        $startDate,
-        $endDate,
-        $employeeId
+        string $startDate,
+        string $endDate,
+        int    $employeeId
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param array $list
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonScreenLogReport(
-        $startDate,
-        $endDate,
-        $list
+        string $startDate,
+        string $endDate,
+        array  $list
     );
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonPenalties(
-        $id
+        int $id
     );
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function GetAchievementPointsSingleDetails(
-        $id
+        int $id
     );
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonPenaltiesDetails(
-        $id
+        int $id
     );
 
     /**
      * @param array $employeeGuids
+     *
+     * @return ServiceResponse
      */
     public function GetPersonnelAchievementRanking(
         array $employeeGuids
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonnelJobReportList(
-        $startDate,
-        $endDate
+        string $startDate,
+        string $endDate
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonnelBreakReportList(
-        $startDate,
-        $endDate
+        string $startDate,
+        string $endDate
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonnelDataScanReportList(
-        $startDate,
-        $endDate
+        string $startDate,
+        string $endDate
     );
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonnelMarketingScanReportList(
-        $startDate,
-        $endDate
+        string $startDate,
+        string $endDate
     );
 
+    /**
+     * @param string $startDate
+     * @param array $officeCodes
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonShiftReport(
-        $startDate,
-        $officeCodes
+        string $startDate,
+        array  $officeCodes
     );
 
+    /**
+     * @param array $officeCodes
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonAppointmentReport(
-        $officeCodes
+        array $officeCodes
     );
 
+    /**
+     * @param array $officeCodes
+     *
+     * @return ServiceResponse
+     */
     public function GetPersonLeaveTheJobReport(
-        $officeCodes
+        array $officeCodes
     );
 }

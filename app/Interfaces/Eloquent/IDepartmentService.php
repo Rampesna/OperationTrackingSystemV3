@@ -2,10 +2,14 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface IDepartmentService extends IEloquentService
 {
     /**
      * @param int $branchId
+     *
+     * @return ServiceResponse
      */
     public function getByBranchId(
         int $branchId
@@ -14,6 +18,8 @@ interface IDepartmentService extends IEloquentService
     /**
      * @param int $branchId
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function create(
         int    $branchId,
@@ -23,6 +29,8 @@ interface IDepartmentService extends IEloquentService
     /**
      * @param int $id
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Employee\OvertimeController;
+namespace App\Http\Requests\Api\Market\MarketController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class UpdateRequest extends BaseApiRequest
+class GetMarketPaymentsRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class UpdateRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer',
-            'typeId' => 'required|integer',
-            'startDate' => 'required',
-            'endDate' => 'required',
-            'description' => 'required|string',
+            //
         ];
     }
 }

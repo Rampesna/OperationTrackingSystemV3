@@ -2,10 +2,14 @@
 
 namespace App\Interfaces\Eloquent;
 
+use App\Services\ServiceResponse;
+
 interface ISubTaskService extends IEloquentService
 {
     /**
      * @param int $projectId
+     *
+     * @return ServiceResponse
      */
     public function getByProjectId(
         int $projectId
@@ -13,6 +17,8 @@ interface ISubTaskService extends IEloquentService
 
     /**
      * @param array $projectIds
+     *
+     * @return ServiceResponse
      */
     public function getByProjectIds(
         array $projectIds
@@ -21,6 +27,8 @@ interface ISubTaskService extends IEloquentService
     /**
      * @param int $taskId
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function create(
         int    $taskId,
@@ -30,6 +38,8 @@ interface ISubTaskService extends IEloquentService
     /**
      * @param int $id
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,
@@ -39,6 +49,8 @@ interface ISubTaskService extends IEloquentService
     /**
      * @param int $id
      * @param int $checked
+     *
+     * @return ServiceResponse
      */
     public function setChecked(
         int $id,

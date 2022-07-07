@@ -937,6 +937,7 @@
                 },
                 success: function (response) {
                     $('#qrcode').empty().qrcode(response.response.code);
+                    $('#pinCode').html(`Pin Kodu: ${response.response.code}`);
                 },
                 error: function (error) {
                     console.log(error);

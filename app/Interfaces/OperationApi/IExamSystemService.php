@@ -3,64 +3,137 @@
 
 namespace App\Interfaces\OperationApi;
 
+use App\Services\ServiceResponse;
+
 interface IExamSystemService
 {
+    /**
+     * @return ServiceResponse
+     */
     public function GetExamList();
 
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
     public function GetExamPersonConnectList(
-        $examId
+        int $examId
     );
 
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
     public function GetQuestionsList(
-        $examId
+        int $examId
     );
 
+    /**
+     * @param int $questionId
+     *
+     * @return ServiceResponse
+     */
     public function GetQuestionOptionsList(
-        $questionId
+        int $questionId
     );
 
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
     public function GetExamResultReadingList(
-        $examId
+        int $examId
     );
 
+    /**
+     * @param int $id
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
     public function GetExamResultReadingReplyList(
-        $id,
-        $examId
+        int $id,
+        int $examId
     );
 
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
     public function GetExamResultList(
-        $examId
+        int $examId
     );
 
+    /**
+     * @param string $name
+     * @param string $description
+     * @param string $time
+     * @param string $date
+     *
+     * @return ServiceResponse
+     */
     public function SetExams(
-        $name,
-        $description,
-        $time,
-        $date
+        string $name,
+        string $description,
+        string $time,
+        string $date
     );
 
+    /**
+     * @param int $userId
+     * @param int $examId
+     * @param int $remainingTime
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
     public function SetExamPersonConnect(
-        $userId,
-        $examId,
-        $remainingTime,
-        $status
+        int $userId,
+        int $examId,
+        int $remainingTime,
+        int $status
     );
 
+    /**
+     * @param int $examId
+     * @param string $question
+     * @param int $questionType
+     * @param int $order
+     * @param string $image
+     *
+     * @return ServiceResponse
+     */
     public function SetQuestions(
-        $examId,
-        $question,
-        $questionType,
-        $order,
-        $image
+        int    $examId,
+        string $question,
+        int    $questionType,
+        int    $order,
+        string $image
     );
 
+    /**
+     * @param int $questionId
+     * @param string $answer
+     * @param int $orderNumber
+     *
+     * @return ServiceResponse
+     */
     public function SetQuestionOptions(
-        $questionId,
-        $answer,
-        $orderNumber
+        int    $questionId,
+        string $answer,
+        int    $orderNumber
     );
 
+    /**
+     * @param array $list
+     *
+     * @return ServiceResponse
+     */
     public function SetExamResultReadingReply(
-        $list
+        array $list
     );
 }
