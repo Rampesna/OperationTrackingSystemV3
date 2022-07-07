@@ -30,14 +30,14 @@ class HomeController extends Controller
     public function test(IBoardService $boardService)
     {
         $result = $boardService->getAll();
-        return $result->getIsSuccess() ?
+        return $result->isSuccess() ?
             $this->success(
                 $result->getMessage(),
                 $result->getData(),
                 $result->getStatusCode()
             ) : $this->error(
                 $result->getMessage(),
-                $result->getData()
+                $result->getStatusCode()
             );
     }
 }

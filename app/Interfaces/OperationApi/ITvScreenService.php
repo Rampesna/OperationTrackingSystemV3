@@ -10,7 +10,7 @@ interface ITvScreenService
     /**
      * @return ServiceResponse
      */
-    public function GetJobList();
+    public function GetJobList(): ServiceResponse;
 
     /**
      * @param array $companyIds
@@ -19,7 +19,7 @@ interface ITvScreenService
      */
     public function GetStaffStatusList(
         array $companyId
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $employeeGuids
@@ -28,25 +28,25 @@ interface ITvScreenService
      */
     public function GetStaffStatusUserList(
         array $employeeGuids
-    );
+    ): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetStaffStarList();
+    public function GetStaffStarList(): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetPointDay();
+    public function GetPointDay(): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetPointWeek();
+    public function GetPointWeek(): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetMonthJobRanking();
+    public function GetMonthJobRanking(): ServiceResponse;
 }

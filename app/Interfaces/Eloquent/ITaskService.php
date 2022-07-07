@@ -15,7 +15,7 @@ interface ITaskService extends IEloquentService
     public function updateBoard(
         int $taskId,
         int $boardId
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $taskList
@@ -24,7 +24,7 @@ interface ITaskService extends IEloquentService
      */
     public function updateOrder(
         array $taskList
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -35,7 +35,7 @@ interface ITaskService extends IEloquentService
     public function updateByParameters(
         int   $id,
         array $parameters
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $taskId
@@ -44,7 +44,7 @@ interface ITaskService extends IEloquentService
      */
     public function getFilesById(
         int $taskId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $taskId
@@ -53,7 +53,7 @@ interface ITaskService extends IEloquentService
      */
     public function getSubTasksById(
         int $taskId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $taskId
@@ -62,5 +62,5 @@ interface ITaskService extends IEloquentService
      */
     public function getCommentsById(
         int $taskId
-    );
+    ): ServiceResponse;
 }

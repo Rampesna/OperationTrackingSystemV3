@@ -13,7 +13,7 @@ interface IProjectService extends IEloquentService
      */
     public function getByCompanyIds(
         array $companyIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $projectIds
@@ -22,7 +22,7 @@ interface IProjectService extends IEloquentService
      */
     public function getByProjectIds(
         array $projectIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $projectId
@@ -31,7 +31,7 @@ interface IProjectService extends IEloquentService
      */
     public function getSubtasksByProjectId(
         int $projectId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $projectId
@@ -42,7 +42,7 @@ interface IProjectService extends IEloquentService
     public function getBoardsByProjectId(
         int $projectId,
         int $management
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $projectIds
@@ -51,5 +51,5 @@ interface IProjectService extends IEloquentService
      */
     public function getSubtasksByProjectIds(
         array $projectIds
-    );
+    ): ServiceResponse;
 }

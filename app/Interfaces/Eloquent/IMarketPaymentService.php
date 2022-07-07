@@ -27,7 +27,7 @@ interface IMarketPaymentService extends IEloquentService
         ?string $code,
         int     $direction,
         ?int    $completed
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $code
@@ -36,7 +36,7 @@ interface IMarketPaymentService extends IEloquentService
      */
     public function getByCode(
         string $code
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $marketId
@@ -47,5 +47,5 @@ interface IMarketPaymentService extends IEloquentService
     public function setCompleted(
         int $marketId,
         int $marketPaymentId
-    );
+    ): ServiceResponse;
 }

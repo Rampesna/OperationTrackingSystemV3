@@ -13,5 +13,5 @@ interface IPersonalAccessTokenService
      */
     public function findToken(
         string $token
-    );
+    ): ServiceResponse;
 }

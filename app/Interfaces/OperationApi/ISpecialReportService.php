@@ -18,5 +18,5 @@ interface ISpecialReportService
         string $startDate,
         string $endDate,
         string $query
-    );
+    ): ServiceResponse;
 }

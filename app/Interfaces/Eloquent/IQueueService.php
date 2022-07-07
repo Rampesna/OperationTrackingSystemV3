@@ -19,7 +19,7 @@ interface IQueueService extends IEloquentService
         int    $pageIndex = 0,
         int    $pageSize = 10,
         string $keyword = null
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $queueId
@@ -28,7 +28,7 @@ interface IQueueService extends IEloquentService
      */
     public function getQueueEmployees(
         int $queueId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $queueId
@@ -39,7 +39,7 @@ interface IQueueService extends IEloquentService
     public function setQueueEmployees(
         int   $queueId,
         array $employeeIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $companyId
@@ -56,7 +56,7 @@ interface IQueueService extends IEloquentService
         string $short,
         ?int   $groupCode = null,
         ?int   $otsCode = null
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -75,5 +75,5 @@ interface IQueueService extends IEloquentService
         string $short,
         ?int   $groupCode = null,
         ?int   $otsCode = null
-    );
+    ): ServiceResponse;
 }

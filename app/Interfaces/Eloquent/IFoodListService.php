@@ -15,5 +15,5 @@ interface IFoodListService extends IEloquentService
     public function getDateBetween(
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 }

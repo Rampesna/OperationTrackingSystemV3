@@ -13,5 +13,5 @@ interface ISpecialReportService extends IEloquentService
      */
     public function getByCompanyIds(
         array $companyIds
-    );
+    ): ServiceResponse;
 }

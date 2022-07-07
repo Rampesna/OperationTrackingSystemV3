@@ -23,7 +23,7 @@ interface IPermitService extends IEloquentService
         string $startDate,
         string $endDate,
         string $description
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -44,7 +44,7 @@ interface IPermitService extends IEloquentService
         string $startDate,
         string $endDate,
         string $description
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -57,5 +57,5 @@ interface IPermitService extends IEloquentService
         int    $employeeId,
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 }

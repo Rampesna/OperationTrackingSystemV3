@@ -13,5 +13,5 @@ interface IUserPermissionService extends IEloquentService
      */
     public function getByTopId(
         ?int $topId = null
-    );
+    ): ServiceResponse;
 }

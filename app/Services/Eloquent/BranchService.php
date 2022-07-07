@@ -4,26 +4,50 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IBranchService;
 use App\Models\Eloquent\Branch;
+use App\Services\ServiceResponse;
 
 class BranchService implements IBranchService
 {
-    public function getAll()
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse
     {
-        return Branch::all();
+        return new ServiceResponse(
+            true,
+            'All branches',
+            200,
+            Branch::all()
+        );
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function getById(
         int $id
-    )
+    ): ServiceResponse
     {
-        return Branch::find($id);
+        return new ServiceResponse(
+            true,
+            'Branch',
+            200,
+            Branch::find($id)
+        );
     }
 
     public function getByCompanyId(
         int $companyId
     )
     {
-        return Branch::where('company_id', $companyId)->get();
+        return new ServiceResponse(
+            true,
+            'Branches',
+            200,
+            Branch::where('company_id', $companyId)->get()
+        );
     }
 
     public function create(
@@ -36,7 +60,12 @@ class BranchService implements IBranchService
         $branch->name = $name;
         $branch->save();
 
-        return $branch;
+        return new ServiceResponse(
+            true,
+            'Branch created',
+            200,
+            $branch
+        );
     }
 
     public function update(
@@ -44,18 +73,34 @@ class BranchService implements IBranchService
         string $name
     )
     {
-        $branch = $this->getById($id);
-        $branch->name = $name;
-        $branch->save();
+        $getBranch = $this->getById($id);
+        if ($getBranch->isSuccess()) {
+            $getBranch->getData()->name = $name;
+            $getBranch->getData()->save();
 
-        return $branch;
+            return new ServiceResponse(
+                true,
+                'Branch not found',
+                404,
+                $getBranch->getData()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Branch not found',
+                404,
+                null
+            );
+        }
     }
 
     public function delete(
         int $id
     )
     {
-        return $this->getById($id)->delete();
+        $getBranch = $this->getById($id);
+
+
     }
 
 }

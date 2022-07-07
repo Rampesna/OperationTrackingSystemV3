@@ -17,7 +17,7 @@ interface IFoodListCheckService extends IEloquentService
         int    $employeeId,
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -34,5 +34,5 @@ interface IFoodListCheckService extends IEloquentService
         int|null    $liked,
         int         $count,
         string|null $description
-    );
+    ): ServiceResponse;
 }

@@ -10,5 +10,5 @@ interface ITvScreenService
     /**
      * @return ServiceResponse
      */
-    public function GetSantral();
+    public function GetSantral(): ServiceResponse;
 }

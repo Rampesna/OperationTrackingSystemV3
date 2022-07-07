@@ -13,5 +13,5 @@ interface IBoardService extends IEloquentService
      */
     public function updateOrder(
         array $boards
-    );
+    ): ServiceResponse;
 }

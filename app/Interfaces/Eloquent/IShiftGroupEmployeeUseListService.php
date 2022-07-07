@@ -6,7 +6,7 @@ use App\Services\ServiceResponse;
 
 interface IShiftGroupEmployeeUseListService extends IEloquentService
 {
-    public function initialize();
+    public function initialize(): ServiceResponse;
 
     /**
      * @param int $shiftGroupId
@@ -17,7 +17,7 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
     public function create(
         int $shiftGroupId,
         int $employeeId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $shiftGroupId
@@ -26,7 +26,7 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
      */
     public function setShiftGroupEmployeesNotUsed(
         int $shiftGroupId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $shiftGroupId
@@ -35,7 +35,7 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
      */
     public function getUsableShiftGroupEmployees(
         int $shiftGroupId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $shiftGroupId
@@ -44,7 +44,7 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
      */
     public function getUsedShiftGroupEmployees(
         int $shiftGroupId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $shiftGroupId
@@ -55,5 +55,5 @@ interface IShiftGroupEmployeeUseListService extends IEloquentService
     public function setUsedShiftGroupEmployee(
         int $shiftGroupId,
         int $employeeId
-    );
+    ): ServiceResponse;
 }

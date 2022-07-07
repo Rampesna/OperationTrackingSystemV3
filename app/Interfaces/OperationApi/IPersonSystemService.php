@@ -21,7 +21,7 @@ interface IPersonSystemService
         int   $assignment,
         int   $teamLead,
         int   $teamLeadAssistant
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $otsLockType
@@ -32,12 +32,12 @@ interface IPersonSystemService
     public function SetPersonDisplayType(
         int   $otsLockType,
         array $list
-    );
+    ): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetPersonDataScanList();
+    public function GetPersonDataScanList(): ServiceResponse;
 
     /**
      * @param int $groupCode
@@ -48,7 +48,7 @@ interface IPersonSystemService
     public function SetPersonDataScan(
         int   $groupCode,
         array $guids
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $jobCode
@@ -59,5 +59,5 @@ interface IPersonSystemService
     public function SetPersonWorkToDoType(
         int   $jobCode,
         array $guids
-    );
+    ): ServiceResponse;
 }

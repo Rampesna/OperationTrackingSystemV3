@@ -13,7 +13,7 @@ interface ISubTaskService extends IEloquentService
      */
     public function getByProjectId(
         int $projectId
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $projectIds
@@ -22,7 +22,7 @@ interface ISubTaskService extends IEloquentService
      */
     public function getByProjectIds(
         array $projectIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $taskId
@@ -33,7 +33,7 @@ interface ISubTaskService extends IEloquentService
     public function create(
         int    $taskId,
         string $name
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -44,7 +44,7 @@ interface ISubTaskService extends IEloquentService
     public function update(
         int    $id,
         string $name
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -55,5 +55,5 @@ interface ISubTaskService extends IEloquentService
     public function setChecked(
         int $id,
         int $checked
-    );
+    ): ServiceResponse;
 }

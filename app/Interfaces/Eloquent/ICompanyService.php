@@ -19,7 +19,7 @@ interface ICompanyService extends IEloquentService
         int     $pageIndex = 0,
         int     $pageSize = 10,
         ?string $keyword = null
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -28,7 +28,7 @@ interface ICompanyService extends IEloquentService
      */
     public function tree(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $title
@@ -53,7 +53,7 @@ interface ICompanyService extends IEloquentService
         ?int    $uyumCrmBranchId,
         ?string $uyumCrmBranchCode,
         ?string $activeYear
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -80,5 +80,5 @@ interface ICompanyService extends IEloquentService
         ?int    $uyumCrmBranchId,
         ?string $uyumCrmBranchCode,
         ?string $activeYear
-    );
+    ): ServiceResponse;
 }

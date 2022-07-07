@@ -9,5 +9,5 @@ interface INetsantralApiService
     /**
      * @return ServiceResponse
      */
-    public function callQueues();
+    public function callQueues(): ServiceResponse;
 }

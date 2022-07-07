@@ -10,7 +10,7 @@ interface IDataScanningService
     /**
      * @return ServiceResponse
      */
-    public function GetDataScanTables();
+    public function GetDataScanTables(): ServiceResponse;
 
     /**
      * @param array $jobList
@@ -19,7 +19,7 @@ interface IDataScanningService
      */
     public function SetDataScanning(
         array $jobList
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $jobList
@@ -28,7 +28,7 @@ interface IDataScanningService
      */
     public function SetCallDataScanning(
         array $jobList
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -43,7 +43,7 @@ interface IDataScanningService
         string $endDate,
         string $tableName,
         array  $officeCodes
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -56,7 +56,7 @@ interface IDataScanningService
         string $startDate,
         string $endDate,
         array  $officeCodes
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -73,7 +73,7 @@ interface IDataScanningService
         string $tableName,
         string $type,
         array  $officeCodes
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $groupCode
@@ -88,5 +88,5 @@ interface IDataScanningService
         string $description,
         string $tableName,
         string $groupName
-    );
+    ): ServiceResponse;
 }

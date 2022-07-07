@@ -13,7 +13,7 @@ interface ICommercialCompanyService extends IEloquentService
      */
     public function create(
         string $name
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -24,5 +24,5 @@ interface ICommercialCompanyService extends IEloquentService
     public function update(
         int    $id,
         string $name
-    );
+    ): ServiceResponse;
 }

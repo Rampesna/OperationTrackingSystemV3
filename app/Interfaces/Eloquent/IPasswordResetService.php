@@ -15,7 +15,7 @@ interface IPasswordResetService extends IEloquentService
      */
     public function getByToken(
         string $token
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $relationType
@@ -28,7 +28,7 @@ interface IPasswordResetService extends IEloquentService
         string $relationType,
         int    $relationId,
         string $datetime
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $relationType
@@ -39,7 +39,7 @@ interface IPasswordResetService extends IEloquentService
     public function create(
         string $relationType,
         int    $relationId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -48,5 +48,5 @@ interface IPasswordResetService extends IEloquentService
      */
     public function setUsed(
         int $id
-    );
+    ): ServiceResponse;
 }

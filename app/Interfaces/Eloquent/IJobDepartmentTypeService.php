@@ -19,7 +19,7 @@ interface IJobDepartmentTypeService extends IEloquentService
         int         $pageIndex = 0,
         int         $pageSize = 10,
         string|null $keyword = null
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $companyId
@@ -30,7 +30,7 @@ interface IJobDepartmentTypeService extends IEloquentService
     public function create(
         int    $companyId,
         string $name
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -43,5 +43,5 @@ interface IJobDepartmentTypeService extends IEloquentService
         int    $id,
         int    $companyId,
         string $name
-    );
+    ): ServiceResponse;
 }

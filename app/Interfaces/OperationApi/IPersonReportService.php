@@ -16,7 +16,7 @@ interface IPersonReportService
     public function GetPersonReport(
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -29,7 +29,7 @@ interface IPersonReportService
         string $startDate,
         string $endDate,
         array  $list
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -42,7 +42,7 @@ interface IPersonReportService
         string $startDate,
         string $endDate,
         int    $employeeId
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -55,7 +55,7 @@ interface IPersonReportService
         string $startDate,
         string $endDate,
         array  $list
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -64,7 +64,7 @@ interface IPersonReportService
      */
     public function GetPersonPenalties(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -73,7 +73,7 @@ interface IPersonReportService
      */
     public function GetAchievementPointsSingleDetails(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -82,7 +82,7 @@ interface IPersonReportService
      */
     public function GetPersonPenaltiesDetails(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $employeeGuids
@@ -91,7 +91,7 @@ interface IPersonReportService
      */
     public function GetPersonnelAchievementRanking(
         array $employeeGuids
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -102,7 +102,7 @@ interface IPersonReportService
     public function GetPersonnelJobReportList(
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -113,7 +113,7 @@ interface IPersonReportService
     public function GetPersonnelBreakReportList(
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -124,7 +124,7 @@ interface IPersonReportService
     public function GetPersonnelDataScanReportList(
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -135,7 +135,7 @@ interface IPersonReportService
     public function GetPersonnelMarketingScanReportList(
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -146,7 +146,7 @@ interface IPersonReportService
     public function GetPersonShiftReport(
         string $startDate,
         array  $officeCodes
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $officeCodes
@@ -155,7 +155,7 @@ interface IPersonReportService
      */
     public function GetPersonAppointmentReport(
         array $officeCodes
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $officeCodes
@@ -164,5 +164,5 @@ interface IPersonReportService
      */
     public function GetPersonLeaveTheJobReport(
         array $officeCodes
-    );
+    ): ServiceResponse;
 }

@@ -19,7 +19,7 @@ interface IJobDepartmentService extends IEloquentService
         int    $pageIndex = 0,
         int    $pageSize = 10,
         string $keyword = null
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $typeIds
@@ -28,7 +28,7 @@ interface IJobDepartmentService extends IEloquentService
      */
     public function getByTypeIds(
         array $typeIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $companyId
@@ -41,7 +41,7 @@ interface IJobDepartmentService extends IEloquentService
         int    $companyId,
         string $name,
         ?int   $typeId = null
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -56,5 +56,5 @@ interface IJobDepartmentService extends IEloquentService
         int    $companyId,
         string $name,
         ?int   $typeId = null
-    );
+    ): ServiceResponse;
 }

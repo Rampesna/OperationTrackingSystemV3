@@ -17,7 +17,7 @@ interface IUserRoleService extends IEloquentService
         int     $pageIndex = 0,
         int     $pageSize = 10,
         ?string $keyword = null
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $roleId
@@ -26,7 +26,7 @@ interface IUserRoleService extends IEloquentService
      */
     public function getUserPermissions(
         int $roleId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $roleId
@@ -37,7 +37,7 @@ interface IUserRoleService extends IEloquentService
     public function setUserPermissions(
         int   $roleId,
         array $userPermissionIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $name
@@ -46,7 +46,7 @@ interface IUserRoleService extends IEloquentService
      */
     public function create(
         string $name
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -57,5 +57,5 @@ interface IUserRoleService extends IEloquentService
     public function update(
         int    $id,
         string $name
-    );
+    ): ServiceResponse;
 }

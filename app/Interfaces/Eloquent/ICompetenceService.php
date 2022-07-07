@@ -19,7 +19,7 @@ interface ICompetenceService extends IEloquentService
         int    $pageIndex = 0,
         int    $pageSize = 10,
         string $keyword = null
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $competenceId
@@ -28,7 +28,7 @@ interface ICompetenceService extends IEloquentService
      */
     public function getCompetenceEmployees(
         int $competenceId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $competenceId
@@ -39,7 +39,7 @@ interface ICompetenceService extends IEloquentService
     public function setCompetenceEmployees(
         int   $competenceId,
         array $employeeIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $companyId
@@ -50,7 +50,7 @@ interface ICompetenceService extends IEloquentService
     public function create(
         int    $companyId,
         string $name
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -63,5 +63,5 @@ interface ICompetenceService extends IEloquentService
         int    $id,
         int    $companyId,
         string $name
-    );
+    ): ServiceResponse;
 }

@@ -13,7 +13,7 @@ interface IMarketService extends IEloquentService
      */
     public function getByCode(
         string $code
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -24,7 +24,7 @@ interface IMarketService extends IEloquentService
     public function swapTheme(
         int $employeeId,
         int $theme
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $ids
@@ -33,7 +33,7 @@ interface IMarketService extends IEloquentService
      */
     public function getByIds(
         array $ids
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $marketId
@@ -42,5 +42,5 @@ interface IMarketService extends IEloquentService
      */
     public function getMarketPayments(
         int $marketId
-    );
+    ): ServiceResponse;
 }

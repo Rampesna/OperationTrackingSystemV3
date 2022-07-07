@@ -14,7 +14,7 @@ interface IJobsSystemService
      */
     public function SetJobsExcel(
         array $jobList
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -27,12 +27,12 @@ interface IJobsSystemService
         int $id,
         int $priority,
         int $type
-    );
+    ): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function SetJobSuspend();
+    public function SetJobSuspend(): ServiceResponse;
 
     /**
      * @param int $id
@@ -41,7 +41,7 @@ interface IJobsSystemService
      */
     public function SetJobCaseWorkDelete(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $jobList
@@ -50,5 +50,5 @@ interface IJobsSystemService
      */
     public function SetJobsClosedExcel(
         array $jobList
-    );
+    ): ServiceResponse;
 }

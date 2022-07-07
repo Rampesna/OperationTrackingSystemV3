@@ -13,7 +13,7 @@ interface IBranchService extends IEloquentService
      */
     public function getByCompanyId(
         int $companyId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $companyId
@@ -24,7 +24,7 @@ interface IBranchService extends IEloquentService
     public function create(
         int    $companyId,
         string $name
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -35,5 +35,5 @@ interface IBranchService extends IEloquentService
     public function update(
         int    $id,
         string $name
-    );
+    ): ServiceResponse;
 }

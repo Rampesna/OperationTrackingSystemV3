@@ -21,7 +21,7 @@ interface IShiftService extends IEloquentService
         string      $endDate,
         string|null $keyword = null,
         array|null  $jobDepartmentIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -34,7 +34,7 @@ interface IShiftService extends IEloquentService
         int    $employeeId,
         string $startDate,
         string $endDate,
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $companyIds
@@ -53,7 +53,7 @@ interface IShiftService extends IEloquentService
         string|null $keyword = null,
         array|null  $jobDepartmentIds,
         array|null  $shiftGroupIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $companyId
@@ -66,7 +66,7 @@ interface IShiftService extends IEloquentService
         int    $companyId,
         string $month,
         int    $userId
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $shiftIds
@@ -75,5 +75,5 @@ interface IShiftService extends IEloquentService
      */
     public function deleteByIds(
         array $shiftIds
-    );
+    ): ServiceResponse;
 }

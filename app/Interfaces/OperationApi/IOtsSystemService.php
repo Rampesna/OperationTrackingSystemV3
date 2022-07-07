@@ -24,7 +24,7 @@ interface IOtsSystemService
         string $queryParameters,
         string $databaseType,
         string $taskNumber
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $body
@@ -33,5 +33,5 @@ interface IOtsSystemService
      */
     public function execSqlList(
         string $body
-    );
+    ): ServiceResponse;
 }

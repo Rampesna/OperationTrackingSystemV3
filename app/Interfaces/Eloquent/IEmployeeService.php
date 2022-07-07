@@ -13,7 +13,7 @@ interface IEmployeeService extends IEloquentService
      */
     public function getByEmail(
         string $email
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -24,7 +24,7 @@ interface IEmployeeService extends IEloquentService
     public function swapTheme(
         int $employeeId,
         int $theme
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $ids
@@ -33,7 +33,7 @@ interface IEmployeeService extends IEloquentService
      */
     public function getByIds(
         array $ids
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $pageIndex
@@ -52,7 +52,7 @@ interface IEmployeeService extends IEloquentService
         int         $leave = 0,
         string|null $keyword = null,
         array|null  $jobDepartmentIds = []
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -61,7 +61,7 @@ interface IEmployeeService extends IEloquentService
      */
     public function getEmployeeQueues(
         int $employeeId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -70,7 +70,7 @@ interface IEmployeeService extends IEloquentService
      */
     public function getEmployeeShiftGroups(
         int $employeeId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -81,7 +81,7 @@ interface IEmployeeService extends IEloquentService
     public function setEmployeeShiftGroups(
         int   $employeeId,
         array $shiftGroupIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -92,7 +92,7 @@ interface IEmployeeService extends IEloquentService
     public function setEmployeeQueues(
         int   $employeeId,
         array $queueIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -101,7 +101,7 @@ interface IEmployeeService extends IEloquentService
      */
     public function getEmployeeCompetences(
         int $employeeId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -112,7 +112,7 @@ interface IEmployeeService extends IEloquentService
     public function setEmployeeCompetences(
         int   $employeeId,
         array $competenceIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -123,7 +123,7 @@ interface IEmployeeService extends IEloquentService
     public function updateJobDepartment(
         int $employeeId,
         int $jobDepartmentId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int|null $guid
@@ -150,9 +150,9 @@ interface IEmployeeService extends IEloquentService
         ?string $identity,
         ?string $santralCode,
         ?string $password
-    );
+    ): ServiceResponse;
 
-    public function update();
+    public function update(): ServiceResponse;
 
     /**
      * @param int $employeeId
@@ -161,5 +161,5 @@ interface IEmployeeService extends IEloquentService
      */
     public function getMarketPayments(
         int $employeeId
-    );
+    ): ServiceResponse;
 }

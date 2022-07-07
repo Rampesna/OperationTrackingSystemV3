@@ -16,7 +16,7 @@ interface IOperationService
     public function GetJobList(
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -27,7 +27,7 @@ interface IOperationService
     public function GetPersonBreakList(
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $companyId
@@ -36,32 +36,32 @@ interface IOperationService
      */
     public function GetUserList(
         int $companyId
-    );
+    ): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetLostList();
+    public function GetLostList(): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetParametersList();
+    public function GetParametersList(): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetUyumConstantValuesList();
+    public function GetUyumConstantValuesList(): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetUyumCrmGroupNameList();
+    public function GetUyumCrmGroupNameList(): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetTeamsList();
+    public function GetTeamsList(): ServiceResponse;
 
     /**
      * @param array $list
@@ -70,7 +70,7 @@ interface IOperationService
      */
     public function SetLostList(
         array $list
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $dailyTotalBreakTime
@@ -87,7 +87,7 @@ interface IOperationService
         int $dailyTotalBioBreakTime,
         int $instantFoodBreakTime,
         int $instantBioBreakTime
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -104,7 +104,7 @@ interface IOperationService
         string $name,
         int    $typeCode,
         int    $status
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $username
@@ -145,7 +145,7 @@ interface IOperationService
         int    $callScanCode,
         string $email,
         string $internal
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -158,7 +158,7 @@ interface IOperationService
         int    $id,
         string $groupName,
         string $value
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -177,7 +177,7 @@ interface IOperationService
         string $color,
         string $logo,
         string $description
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $startDate
@@ -188,7 +188,7 @@ interface IOperationService
     public function GetDataScreening(
         string $startDate,
         string $endDate
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $guid
@@ -197,22 +197,22 @@ interface IOperationService
      */
     public function SetUserInterest(
         int $guid
-    );
+    ): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetEmployeeTasks();
+    public function GetEmployeeTasks(): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetEmployeeWorkTasks();
+    public function GetEmployeeWorkTasks(): ServiceResponse;
 
     /**
      * @return ServiceResponse
      */
-    public function GetEmployeeGroupTasks();
+    public function GetEmployeeGroupTasks(): ServiceResponse;
 
     /**
      * @param int $id
@@ -265,7 +265,7 @@ interface IOperationService
         string $santralCode,
         array  $taskList = [],
         array  $workTaskList = []
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $guid
@@ -274,7 +274,7 @@ interface IOperationService
      */
     public function GetEmployeeTasksEdit(
         int $guid
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $guid
@@ -283,7 +283,7 @@ interface IOperationService
      */
     public function GetEmployeeWorkTasksEdit(
         int $guid
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $guid
@@ -292,7 +292,7 @@ interface IOperationService
      */
     public function GetEmployeeGroupTasksEdit(
         int $guid
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $guid
@@ -303,7 +303,7 @@ interface IOperationService
     public function SetEmployeeTasksInsert(
         int        $guid,
         array|null $tasks = []
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $guid
@@ -314,7 +314,7 @@ interface IOperationService
     public function SetEmployeeWorkTasksInsert(
         int        $guid,
         array|null $workTasks = []
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $guid
@@ -325,7 +325,7 @@ interface IOperationService
     public function SetEmployeeGroupTasksInsert(
         int        $guid,
         array|null $groupTasks = []
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -334,7 +334,7 @@ interface IOperationService
      */
     public function SetEmployeeTasksDelete(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -343,7 +343,7 @@ interface IOperationService
      */
     public function SetEmployeeWorkTasksDelete(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -352,7 +352,7 @@ interface IOperationService
      */
     public function SetEmployeeGroupTasksDelete(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -361,7 +361,7 @@ interface IOperationService
      */
     public function GetEmployeeEdit(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $staffParameters
@@ -370,7 +370,7 @@ interface IOperationService
      */
     public function SetStaffParameter(
         array $staffParameters
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -379,7 +379,7 @@ interface IOperationService
      */
     public function GetStaffParameterEdit(
         int $id
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $list
@@ -388,7 +388,7 @@ interface IOperationService
      */
     public function SetStaffParameterUpdate(
         array $list
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -397,5 +397,5 @@ interface IOperationService
      */
     public function SetStaffParameterDelete(
         int $id
-    );
+    ): ServiceResponse;
 }

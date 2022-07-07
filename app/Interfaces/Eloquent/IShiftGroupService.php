@@ -13,7 +13,7 @@ interface IShiftGroupService extends IEloquentService
      */
     public function getByCompanyId(
         int $companyId
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $companyIds
@@ -28,7 +28,7 @@ interface IShiftGroupService extends IEloquentService
         int         $pageIndex = 0,
         int         $pageSize = 10,
         string|null $keyword = null
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $shiftGroupId
@@ -37,7 +37,7 @@ interface IShiftGroupService extends IEloquentService
      */
     public function getShiftGroupEmployees(
         int $shiftGroupId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $shiftGroupId
@@ -48,7 +48,7 @@ interface IShiftGroupService extends IEloquentService
     public function setShiftGroupEmployees(
         int   $shiftGroupId,
         array $employeeIds
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $companyId
@@ -153,7 +153,7 @@ interface IShiftGroupService extends IEloquentService
         int         $momentaryBreakBreakDuration,
         int         $fridayAdditionalBreakDuration,
         int         $suspendBreakUsing
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -260,5 +260,5 @@ interface IShiftGroupService extends IEloquentService
         int         $momentaryBreakBreakDuration,
         int         $fridayAdditionalBreakDuration,
         int         $suspendBreakUsing
-    );
+    ): ServiceResponse;
 }

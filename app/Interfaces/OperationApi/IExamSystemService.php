@@ -10,7 +10,7 @@ interface IExamSystemService
     /**
      * @return ServiceResponse
      */
-    public function GetExamList();
+    public function GetExamList(): ServiceResponse;
 
     /**
      * @param int $examId
@@ -19,7 +19,7 @@ interface IExamSystemService
      */
     public function GetExamPersonConnectList(
         int $examId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $examId
@@ -28,7 +28,7 @@ interface IExamSystemService
      */
     public function GetQuestionsList(
         int $examId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $questionId
@@ -37,7 +37,7 @@ interface IExamSystemService
      */
     public function GetQuestionOptionsList(
         int $questionId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $examId
@@ -46,7 +46,7 @@ interface IExamSystemService
      */
     public function GetExamResultReadingList(
         int $examId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -57,7 +57,7 @@ interface IExamSystemService
     public function GetExamResultReadingReplyList(
         int $id,
         int $examId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $examId
@@ -66,7 +66,7 @@ interface IExamSystemService
      */
     public function GetExamResultList(
         int $examId
-    );
+    ): ServiceResponse;
 
     /**
      * @param string $name
@@ -81,7 +81,7 @@ interface IExamSystemService
         string $description,
         string $time,
         string $date
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $userId
@@ -96,7 +96,7 @@ interface IExamSystemService
         int $examId,
         int $remainingTime,
         int $status
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $examId
@@ -113,7 +113,7 @@ interface IExamSystemService
         int    $questionType,
         int    $order,
         string $image
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $questionId
@@ -126,7 +126,7 @@ interface IExamSystemService
         int    $questionId,
         string $answer,
         int    $orderNumber
-    );
+    ): ServiceResponse;
 
     /**
      * @param array $list
@@ -135,5 +135,5 @@ interface IExamSystemService
      */
     public function SetExamResultReadingReply(
         array $list
-    );
+    ): ServiceResponse;
 }

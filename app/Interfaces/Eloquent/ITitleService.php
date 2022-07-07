@@ -13,7 +13,7 @@ interface ITitleService extends IEloquentService
      */
     public function getByDepartmentId(
         int $departmentId
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $departmentId
@@ -24,7 +24,7 @@ interface ITitleService extends IEloquentService
     public function create(
         int    $departmentId,
         string $name
-    );
+    ): ServiceResponse;
 
     /**
      * @param int $id
@@ -35,5 +35,5 @@ interface ITitleService extends IEloquentService
     public function update(
         int    $id,
         string $name
-    );
+    ): ServiceResponse;
 }
