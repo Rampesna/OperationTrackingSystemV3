@@ -38,9 +38,14 @@ class BranchService implements IBranchService
         );
     }
 
+    /**
+     * @param int $companyId
+     *
+     * @return ServiceResponse
+     */
     public function getByCompanyId(
         int $companyId
-    )
+    ): ServiceResponse
     {
         return new ServiceResponse(
             true,
@@ -50,10 +55,16 @@ class BranchService implements IBranchService
         );
     }
 
+    /**
+     * @param int $companyId
+     * @param string $name
+     *
+     * @return ServiceResponse
+     */
     public function create(
         int    $companyId,
         string $name
-    )
+    ): ServiceResponse
     {
         $branch = new Branch;
         $branch->company_id = $companyId;
@@ -68,10 +79,16 @@ class BranchService implements IBranchService
         );
     }
 
+    /**
+     * @param int $id
+     * @param string $name
+     *
+     * @return ServiceResponse
+     */
     public function update(
         int    $id,
         string $name
-    )
+    ): ServiceResponse
     {
         $getBranch = $this->getById($id);
         if ($getBranch->isSuccess()) {
@@ -94,13 +111,33 @@ class BranchService implements IBranchService
         }
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function delete(
         int $id
-    )
+    ): ServiceResponse
     {
         $getBranch = $this->getById($id);
+        if ($getBranch->isSuccess()) {
+            $getBranch->getData()->delete();
 
-
+            return new ServiceResponse(
+                true,
+                'Branch deleted',
+                200,
+                null
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Branch not found',
+                404,
+                null
+            );
+        }
     }
 
 }
