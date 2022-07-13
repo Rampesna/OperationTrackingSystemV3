@@ -16,13 +16,13 @@ interface IMarketService extends IEloquentService
     ): ServiceResponse;
 
     /**
-     * @param int $employeeId
+     * @param int $marketId
      * @param int $theme
      *
      * @return ServiceResponse
      */
     public function swapTheme(
-        int $employeeId,
+        int $marketId,
         int $theme
     ): ServiceResponse;
 
