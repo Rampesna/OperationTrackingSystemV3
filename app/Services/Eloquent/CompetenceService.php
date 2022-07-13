@@ -4,22 +4,75 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\ICompetenceService;
 use App\Models\Eloquent\Competence;
+use App\Services\ServiceResponse;
 
 class CompetenceService implements ICompetenceService
 {
-    public function getAll()
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse
     {
-        return Competence::all();
+        return new ServiceResponse(
+            true,
+            'All competences',
+            200,
+            Competence::all()
+        );
     }
 
-    public function getById(int $id)
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function getById(
+        int $id
+    ): ServiceResponse
     {
-        return Competence::find($id);
+        $competence = Competence::find($id);
+        if ($competence) {
+            return new ServiceResponse(
+                true,
+                'Competence',
+                200,
+                $competence
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Competence not found',
+                404,
+                null
+            );
+        }
     }
 
-    public function delete(int $id)
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function delete(
+        int $id
+    ): ServiceResponse
     {
-        return Competence::destroy($id);
+        $competence = $this->getById($id);
+        if ($competence->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Competence deleted',
+                200,
+                $competence->getData()->delete()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Competence not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
@@ -27,13 +80,15 @@ class CompetenceService implements ICompetenceService
      * @param int $pageIndex
      * @param int $companyIds
      * @param string $keyword
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyIds(
         array  $companyIds,
         int    $pageIndex = 0,
         int    $pageSize = 10,
         string $keyword = null
-    )
+    ): ServiceResponse
     {
         $competences = Competence::with([
             'company'
@@ -45,72 +100,123 @@ class CompetenceService implements ICompetenceService
             });
         }
 
-        return [
-            'totalCount' => $competences->count(),
-            'pageIndex' => $pageIndex,
-            'pageSize' => $pageSize,
-            'competences' => $competences->skip($pageSize * $pageIndex)
-                ->take($pageSize)
-                ->get()
-        ];
+        return new ServiceResponse(
+            true,
+            'Competences',
+            200,
+            [
+                'totalCount' => $competences->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'competences' => $competences->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
+        );
     }
 
     /**
      * @param int $competenceId
+     *
+     * @return ServiceResponse
      */
     public function getCompetenceEmployees(
         int $competenceId
-    )
+    ): ServiceResponse
     {
-        return $this->getById($competenceId)->employees;
+        return new ServiceResponse(
+            true,
+            'Competence employees',
+            200,
+            $this->getById($competenceId)->getData()->employees
+        );
     }
 
     /**
      * @param int $competenceId
      * @param array $employeeIds
+     *
+     * @return ServiceResponse
      */
     public function setCompetenceEmployees(
         int   $competenceId,
         array $employeeIds
-    )
+    ): ServiceResponse
     {
         $competence = $this->getById($competenceId);
-        $competence->employees()->sync($employeeIds);
+        if ($competence->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Competence employees synced',
+                200,
+                $competence->getData()->employees()->sync($employeeIds)
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Competence not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
      * @param int $companyId
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function create(
         int    $companyId,
         string $name
-    )
+    ): ServiceResponse
     {
         $competence = new Competence();
         $competence->company_id = $companyId;
         $competence->name = $name;
         $competence->save();
 
-        return $competence;
+        return new ServiceResponse(
+            true,
+            'Competence created',
+            201,
+            $competence
+        );
     }
 
     /**
      * @param int $id
      * @param int $companyId
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,
         int    $companyId,
         string $name
-    )
+    ): ServiceResponse
     {
         $competence = $this->getById($id);
-        $competence->company_id = $companyId;
-        $competence->name = $name;
-        $competence->save();
+        if ($competence->isSuccess()) {
+            $competence->getData()->company_id = $companyId;
+            $competence->getData()->name = $name;
+            $competence->getData()->save();
 
-        return $competence;
+            return new ServiceResponse(
+                true,
+                'Competence updated',
+                200,
+                $competence->getData()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Competence not found',
+                404,
+                null
+            );
+        }
     }
 }

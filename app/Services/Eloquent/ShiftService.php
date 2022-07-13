@@ -7,6 +7,7 @@ use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
 use App\Models\Eloquent\Shift;
 use App\Interfaces\Eloquent\IEmployeeService;
+use App\Services\ServiceResponse;
 use Illuminate\Support\Carbon;
 
 class ShiftService implements IShiftService
@@ -68,20 +69,36 @@ class ShiftService implements IShiftService
             ->get();
 
         if ($keyword || $jobDepartmentIds) {
-            $employees = $this->employeeService->getByCompanies(0, 1000, [$companyId]);
+            $employees = $this->employeeService->getByCompanyIds(0, 1000, [$companyId]);
 
-            if ($keyword) {
-                $employees = $employees->where('name', 'like', '%' . $keyword . '%')->all();
+            if ($employees->isSuccess()) {
+                $employees = $employees->getData();
+
+                if ($keyword) {
+                    $employees = $employees->where('name', 'like', '%' . $keyword . '%')->all();
+                }
+
+                if ($jobDepartmentIds) {
+                    $employees = $employees->whereIn('job_department_id', $jobDepartmentIds)->all();
+                }
+
+                $shifts->whereIn('employee_id', $employees->pluck('id')->toArray());
+            } else {
+                return new ServiceResponse(
+                    false,
+                    $employees->getMessage(),
+                    404,
+                    null
+                );
             }
-
-            if ($jobDepartmentIds) {
-                $employees = $employees->whereIn('job_department_id', $jobDepartmentIds)->all();
-            }
-
-            $shifts->whereIn('employee_id', $employees->pluck('id')->toArray());
         }
 
-        return $shifts;
+        return new ServiceResponse(
+            true,
+            'Shifts',
+            200,
+            $shifts
+        );
     }
 
     /**
@@ -124,7 +141,7 @@ class ShiftService implements IShiftService
         if ($keyword || $jobDepartmentIds) {
             $shifts->whereIn(
                 'employee_id',
-                $this->employeeService->getByCompanies(0, 1000, $companyIds, 0, $keyword, $jobDepartmentIds)->pluck('id')->toArray()
+                $this->employeeService->getByCompanyIds(0, 1000, $companyIds, 0, $keyword, $jobDepartmentIds)->getData()->pluck('id')->toArray()
             );
         }
 

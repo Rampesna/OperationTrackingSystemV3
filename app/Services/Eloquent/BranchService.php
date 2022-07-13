@@ -30,12 +30,22 @@ class BranchService implements IBranchService
         int $id
     ): ServiceResponse
     {
-        return new ServiceResponse(
-            true,
-            'Branch',
-            200,
-            Branch::find($id)
-        );
+        $branch = Branch::find($id);
+        if ($branch) {
+            return new ServiceResponse(
+                true,
+                'Branch',
+                200,
+                $branch
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Branch not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
@@ -74,7 +84,7 @@ class BranchService implements IBranchService
         return new ServiceResponse(
             true,
             'Branch created',
-            200,
+            201,
             $branch
         );
     }
@@ -120,15 +130,13 @@ class BranchService implements IBranchService
         int $id
     ): ServiceResponse
     {
-        $getBranch = $this->getById($id);
-        if ($getBranch->isSuccess()) {
-            $getBranch->getData()->delete();
-
+        $branch = $this->getById($id);
+        if ($branch->isSuccess()) {
             return new ServiceResponse(
                 true,
                 'Branch deleted',
                 200,
-                null
+                $branch->getData()->delete()
             );
         } else {
             return new ServiceResponse(

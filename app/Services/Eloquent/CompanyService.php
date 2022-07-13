@@ -4,32 +4,75 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\ICompanyService;
 use App\Models\Eloquent\Company;
+use App\Services\ServiceResponse;
 
 class CompanyService implements ICompanyService
 {
-    public function getAll()
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse
     {
-        return Company::all();
+        return new ServiceResponse(
+            true,
+            'All companies',
+            200,
+            Company::all()
+        );
     }
 
     /**
      * @param int $id
+     *
+     * @return ServiceResponse
      */
     public function getById(
         int $id
-    )
+    ): ServiceResponse
     {
-        return Company::find($id);
+        $company = Company::find($id);
+        if ($company) {
+            return new ServiceResponse(
+                true,
+                'Company',
+                200,
+                $company
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Company not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
-     * @param int $companyId
+     * @param int $id
+     *
+     * @return ServiceResponse
      */
     public function delete(
         int $id
-    )
+    ): ServiceResponse
     {
-        return Company::destroy($id);
+        $company = $this->getById($id);
+        if ($company->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Company deleted',
+                200,
+                $company->getData()->delete()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Company not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
@@ -37,13 +80,15 @@ class CompanyService implements ICompanyService
      * @param int $pageIndex
      * @param int $pageSize
      * @param string|null $keyword
+     *
+     * @return ServiceResponse
      */
     public function getUsersByCompanyIds(
         array   $companyIds,
         int     $pageIndex = 0,
         int     $pageSize = 10,
         ?string $keyword = null
-    )
+    ): ServiceResponse
     {
         $users = Company::with([
             'users' => function ($users) use ($keyword) {
@@ -58,31 +103,46 @@ class CompanyService implements ICompanyService
             return $company->users;
         })->collapse()->unique('id');
 
-        return [
-            'totalCount' => $users->count(),
-            'pageIndex' => $pageIndex,
-            'pageSize' => $pageSize,
-            'users' => $users->skip($pageSize * $pageIndex)
-                ->take($pageSize)
-                ->all()
-        ];
+        return new ServiceResponse(
+            true,
+            '',
+            200,
+            [
+                'totalCount' => $users->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'users' => $users->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->all()
+            ]
+        );
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function tree(
         int $id
-    )
+    ): ServiceResponse
     {
-        return Company::with([
-            'branches' => function ($branches) {
-                $branches->with([
-                    'departments' => function ($departments) {
-                        $departments->with([
-                            'titles'
-                        ]);
-                    }
-                ]);
-            }
-        ])->find($id);
+        return new ServiceResponse(
+            true,
+            'Company hierarchy',
+            200,
+            Company::with([
+                'branches' => function ($branches) {
+                    $branches->with([
+                        'departments' => function ($departments) {
+                            $departments->with([
+                                'titles'
+                            ]);
+                        }
+                    ]);
+                }
+            ])->find($id)
+        );
     }
 
     /**
@@ -95,6 +155,8 @@ class CompanyService implements ICompanyService
      * @param int|null $uyumCrmBranchId
      * @param string|null $uyumCrmBranchCode
      * @param string|null $activeYear
+     *
+     * @return ServiceResponse
      */
     public function create(
         string  $title,
@@ -106,7 +168,7 @@ class CompanyService implements ICompanyService
         ?int    $uyumCrmBranchId,
         ?string $uyumCrmBranchCode,
         ?string $activeYear
-    )
+    ): ServiceResponse
     {
         $company = new Company;
         $company->title = $title;
@@ -120,7 +182,12 @@ class CompanyService implements ICompanyService
         $company->active_year = $activeYear;
         $company->save();
 
-        return $company;
+        return new ServiceResponse(
+            true,
+            'Company created',
+            201,
+            $company
+        );
     }
 
     /**
@@ -134,6 +201,8 @@ class CompanyService implements ICompanyService
      * @param int|null $uyumCrmBranchId
      * @param string|null $uyumCrmBranchCode
      * @param string|null $activeYear
+     *
+     * @return ServiceResponse
      */
     public function update(
         int     $id,
@@ -146,20 +215,35 @@ class CompanyService implements ICompanyService
         ?int    $uyumCrmBranchId,
         ?string $uyumCrmBranchCode,
         ?string $activeYear
-    )
+    ): ServiceResponse
     {
         $company = $this->getById($id);
-        $company->title = $title;
-        $company->tax_office = $taxOffice;
-        $company->tax_number = $taxNumber;
-        $company->record_number = $recordNumber;
-        $company->commercial_company_id = $commercialCompanyId;
-        $company->uyum_crm_company_id = $uyumCrmCompanyId;
-        $company->uyum_crm_branch_id = $uyumCrmBranchId;
-        $company->uyum_crm_branch_code = $uyumCrmBranchCode;
-        $company->active_year = $activeYear;
-        $company->save();
 
-        return $company;
+        if ($company->isSuccess()) {
+            $company->getData()->title = $title;
+            $company->getData()->tax_office = $taxOffice;
+            $company->getData()->tax_number = $taxNumber;
+            $company->getData()->record_number = $recordNumber;
+            $company->getData()->commercial_company_id = $commercialCompanyId;
+            $company->getData()->uyum_crm_company_id = $uyumCrmCompanyId;
+            $company->getData()->uyum_crm_branch_id = $uyumCrmBranchId;
+            $company->getData()->uyum_crm_branch_code = $uyumCrmBranchCode;
+            $company->getData()->active_year = $activeYear;
+            $company->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Company updated',
+                200,
+                $company->getData()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Company not found',
+                404,
+                null
+            );
+        }
     }
 }

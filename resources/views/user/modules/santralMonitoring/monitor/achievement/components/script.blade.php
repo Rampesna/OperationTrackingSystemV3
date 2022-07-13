@@ -24,7 +24,7 @@
         if (typeId === 1) {
             $.ajax({
                 type: 'get',
-                url: '{{ route('user.api.employee.getByCompanies') }}',
+                url: '{{ route('user.api.employee.getByCompanyIds') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token

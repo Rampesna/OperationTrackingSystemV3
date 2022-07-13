@@ -45,7 +45,7 @@ interface IEmployeeService extends IEloquentService
      *
      * @return ServiceResponse
      */
-    public function getByCompanies(
+    public function getByCompanyIds(
         int         $pageIndex = 0,
         int         $pageSize = 10,
         array       $companyIds = [],

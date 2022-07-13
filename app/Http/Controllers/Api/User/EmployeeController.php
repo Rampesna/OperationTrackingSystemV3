@@ -23,7 +23,7 @@ class EmployeeController extends Controller
         $this->employeeService = $employeeService;
     }
 
-    public function getByCompanies(GetByCompaniesRequest $request)
+    public function getByCompanyIds(GetByCompaniesRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
 
@@ -35,7 +35,7 @@ class EmployeeController extends Controller
             }
         }
 
-        return $this->success('Employees', $this->employeeService->getByCompanies(
+        return $this->success('Employees', $this->employeeService->getByCompanyIds(
             $request->pageIndex,
             $request->pageSize,
             $request->companyIds,

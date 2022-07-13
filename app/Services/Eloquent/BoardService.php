@@ -30,12 +30,22 @@ class BoardService implements IBoardService
         int $id
     ): ServiceResponse
     {
-        return new ServiceResponse(
-            true,
-            'Board',
-            200,
-            Board::find($id)
-        );
+        $board = Board::find($id);
+        if ($board) {
+            return new ServiceResponse(
+                true,
+                'Board',
+                200,
+                $board
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Board not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
@@ -47,12 +57,22 @@ class BoardService implements IBoardService
         int $id
     ): ServiceResponse
     {
-        return new ServiceResponse(
-            true,
-            'Board deleted',
-            200,
-            $this->getById($id)->getData()->delete()
-        );
+        $board = $this->getById($id);
+        if ($board->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Board deleted',
+                200,
+                $board->getData()->delete()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Board not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
