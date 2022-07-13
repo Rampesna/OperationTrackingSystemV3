@@ -4,28 +4,89 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IMarketPaymentService;
 use App\Models\Eloquent\MarketPayment;
+use App\Services\ServiceResponse;
 
 class MarketPaymentService implements IMarketPaymentService
 {
-    public function getAll()
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse
     {
-        return MarketPayment::all();
+        return new ServiceResponse(
+            true,
+            'All market payments',
+            200,
+            MarketPayment::all()
+        );
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function getById(
         int $id
-    )
+    ): ServiceResponse
     {
-        return MarketPayment::find($id);
+        $marketPayment = MarketPayment::find($id);
+        if ($marketPayment) {
+            return new ServiceResponse(
+                true,
+                'Market payment',
+                200,
+                $marketPayment
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Market payment not found',
+                404,
+                null
+            );
+        }
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function delete(
         int $id
-    )
+    ): ServiceResponse
     {
-        return $this->getById($id)->delete();
+        $marketPayment = $this->getById($id);
+        if ($marketPayment->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Market payment deleted',
+                200,
+                $marketPayment->getData()->delete()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Market payment not found',
+                404,
+                null
+            );
+        }
     }
 
+    /**
+     * @param int|null $creatorId
+     * @param int|null $marketId
+     * @param int|null $relationId
+     * @param string|null $relationType
+     * @param float $amount
+     * @param string|null $code
+     * @param int $direction
+     * @param int|null $completed
+     *
+     * @return ServiceResponse
+     */
     public function create(
         ?int    $creatorId,
         ?int    $marketId,
@@ -35,7 +96,7 @@ class MarketPaymentService implements IMarketPaymentService
         ?string $code,
         int     $direction,
         ?int    $completed
-    )
+    ): ServiceResponse
     {
         $marketPayment = new MarketPayment;
         $marketPayment->creator_id = $creatorId;
@@ -48,26 +109,71 @@ class MarketPaymentService implements IMarketPaymentService
         $marketPayment->completed = $completed;
         $marketPayment->save();
 
-        return $marketPayment;
+        return new ServiceResponse(
+            true,
+            'Market payment created',
+            201,
+            $marketPayment
+        );
     }
 
+    /**
+     * @param string $code
+     *
+     * @return ServiceResponse
+     */
     public function getByCode(
         string $code
-    )
+    ): ServiceResponse
     {
-        return MarketPayment::where('code', $code)->orderBy('created_at', 'desc')->first();
+        $marketPayment = MarketPayment::where('code', $code)->orderBy('created_at', 'desc')->first();
+        if ($marketPayment) {
+            return new ServiceResponse(
+                true,
+                'Market payment',
+                200,
+                $marketPayment
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Market payment not found',
+                404,
+                null
+            );
+        }
     }
 
+    /**
+     * @param int $marketId
+     * @param int $marketPaymentId
+     *
+     * @return ServiceResponse
+     */
     public function setCompleted(
         int $marketId,
         int $marketPaymentId
-    )
+    ): ServiceResponse
     {
         $marketPayment = $this->getById($marketPaymentId);
-        $marketPayment->market_id = $marketId;
-        $marketPayment->completed = 1;
-        $marketPayment->save();
+        if ($marketPayment->isSuccess()) {
+            $marketPayment->getData()->market_id = $marketId;
+            $marketPayment->getData()->completed = 1;
+            $marketPayment->getData()->save();
 
-        return $marketPayment;
+            return new ServiceResponse(
+                true,
+                'Market payment completed',
+                200,
+                $marketPayment->getData()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Market payment not found',
+                404,
+                null
+            );
+        }
     }
 }
