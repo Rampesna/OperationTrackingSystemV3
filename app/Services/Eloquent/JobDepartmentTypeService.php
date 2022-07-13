@@ -15,7 +15,7 @@ class JobDepartmentTypeService implements IJobDepartmentTypeService
     {
         return new ServiceResponse(
             true,
-            '',
+            'All job department types',
             200,
             JobDepartmentType::all()
         );

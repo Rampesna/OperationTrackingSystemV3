@@ -4,32 +4,91 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IOvertimeService;
 use App\Models\Eloquent\Overtime;
+use App\Services\ServiceResponse;
 
 class OvertimeService implements IOvertimeService
 {
-    public function getAll()
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse
     {
-        return Overtime::all();
+        return new ServiceResponse(
+            true,
+            'All overtimes',
+            200,
+            Overtime::all()
+        );
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function getById(
         int $id
-    )
+    ): ServiceResponse
     {
-        return Overtime::with([
+        $overtime = Overtime::with([
             'type',
             'status',
             'employee',
         ])->find($id);
+        if ($overtime) {
+            return new ServiceResponse(
+                true,
+                'Overtime',
+                200,
+                $overtime
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Overtime not found',
+                404,
+                null
+            );
+        }
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function delete(
         int $id
-    )
+    ): ServiceResponse
     {
-        return $this->getById($id)->delete();
+        $overtime = $this->getById($id);
+        if ($overtime->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Overtime deleted',
+                200,
+                $overtime->getData()->delete()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Overtime not found',
+                404,
+                null
+            );
+        }
     }
 
+    /**
+     * @param int $employeeId
+     * @param int $typeId
+     * @param int $statusId
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $description
+     *
+     * @return ServiceResponse
+     */
     public function create(
         int    $employeeId,
         int    $typeId,
@@ -37,7 +96,7 @@ class OvertimeService implements IOvertimeService
         string $startDate,
         string $endDate,
         string $description
-    )
+    ): ServiceResponse
     {
         $overtime = new Overtime;
         $overtime->employee_id = $employeeId;
@@ -48,9 +107,25 @@ class OvertimeService implements IOvertimeService
         $overtime->description = $description;
         $overtime->save();
 
-        return $overtime;
+        return new ServiceResponse(
+            true,
+            'Overtime created',
+            201,
+            $overtime
+        );
     }
 
+    /**
+     * @param int $id
+     * @param int $employeeId
+     * @param int $typeId
+     * @param int $statusId
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $description
+     *
+     * @return ServiceResponse
+     */
     public function update(
         int    $id,
         int    $employeeId,
@@ -59,49 +134,70 @@ class OvertimeService implements IOvertimeService
         string $startDate,
         string $endDate,
         string $description
-    )
+    ): ServiceResponse
     {
-        $overtime = Overtime::find($id);
-        $overtime->employee_id = $employeeId;
-        $overtime->type_id = $typeId;
-        $overtime->status_id = $statusId;
-        $overtime->start_date = $startDate;
-        $overtime->end_date = $endDate;
-        $overtime->description = $description;
-        $overtime->save();
+        $overtime = $this->getById($id);
+        if ($overtime->isSuccess()) {
+            $overtime->getData()->employee_id = $employeeId;
+            $overtime->getData()->type_id = $typeId;
+            $overtime->getData()->status_id = $statusId;
+            $overtime->getData()->start_date = $startDate;
+            $overtime->getData()->end_date = $endDate;
+            $overtime->getData()->description = $description;
+            $overtime->getData()->save();
 
-        return $overtime;
+            return new ServiceResponse(
+                true,
+                'Overtime updated',
+                200,
+                $overtime->getData()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Overtime not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
      * @param int $employeeId
      * @param string $startDate
      * @param string $endDate
+     *
+     * @return ServiceResponse
      */
     public function getDateBetween(
         int    $employeeId,
         string $startDate,
         string $endDate
-    )
+    ): ServiceResponse
     {
-        return Overtime::with([
-            'status',
-            'type'
-        ])->where('employee_id', $employeeId)
-            ->where(function ($overtimes) use ($startDate, $endDate) {
-                $overtimes->whereBetween('start_date', [
-                    $startDate . ' 00:00:00',
-                    $endDate . ' 23:59:59'
-                ])->
-                orWhere(function ($overtimes) use ($startDate, $endDate) {
-                    $overtimes->whereBetween('end_date', [
+        return new ServiceResponse(
+            true,
+            'Overtimes',
+            200,
+            Overtime::with([
+                'status',
+                'type'
+            ])->where('employee_id', $employeeId)
+                ->where(function ($overtimes) use ($startDate, $endDate) {
+                    $overtimes->whereBetween('start_date', [
                         $startDate . ' 00:00:00',
                         $endDate . ' 23:59:59'
-                    ]);
-                })->
-                orWhere(function ($overtimes) use ($startDate, $endDate) {
-                    $overtimes->where('start_date', '<=', $startDate)->where('end_date', '>=', $endDate);
-                });
-            })->get();
+                    ])->
+                    orWhere(function ($overtimes) use ($startDate, $endDate) {
+                        $overtimes->whereBetween('end_date', [
+                            $startDate . ' 00:00:00',
+                            $endDate . ' 23:59:59'
+                        ]);
+                    })->
+                    orWhere(function ($overtimes) use ($startDate, $endDate) {
+                        $overtimes->where('start_date', '<=', $startDate)->where('end_date', '>=', $endDate);
+                    });
+                })->get()
+        );
     }
 }
