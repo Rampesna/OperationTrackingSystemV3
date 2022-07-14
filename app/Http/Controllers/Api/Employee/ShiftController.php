@@ -12,30 +12,65 @@ class ShiftController extends Controller
 {
     use Response;
 
+    /**
+     * @var $shiftService
+     */
     private $shiftService;
 
+    /**
+     * @param IShiftService $shiftService
+     */
     public function __construct(IShiftService $shiftService)
     {
         $this->shiftService = $shiftService;
     }
 
+    /**
+     * @param GetDateBetweenByEmployeeIdRequest $request
+     */
     public function getDateBetweenByEmployeeId(GetDateBetweenByEmployeeIdRequest $request)
     {
-        return $this->success('Employee shifts', $this->shiftService->getDateBetweenByEmployeeId(
+        $getDateBetweenByEmployeeIdResponse = $this->shiftService->getDateBetweenByEmployeeId(
             $request->user()->id,
             $request->startDate,
             $request->endDate
-        ));
+        );
+        if ($getDateBetweenByEmployeeIdResponse->isSuccess()) {
+            return $this->success(
+                $getDateBetweenByEmployeeIdResponse->getMessage(),
+                $getDateBetweenByEmployeeIdResponse->getData(),
+                $getDateBetweenByEmployeeIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDateBetweenByEmployeeIdResponse->getMessage(),
+                $getDateBetweenByEmployeeIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
         $shift = $this->shiftService->getById($request->id);
 
-        if ($shift->employee_id != $request->user()->id) {
-            return $this->error('Shift not found', 404);
-        }
+        if ($shift->isSuccess()) {
+            if (!$shift->getData() || $shift->getData()->employee_id != $request->user()->id) {
+                return $this->error('Shift not found', 404);
+            }
 
-        return $this->success('Employee shifts', $shift);
+            return $this->success(
+                $shift->getMessage(),
+                $shift->getData(),
+                $shift->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $shift->getMessage(),
+                $shift->getStatusCode()
+            );
+        }
     }
 }
