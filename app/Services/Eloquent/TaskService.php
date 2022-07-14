@@ -4,101 +4,243 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\ITaskService;
 use App\Models\Eloquent\Task;
+use App\Services\ServiceResponse;
 
 class TaskService implements ITaskService
 {
-    public function getAll()
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse
     {
-        return Task::all();
-    }
-
-    public function getById(
-        int $id
-    )
-    {
-        return Task::find($id);
-    }
-
-    public function delete(
-        int $id
-    )
-    {
-        return $this->getById($id)->delete();
-    }
-
-    public function updateBoard(
-        int $taskId,
-        int $boardId
-    )
-    {
-        $task = $this->getById($taskId);
-        $task->board_id = $boardId;
-        $task->save();
-
-        return $task;
+        return new ServiceResponse(
+            true,
+            'All tasks',
+            200,
+            Task::all()
+        );
     }
 
     /**
-     * @param array $tasks
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function getById(
+        int $id
+    ): ServiceResponse
+    {
+        $task = Task::find($id);
+        if ($task) {
+            return new ServiceResponse(
+                true,
+                'Task',
+                200,
+                $task
+            );
+        }
+        return new ServiceResponse(
+            false,
+            'Task not found',
+            404,
+            null
+        );
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function delete(
+        int $id
+    ): ServiceResponse
+    {
+        $task = $this->getById($id);
+        if ($task->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Task deleted',
+                200,
+                $task->getData()->delete()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Task not found',
+                404,
+                null
+            );
+        }
+    }
+
+    /**
+     * @param int $taskId
+     * @param int $boardId
+     *
+     * @return ServiceResponse
+     */
+    public function updateBoard(
+        int $taskId,
+        int $boardId
+    ): ServiceResponse
+    {
+        $task = $this->getById($taskId);
+        if ($task->isSuccess()) {
+            $task->getData()->board_id = $boardId;
+            $task->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Task updated',
+                200,
+                $task->getData()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Task not found',
+                404,
+                null
+            );
+        }
+    }
+
+    /**
+     * @param array $taskList
+     *
+     * @return ServiceResponse
      */
     public function updateOrder(
-        array $tasks
-    )
+        array $taskList
+    ): ServiceResponse
     {
-        foreach ($tasks as $task) {
+        foreach ($taskList as $task) {
             $getTask = $this->getById(intval($task['id']));
-            if ($getTask) {
-                $getTask->order = intval($task['order']);
-                $getTask->save();
+            if ($getTask->isSuccess()) {
+                $getTask->getData()->order = intval($task['order']);
+                $getTask->getData()->save();
             }
         }
+
+        return new ServiceResponse(
+            true,
+            'Task orders updated',
+            200,
+            null
+        );
     }
 
     /**
      * @param int $id
      * @param array $parameters
+     *
+     * @return ServiceResponse
      */
     public function updateByParameters(
         int   $id,
         array $parameters
-    )
+    ): ServiceResponse
     {
         $task = $this->getById($id);
-        foreach ($parameters as $parameter) {
-            $task->{$parameter['attribute']} = $parameter['value'];
+        if ($task->isSuccess()) {
+            foreach ($parameters as $parameter) {
+                $task->getData()->{$parameter['attribute']} = $parameter['value'];
+            }
+            $task->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Task updated',
+                200,
+                $task->getData()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Task not found',
+                404,
+                null
+            );
         }
-        $task->save();
-
-        return $task;
     }
 
     /**
      * @param int $taskId
+     *
+     * @return ServiceResponse
      */
     public function getFilesById(
         int $taskId
-    )
+    ): ServiceResponse
     {
-        return $this->getById($taskId)->files;
+        $task = $this->getById($taskId);
+        if ($task->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Task files',
+                200,
+                $task->getData()->files
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Task not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
      * @param int $taskId
+     *
+     * @return ServiceResponse
      */
     public function getSubTasksById(
         int $taskId
-    )
+    ): ServiceResponse
     {
-        return $this->getById($taskId)->subTasks;
+        $task = $this->getById($taskId);
+        if ($task->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Task sub tasks',
+                200,
+                $task->getData()->subTasks
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Task not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
      * @param int $taskId
+     *
+     * @return ServiceResponse
      */
     public function getCommentsById(
         int $taskId
-    )
+    ): ServiceResponse
     {
-        return $this->getById($taskId)->comments;
+        $task = $this->getById($taskId);
+        if ($task->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Task comments',
+                200,
+                $task->getData()->comments
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Task not found',
+                404,
+                null
+            );
+        }
     }
 }
