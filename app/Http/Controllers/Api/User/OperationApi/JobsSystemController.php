@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User\OperationApi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\OperationApi\JobsSystemController\SetJobsExcelRequest;
 use App\Http\Requests\Api\User\OperationApi\JobsSystemController\SetJobsClosedExcelRequest;
+use App\Http\Requests\Api\User\OperationApi\JobsSystemController\SetJobSuspendRequest;
 use App\Http\Requests\Api\User\OperationApi\JobsSystemController\SetJobCaseWorkDeleteRequest;
 use App\Interfaces\OperationApi\IJobsSystemService;
 use App\Traits\Response;
@@ -14,13 +15,22 @@ class JobsSystemController extends Controller
 {
     use Response;
 
+    /**
+     * @var $jobsSystemService
+     */
     private $jobsSystemService;
 
+    /**
+     * @param IJobsSystemService $jobsSystemService
+     */
     public function __construct(IJobsSystemService $jobsSystemService)
     {
         $this->jobsSystemService = $jobsSystemService;
     }
 
+    /**
+     * @param SetJobsExcelRequest $request
+     */
     public function setJobsExcel(SetJobsExcelRequest $request)
     {
         $file = $request->file('file');
@@ -38,9 +48,24 @@ class JobsSystemController extends Controller
             ];
         }
 
-        return $this->success('Jobs', $this->jobsSystemService->SetJobsExcel($jobList));
+        $setJobsExcelResponse = $this->jobsSystemService->SetJobsExcel($jobList);
+        if ($setJobsExcelResponse->isSuccess()) {
+            return $this->success(
+                $setJobsExcelResponse->getMessage(),
+                $setJobsExcelResponse->getData(),
+                $setJobsExcelResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setJobsExcelResponse->getMessage(),
+                $setJobsExcelResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetJobsClosedExcelRequest $request
+     */
     public function setJobsClosedExcel(SetJobsClosedExcelRequest $request)
     {
         $file = $request->file('file');
@@ -55,18 +80,60 @@ class JobsSystemController extends Controller
             ];
         }
 
-        return $this->success('Jobs', $this->jobsSystemService->SetJobsClosedExcel($jobList));
+        $setJobsClosedExcelResponse = $this->jobsSystemService->SetJobsClosedExcel($jobList);
+        if ($setJobsClosedExcelResponse->isSuccess()) {
+            return $this->success(
+                $setJobsClosedExcelResponse->getMessage(),
+                $setJobsClosedExcelResponse->getData(),
+                $setJobsClosedExcelResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setJobsClosedExcelResponse->getMessage(),
+                $setJobsClosedExcelResponse->getStatusCode()
+            );
+        }
     }
 
-    public function setJobSuspend()
+    /**
+     * @param SetJobSuspendRequest $request
+     */
+    public function setJobSuspend(SetJobSuspendRequest $request)
     {
-        return $this->success('Jobs', $this->jobsSystemService->SetJobSuspend());
+        $setJobSuspendResponse = $this->jobsSystemService->SetJobSuspend();
+        if ($setJobSuspendResponse->isSuccess()) {
+            return $this->success(
+                $setJobSuspendResponse->getMessage(),
+                $setJobSuspendResponse->getData(),
+                $setJobSuspendResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setJobSuspendResponse->getMessage(),
+                $setJobSuspendResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetJobCaseWorkDeleteRequest $request
+     */
     public function setJobCaseWorkDelete(SetJobCaseWorkDeleteRequest $request)
     {
-        return $this->success('Jobs', $this->jobsSystemService->SetJobCaseWorkDelete(
+        $setJobCaseWorkDeleteResponse = $this->jobsSystemService->SetJobCaseWorkDelete(
             $request->id
-        ));
+        );
+        if ($setJobCaseWorkDeleteResponse->isSuccess()) {
+            return $this->success(
+                $setJobCaseWorkDeleteResponse->getMessage(),
+                $setJobCaseWorkDeleteResponse->getData(),
+                $setJobCaseWorkDeleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setJobCaseWorkDeleteResponse->getMessage(),
+                $setJobCaseWorkDeleteResponse->getStatusCode()
+            );
+        }
     }
 }
