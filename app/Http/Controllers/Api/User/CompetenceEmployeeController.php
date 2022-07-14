@@ -15,33 +15,107 @@ class CompetenceEmployeeController extends Controller
 {
     use Response;
 
+    /**
+     * @var $employeeService
+     */
     private $employeeService;
+
+    /**
+     * @var $competenceService
+     */
     private $competenceService;
 
-    public function __construct(IEmployeeService $employeeService, ICompetenceService $competenceService)
+    /**
+     * @param IEmployeeService $employeeService
+     * @param ICompetenceService $competenceService
+     */
+    public function __construct(
+        IEmployeeService   $employeeService,
+        ICompetenceService $competenceService
+    )
     {
         $this->employeeService = $employeeService;
         $this->competenceService = $competenceService;
     }
 
+    /**
+     * @param GetEmployeeCompetencesRequest $request
+     */
     public function getEmployeeCompetences(GetEmployeeCompetencesRequest $request)
     {
-        return $this->success('Employee competences', $this->employeeService->getEmployeeCompetences($request->employeeId));
+        $getEmployeeCompetencesResponse = $this->employeeService->getEmployeeCompetences($request->employeeId);
+        if ($getEmployeeCompetencesResponse->isSuccess()) {
+            return $this->success(
+                $getEmployeeCompetencesResponse->getMessage(),
+                $getEmployeeCompetencesResponse->getData(),
+                $getEmployeeCompetencesResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getEmployeeCompetencesResponse->getMessage(),
+                $getEmployeeCompetencesResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetEmployeeCompetencesRequest $request
+     */
     public function setEmployeeCompetences(SetEmployeeCompetencesRequest $request)
     {
-        return $this->success('Employee competences updated', $this->employeeService->setEmployeeCompetences($request->employeeId, $request->competenceIds));
+        $setEmployeeCompetencesResponse = $this->employeeService->setEmployeeCompetences($request->employeeId, $request->competenceIds);
+        if ($setEmployeeCompetencesResponse->isSuccess()) {
+            return $this->success(
+                $setEmployeeCompetencesResponse->getMessage(),
+                $setEmployeeCompetencesResponse->getData(),
+                $setEmployeeCompetencesResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setEmployeeCompetencesResponse->getMessage(),
+                $setEmployeeCompetencesResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetCompetenceEmployeesRequest $request
+     */
     public function getCompetenceEmployees(GetCompetenceEmployeesRequest $request)
     {
-        return $this->success('Competence employees', $this->competenceService->getCompetenceEmployees($request->competenceId));
+        $getCompetenceEmployeesResponse = $this->competenceService->getCompetenceEmployees($request->competenceId);
+        if ($getCompetenceEmployeesResponse->isSuccess()) {
+            return $this->success(
+                $getCompetenceEmployeesResponse->getMessage(),
+                $getCompetenceEmployeesResponse->getData(),
+                $getCompetenceEmployeesResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getCompetenceEmployeesResponse->getMessage(),
+                $getCompetenceEmployeesResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetCompetenceEmployeesRequest $request
+     */
     public function setCompetenceEmployees(SetCompetenceEmployeesRequest $request)
     {
-        return $this->success('Competence employees updated', $this->competenceService->setCompetenceEmployees($request->competenceId, $request->employeeIds));
+        $setCompetenceEmployeesResponse = $this->competenceService->setCompetenceEmployees($request->competenceId, $request->employeeIds);
+        if ($setCompetenceEmployeesResponse->isSuccess()) {
+            return $this->success(
+                $setCompetenceEmployeesResponse->getMessage(),
+                $setCompetenceEmployeesResponse->getData(),
+                $setCompetenceEmployeesResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setCompetenceEmployeesResponse->getMessage(),
+                $setCompetenceEmployeesResponse->getStatusCode()
+            );
+        }
     }
 }
 
