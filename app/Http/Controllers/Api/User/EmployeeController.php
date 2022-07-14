@@ -16,13 +16,22 @@ class EmployeeController extends Controller
 {
     use Response;
 
+    /**
+     * @var $employeeService
+     */
     private $employeeService;
 
+    /**
+     * @var $jobDepartmentService
+     */
     public function __construct(IEmployeeService $employeeService)
     {
         $this->employeeService = $employeeService;
     }
 
+    /**
+     * @param GetByCompaniesRequest $request
+     */
     public function getByCompanyIds(GetByCompaniesRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
@@ -35,38 +44,82 @@ class EmployeeController extends Controller
             }
         }
 
-        return $this->success('Employees', $this->employeeService->getByCompanyIds(
+        $getByCompaniesResponse = $this->employeeService->getByCompanyIds(
             $request->pageIndex,
             $request->pageSize,
             $request->companyIds,
             $request->leave
-        ));
+        );
+        if ($getByCompaniesResponse->isSuccess()) {
+            return $this->success(
+                $getByCompaniesResponse->getMessage(),
+                $getByCompaniesResponse->getData(),
+                $getByCompaniesResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompaniesResponse->getMessage(),
+                $getByCompaniesResponse->getStatusCode()
+            );
+        }
     }
 
-    public function getByJobDepartmentTypeIds(GetByJobDepartmentTypeIdsRequest $request, IJobDepartmentService $jobDepartmentService)
+    /**
+     * @param GetByJobDepartmentTypeIdsRequest $request
+     * @param IJobDepartmentService $jobDepartmentService
+     */
+    public function getByJobDepartmentTypeIds(
+        GetByJobDepartmentTypeIdsRequest $request,
+        IJobDepartmentService            $jobDepartmentService
+    )
     {
         $jobDepartments = $jobDepartmentService->getByTypeIds($request->jobDepartmentTypeIds);
-        $employees = collect();
+        if ($jobDepartments->isSuccess()) {
+            $employees = collect();
 
-        foreach ($jobDepartments as $jobDepartment) {
-            $employees = $employees->merge($jobDepartment->employees);
+            foreach ($jobDepartments->getData() as $jobDepartment) {
+                $employees = $employees->merge($jobDepartment->employees);
+            }
+
+            return $this->success('Employees', $employees);
+        } else {
+            return $this->error(
+                $jobDepartments->getMessage(),
+                $jobDepartments->getStatusCode()
+            );
         }
-
-        return $this->success('Employees', $employees);
     }
 
+    /**
+     * @param GetByEmailRequest $request
+     */
     public function getByEmail(GetByEmailRequest $request)
     {
-        return $this->success('Employee', $this->employeeService->getByEmail($request->email));
+        $getByEmailResponse = $this->employeeService->getByEmail($request->email);
+        if ($getByEmailResponse->isSuccess()) {
+            return $this->success(
+                $getByEmailResponse->getMessage(),
+                $getByEmailResponse->getData(),
+                $getByEmailResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByEmailResponse->getMessage(),
+                $getByEmailResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
         if (!in_array($request->companyId, $request->user()->companies->pluck('id')->toArray())) {
             return $this->error('Unauthorized', 401);
         }
 
-        return $this->success('Employee created successfully', $this->employeeService->create(
+        $createResponse = $this->employeeService->create(
             $request->guid,
             $request->companyId,
             $request->roleId,
@@ -77,14 +130,41 @@ class EmployeeController extends Controller
             $request->identity,
             $request->santralCode,
             $request->password
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateJobDepartmentRequest $request
+     */
     public function updateJobDepartment(UpdateJobDepartmentRequest $request)
     {
-        return $this->success('Employee job department updated', $this->employeeService->updateJobDepartment(
+        $updateJobDepartmentResponse = $this->employeeService->updateJobDepartment(
             $request->employeeId,
             $request->jobDepartmentId
-        ));
+        );
+        if ($updateJobDepartmentResponse->isSuccess()) {
+            return $this->success(
+                $updateJobDepartmentResponse->getMessage(),
+                $updateJobDepartmentResponse->getData(),
+                $updateJobDepartmentResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateJobDepartmentResponse->getMessage(),
+                $updateJobDepartmentResponse->getStatusCode()
+            );
+        }
     }
 }
