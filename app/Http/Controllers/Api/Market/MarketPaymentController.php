@@ -12,39 +12,78 @@ class MarketPaymentController extends Controller
 {
     use Response;
 
+    /**
+     * @var $marketPaymentService
+     */
     private $marketPaymentService;
 
+    /**
+     * @param IMarketPaymentService $marketPaymentService
+     */
     public function __construct(IMarketPaymentService $marketPaymentService)
     {
         $this->marketPaymentService = $marketPaymentService;
     }
 
+    /**
+     * @param GetByCodeRequest $request
+     */
     public function getByCode(GetByCodeRequest $request)
     {
         $marketPayment = $this->marketPaymentService->getByCode($request->code);
 
-        if (!$marketPayment) {
-            return $this->error('Market payment not found', 404);
+        if ($marketPayment->isSuccess()) {
+            return $this->success(
+                $marketPayment->getMessage(),
+                $marketPayment->getData(),
+                $marketPayment->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $marketPayment->getMessage(),
+                $marketPayment->getStatusCode()
+            );
         }
-
-        return $this->success('Market payment', $marketPayment);
     }
 
+    /**
+     * @param SetCompletedRequest $request
+     */
     public function setCompleted(SetCompletedRequest $request)
     {
         $marketPayment = $this->marketPaymentService->getByCode($request->code);
 
-        if (!$marketPayment || $marketPayment->completed == 1) {
-            return $this->error('Market payment not found', 404);
-        }
+        if ($marketPayment->isSuccess()) {
+            if (!$marketPayment->getData() || $marketPayment->getData()->completed == 1) {
+                return $this->error('Market payment not found', 404);
+            }
 
-        if ($marketPayment->relation->getBalanceAttribute() < $marketPayment->amount) {
-            return $this->error('Not enough money', 406);
-        }
+            if ($marketPayment->getData()->relation->getBalanceAttribute() < $marketPayment->getData()->amount) {
+                return $this->error('Not enough money', 406);
+            }
 
-        return $this->success('Set market payment completed', $this->marketPaymentService->setCompleted(
-            $request->user()->id,
-            $marketPayment->id,
-        ));
+            $setCompletedResponse = $this->marketPaymentService->setCompleted(
+                $request->user()->id,
+                $marketPayment->getData()->id,
+            );
+
+            if ($setCompletedResponse->isSuccess()) {
+                return $this->success(
+                    $setCompletedResponse->getMessage(),
+                    $setCompletedResponse->getData(),
+                    $setCompletedResponse->getStatusCode()
+                );
+            } else {
+                return $this->error(
+                    $setCompletedResponse->getMessage(),
+                    $setCompletedResponse->getStatusCode()
+                );
+            }
+        } else {
+            return $this->error(
+                $marketPayment->getMessage(),
+                $marketPayment->getStatusCode()
+            );
+        }
     }
 }
