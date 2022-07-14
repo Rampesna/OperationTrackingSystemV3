@@ -32,7 +32,7 @@ class FoodListCheckController extends Controller
     public function getDateBetween(GetDateBetweenRequest $request)
     {
         $employeeFoodListChecks = $this->foodListCheckService->getDateBetween(
-            $request->employee_id,
+            $request->user()->id,
             $request->start_date,
             $request->end_date
         );
