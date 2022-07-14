@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Eloquent\IBoardService;
+use App\Interfaces\NetsantralApi\INetsantralApiService;
+use App\Interfaces\OperationApi\IDataScanningService;
 use App\Traits\Response;
 
 class HomeController extends Controller
@@ -27,17 +29,8 @@ class HomeController extends Controller
         return view('home.modules.index.index');
     }
 
-    public function test(IBoardService $boardService)
+    public function test(IDataScanningService $dataScanningService)
     {
-        $result = $boardService->getAll();
-        return $result->isSuccess() ?
-            $this->success(
-                $result->getMessage(),
-                $result->getData(),
-                $result->getStatusCode()
-            ) : $this->error(
-                $result->getMessage(),
-                $result->getStatusCode()
-            );
+        return response()->json($dataScanningService->GetDataScanTables()->getData());
     }
 }

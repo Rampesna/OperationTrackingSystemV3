@@ -4,20 +4,36 @@
 namespace App\Services\OperationApi;
 
 use App\Interfaces\OperationApi\IExamSystemService;
+use App\Services\ServiceResponse;
 
 class ExamSystemService extends OperationApiService implements IExamSystemService
 {
-    public function GetExamList()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetExamList(): ServiceResponse
     {
         $endpoint = "ExamSystem/GetExamList";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return new ServiceResponse(
+            true,
+            'Get exam list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response']
+        );
     }
 
-    public function GetExamPersonConnectList($examId)
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
+    public function GetExamPersonConnectList(
+        int $examId
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/GetExamPersonConnectList";
         $headers = [
@@ -28,10 +44,22 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             'ExamId' => $examId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Get exam person connect list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
     }
 
-    public function GetQuestionsList($examId)
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
+    public function GetQuestionsList(
+        int $examId
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/GetQuestionsList";
         $headers = [
@@ -42,10 +70,22 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             'ExamId' => $examId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Get questions list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
     }
 
-    public function GetQuestionOptionsList($questionId)
+    /**
+     * @param int $questionId
+     *
+     * @return ServiceResponse
+     */
+    public function GetQuestionOptionsList(
+        int $questionId
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/GetQuestionOptionsList";
         $headers = [
@@ -56,10 +96,22 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             'QuestionId' => $questionId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Get question options list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
     }
 
-    public function GetExamResultReadingList($examId)
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
+    public function GetExamResultReadingList(
+        int $examId
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/GetExamResultReadingList";
         $headers = [
@@ -70,10 +122,24 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             'ExamId' => $examId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Get exam result reading list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
     }
 
-    public function GetExamResultReadingReplyList($id, $examId)
+    /**
+     * @param int $id
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
+    public function GetExamResultReadingReplyList(
+        int $id,
+        int $examId
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/GetExamResultReadingReplyList";
         $headers = [
@@ -85,10 +151,22 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             'PersonId' => $id
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Get exam result reading reply list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
     }
 
-    public function GetExamResultList($examId)
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
+    public function GetExamResultList(
+        int $examId
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/GetExamResultList";
         $headers = [
@@ -99,10 +177,28 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             'ExamId' => $examId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Get exam result list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
     }
 
-    public function SetExams($name, $description, $time, $date)
+    /**
+     * @param string $name
+     * @param string $description
+     * @param string $time
+     * @param string $date
+     *
+     * @return ServiceResponse
+     */
+    public function SetExams(
+        string $name,
+        string $description,
+        string $time,
+        string $date
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/SetExams";
         $headers = [
@@ -118,10 +214,28 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             ]
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Set exams',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+        );
     }
 
-    public function SetExamPersonConnect($userId, $examId, $remainingTime, $status)
+    /**
+     * @param int $userId
+     * @param int $examId
+     * @param int $remainingTime
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
+    public function SetExamPersonConnect(
+        int $userId,
+        int $examId,
+        int $remainingTime,
+        int $status
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/SetExamPersonConnect";
         $headers = [
@@ -137,10 +251,30 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             ]
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Set exam person connect',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+        );
     }
 
-    public function SetQuestions($examId, $question, $questionType, $order, $image)
+    /**
+     * @param int $examId
+     * @param string $question
+     * @param int $questionType
+     * @param int $order
+     * @param string $image
+     *
+     * @return ServiceResponse
+     */
+    public function SetQuestions(
+        int    $examId,
+        string $question,
+        int    $questionType,
+        int    $order,
+        string $image
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/SetQuestions";
         $headers = [
@@ -157,10 +291,26 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             ]
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Set questions',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+        );
     }
 
-    public function SetQuestionOptions($questionId, $answer, $orderNumber)
+    /**
+     * @param int $questionId
+     * @param string $answer
+     * @param int $orderNumber
+     *
+     * @return ServiceResponse
+     */
+    public function SetQuestionOptions(
+        int    $questionId,
+        string $answer,
+        int    $orderNumber
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/SetQuestions";
         $headers = [
@@ -175,16 +325,33 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             ]
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Set question options',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+        );
     }
 
-    public function SetExamResultReadingReply($list)
+    /**
+     * @param array $list
+     *
+     * @return ServiceResponse
+     */
+    public function SetExamResultReadingReply(
+        array $list
+    ): ServiceResponse
     {
         $endpoint = "ExamSystem/SetExamResultReadingReply";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        return new ServiceResponse(
+            true,
+            'Set exam result reading reply',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response']
+        );
     }
 }
