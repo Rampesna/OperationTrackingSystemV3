@@ -15,50 +15,131 @@ class PersonSystemController extends Controller
 {
     use Response;
 
+    /**
+     * @var $personSystemService
+     */
     private $personSystemService;
 
+    /**
+     * @param IPersonSystemService $personSystemService
+     */
     public function __construct(IPersonSystemService $personSystemService)
     {
         $this->personSystemService = $personSystemService;
     }
 
+    /**
+     * @param SetPersonAuthorityRequest $request
+     */
     public function setPersonAuthority(SetPersonAuthorityRequest $request)
     {
-        return $this->success('Employee authorities successfully set', $this->personSystemService->SetPersonAuthority(
+        $setPersonAuthorityResponse = $this->personSystemService->SetPersonAuthority(
             $request->guids,
             $request->education,
             $request->assignment,
             $request->teamLead,
             $request->teamLeadAssistant
-        ));
+        );
+        if ($setPersonAuthorityResponse->isSuccess()) {
+            return $this->success(
+                $setPersonAuthorityResponse->getMessage(),
+                $setPersonAuthorityResponse->getData(),
+                $setPersonAuthorityResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setPersonAuthorityResponse->getMessage(),
+                $setPersonAuthorityResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetPersonDataScanRequest $request
+     */
     public function setPersonDataScan(SetPersonDataScanRequest $request)
     {
-        return $this->success('Employee data scans successfully set', $this->personSystemService->SetPersonDataScan(
+        $setPersonDataScanResponse = $this->personSystemService->SetPersonDataScan(
             $request->groupCode,
             $request->guids
-        ));
+        );
+        if ($setPersonDataScanResponse->isSuccess()) {
+            return $this->success(
+                $setPersonDataScanResponse->getMessage(),
+                $setPersonDataScanResponse->getData(),
+                $setPersonDataScanResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setPersonDataScanResponse->getMessage(),
+                $setPersonDataScanResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetPersonDataScanListRequest $request
+     */
     public function getPersonDataScanList(GetPersonDataScanListRequest $request)
     {
-        return $this->success('Employee data scan list', $this->personSystemService->GetPersonDataScanList());
+        $getPersonDataScanListResponse = $this->personSystemService->GetPersonDataScanList();
+        if ($getPersonDataScanListResponse->isSuccess()) {
+            return $this->success(
+                $getPersonDataScanListResponse->getMessage(),
+                $getPersonDataScanListResponse->getData(),
+                $getPersonDataScanListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getPersonDataScanListResponse->getMessage(),
+                $getPersonDataScanListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetPersonDisplayTypeRequest $request
+     */
     public function setPersonDisplayType(SetPersonDisplayTypeRequest $request)
     {
-        return $this->success('Employee lock type successfully set', $this->personSystemService->SetPersonDisplayType(
+        $setPersonDisplayTypeResponse = $this->personSystemService->SetPersonDisplayType(
             $request->otsLockType,
             $request->guids
-        ));
+        );
+        if ($setPersonDisplayTypeResponse->isSuccess()) {
+            return $this->success(
+                $setPersonDisplayTypeResponse->getMessage(),
+                $setPersonDisplayTypeResponse->getData(),
+                $setPersonDisplayTypeResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setPersonDisplayTypeResponse->getMessage(),
+                $setPersonDisplayTypeResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetPersonWorkToDoTypeRequest $request
+     */
     public function setPersonWorkToDoType(SetPersonWorkToDoTypeRequest $request)
     {
-        return $this->success('Employee lock type successfully set', $this->personSystemService->SetPersonWorkToDoType(
+        $setPersonWorkToDoTypeResponse = $this->personSystemService->SetPersonWorkToDoType(
             $request->jobCode,
             $request->guids
-        ));
+        );
+        if ($setPersonWorkToDoTypeResponse->isSuccess()) {
+            return $this->success(
+                $setPersonWorkToDoTypeResponse->getMessage(),
+                $setPersonWorkToDoTypeResponse->getData(),
+                $setPersonWorkToDoTypeResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setPersonWorkToDoTypeResponse->getMessage(),
+                $setPersonWorkToDoTypeResponse->getStatusCode()
+            );
+        }
     }
 }
