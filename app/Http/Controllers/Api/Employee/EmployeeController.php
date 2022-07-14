@@ -50,6 +50,9 @@ class EmployeeController extends Controller
         }
     }
 
+    /**
+     * @param SwapThemeRequest $request
+     */
     public function swapTheme(SwapThemeRequest $request)
     {
         $swapThemeResponse = $this->employeeService->swapTheme(
@@ -70,6 +73,9 @@ class EmployeeController extends Controller
         }
     }
 
+    /**
+     * @param GetMarketPaymentsRequest $request
+     */
     public function getMarketPayments(GetMarketPaymentsRequest $request)
     {
         $employeeMarketPayments = $this->employeeService->getMarketPayments(
