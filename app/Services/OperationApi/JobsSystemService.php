@@ -4,25 +4,44 @@
 namespace App\Services\OperationApi;
 
 use App\Interfaces\OperationApi\IJobsSystemService;
+use App\Services\ServiceResponse;
 
 class JobsSystemService extends OperationApiService implements IJobsSystemService
 {
     /**
      * @param array $jobList
+     *
+     * @return ServiceResponse
      */
     public function SetJobsExcel(
         array $jobList
-    )
+    ): ServiceResponse
     {
         $endpoint = "JobsSystem/SetJobsExcel";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList)->getBody();
+        return new ServiceResponse(
+            true,
+            'Set jobs excel',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList)['response']
+        );
     }
 
-    public function SetJobsUyumIsId($id, $priority, $type)
+    /**
+     * @param int $id
+     * @param int $priority
+     * @param int $type
+     *
+     * @return ServiceResponse
+     */
+    public function SetJobsUyumIsId(
+        int $id,
+        int $priority,
+        int $type
+    ): ServiceResponse
     {
         $endpoint = "JobsSystem/SetJobsExcel";
         $headers = [
@@ -35,22 +54,40 @@ class JobsSystemService extends OperationApiService implements IJobsSystemServic
             'Turu' => $type
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Set jobs uyum is id',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+        );
     }
 
-    public function SetJobSuspend()
+    /**
+     * @return ServiceResponse
+     */
+    public function SetJobSuspend(): ServiceResponse
     {
         $endpoint = "JobsSystem/SetJobSuspend";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers);
+        return new ServiceResponse(
+            true,
+            'Set job suspend',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers)['response']
+        );
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function SetJobCaseWorkDelete(
-        string|int $id
-    )
+        int $id
+    ): ServiceResponse
     {
         $endpoint = "JobsSystem/SetJobCaseWorkDelete";
         $headers = [
@@ -61,18 +98,33 @@ class JobsSystemService extends OperationApiService implements IJobsSystemServic
             'Id' => $id
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Set job case work delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+        );
     }
 
+    /**
+     * @param array $jobList
+     *
+     * @return ServiceResponse
+     */
     public function SetJobsClosedExcel(
         array $jobList
-    )
+    ): ServiceResponse
     {
         $endpoint = "JobsSystem/SetJobsClosedExcel";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList);
+        return new ServiceResponse(
+            true,
+            'Set jobs closed excel',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList)['response']
+        );
     }
 }

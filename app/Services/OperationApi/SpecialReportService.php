@@ -4,6 +4,7 @@
 namespace App\Services\OperationApi;
 
 use App\Interfaces\OperationApi\ISpecialReportService;
+use App\Services\ServiceResponse;
 
 class SpecialReportService extends OperationApiService implements ISpecialReportService
 {
@@ -11,12 +12,14 @@ class SpecialReportService extends OperationApiService implements ISpecialReport
      * @param string $startDate
      * @param string $endDate
      * @param string $query
+     *
+     * @return ServiceResponse
      */
     public function GetSpecialReport(
         string $startDate,
         string $endDate,
         string $query
-    )
+    ): ServiceResponse
     {
         $endpoint = "SpecialReport/GetSpecialReport";
         $headers = [
@@ -29,6 +32,11 @@ class SpecialReportService extends OperationApiService implements ISpecialReport
             'Sorgu' => $query
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response'];
+        return new ServiceResponse(
+            true,
+            'Get Special Report',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
     }
 }

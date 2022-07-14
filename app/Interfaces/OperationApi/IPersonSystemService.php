@@ -25,13 +25,13 @@ interface IPersonSystemService
 
     /**
      * @param int $otsLockType
-     * @param array $list
+     * @param array $guids
      *
      * @return ServiceResponse
      */
     public function SetPersonDisplayType(
         int   $otsLockType,
-        array $list
+        array $guids
     ): ServiceResponse;
 
     /**

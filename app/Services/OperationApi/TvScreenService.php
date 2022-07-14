@@ -4,25 +4,39 @@
 namespace App\Services\OperationApi;
 
 use App\Interfaces\OperationApi\ITvScreenService;
+use App\Services\ServiceResponse;
 use GuzzleHttp\Client;
 
 class TvScreenService extends OperationApiService implements ITvScreenService
 {
-    public function GetJobList()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetJobList(): ServiceResponse
     {
         $endpoint = "TvScreen/GetJobList";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
-        return json_decode($this->callApi($this->baseUrl . $endpoint, 'get', $headers)->getBody())->response;
+
+        $response = $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+
+        return new ServiceResponse(
+            true,
+            'Get job list',
+            200,
+            json_decode($response->getBody())->response
+        );
     }
 
     /**
      * @param array $companyIds
+     *
+     * @return ServiceResponse
      */
     public function GetStaffStatusList(
         array $companyIds
-    )
+    ): ServiceResponse
     {
         $companies = [];
 
@@ -45,15 +59,22 @@ class TvScreenService extends OperationApiService implements ITvScreenService
             'query' => []
         ]);
 
-        return json_decode($response->getBody())->response;
+        return new ServiceResponse(
+            true,
+            'Get staff status list',
+            200,
+            json_decode($response->getBody())->response
+        );
     }
 
     /**
      * @param array $employeeGuids
+     *
+     * @return ServiceResponse
      */
     public function GetStaffStatusUserList(
         array $employeeGuids
-    )
+    ): ServiceResponse
     {
         $endpoint = "TvScreen/GetStaffStatusUserList";
 
@@ -70,42 +91,79 @@ class TvScreenService extends OperationApiService implements ITvScreenService
             'query' => []
         ]);
 
-        return json_decode($response->getBody())->response;
+        return new ServiceResponse(
+            true,
+            'Get staff status user list',
+            200,
+            json_decode($response->getBody())->response
+        );
     }
 
-    public function GetStaffStarList()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetStaffStarList(): ServiceResponse
     {
         $endpoint = "TvScreen/GetStaffStarList";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return new ServiceResponse(
+            true,
+            'Get staff star list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response']
+        );
     }
 
-    public function GetPointDay()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetPointDay(): ServiceResponse
     {
         $endpoint = "TvScreen/GetPointDay";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return new ServiceResponse(
+            true,
+            'Get point day',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response']
+        );
     }
 
-    public function GetPointWeek()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetPointWeek(): ServiceResponse
     {
         $endpoint = "TvScreen/GetPointWeek";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return new ServiceResponse(
+            true,
+            'Get point week',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response']
+        );
     }
 
-    public function GetMonthJobRanking()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetMonthJobRanking(): ServiceResponse
     {
         $endpoint = "TvScreen/GetMonthJobRanking";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+        return new ServiceResponse(
+            true,
+            'Get month job ranking',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response']
+        );
     }
 }

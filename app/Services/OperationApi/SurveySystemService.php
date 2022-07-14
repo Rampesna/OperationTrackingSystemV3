@@ -4,26 +4,37 @@
 namespace App\Services\OperationApi;
 
 use App\Interfaces\OperationApi\ISurveySystemService;
+use App\Services\ServiceResponse;
 use GuzzleHttp\Client;
 
 class SurveySystemService extends OperationApiService implements ISurveySystemService
 {
-    public function GetSurveyList()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveyList(): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyList";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'];
+        return new ServiceResponse(
+            true,
+            'Get Survey List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response']
+        );
     }
 
     /**
      * @param int $id
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyEdit(
         int $id
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyEdit";
         $headers = [
@@ -34,15 +45,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyId' => $id
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0];
+        return new ServiceResponse(
+            true,
+            'Get Survey Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
     /**
      * @param int $surveyCode
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyQuestionsList(
         int $surveyCode
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyQuestionsList";
         $headers = [
@@ -53,15 +71,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyCode' => $surveyCode
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? [];
+        return new ServiceResponse(
+            true,
+            'Get Survey Questions List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? []
+        );
     }
 
     /**
      * @param int $questionId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyQuestionEdit(
         int $questionId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyQuestionEdit";
         $headers = [
@@ -72,15 +97,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyQuestionsId' => $questionId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0];
+        return new ServiceResponse(
+            true,
+            'Get Survey Question Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
     /**
      * @param int $questionId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyAnswersList(
         int $questionId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyAnswersList";
         $headers = [
@@ -91,15 +123,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'QuestionsId' => $questionId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? [];
+        return new ServiceResponse(
+            true,
+            'Get Survey Answers List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? []
+        );
     }
 
     /**
      * @param int $answerId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyAnswerEdit(
         int $answerId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyAnswerEdit";
         $headers = [
@@ -110,10 +149,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyAnswerId' => $answerId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0];
+        return new ServiceResponse(
+            true,
+            'Get Survey Answer Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
-    public function GetSurveyGroupConnectList($surveyCode)
+    /**
+     * @param int $surveyCode
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveyGroupConnectList(
+        int $surveyCode
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyGroupConnectList";
         $headers = [
@@ -124,15 +175,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyCode' => $surveyCode
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Get Survey Group Connect List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? []
+        );
     }
 
     /**
      * @param int $answerId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyAnswersConnectList(
         int $answerId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyAnswersConnectList";
         $headers = [
@@ -143,15 +201,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'AnswersId' => $answerId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? [];
+        return new ServiceResponse(
+            true,
+            'Get Survey Answers Connect List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? []
+        );
     }
 
     /**
      * @param int $answerId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyAnswersCategoryConnectList(
         int $answerId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyAnswersCategoryConnectList";
         $headers = [
@@ -162,32 +227,58 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'AnswersId' => $answerId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? [];
+        return new ServiceResponse(
+            true,
+            'Get Survey Answers Category Connect List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? []
+        );
     }
 
-    public function GetSurveyProductList()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveyProductList(): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyProductList";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'] ?? [];
+        return new ServiceResponse(
+            true,
+            'Get Survey Product List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'] ?? []
+        );
     }
 
-    public function GetSurveySellerList()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveySellerList(): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveySellerList";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'] ?? [];
+        return new ServiceResponse(
+            true,
+            'Get Survey Seller List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'] ?? []
+        );
     }
 
+    /**
+     * @param int $answerId
+     *
+     * @return ServiceResponse
+     */
     public function GetSurveyAnswersProductConnectList(
         int $answerId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyAnswersProductConnectList";
         $headers = [
@@ -198,10 +289,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'AnswersId' => $answerId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? [];
+        return new ServiceResponse(
+            true,
+            'Get Survey Answers Product Connect List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'] ?? []
+        );
     }
 
-    public function GetSurveySellerEdit($sellerId)
+    /**
+     * @param int $sellerId
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveySellerEdit(
+        $sellerId
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveySellerEdit";
         $headers = [
@@ -212,10 +315,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SellerId' => $sellerId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Get Survey Seller Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
-    public function GetSurveySellerCodeEdit($sellerCode)
+    /**
+     * @param string $sellerCode
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveySellerCodeEdit(
+        string $sellerCode
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveySellerCodeEdit";
         $headers = [
@@ -226,15 +341,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SellerCode' => $sellerCode
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Get Survey Seller Code Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
     /**
      * @param int $productId
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyProductEdit(
         int $productId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyProductEdit";
         $headers = [
@@ -245,7 +367,12 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'ProductId' => $productId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0];
+        return new ServiceResponse(
+            true,
+            'Get Survey Product Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
     /**
@@ -271,6 +398,8 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
      * @param string|null $listCode
      * @param string|null $status
      * @param array|null $callList
+     *
+     * @return ServiceResponse
      */
     public function SetSurvey(
         int|null    $id,
@@ -295,7 +424,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         string|null $listCode,
         string|null $status,
         array|null  $callList = []
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurvey";
         $headers = [
@@ -327,9 +456,12 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'aranacakListe' => $callList
         ];
 
-//        return $params;
-
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Set Survey',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']
+        );
     }
 
     /**
@@ -341,6 +473,8 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
      * @param int $surveyCode
      * @param string|null $description
      * @param int $required
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyQuestions(
         int|null    $id,
@@ -351,7 +485,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int         $surveyCode,
         string|null $description,
         int         $required
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyQuestions";
         $headers = [
@@ -369,7 +503,12 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'zorunlumu' => $required
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Set Survey Questions',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']
+        );
     }
 
     /**
@@ -378,6 +517,8 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
      * @param string $answer
      * @param int $order
      * @param string $columns
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswers(
         int|null $id,
@@ -385,7 +526,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         string   $answer,
         int      $order,
         string   $columns
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyAnswers";
         $headers = [
@@ -400,15 +541,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'zorunluKolonAdlari' => $columns
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response'];
+        return new ServiceResponse(
+            true,
+            'Set Survey Answers',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']
+        );
     }
 
     /**
      * @param int $id
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyDelete(
         int $id
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyDelete";
         $headers = [
@@ -419,15 +567,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyId' => $id
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Set Survey Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
     }
 
     /**
      * @param int $questionId
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyQuestionsDelete(
         int $questionId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyQuestionsDelete";
         $headers = [
@@ -438,15 +593,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyQuestionsId' => $questionId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Set Survey Questions Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
     }
 
     /**
      * @param int $answerId
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswersDelete(
         int $answerId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyAnswersDelete";
         $headers = [
@@ -457,10 +619,24 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyAnswersId' => $answerId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response'];
+        return new ServiceResponse(
+            true,
+            'Set Survey Answers Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
     }
 
-    public function SetSurveyAnswersConnectDelete($id, $code)
+    /**
+     * @param int $id
+     * @param int $code
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyAnswersConnectDelete(
+        int $id,
+        int $code
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyAnswersConnectDelete";
         $headers = [
@@ -472,32 +648,46 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyCode' => $code
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Set Survey Answers Connect Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
     }
 
     /**
      * @param array $categories
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswersCategoryConnect(
         array $categories
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyAnswersCategoryConnect";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $categories);
+        return new ServiceResponse(
+            true,
+            'Set Survey Answers Category Connect',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $categories)['response']
+        );
     }
 
     /**
      * @param int $surveyCode
      * @param int $subSurveyCode
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyGroupConnect(
-        $surveyCode,
-        $subSurveyCode
-    )
+        int $surveyCode,
+        int $subSurveyCode
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyGroupConnect";
         $headers = [
@@ -509,60 +699,88 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'ekAnketGrupKodu' => $subSurveyCode
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Set Survey Group Connect',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']
+        );
     }
 
     /**
      * @param array $questions
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswersConnect(
         array $questions
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyAnswersConnect";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $questions);
+        return new ServiceResponse(
+            true,
+            'Set Survey Answers Connect',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $questions)['response']
+        );
     }
 
     /**
      * @param array $products
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyAnswersProductConnect(
         array $products
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyAnswersProductConnect";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $products);
+        return new ServiceResponse(
+            true,
+            'Set Survey Answers Product Connect',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $products)['response']
+        );
     }
 
     /**
      * @param array $sellers
+     *
+     * @return ServiceResponse
      */
     public function SetSurveySellerConnect(
         array $sellers
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveySellerConnect";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $sellers)['response'];
+        return new ServiceResponse(
+            true,
+            'Set Survey Seller Connect',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $sellers)['response']
+        );
     }
 
     /**
      * @param int $sellerId
+     *
+     * @return ServiceResponse
      */
     public function SetSurveySellerDelete(
         int $sellerId
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveySellerDelete";
         $headers = [
@@ -573,32 +791,46 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SellerCode' => $sellerId
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params);
+        return new ServiceResponse(
+            true,
+            'Set Survey Seller Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
     }
 
     /**
      * @param array $products
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyProduct(
         array $products
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyProduct";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $products);
+        return new ServiceResponse(
+            true,
+            'Set Survey Product',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $products)['response']
+        );
     }
 
     /**
      * @param int $surveyCode
      * @param array $guids
+     *
+     * @return ServiceResponse
      */
     public function SetSurveyPersonConnect(
         int   $surveyCode,
         array $guids
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveyPersonConnect";
         $headers = [
@@ -613,7 +845,12 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             ];
         }
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        return new ServiceResponse(
+            true,
+            'Set Survey Person Connect',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response']
+        );
     }
 
     /**
@@ -621,13 +858,15 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
      * @param string $startDate
      * @param string $endDate
      * @param array $companyIds
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyReport(
         int    $surveyCode,
         string $startDate,
         string $endDate,
         array  $companyIds
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyReport";
 
@@ -650,7 +889,12 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'query' => $parameters
         ]);
 
-        return json_decode($response->getBody())->response;
+        return new ServiceResponse(
+            true,
+            'Get Survey Report',
+            200,
+            json_decode($response->getBody())->response
+        );
     }
 
     /**
@@ -658,13 +902,15 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
      * @param string $startDate
      * @param string $endDate
      * @param array $statusCodes
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyReportStatusDetails(
         int    $surveyCode,
         string $startDate,
         string $endDate,
         array  $statusCodes
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyReportStatusDetails";
 
@@ -687,15 +933,22 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'query' => $parameters
         ]);
 
-        return json_decode($response->getBody())->response;
+        return new ServiceResponse(
+            true,
+            'Get Survey Report Status Details',
+            200,
+            json_decode($response->getBody())->response
+        );
     }
 
     /**
      * @param int $surveyCode
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyReportWantedDetails(
         int $surveyCode,
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyReportWantedDetails";
         $headers = [
@@ -706,19 +959,26 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'SurveyCode' => $surveyCode,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'];
+        return new ServiceResponse(
+            true,
+            'Get Survey Report Wanted Details',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response']
+        );
     }
 
     /**
      * @param int $surveyCode
      * @param string $startDate
      * @param string $endDate
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyReportRemainingDetails(
         int    $surveyCode,
         string $startDate,
         string $endDate
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyReportRemainingDetails";
         $headers = [
@@ -731,7 +991,12 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'BitisTarihi' => $endDate
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'];
+        return new ServiceResponse(
+            true,
+            'Get Survey Report Remaining Details',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response']
+        );
     }
 
     /**
@@ -739,13 +1004,15 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
      * @param string $startDate
      * @param string $endDate
      * @param array $companyIds
+     *
+     * @return ServiceResponse
      */
     public function GetSurveyDetailReport(
         int    $surveyCode,
         string $startDate,
         string $endDate,
         array  $companyIds
-    )
+    ): ServiceResponse
     {
         $endpoint = "SurveySystem/GetSurveyDetailReport";
 
@@ -768,6 +1035,11 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'query' => $parameters
         ]);
 
-        return json_decode($response->getBody())->response;
+        return new ServiceResponse(
+            true,
+            'Get Survey Detail Report',
+            200,
+            json_decode($response->getBody())->response
+        );
     }
 }

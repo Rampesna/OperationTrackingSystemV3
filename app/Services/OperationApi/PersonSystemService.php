@@ -4,16 +4,26 @@
 namespace App\Services\OperationApi;
 
 use App\Interfaces\OperationApi\IPersonSystemService;
+use App\Services\ServiceResponse;
 
 class PersonSystemService extends OperationApiService implements IPersonSystemService
 {
+    /**
+     * @param array $guids
+     * @param int $education
+     * @param int $assignment
+     * @param int $teamLead
+     * @param int $teamLeadAssistant
+     *
+     * @return ServiceResponse
+     */
     public function SetPersonAuthority(
-        $guids,
-        $education,
-        $assignment,
-        $teamLead,
-        $teamLeadAssistant
-    )
+        array $guids,
+        int   $education,
+        int   $assignment,
+        int   $teamLead,
+        int   $teamLeadAssistant
+    ): ServiceResponse
     {
         $endpoint = "PersonSystem/SetPersonAuthority";
         $headers = [
@@ -31,13 +41,24 @@ class PersonSystemService extends OperationApiService implements IPersonSystemSe
             ];
         }
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response'];
+        return new ServiceResponse(
+            true,
+            'Set person authority',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response']
+        );
     }
 
+    /**
+     * @param int $otsLockType
+     * @param array $guids
+     *
+     * @return ServiceResponse
+     */
     public function SetPersonDisplayType(
         int   $otsLockType,
         array $guids
-    )
+    ): ServiceResponse
     {
         $endpoint = "PersonSystem/SetPersonDisplayType";
         $headers = [
@@ -52,27 +73,42 @@ class PersonSystemService extends OperationApiService implements IPersonSystemSe
             ];
         }
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        return new ServiceResponse(
+            true,
+            'Set person display type',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response']
+        );
     }
 
-    public function GetPersonDataScanList()
+    /**
+     * @return ServiceResponse
+     */
+    public function GetPersonDataScanList(): ServiceResponse
     {
         $endpoint = "PersonSystem/GetPersonDataScanList";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response'];
+        return new ServiceResponse(
+            true,
+            'Get person data scan list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers)['response']
+        );
     }
 
     /**
      * @param int $groupCode
      * @param array $guids
+     *
+     * @return ServiceResponse
      */
     public function SetPersonDataScan(
         int   $groupCode,
         array $guids
-    )
+    ): ServiceResponse
     {
         $endpoint = "PersonSystem/SetPersonDataScan";
         $headers = [
@@ -87,13 +123,24 @@ class PersonSystemService extends OperationApiService implements IPersonSystemSe
             ];
         }
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        return new ServiceResponse(
+            true,
+            'Set person data scan',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response']
+        );
     }
 
+    /**
+     * @param int $jobCode
+     * @param array $guids
+     *
+     * @return ServiceResponse
+     */
     public function SetPersonWorkToDoType(
         int   $jobCode,
         array $guids
-    )
+    ): ServiceResponse
     {
         $endpoint = "PersonSystem/SetPersonWorkToDoType";
         $headers = [
@@ -108,6 +155,11 @@ class PersonSystemService extends OperationApiService implements IPersonSystemSe
             ];
         }
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+        return new ServiceResponse(
+            true,
+            'Set person work to do type',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response']
+        );
     }
 }

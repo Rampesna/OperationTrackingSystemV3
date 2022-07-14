@@ -4,10 +4,28 @@
 namespace App\Services\OperationApi;
 
 use App\Interfaces\OperationApi\IOtsSystemService;
+use App\Services\ServiceResponse;
 
 class OtsSystemService extends OperationApiService implements IOtsSystemService
 {
-    public function execSql($query, $queryType, $connectionTimeout, $queryParameters, $databaseType, $taskNumber)
+    /**
+     * @param string $query
+     * @param string $queryType
+     * @param string $connectionTimeout
+     * @param string $queryParameters
+     * @param string $databaseType
+     * @param string $taskNumber
+     *
+     * @return ServiceResponse
+     */
+    public function execSql(
+        string $query,
+        string $queryType,
+        string $connectionTimeout,
+        string $queryParameters,
+        string $databaseType,
+        string $taskNumber
+    ): ServiceResponse
     {
         $endpoint = "OtsSystem/execSql";
         $headers = [
@@ -25,10 +43,22 @@ class OtsSystemService extends OperationApiService implements IOtsSystemService
             ]
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Execute sql',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+        );
     }
 
-    public function execSqlList($body)
+    /**
+     * @param string $body
+     *
+     * @return ServiceResponse
+     */
+    public function execSqlList(
+        string $body
+    ): ServiceResponse
     {
         $endpoint = "OtsSystem/execSqlList";
         $headers = [
@@ -39,6 +69,11 @@ class OtsSystemService extends OperationApiService implements IOtsSystemService
             'body' => $body
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return new ServiceResponse(
+            true,
+            'Execute sql list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+        );
     }
 }

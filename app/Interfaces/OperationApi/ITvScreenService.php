@@ -18,7 +18,7 @@ interface ITvScreenService
      * @return ServiceResponse
      */
     public function GetStaffStatusList(
-        array $companyId
+        array $companyIds
     ): ServiceResponse;
 
     /**
