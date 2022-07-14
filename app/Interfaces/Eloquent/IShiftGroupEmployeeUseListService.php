@@ -6,6 +6,9 @@ use App\Services\ServiceResponse;
 
 interface IShiftGroupEmployeeUseListService extends IEloquentService
 {
+    /**
+     * @return ServiceResponse
+     */
     public function initialize(): ServiceResponse;
 
     /**
