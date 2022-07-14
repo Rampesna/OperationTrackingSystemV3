@@ -18,68 +18,191 @@ class UserRoleController extends Controller
 {
     use Response;
 
+    /**
+     * @var $userRoleService
+     */
     private $userRoleService;
 
+    /**
+     * @param IUserRoleService $userRoleService
+     */
     public function __construct(IUserRoleService $userRoleService)
     {
         $this->userRoleService = $userRoleService;
     }
 
+    /**
+     * @param GetAllRequest $request
+     */
     public function getAll(GetAllRequest $request)
     {
-        return $this->success('User roles', $this->userRoleService->getAll());
+        $getAllResponse = $this->userRoleService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetAllUserRolesRequest $request
+     */
     public function getAllUserRoles(GetAllUserRolesRequest $request)
     {
-        return $this->success('User roles', $this->userRoleService->getAllUserRoles(
+        $getAllUserRolesResponse = $this->userRoleService->getAllUserRoles(
             $request->pageIndex,
             $request->pageSize,
             $request->keyword
-        ));
+        );
+        if ($getAllUserRolesResponse->isSuccess()) {
+            return $this->success(
+                $getAllUserRolesResponse->getMessage(),
+                $getAllUserRolesResponse->getData(),
+                $getAllUserRolesResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllUserRolesResponse->getMessage(),
+                $getAllUserRolesResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
-        return $this->success('User role', $this->userRoleService->getById(
+        $getByIdResponse = $this->userRoleService->getById(
             $request->id
-        ));
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetUserPermissionsRequest $request
+     */
     public function getUserPermissions(GetUserPermissionsRequest $request)
     {
-        return $this->success('User role user permissions', $this->userRoleService->getUserPermissions(
+        $getUserPermissionsResponse = $this->userRoleService->getUserPermissions(
             $request->roleId
-        ));
+        );
+        if ($getUserPermissionsResponse->isSuccess()) {
+            return $this->success(
+                $getUserPermissionsResponse->getMessage(),
+                $getUserPermissionsResponse->getData(),
+                $getUserPermissionsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getUserPermissionsResponse->getMessage(),
+                $getUserPermissionsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetUserPermissionsRequest $request
+     */
     public function setUserPermissions(SetUserPermissionsRequest $request)
     {
-        return $this->success('Set user role user permissions', $this->userRoleService->setUserPermissions(
+        $setUserPermissionsResponse = $this->userRoleService->setUserPermissions(
             $request->roleId,
             $request->userPermissionIds
-        ));
+        );
+        if ($setUserPermissionsResponse->isSuccess()) {
+            return $this->success(
+                $setUserPermissionsResponse->getMessage(),
+                $setUserPermissionsResponse->getData(),
+                $setUserPermissionsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setUserPermissionsResponse->getMessage(),
+                $setUserPermissionsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
-        return $this->success('User role created', $this->userRoleService->create(
+        $createResponse = $this->userRoleService->create(
             $request->name
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
-        return $this->success('User role updated', $this->userRoleService->update(
+        $updateResponse = $this->userRoleService->update(
             $request->id,
             $request->name
-        ));
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
     }
 
     public function delete(DeleteRequest $request)
     {
-        return $this->success('User role deleted', $this->userRoleService->delete(
+        $deleteResponse = $this->userRoleService->delete(
             $request->id
-        ));
+        );
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
+            );
+        }
     }
 }
