@@ -13,8 +13,14 @@ class MarketController extends Controller
 {
     use Response;
 
+    /**
+     * @var $marketService
+     */
     private $marketService;
 
+    /**
+     * @param IMarketService $marketService
+     */
     public function __construct(IMarketService $marketService)
     {
         $this->marketService = $marketService;
@@ -25,31 +31,65 @@ class MarketController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        if (!$market = $this->marketService->getByCode($request->code)) {
-            return $this->error('Market not found', 404);
-        }
+        $market = $this->marketService->getByCode($request->code);
+        if ($market->isSuccess()) {
+            if (!checkPassword($request->password, $market->getData()->password)) {
+                return $this->error('Password is incorrect', 401);
+            }
 
-        if (!checkPassword($request->password, $market->password)) {
-            return $this->error('Password is incorrect', 401);
+            return $this->success('Market logged in successfully', [
+                'token' => $this->marketService->generateSanctumToken($market->getData())
+            ]);
+        } else {
+            return $this->error(
+                $market->getMessage(),
+                $market->getStatusCode()
+            );
         }
-
-        return $this->success('Market logged in successfully', [
-            'token' => $this->marketService->generateSanctumToken($market)
-        ]);
     }
 
+    /**
+     * @param SwapThemeRequest $request
+     */
     public function swapTheme(SwapThemeRequest $request)
     {
-        return $this->success('Theme swapped successfully', $this->marketService->swapTheme(
+        $swapThemeResponse = $this->marketService->swapTheme(
             $request->user()->id,
             $request->theme
-        ));
+        );
+        if ($swapThemeResponse->isSuccess()) {
+            return $this->success(
+                $swapThemeResponse->getMessage(),
+                $swapThemeResponse->getData(),
+                $swapThemeResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $swapThemeResponse->getMessage(),
+                $swapThemeResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetMarketPaymentsRequest $request
+     */
     public function getMarketPayments(GetMarketPaymentsRequest $request)
     {
-        return $this->success('Market payments', $this->marketService->getMarketPayments(
+        $getMarketPaymentsResponse = $this->marketService->getMarketPayments(
             $request->user()->id
-        ));
+        );
+        if ($getMarketPaymentsResponse->isSuccess()) {
+            return $this->success(
+                $getMarketPaymentsResponse->getMessage(),
+                $getMarketPaymentsResponse->getData(),
+                $getMarketPaymentsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getMarketPaymentsResponse->getMessage(),
+                $getMarketPaymentsResponse->getStatusCode()
+            );
+        }
     }
 }
