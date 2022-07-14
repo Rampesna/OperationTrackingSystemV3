@@ -13,29 +13,80 @@ class UserPermissionController extends Controller
 {
     use Response;
 
+    /**
+     * @var $userPermissionService
+     */
     private $userPermissionService;
 
+    /**
+     * @param IUserPermissionService $userPermissionService
+     */
     public function __construct(IUserPermissionService $userPermissionService)
     {
         $this->userPermissionService = $userPermissionService;
     }
 
+    /**
+     * @param GetAllRequest $request
+     */
     public function getAll(GetAllRequest $request)
     {
-        return $this->success('User permissions', $this->userPermissionService->getAll());
+        $getAllResponse = $this->userPermissionService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
-        return $this->success('User permissions', $this->userPermissionService->getById(
+        $getByIdResponse = $this->userPermissionService->getById(
             $request->id
-        ));
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByTopIdRequest $request
+     */
     public function getByTopId(GetByTopIdRequest $request)
     {
-        return $this->success('User permissions', $this->userPermissionService->getByTopId(
+        $getByTopIdResponse = $this->userPermissionService->getByTopId(
             $request->topId
-        ));
+        );
+        if ($getByTopIdResponse->isSuccess()) {
+            return $this->success(
+                $getByTopIdResponse->getMessage(),
+                $getByTopIdResponse->getData(),
+                $getByTopIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByTopIdResponse->getMessage(),
+                $getByTopIdResponse->getStatusCode()
+            );
+        }
     }
 }
