@@ -70,12 +70,7 @@ class PaymentService implements IPaymentService
                 $payment->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Payment not found',
-                404,
-                null
-            );
+            return $payment;
         }
     }
 
@@ -153,12 +148,7 @@ class PaymentService implements IPaymentService
                 $payment->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Payment not found',
-                404,
-                null
-            );
+            return $payment;
         }
     }
 

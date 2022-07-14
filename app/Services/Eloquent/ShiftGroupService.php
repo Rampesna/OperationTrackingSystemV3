@@ -68,12 +68,7 @@ class ShiftGroupService implements IShiftGroupService
                 $shiftGroup->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Shift group not found',
-                404,
-                null
-            );
+            return $shiftGroup;
         }
     }
 
@@ -152,12 +147,7 @@ class ShiftGroupService implements IShiftGroupService
                 $shiftGroup->getData()->employees
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Shift group not found',
-                404,
-                null
-            );
+            return $shiftGroup;
         }
     }
 
@@ -181,12 +171,7 @@ class ShiftGroupService implements IShiftGroupService
                 $shiftGroup->getData()->employees()->sync($employeeIds)
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Shift group not found',
-                404,
-                null
-            );
+            return $shiftGroup;
         }
     }
 
@@ -522,12 +507,7 @@ class ShiftGroupService implements IShiftGroupService
                 $shiftGroup->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Shift group not found',
-                404,
-                null
-            );
+            return $shiftGroup;
         }
     }
 }

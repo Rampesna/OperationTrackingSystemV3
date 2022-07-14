@@ -66,12 +66,7 @@ class QueueService implements IQueueService
                 $queue->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Queue not found',
-                404,
-                null
-            );
+            return $queue;
         }
     }
 
@@ -134,12 +129,7 @@ class QueueService implements IQueueService
                 $queue->getData()->employees
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Queue not found',
-                404,
-                null
-            );
+            return $queue;
         }
     }
 
@@ -164,12 +154,7 @@ class QueueService implements IQueueService
                 $queue->getData()->employees()->sync($employeeIds)
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Queue not found',
-                404,
-                null
-            );
+            return $queue;
         }
     }
 
@@ -241,12 +226,7 @@ class QueueService implements IQueueService
                 $queue->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Queue not found',
-                404,
-                null
-            );
+            return $queue;
         }
     }
 }

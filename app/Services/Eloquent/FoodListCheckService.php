@@ -80,12 +80,7 @@ class FoodListCheckService implements IFoodListCheckService
                 $foodListCheck
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Food list check not found',
-                404,
-                $foodListCheck
-            );
+            return $foodListCheck;
         }
     }
 
@@ -114,7 +109,7 @@ class FoodListCheckService implements IFoodListCheckService
                     $this->foodListService->getDateBetween(
                         $startDate,
                         $endDate
-                    )->pluck('id')->toArray()
+                    )->getData()->pluck('id')->toArray()
                 )->get()
         );
     }
@@ -150,12 +145,7 @@ class FoodListCheckService implements IFoodListCheckService
                 $foodListCheck->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Food list check not found',
-                404,
-                null
-            );
+            return $foodListCheck;
         }
     }
 }

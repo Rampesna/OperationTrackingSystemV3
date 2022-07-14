@@ -106,12 +106,7 @@ class EmployeeService implements IEmployeeService
                 $employee->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 
@@ -176,12 +171,7 @@ class EmployeeService implements IEmployeeService
                 $employee->getData()->queues
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 
@@ -205,12 +195,7 @@ class EmployeeService implements IEmployeeService
                 $employee->getData()->queues()->sync($queueIds)
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 
@@ -232,12 +217,7 @@ class EmployeeService implements IEmployeeService
                 $employee->getData()->competences
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 
@@ -261,12 +241,7 @@ class EmployeeService implements IEmployeeService
                 $employee->getData()->competences()->sync($competenceIds)
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 
@@ -288,12 +263,7 @@ class EmployeeService implements IEmployeeService
                 $employee->getData()->shiftGroups
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 
@@ -317,12 +287,7 @@ class EmployeeService implements IEmployeeService
                 $employee->getData()->shiftGroups()->sync($shiftGroupIds)
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 
@@ -349,12 +314,7 @@ class EmployeeService implements IEmployeeService
                 $employee->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 
@@ -453,12 +413,7 @@ class EmployeeService implements IEmployeeService
                 $employee->getData()->marketPayments
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 
@@ -477,15 +432,10 @@ class EmployeeService implements IEmployeeService
                 true,
                 'Employee deleted',
                 200,
-                $employee->data->delete()
+                $employee->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Employee not found',
-                404,
-                null
-            );
+            return $employee;
         }
     }
 }

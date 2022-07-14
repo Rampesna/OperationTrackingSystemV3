@@ -39,12 +39,7 @@ class DepartmentService implements IDepartmentService
                 $department
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Department not found',
-                404,
-                null
-            );
+            return $department;
         }
     }
 
@@ -112,12 +107,7 @@ class DepartmentService implements IDepartmentService
                 $department->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Department not found',
-                404,
-                null
-            );
+            return $department;
         }
     }
 
@@ -139,12 +129,7 @@ class DepartmentService implements IDepartmentService
                 $department->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Department not found',
-                404,
-                null
-            );
+            return $department;
         }
     }
 

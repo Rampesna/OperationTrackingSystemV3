@@ -66,12 +66,7 @@ class TaskPriorityService implements ITaskPriorityService
                 $taskPriority->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Task priority not found',
-                404,
-                null
-            );
+            return $taskPriority;
         }
     }
 

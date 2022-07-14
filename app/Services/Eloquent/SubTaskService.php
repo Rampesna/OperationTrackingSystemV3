@@ -30,12 +30,22 @@ class SubTaskService implements ISubTaskService
         int $id
     ): ServiceResponse
     {
-        return new ServiceResponse(
-            true,
-            'SubTask',
-            200,
-            SubTask::find($id)
-        );
+        $subTask = SubTask::find($id);
+        if ($subTask) {
+            return new ServiceResponse(
+                true,
+                'SubTask',
+                200,
+                $subTask
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'SubTask not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
@@ -56,12 +66,7 @@ class SubTaskService implements ISubTaskService
                 $subTask->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'SubTask not found',
-                404,
-                null
-            );
+            return $subTask;
         }
     }
 
@@ -148,12 +153,7 @@ class SubTaskService implements ISubTaskService
                 $subTask->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'SubTask not found',
-                404,
-                null
-            );
+            return $subTask;
         }
     }
 
@@ -180,12 +180,7 @@ class SubTaskService implements ISubTaskService
                 $subTask->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'SubTask not found',
-                404,
-                null
-            );
+            return $subTask;
         }
     }
 }

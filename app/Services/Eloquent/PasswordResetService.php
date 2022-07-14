@@ -67,12 +67,7 @@ class PasswordResetService implements IPasswordResetService
                 $passwordReset->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Password reset not found',
-                404,
-                null
-            );
+            return $passwordReset;
         }
     }
 
@@ -184,12 +179,7 @@ class PasswordResetService implements IPasswordResetService
                 $passwordReset->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Password reset not found',
-                404,
-                null
-            );
+            return $passwordReset;
         }
     }
 }

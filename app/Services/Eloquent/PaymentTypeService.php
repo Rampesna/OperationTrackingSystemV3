@@ -66,12 +66,7 @@ class PaymentTypeService implements IPaymentTypeService
                 $paymentType->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Payment type not found',
-                404,
-                null
-            );
+            return $paymentType;
         }
     }
 }

@@ -94,12 +94,7 @@ class ShiftService implements IShiftService
                 $shift->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Shift not found',
-                404,
-                null
-            );
+            return $shift;
         }
     }
 
@@ -143,12 +138,7 @@ class ShiftService implements IShiftService
 
                 $shifts->whereIn('employee_id', $employees->pluck('id')->toArray());
             } else {
-                return new ServiceResponse(
-                    false,
-                    $employees->getMessage(),
-                    404,
-                    null
-                );
+                return $employees;
             }
         }
 

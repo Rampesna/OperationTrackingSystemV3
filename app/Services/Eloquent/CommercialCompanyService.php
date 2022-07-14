@@ -66,12 +66,7 @@ class CommercialCompanyService implements ICommercialCompanyService
                 $commercialCompany->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Commercial company not found',
-                404,
-                null
-            );
+            return $commercialCompany;
         }
     }
 
@@ -107,24 +102,19 @@ class CommercialCompanyService implements ICommercialCompanyService
         string $name
     ): ServiceResponse
     {
-        $getCommercialCompany = $this->getById($id);
-        if ($getCommercialCompany->isSuccess()) {
-            $getCommercialCompany->getData()->name = $name;
-            $getCommercialCompany->getData()->save();
+        $commercialCompany = $this->getById($id);
+        if ($commercialCompany->isSuccess()) {
+            $commercialCompany->getData()->name = $name;
+            $commercialCompany->getData()->save();
 
             return new ServiceResponse(
                 true,
                 'Commercial company updated',
                 200,
-                $getCommercialCompany->getData()
+                $commercialCompany->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Commercial company not found',
-                404,
-                null
-            );
+            return $commercialCompany;
         }
     }
 

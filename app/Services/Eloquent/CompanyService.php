@@ -66,12 +66,7 @@ class CompanyService implements ICompanyService
                 $company->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Company not found',
-                404,
-                null
-            );
+            return $company;
         }
     }
 
@@ -238,12 +233,7 @@ class CompanyService implements ICompanyService
                 $company->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Company not found',
-                404,
-                null
-            );
+            return $company;
         }
     }
 }

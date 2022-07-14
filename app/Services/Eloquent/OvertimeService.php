@@ -70,12 +70,7 @@ class OvertimeService implements IOvertimeService
                 $overtime->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Overtime not found',
-                404,
-                null
-            );
+            return $overtime;
         }
     }
 
@@ -153,12 +148,7 @@ class OvertimeService implements IOvertimeService
                 $overtime->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Overtime not found',
-                404,
-                null
-            );
+            return $overtime;
         }
     }
 

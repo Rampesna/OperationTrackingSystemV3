@@ -68,12 +68,7 @@ class ProjectService implements IProjectService
                 $project->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Project not found',
-                404,
-                null
-            );
+            return $project;
         }
     }
 
@@ -129,12 +124,7 @@ class ProjectService implements IProjectService
                 $project->getData()->subtasks()->get()->toArray()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Project not found',
-                404,
-                null
-            );
+            return $project;
         }
     }
 
@@ -165,12 +155,7 @@ class ProjectService implements IProjectService
                 ])->where('management', $management)->get()->toArray()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Project not found',
-                404,
-                null
-            );
+            return $project;
         }
     }
 

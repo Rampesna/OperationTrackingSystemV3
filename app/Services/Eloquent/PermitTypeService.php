@@ -4,25 +4,69 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IPermitTypeService;
 use App\Models\Eloquent\PermitType;
+use App\Services\ServiceResponse;
 
 class PermitTypeService implements IPermitTypeService
 {
-    public function getAll()
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse
     {
-        return PermitType::all();
+        return new ServiceResponse(
+            true,
+            'All permit types',
+            200,
+            PermitType::all()
+        );
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function getById(
         int $id
-    )
+    ): ServiceResponse
     {
-        return PermitType::find($id);
+        $permitType = PermitType::find($id);
+        if ($permitType) {
+            return new ServiceResponse(
+                true,
+                'Permit type',
+                200,
+                $permitType
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Permit type not found',
+                404,
+                null
+            );
+        }
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function delete(
         int $id
-    )
+    ): ServiceResponse
     {
-        return $this->getById($id)->delete();
+        $permitType = $this->getById($id);
+        if ($permitType->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Permit type deleted',
+                200,
+                $permitType->getData()->delete()
+            );
+        } else {
+            return $permitType;
+        }
     }
 }

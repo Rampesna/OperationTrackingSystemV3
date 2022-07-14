@@ -66,12 +66,7 @@ class FoodListService implements IFoodListService
                 $foodList->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Food list not found',
-                404,
-                null
-            );
+            return $foodList;
         }
     }
 

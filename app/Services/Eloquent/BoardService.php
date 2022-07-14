@@ -66,12 +66,7 @@ class BoardService implements IBoardService
                 $board->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Board not found',
-                404,
-                null
-            );
+            return $board;
         }
     }
 

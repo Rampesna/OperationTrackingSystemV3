@@ -31,7 +31,6 @@ class OvertimeTypeService implements IOvertimeTypeService
     ): ServiceResponse
     {
         $overtimeType = OvertimeType::find($id);
-
         if ($overtimeType) {
             return new ServiceResponse(
                 true,
@@ -59,7 +58,6 @@ class OvertimeTypeService implements IOvertimeTypeService
     ): ServiceResponse
     {
         $overtimeType = $this->getById($id);
-
         if ($overtimeType->isSuccess()) {
             return new ServiceResponse(
                 true,
@@ -68,12 +66,7 @@ class OvertimeTypeService implements IOvertimeTypeService
                 $overtimeType->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Overtime type not found',
-                404,
-                null
-            );
+            return $overtimeType;
         }
     }
 }

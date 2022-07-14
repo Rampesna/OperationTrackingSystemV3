@@ -66,12 +66,7 @@ class JobDepartmentTypeService implements IJobDepartmentTypeService
                 $jobDepartmentType->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Job department type not found',
-                404,
-                null
-            );
+            return $jobDepartmentType;
         }
     }
 
@@ -165,12 +160,7 @@ class JobDepartmentTypeService implements IJobDepartmentTypeService
                 $jobDepartmentType->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Job department type not found',
-                404,
-                null
-            );
+            return $jobDepartmentType;
         }
     }
 }

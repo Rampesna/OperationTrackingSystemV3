@@ -66,12 +66,7 @@ class CompetenceService implements ICompetenceService
                 $competence->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Competence not found',
-                404,
-                null
-            );
+            return $competence;
         }
     }
 
@@ -152,12 +147,7 @@ class CompetenceService implements ICompetenceService
                 $competence->getData()->employees()->sync($employeeIds)
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Competence not found',
-                404,
-                null
-            );
+            return $competence;
         }
     }
 
@@ -211,12 +201,7 @@ class CompetenceService implements ICompetenceService
                 $competence->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Competence not found',
-                404,
-                null
-            );
+            return $competence;
         }
     }
 }

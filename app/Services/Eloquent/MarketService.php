@@ -114,12 +114,7 @@ class MarketService implements IMarketService
                 $market->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Market not found',
-                404,
-                null
-            );
+            return $market;
         }
     }
 
@@ -160,12 +155,7 @@ class MarketService implements IMarketService
                 $market->getData()->payments
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Market not found',
-                404,
-                null
-            );
+            return $market;
         }
     }
 
@@ -187,11 +177,6 @@ class MarketService implements IMarketService
                 $market->getData()->delete()
             );
         }
-        return new ServiceResponse(
-            false,
-            'Market not found',
-            404,
-            null
-        );
+        return $market;
     }
 }

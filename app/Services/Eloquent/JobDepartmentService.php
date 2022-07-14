@@ -66,12 +66,7 @@ class JobDepartmentService implements IJobDepartmentService
                 $jobDepartment->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Job department not found',
-                404,
-                null
-            );
+            return $jobDepartment;
         }
     }
 
@@ -194,12 +189,7 @@ class JobDepartmentService implements IJobDepartmentService
                 $jobDepartment->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Job department not found',
-                404,
-                null
-            );
+            return $jobDepartment;
         }
     }
 }

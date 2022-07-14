@@ -65,12 +65,7 @@ class TaskService implements ITaskService
                 $task->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Task not found',
-                404,
-                null
-            );
+            return $task;
         }
     }
 
@@ -96,12 +91,7 @@ class TaskService implements ITaskService
                 $task->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Task not found',
-                404,
-                null
-            );
+            return $task;
         }
     }
 
@@ -154,12 +144,7 @@ class TaskService implements ITaskService
                 $task->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Task not found',
-                404,
-                null
-            );
+            return $task;
         }
     }
 
@@ -181,12 +166,7 @@ class TaskService implements ITaskService
                 $task->getData()->files
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Task not found',
-                404,
-                null
-            );
+            return $task;
         }
     }
 
@@ -208,12 +188,7 @@ class TaskService implements ITaskService
                 $task->getData()->subTasks
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Task not found',
-                404,
-                null
-            );
+            return $task;
         }
     }
 
@@ -235,12 +210,7 @@ class TaskService implements ITaskService
                 $task->getData()->comments
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Task not found',
-                404,
-                null
-            );
+            return $task;
         }
     }
 }

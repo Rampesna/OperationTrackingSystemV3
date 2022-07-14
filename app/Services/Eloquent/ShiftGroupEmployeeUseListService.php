@@ -41,12 +41,22 @@ class ShiftGroupEmployeeUseListService implements IShiftGroupEmployeeUseListServ
         int $id
     ): ServiceResponse
     {
-        return new ServiceResponse(
-            true,
-            'Shift group employee use list',
-            200,
-            ShiftGroupEmployeeUseList::find($id)
-        );
+        $shiftGroupEmployeeUseList = ShiftGroupEmployeeUseList::find($id);
+        if ($shiftGroupEmployeeUseList) {
+            return new ServiceResponse(
+                true,
+                'Shift group employee use list',
+                200,
+                $shiftGroupEmployeeUseList
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Shift group employee use list not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
@@ -67,12 +77,7 @@ class ShiftGroupEmployeeUseListService implements IShiftGroupEmployeeUseListServ
                 $shiftGroupEmployeeUseList->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Shift group employee use list not found',
-                404,
-                null
-            );
+            return $shiftGroupEmployeeUseList;
         }
     }
 

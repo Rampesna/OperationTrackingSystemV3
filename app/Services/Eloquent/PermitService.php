@@ -70,12 +70,7 @@ class PermitService implements IPermitService
                 $permit->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Permit not found',
-                404,
-                null
-            );
+            return $permit;
         }
     }
 
@@ -153,12 +148,7 @@ class PermitService implements IPermitService
                 $permit->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Permit not found',
-                404,
-                null
-            );
+            return $permit;
         }
     }
 

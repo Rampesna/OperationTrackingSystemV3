@@ -66,12 +66,7 @@ class SpecialReportService implements ISpecialReportService
                 $specialReport->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Special report not found',
-                404,
-                null
-            );
+            return $specialReport;
         }
     }
 

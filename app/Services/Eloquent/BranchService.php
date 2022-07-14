@@ -100,24 +100,19 @@ class BranchService implements IBranchService
         string $name
     ): ServiceResponse
     {
-        $getBranch = $this->getById($id);
-        if ($getBranch->isSuccess()) {
-            $getBranch->getData()->name = $name;
-            $getBranch->getData()->save();
+        $branch = $this->getById($id);
+        if ($branch->isSuccess()) {
+            $branch->getData()->name = $name;
+            $branch->getData()->save();
 
             return new ServiceResponse(
                 true,
                 'Branch not found',
                 404,
-                $getBranch->getData()
+                $branch->getData()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Branch not found',
-                404,
-                null
-            );
+            return $branch;
         }
     }
 
@@ -139,12 +134,7 @@ class BranchService implements IBranchService
                 $branch->getData()->delete()
             );
         } else {
-            return new ServiceResponse(
-                false,
-                'Branch not found',
-                404,
-                null
-            );
+            return $branch;
         }
     }
 
