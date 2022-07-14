@@ -14,69 +14,139 @@ class PermitController extends Controller
 {
     use Response;
 
+    /**
+     * @var $permitService
+     */
     private $permitService;
 
+    /**
+     * @param IPermitService $permitService
+     */
     public function __construct(IPermitService $permitService)
     {
         $this->permitService = $permitService;
     }
 
+    /**
+     * @param GetDateBetweenRequest $request
+     */
     public function getDateBetween(GetDateBetweenRequest $request)
     {
-        return $this->success('Employee permits', $this->permitService->getDateBetween(
+        $getDateBetweenResponse = $this->permitService->getDateBetween(
             $request->user()->id,
             $request->startDate,
             $request->endDate
-        ));
+        );
+        if ($getDateBetweenResponse->isSuccess()) {
+            return $this->success(
+                $getDateBetweenResponse->getMessage(),
+                $getDateBetweenResponse->getData(),
+                $getDateBetweenResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDateBetweenResponse->getMessage(),
+                $getDateBetweenResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
         $permit = $this->permitService->getById(
             $request->id
         );
-
-        if (!$permit || $permit->employee_id != $request->user()->id) {
-            return $this->error('Permit not found', 404);
+        if ($permit->isSuccess()) {
+            if (!$permit->getData() || $permit->getData()->employee_id != $request->user()->id) {
+                return $this->error('Permit not found', 404);
+            }
+            return $this->success(
+                $permit->getMessage(),
+                $permit->getData(),
+                $permit->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $permit->getMessage(),
+                $permit->getStatusCode()
+            );
         }
-
-        return $this->success('Employee permit', $permit);
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
-        return $this->success('Permit created', $this->permitService->create(
+        $createResponse = $this->permitService->create(
             $request->user()->id,
             $request->typeId,
             1,
             $request->startDate,
             $request->endDate,
             $request->description
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
         $permit = $this->permitService->getById(
             $request->id
         );
+        if ($permit->isSuccess()) {
+            if (!$permit->getData() || $permit->getData()->employee_id != $request->user()->id) {
+                return $this->error('Permit not found', 404);
+            }
 
-        if (!$permit || $permit->employee_id != $request->user()->id) {
-            return $this->error('Permit not found', 404);
+            if ($permit->getData()->status_id != 1) {
+                return $this->error('You can not update permit with status other than pending', 403);
+            }
+
+            $updateResponse = $this->permitService->update(
+                $request->id,
+                $request->user()->id,
+                $request->typeId,
+                1,
+                $request->startDate,
+                $request->endDate,
+                $request->description
+            );
+
+            if ($updateResponse->isSuccess()) {
+                return $this->success(
+                    $updateResponse->getMessage(),
+                    $updateResponse->getData(),
+                    $updateResponse->getStatusCode()
+                );
+            } else {
+                return $this->error(
+                    $updateResponse->getMessage(),
+                    $updateResponse->getStatusCode()
+                );
+            }
+        } else {
+            return $this->error(
+                $permit->getMessage(),
+                $permit->getStatusCode()
+            );
         }
-
-        if ($permit->status_id != 1) {
-            return $this->error('You can not update permit with status other than pending', 403);
-        }
-
-        return $this->success('Permit updated', $this->permitService->update(
-            $request->id,
-            $request->user()->id,
-            $request->typeId,
-            1,
-            $request->startDate,
-            $request->endDate,
-            $request->description
-        ));
     }
 }
