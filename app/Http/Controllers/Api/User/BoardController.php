@@ -11,17 +11,38 @@ class BoardController extends Controller
 {
     use Response;
 
+    /**
+     * @var $boardService
+     */
     private $boardService;
 
+    /**
+     * @param IBoardService $boardService
+     */
     public function __construct(IBoardService $boardService)
     {
         $this->boardService = $boardService;
     }
 
+    /**
+     * @param UpdateOrderRequest $request
+     */
     public function updateOrder(UpdateOrderRequest $request)
     {
-        return $this->success('Boards', $this->boardService->updateOrder(
+        $updateOrderResponse = $this->boardService->updateOrder(
             $request->boards
-        ));
+        );
+        if ($updateOrderResponse->isSuccess()) {
+            return $this->success(
+                $updateOrderResponse->getMessage(),
+                $updateOrderResponse->getData(),
+                $updateOrderResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateOrderResponse->getMessage(),
+                $updateOrderResponse->getStatusCode()
+            );
+        }
     }
 }
