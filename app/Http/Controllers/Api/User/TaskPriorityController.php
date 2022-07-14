@@ -11,15 +11,36 @@ class TaskPriorityController extends Controller
 {
     use Response;
 
+    /**
+     * @var $taskPriorityService
+     */
     private $taskPriorityService;
 
+    /**
+     * @param ITaskPriorityService $taskPriorityService
+     */
     public function __construct(ITaskPriorityService $taskPriorityService)
     {
         $this->taskPriorityService = $taskPriorityService;
     }
 
+    /**
+     * @param GetAllRequest $request
+     */
     public function getAll(GetAllRequest $request)
     {
-        return $this->success('Task priorities', $this->taskPriorityService->getAll());
+        $getAllResponse = $this->taskPriorityService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
+            );
+        }
     }
 }
