@@ -15,13 +15,22 @@ class QueueController extends Controller
 {
     use Response;
 
+    /**
+     * @var $queueService
+     */
     private $queueService;
 
+    /**
+     * @param IQueueService $queueService
+     */
     public function __construct(IQueueService $queueService)
     {
         $this->queueService = $queueService;
     }
 
+    /**
+     * @param GetByCompanyIdsRequest $request
+     */
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
@@ -32,48 +41,118 @@ class QueueController extends Controller
             }
         }
 
-        return $this->success('Queues', $this->queueService->getByCompanyIds(
+        $getByCompanyIdsResponse = $this->queueService->getByCompanyIds(
             $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
             $request->keyword
-        ));
+        );
+
+        if ($getByCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
-        return $this->success('Queue', $this->queueService->getById(
+        $getByIdResponse = $this->queueService->getById(
             $request->id
-        ));
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
-        return $this->success('Queue created', $this->queueService->create(
+        $createResponse = $this->queueService->create(
             $request->companyId,
             $request->name,
             $request->short,
             $request->groupCode,
             $request->otsCode
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
-        return $this->success('Queue updated', $this->queueService->update(
+        $updateResponse = $this->queueService->update(
             $request->id,
             $request->companyId,
             $request->name,
             $request->short,
             $request->groupCode,
             $request->otsCode
-        ));
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
     }
 
     public function delete(DeleteRequest $request)
     {
-        return $this->success('Queue deleted', $this->queueService->delete(
+        $deleteResponse = $this->queueService->delete(
             $request->id
-        ));
+        );
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
+            );
+        }
     }
 }
