@@ -16,52 +16,148 @@ class BranchController extends Controller
 {
     use Response;
 
+    /**
+     * @var $branchService
+     */
     private $branchService;
 
+    /**
+     * @param IBranchService $branchService
+     */
     public function __construct(IBranchService $branchService)
     {
         $this->branchService = $branchService;
     }
 
+    /**
+     * @param GetAllRequest $request
+     */
     public function getAll(GetAllRequest $request)
     {
-        return $this->success('Branches', $this->branchService->getAll());
+        $getAllResponse = $this->branchService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
-        return $this->success('Branch', $this->branchService->getById(
+        $getByIdResponse = $this->branchService->getById(
             $request->id
-        ));
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByCompanyIdRequest $request
+     */
     public function getByCompanyId(GetByCompanyIdRequest $request)
     {
-        return $this->success('Branches', $this->branchService->getByCompanyId(
+        $getByCompanyIdResponse = $this->branchService->getByCompanyId(
             $request->companyId
-        ));
+        );
+        if ($getByCompanyIdResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdResponse->getMessage(),
+                $getByCompanyIdResponse->getData(),
+                $getByCompanyIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdResponse->getMessage(),
+                $getByCompanyIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
-        return $this->success('Branch created', $this->branchService->create(
+        $createResponse = $this->branchService->create(
             $request->companyId,
             $request->name
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
-        return $this->success('Branch updated', $this->branchService->update(
+        $updateResponse = $this->branchService->update(
             $request->id,
             $request->name
-        ));
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param DeleteRequest $request
+     */
     public function delete(DeleteRequest $request)
     {
-        return $this->success('Branch deleted', $this->branchService->delete(
+        $deleteResponse = $this->branchService->delete(
             $request->id
-        ));
+        );
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
+            );
+        }
     }
 }
