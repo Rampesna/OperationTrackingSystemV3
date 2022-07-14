@@ -16,62 +16,158 @@ class ShiftController extends Controller
 {
     use Response;
 
+    /**
+     * @var $shiftService
+     */
     private $shiftService;
 
+    /**
+     * @param IShiftService $shiftService
+     */
     public function __construct(IShiftService $shiftService)
     {
         $this->shiftService = $shiftService;
     }
 
+    /**
+     * @param GetAllRequest $request
+     */
     public function getAll(GetAllRequest $request)
     {
-        return $this->success('Shifts', $this->shiftService->getAll());
+        $getAllResponse = $this->shiftService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
-        return $this->success('Shift', $this->shiftService->getById(
+        $getByIdResponse = $this->shiftService->getById(
             $request->id
-        ));
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByCompanyIdRequest $request
+     */
     public function getByCompanyId(GetByCompanyIdRequest $request)
     {
-        return $this->success('Shifts', $this->shiftService->getByCompanyId(
+        $getByCompanyIdResponse = $this->shiftService->getByCompanyId(
             $request->companyId,
             $request->startDate,
             $request->endDate,
             $request->keyword,
             $request->jobDepartmentIds
-        ));
+        );
+        if ($getByCompanyIdResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdResponse->getMessage(),
+                $getByCompanyIdResponse->getData(),
+                $getByCompanyIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdResponse->getMessage(),
+                $getByCompanyIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByCompanyIdsRequest $request
+     */
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
-        return $this->success('Shifts', $this->shiftService->getByCompanyIds(
+        $getByCompanyIdsResponse = $this->shiftService->getByCompanyIds(
             $request->companyIds,
             $request->startDate,
             $request->endDate,
             $request->keyword,
             $request->jobDepartmentIds,
             $request->shiftGroupIds
-        ));
+        );
+        if ($getByCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param RobotRequest $request
+     */
     public function robot(RobotRequest $request)
     {
         set_time_limit(86400);
-        return $this->success('Shifts', $this->shiftService->robot(
+        $robotResponse = $this->shiftService->robot(
             $request->companyId,
             $request->month,
             $request->user()->id
-        ));
+        );
+        if ($robotResponse->isSuccess()) {
+            return $this->success(
+                $robotResponse->getMessage(),
+                $robotResponse->getData(),
+                $robotResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $robotResponse->getMessage(),
+                $robotResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param DeleteByIdsRequest $request
+     */
     public function deleteByIds(DeleteByIdsRequest $request)
     {
-        return $this->success('Shifts deleted', $this->shiftService->deleteByIds(
+        $deleteByIdsResponse = $this->shiftService->deleteByIds(
             $request->shiftIds
-        ));
+        );
+        if ($deleteByIdsResponse->isSuccess()) {
+            return $this->success(
+                $deleteByIdsResponse->getMessage(),
+                $deleteByIdsResponse->getData(),
+                $deleteByIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteByIdsResponse->getMessage(),
+                $deleteByIdsResponse->getStatusCode()
+            );
+        }
     }
 }
