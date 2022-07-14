@@ -15,13 +15,22 @@ class CompanyController extends Controller
 {
     use Response;
 
+    /**
+     * @var $companyService
+     */
     private $companyService;
 
+    /**
+     * @param ICompanyService $companyService
+     */
     public function __construct(ICompanyService $companyService)
     {
         $this->companyService = $companyService;
     }
 
+    /**
+     * @param GetUsersByCompanyIdsRequest $request
+     */
     public function getUsersByCompanyIds(GetUsersByCompanyIdsRequest $request)
     {
         $userCompanies = $request->user()->companies()->pluck('id')->toArray();
@@ -32,31 +41,76 @@ class CompanyController extends Controller
             }
         }
 
-        return $this->success('Users', $this->companyService->getUsersByCompanyIds(
+        $getUsersByCompanyIdsResponse = $this->companyService->getUsersByCompanyIds(
             $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
             $request->keyword
-        ));
+        );
+        if ($getUsersByCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getUsersByCompanyIdsResponse->getMessage(),
+                $getUsersByCompanyIdsResponse->getData(),
+                $getUsersByCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getUsersByCompanyIdsResponse->getMessage(),
+                $getUsersByCompanyIdsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param TreeRequest $request
+     */
     public function tree(TreeRequest $request)
     {
-        return $this->success('Company tree', $this->companyService->tree(
+        $treeResponse = $this->companyService->tree(
             $request->id
-        ));
+        );
+        if ($treeResponse->isSuccess()) {
+            return $this->success(
+                $treeResponse->getMessage(),
+                $treeResponse->getData(),
+                $treeResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $treeResponse->getMessage(),
+                $treeResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
-        return $this->success('Company', $this->companyService->getById(
+        $getByIdResponse = $this->companyService->getById(
             $request->id
-        ));
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
-        return $this->success('Company created', $this->companyService->create(
+        $createResponse = $this->companyService->create(
             $request->title,
             $request->taxOffice,
             $request->taxNumber,
@@ -66,12 +120,27 @@ class CompanyController extends Controller
             $request->uyumCrmBranchId,
             $request->uyumCrmBranchCode,
             $request->activeYear
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
-        return $this->success('Company updated', $this->companyService->update(
+        $updateResponse = $this->companyService->update(
             $request->id,
             $request->title,
             $request->taxOffice,
@@ -82,6 +151,18 @@ class CompanyController extends Controller
             $request->uyumCrmBranchId,
             $request->uyumCrmBranchCode,
             $request->activeYear
-        ));
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
     }
 }
