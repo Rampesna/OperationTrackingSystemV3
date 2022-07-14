@@ -440,7 +440,7 @@ class ShiftService implements IShiftService
         return new ServiceResponse(
             true,
             'Shift robot completed successfully.',
-            200,
+            201,
             $shifts
         );
     }
