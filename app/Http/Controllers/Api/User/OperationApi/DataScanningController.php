@@ -17,48 +17,117 @@ class DataScanningController extends Controller
 {
     use Response;
 
+    /**
+     * @var $dataScanningService
+     */
     private $dataScanningService;
 
+    /**
+     * @param IDataScanningService $dataScanningService
+     */
     public function __construct(IDataScanningService $dataScanningService)
     {
         $this->dataScanningService = $dataScanningService;
     }
 
+    /**
+     * @param GetDataScanTablesRequest $request
+     */
     public function getDataScanTables(GetDataScanTablesRequest $request)
     {
-        return $this->success('Data scan tables', $this->dataScanningService->GetDataScanTables());
+        $getDataScanTablesResponse = $this->dataScanningService->GetDataScanTables();
+        if ($getDataScanTablesResponse->isSuccess()) {
+            return $this->success(
+                $getDataScanTablesResponse->getMessage(),
+                $getDataScanTablesResponse->getData(),
+                $getDataScanTablesResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDataScanTablesResponse->getMessage(),
+                $getDataScanTablesResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetDataScanNumbersListRequest $request
+     */
     public function getDataScanNumbersList(GetDataScanNumbersListRequest $request)
     {
-        return $this->success('Data scan number list', $this->dataScanningService->GetDataScanNumbersList(
+        $getDataScanNumbersListResponse = $this->dataScanningService->GetDataScanNumbersList(
             $request->startDate,
             $request->endDate,
             $request->tableName,
             $request->companyIds
-        ));
+        );
+        if ($getDataScanNumbersListResponse->isSuccess()) {
+            return $this->success(
+                $getDataScanNumbersListResponse->getMessage(),
+                $getDataScanNumbersListResponse->getData(),
+                $getDataScanNumbersListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDataScanNumbersListResponse->getMessage(),
+                $getDataScanNumbersListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetDataScanningDetailsRequest $request
+     */
     public function getDataScanningDetails(GetDataScanningDetailsRequest $request)
     {
-        return $this->success('Data scanning details', $this->dataScanningService->GetDataScanningDetails(
+        $getDataScanningDetailsResponse = $this->dataScanningService->GetDataScanningDetails(
             $request->startDate,
             $request->endDate,
             $request->tableName,
             $request->type,
             $request->companyIds
-        ));
+        );
+        if ($getDataScanningDetailsResponse->isSuccess()) {
+            return $this->success(
+                $getDataScanningDetailsResponse->getMessage(),
+                $getDataScanningDetailsResponse->getData(),
+                $getDataScanningDetailsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDataScanningDetailsResponse->getMessage(),
+                $getDataScanningDetailsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetDataScanSummaryListRequest $request
+     */
     public function getDataScanSummaryList(GetDataScanSummaryListRequest $request)
     {
-        return $this->success('Data scan summary list', $this->dataScanningService->GetDataScanSummaryList(
+        $getDataScanSummaryListResponse = $this->dataScanningService->GetDataScanSummaryList(
             $request->startDate,
             $request->endDate,
             $request->companyIds
-        ));
+        );
+        if ($getDataScanSummaryListResponse->isSuccess()) {
+            return $this->success(
+                $getDataScanSummaryListResponse->getMessage(),
+                $getDataScanSummaryListResponse->getData(),
+                $getDataScanSummaryListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDataScanSummaryListResponse->getMessage(),
+                $getDataScanSummaryListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetDataScanningRequest $request
+     */
     public function setDataScanning(SetDataScanningRequest $request)
     {
         $file = $request->file('file');
@@ -79,9 +148,25 @@ class DataScanningController extends Controller
             ];
         }
 
-        return $this->success('Data scannings', $this->dataScanningService->SetDataScanning($jobList));
+        $setDataScanningResponse = $this->dataScanningService->SetDataScanning($jobList);
+
+        if ($setDataScanningResponse->isSuccess()) {
+            return $this->success(
+                $setDataScanningResponse->getMessage(),
+                $setDataScanningResponse->getData(),
+                $setDataScanningResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setDataScanningResponse->getMessage(),
+                $setDataScanningResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetCallDataScanningRequest $request
+     */
     public function setCallDataScanning(SetCallDataScanningRequest $request)
     {
         set_time_limit(86400);
@@ -103,18 +188,33 @@ class DataScanningController extends Controller
 
         if (count($jobList) > 100) {
             $list = collect($jobList)->chunk(100)->toArray();
+            $tryCount = 0;
             foreach ($list as $jList) {
                 retry:
+                if ($tryCount == 5) {
+                    continue;
+                }
                 try {
-                    $responses[] = $this->dataScanningService->SetCallDataScanning($jList);
-                    sleep(5);
+                    $setCallDataScanningResponse = $this->dataScanningService->SetCallDataScanning($jList);
+                    if ($setCallDataScanningResponse->isSuccess()) {
+                        $responses[] = $this->dataScanningService->SetCallDataScanning($jList)->getData();
+                        sleep(3);
+                    } else {
+                        sleep(3);
+                        $tryCount++;
+                        goto retry;
+                    }
                 } catch (\Exception $exception) {
-                    sleep(10);
+                    sleep(3);
+                    $tryCount++;
                     goto retry;
                 }
             }
         } else {
-            $responses[] = $this->dataScanningService->SetCallDataScanning($jobList);
+            $setCallDataScanningResponse = $this->dataScanningService->SetCallDataScanning($jobList);
+            if ($setCallDataScanningResponse->isSuccess()) {
+                $responses[] = $setCallDataScanningResponse->getData();
+            }
         }
 
         return $this->success('Call data scannings', $responses);
