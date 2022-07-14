@@ -50,6 +50,9 @@ class FoodListCheckController extends Controller
         }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
         $foodListCheck = $this->foodListCheckService->getById(
@@ -72,6 +75,9 @@ class FoodListCheckController extends Controller
         }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
         $foodListCheck = $this->foodListCheckService->getById(
