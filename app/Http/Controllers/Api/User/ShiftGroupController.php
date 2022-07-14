@@ -15,13 +15,22 @@ class ShiftGroupController extends Controller
 {
     use Response;
 
+    /**
+     * @var $shiftGroupService
+     */
     private $shiftGroupService;
 
+    /**
+     * @param IShiftGroupService $shiftGroupService
+     */
     public function __construct(IShiftGroupService $shiftGroupService)
     {
         $this->shiftGroupService = $shiftGroupService;
     }
 
+    /**
+     * @param GetByCompanyIdsRequest $request
+     */
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
@@ -32,21 +41,49 @@ class ShiftGroupController extends Controller
             }
         }
 
-        return $this->success('Shift groups', $this->shiftGroupService->getByCompanyIds(
+        $getByCompanyIdsResponse = $this->shiftGroupService->getByCompanyIds(
             $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
             $request->keyword
-        ));
+        );
+        if ($getByCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
-        return $this->success('Shift group', $this->shiftGroupService->getById(
-            $request->id
-        ));
+        $getByIdResponse = $this->shiftGroupService->getById($request->id);
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
@@ -55,7 +92,7 @@ class ShiftGroupController extends Controller
             return $this->error('Unauthorized', 401);
         }
 
-        return $this->success('Shift group created', $this->shiftGroupService->create(
+        $createResponse = $this->shiftGroupService->create(
             $request->companyId,
             $request->order,
             $request->name,
@@ -105,9 +142,24 @@ class ShiftGroupController extends Controller
             $request->momentaryBreakBreakDuration,
             $request->fridayAdditionalBreakDuration,
             $request->suspendBreakUsing
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
@@ -116,7 +168,7 @@ class ShiftGroupController extends Controller
             return $this->error('Unauthorized', 401);
         }
 
-        return $this->success('Shift group updated', $this->shiftGroupService->update(
+        $updateResponse = $this->shiftGroupService->update(
             $request->id,
             $request->companyId,
             $request->order,
@@ -167,14 +219,46 @@ class ShiftGroupController extends Controller
             $request->momentaryBreakBreakDuration,
             $request->fridayAdditionalBreakDuration,
             $request->suspendBreakUsing
-        ));
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param DeleteRequest $request
+     */
     public function delete(DeleteRequest $request)
     {
-        $this->shiftGroupService->setShiftGroupEmployees($request->id, []);
-        return $this->success('Shift group deleted', $this->shiftGroupService->delete(
-            $request->id
-        ));
+        $setShiftGroupEmployeesResponse = $this->shiftGroupService->setShiftGroupEmployees($request->id, []);
+        if ($setShiftGroupEmployeesResponse->isSuccess()) {
+            $deleteResponse = $this->shiftGroupService->delete($request->id);
+            if ($deleteResponse->isSuccess()) {
+                return $this->success(
+                    $deleteResponse->getMessage(),
+                    $deleteResponse->getData(),
+                    $deleteResponse->getStatusCode()
+                );
+            } else {
+                return $this->error(
+                    $deleteResponse->getMessage(),
+                    $deleteResponse->getStatusCode()
+                );
+            }
+        } else {
+            return $this->error(
+                $setShiftGroupEmployeesResponse->getMessage(),
+                $setShiftGroupEmployeesResponse->getStatusCode()
+            );
+        }
     }
 }
