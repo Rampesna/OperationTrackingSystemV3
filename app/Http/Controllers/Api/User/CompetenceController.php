@@ -15,13 +15,22 @@ class CompetenceController extends Controller
 {
     use Response;
 
+    /**
+     * @var $competenceService
+     */
     private $competenceService;
 
+    /**
+     * @param ICompetenceService $competenceService
+     */
     public function __construct(ICompetenceService $competenceService)
     {
         $this->competenceService = $competenceService;
     }
 
+    /**
+     * @param GetByCompanyIdsRequest $request
+     */
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
@@ -32,42 +41,114 @@ class CompetenceController extends Controller
             }
         }
 
-        return $this->success('Competences', $this->competenceService->getByCompanyIds(
+        $getByCompanyIdsResponse = $this->competenceService->getByCompanyIds(
             $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
             $request->keyword
-        ));
+        );
+        if ($getByCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
-        return $this->success('Competence', $this->competenceService->getById(
+        $getByIdResponse = $this->competenceService->getById(
             $request->id
-        ));
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
-        return $this->success('Competence created', $this->competenceService->create(
+        $createResponse = $this->competenceService->create(
             $request->companyId,
             $request->name
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
-        return $this->success('Competence updated', $this->competenceService->update(
+        $updateResponse = $this->competenceService->update(
             $request->id,
             $request->companyId,
             $request->name
-        ));
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param DeleteRequest $request
+     */
     public function delete(DeleteRequest $request)
     {
-        return $this->success('Competence deleted', $this->competenceService->delete(
+        $deleteResponse = $this->competenceService->delete(
             $request->id
-        ));
+        );
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
+            );
+        }
     }
 }
