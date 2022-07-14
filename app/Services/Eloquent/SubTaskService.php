@@ -4,50 +4,111 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\ISubTaskService;
 use App\Models\Eloquent\SubTask;
+use App\Services\ServiceResponse;
 
 class SubTaskService implements ISubTaskService
 {
-    public function getAll()
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse
     {
-        return SubTask::all();
+        return new ServiceResponse(
+            true,
+            'All subTasks',
+            200,
+            SubTask::all()
+        );
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function getById(
         int $id
-    )
+    ): ServiceResponse
     {
-        return SubTask::find($id);
+        return new ServiceResponse(
+            true,
+            'SubTask',
+            200,
+            SubTask::find($id)
+        );
     }
 
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
     public function delete(
         int $id
-    )
+    ): ServiceResponse
     {
-        return $this->getById($id)->delete();
+        $subTask = $this->getById($id);
+        if ($subTask->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'SubTask deleted',
+                200,
+                $subTask->getData()->delete()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'SubTask not found',
+                404,
+                null
+            );
+        }
     }
 
+    /**
+     * @param int $projectId
+     *
+     * @return ServiceResponse
+     */
     public function getByProjectId(
         int $projectId
-    )
+    ): ServiceResponse
     {
-        return SubTask::where('project_id', $projectId)->get();
+        return new ServiceResponse(
+            true,
+            'SubTasks',
+            200,
+            SubTask::where('project_id', $projectId)->get()
+        );
     }
 
+    /**
+     * @param array $projectIds
+     *
+     * @return ServiceResponse
+     */
     public function getByProjectIds(
         array $projectIds
-    )
+    ): ServiceResponse
     {
-        return SubTask::whereIn('project_id', $projectIds)->get();
+        return new ServiceResponse(
+            true,
+            'SubTasks',
+            200,
+            SubTask::whereIn('project_id', $projectIds)->get()
+        );
     }
 
     /**
      * @param int $taskId
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function create(
         int    $taskId,
         string $name
-    )
+    ): ServiceResponse
     {
         $subTask = new SubTask;
         $subTask->task_id = $taskId;
@@ -56,38 +117,75 @@ class SubTaskService implements ISubTaskService
         $subTask->checked = 0;
         $subTask->save();
 
-        return $subTask;
+        return new ServiceResponse(
+            true,
+            'SubTask created',
+            201,
+            $subTask
+        );
     }
 
     /**
      * @param int $id
      * @param string $name
+     *
+     * @return ServiceResponse
      */
     public function update(
         int    $id,
         string $name
-    )
+    ): ServiceResponse
     {
         $subTask = $this->getById($id);
-        $subTask->name = $name;
-        $subTask->save();
+        if ($subTask->isSuccess()) {
+            $subTask->getData()->name = $name;
+            $subTask->getData()->save();
 
-        return $subTask;
+            return new ServiceResponse(
+                true,
+                'SubTask updated',
+                200,
+                $subTask->getData()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'SubTask not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
      * @param int $id
      * @param int $checked
+     *
+     * @return ServiceResponse
      */
     public function setChecked(
         int $id,
         int $checked
-    )
+    ): ServiceResponse
     {
         $subTask = $this->getById($id);
-        $subTask->checked = $checked;
-        $subTask->save();
+        if ($subTask->isSuccess()) {
+            $subTask->getData()->checked = $checked;
+            $subTask->getData()->save();
 
-        return $subTask;
+            return new ServiceResponse(
+                true,
+                'SubTask updated',
+                200,
+                $subTask->getData()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'SubTask not found',
+                404,
+                null
+            );
+        }
     }
 }
