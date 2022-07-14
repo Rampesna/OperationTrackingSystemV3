@@ -16,13 +16,22 @@ class SubTaskController extends Controller
 {
     use Response;
 
+    /**
+     * @var $subTaskService
+     */
     private $subTaskService;
 
+    /**
+     * @param ISubTaskService $subTaskService
+     */
     public function __construct(ISubTaskService $subTaskService)
     {
         $this->subTaskService = $subTaskService;
     }
 
+    /**
+     * @param GetByProjectIdRequest $request
+     */
     public function getByProjectId(GetByProjectIdRequest $request)
     {
         $userProjects = $request->user()->projects()->pluck('id')->toArray();
@@ -31,9 +40,24 @@ class SubTaskController extends Controller
             return $this->error('Project not found', 404);
         }
 
-        return $this->success('Project sub tasks', $this->subTaskService->getByProjectId($request->projectId));
+        $getByProjectIdResponse = $this->subTaskService->getByProjectId($request->projectId);
+        if ($getByProjectIdResponse->isSuccess()) {
+            return $this->success(
+                $getByProjectIdResponse->getMessage(),
+                $getByProjectIdResponse->getData(),
+                $getByProjectIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByProjectIdResponse->getMessage(),
+                $getByProjectIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByProjectIdsRequest $request
+     */
     public function getByProjectIds(GetByProjectIdsRequest $request)
     {
         $userProjects = $request->user()->projects()->pluck('id')->toArray();
@@ -44,37 +68,109 @@ class SubTaskController extends Controller
             }
         }
 
-        return $this->success('Project sub tasks', $this->subTaskService->getByProjectIds($request->projectIds));
+        $getByProjectIdsResponse = $this->subTaskService->getByProjectIds($request->projectIds);
+        if ($getByProjectIdsResponse->isSuccess()) {
+            return $this->success(
+                $getByProjectIdsResponse->getMessage(),
+                $getByProjectIdsResponse->getData(),
+                $getByProjectIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByProjectIdsResponse->getMessage(),
+                $getByProjectIdsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
-        return $this->success('Project sub task', $this->subTaskService->create(
+        $createResponse = $this->subTaskService->create(
             $request->taskId,
             $request->name
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
-        return $this->success('Project sub task', $this->subTaskService->update(
+        $updateResponse = $this->subTaskService->update(
             $request->id,
             $request->name
-        ));
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetCheckedRequest $request
+     */
     public function setChecked(SetCheckedRequest $request)
     {
-        return $this->success('Project sub task', $this->subTaskService->setChecked(
+        $setCheckedResponse = $this->subTaskService->setChecked(
             $request->id,
             $request->checked
-        ));
+        );
+        if ($setCheckedResponse->isSuccess()) {
+            return $this->success(
+                $setCheckedResponse->getMessage(),
+                $setCheckedResponse->getData(),
+                $setCheckedResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setCheckedResponse->getMessage(),
+                $setCheckedResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param DeleteRequest $request
+     */
     public function delete(DeleteRequest $request)
     {
-        return $this->success('Project sub task deleted', $this->subTaskService->delete(
+        $deleteResponse = $this->subTaskService->delete(
             $request->id
-        ));
+        );
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
+            );
+        }
     }
 }
