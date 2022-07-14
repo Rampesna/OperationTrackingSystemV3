@@ -18,6 +18,11 @@ class ShiftService implements IShiftService
 
     private $shiftGroupEmployeeUseListService;
 
+    /**
+     * @param IEmployeeService $employeeService
+     * @param IShiftGroupService $shiftGroupService
+     * @param IShiftGroupEmployeeUseListService $shiftGroupEmployeeUseListService
+     */
     public function __construct(
         IEmployeeService                  $employeeService,
         IShiftGroupService                $shiftGroupService,
@@ -29,21 +34,73 @@ class ShiftService implements IShiftService
         $this->shiftGroupEmployeeUseListService = $shiftGroupEmployeeUseListService;
     }
 
-    public function getAll()
+    /**
+     * @return ServiceResponse
+     */
+    public function getAll(): ServiceResponse
     {
-        return Shift::all();
+        return new ServiceResponse(
+            true,
+            'All Shifts',
+            200,
+            Shift::all()
+        );
     }
 
-    public function getById(int $id)
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function getById(
+        int $id
+    ): ServiceResponse
     {
-        return Shift::with([
+        $shift = Shift::with([
             'shiftGroup'
         ])->find($id);
+        if ($shift) {
+            return new ServiceResponse(
+                true,
+                'Shift',
+                200,
+                $shift
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Shift not found',
+                404,
+                null
+            );
+        }
     }
 
-    public function delete(int $id)
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function delete(
+        int $id
+    ): ServiceResponse
     {
-        return Shift::destroy($id);
+        $shift = $this->getById($id);
+        if ($shift->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Shift deleted',
+                200,
+                $shift->getData()->delete()
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Shift not found',
+                404,
+                null
+            );
+        }
     }
 
     /**
@@ -52,6 +109,8 @@ class ShiftService implements IShiftService
      * @param string $endDate
      * @param string|null $keyword
      * @param array|null $jobDepartmentIds
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyId(
         int         $companyId,
@@ -59,7 +118,7 @@ class ShiftService implements IShiftService
         string      $endDate,
         string|null $keyword = null,
         array|null  $jobDepartmentIds
-    )
+    ): ServiceResponse
     {
         $shifts = Shift::with([
             'employee',
@@ -105,14 +164,21 @@ class ShiftService implements IShiftService
      * @param int $employeeId
      * @param string $startDate
      * @param string $endDate
+     *
+     * @return ServiceResponse
      */
     public function getDateBetweenByEmployeeId(
         int    $employeeId,
         string $startDate,
         string $endDate,
-    )
+    ): ServiceResponse
     {
-        return Shift::where('employee_id', $employeeId)->whereBetween('start_date', [$startDate, $endDate])->get();
+        return new ServiceResponse(
+            true,
+            'Shifts',
+            200,
+            Shift::where('employee_id', $employeeId)->whereBetween('start_date', [$startDate, $endDate])->get()
+        );
     }
 
     /**
@@ -122,6 +188,8 @@ class ShiftService implements IShiftService
      * @param string|null $keyword
      * @param array|null $jobDepartmentIds
      * @param array|null $shiftGroupIds
+     *
+     * @return ServiceResponse
      */
     public function getByCompanyIds(
         array       $companyIds,
@@ -130,7 +198,7 @@ class ShiftService implements IShiftService
         string|null $keyword = null,
         array|null  $jobDepartmentIds,
         array|null  $shiftGroupIds
-    )
+    ): ServiceResponse
     {
         $shifts = Shift::with([
             'employee',
@@ -149,19 +217,26 @@ class ShiftService implements IShiftService
             $shifts->whereIn('shift_group_id', $shiftGroupIds);
         }
 
-        return $shifts->get();
+        return new ServiceResponse(
+            true,
+            'Shifts',
+            200,
+            $shifts->get()
+        );
     }
 
     /**
      * @param int $companyId
      * @param string $month
      * @param int $userId
+     *
+     * @return ServiceResponse
      */
     public function robot(
         int    $companyId,
         string $month,
         int    $userId
-    )
+    ): ServiceResponse
     {
         $this->shiftGroupEmployeeUseListService->initialize();
         $shiftGroups = $this->shiftGroupService->getByCompanyId($companyId);
@@ -233,7 +308,7 @@ class ShiftService implements IShiftService
                                         ->toArray()
                                 );
 
-                                if ($weeklyEmployees->count() < $shiftGroup->per_day) {
+                                if ($weeklyEmployees->getData()->count() < $shiftGroup->per_day) {
                                     $weeklyEmployees = collect();
                                 }
                             }
@@ -241,7 +316,7 @@ class ShiftService implements IShiftService
                             $usedShiftGroupEmployees = $this->shiftGroupEmployeeUseListService->getUsedShiftGroupEmployees($shiftGroup->id);
 
                             if ($weeklyEmployees->count() < $shiftGroup->per_day) {
-                                $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $usedShiftGroupEmployees->pluck('id')->toArray())->get();
+                                $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $usedShiftGroupEmployees->getData()->pluck('id')->toArray())->get();
                                 $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
 
                                 if ($weeklyEmployees->count() < $shiftGroup->per_day) {
@@ -250,7 +325,12 @@ class ShiftService implements IShiftService
                                     $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
 
                                     if ($weeklyEmployees->count() < $shiftGroup->per_day) {
-                                        return $shiftGroup->name . ' - Vardiya Grubunda Yeterli Personel Yok!';
+                                        return new ServiceResponse(
+                                            false,
+                                            'Not enough employees for shift group',
+                                            400,
+                                            $shiftGroup->name . ' - Vardiya Grubunda Yeterli Personel Yok!'
+                                        );
                                     }
                                 }
                             }
@@ -306,7 +386,7 @@ class ShiftService implements IShiftService
                             }
                         } else {
                             $usedShiftGroupEmployees = $this->shiftGroupEmployeeUseListService->getUsedShiftGroupEmployees($shiftGroup->id);
-                            $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $usedShiftGroupEmployees->pluck('id')->toArray())->get();
+                            $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $usedShiftGroupEmployees->getData()->pluck('id')->toArray())->get();
                             $randomEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
 
                             foreach ($randomEmployees as $employee) {
@@ -355,16 +435,30 @@ class ShiftService implements IShiftService
         }
 
 //        return $shifts;
-        return Shift::insert($shifts->toArray());
+        Shift::insert($shifts->toArray());
+
+        return new ServiceResponse(
+            true,
+            'Shift robot completed successfully.',
+            200,
+            $shifts
+        );
     }
 
     /**
      * @param array $shiftIds
+     *
+     * @return ServiceResponse
      */
     public function deleteByIds(
         array $shiftIds
-    )
+    ): ServiceResponse
     {
-        return Shift::whereIn('id', $shiftIds)->delete();
+        return new ServiceResponse(
+            true,
+            'Shift deleted successfully.',
+            200,
+            Shift::whereIn('id', $shiftIds)->delete()
+        );
     }
 }
