@@ -15,13 +15,22 @@ class JobDepartmentTypeController extends Controller
 {
     use Response;
 
+    /**
+     * @var $jobDepartmentTypeService
+     */
     private $jobDepartmentTypeService;
 
+    /**
+     * @param IJobDepartmentTypeService $jobDepartmentTypeService
+     */
     public function __construct(IJobDepartmentTypeService $jobDepartmentTypeService)
     {
         $this->jobDepartmentTypeService = $jobDepartmentTypeService;
     }
 
+    /**
+     * @param GetByCompanyIdsRequest $request
+     */
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
@@ -32,42 +41,114 @@ class JobDepartmentTypeController extends Controller
             }
         }
 
-        return $this->success('Job department types', $this->jobDepartmentTypeService->getByCompanyIds(
+        $getByCompanyIdsResponse = $this->jobDepartmentTypeService->getByCompanyIds(
             $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
             $request->keyword
-        ));
+        );
+        if ($getByCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetByIdRequest $request
+     */
     public function getById(GetByIdRequest $request)
     {
-        return $this->success('Job department type', $this->jobDepartmentTypeService->getById(
+        $getByIdResponse = $this->jobDepartmentTypeService->getById(
             $request->id
-        ));
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param CreateRequest $request
+     */
     public function create(CreateRequest $request)
     {
-        return $this->success('Job department type created', $this->jobDepartmentTypeService->create(
+        $createResponse = $this->jobDepartmentTypeService->create(
             $request->companyId,
             $request->name
-        ));
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param UpdateRequest $request
+     */
     public function update(UpdateRequest $request)
     {
-        return $this->success('Job department type updated', $this->jobDepartmentTypeService->update(
+        $updateResponse = $this->jobDepartmentTypeService->update(
             $request->id,
             $request->companyId,
             $request->name
-        ));
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param DeleteRequest $request
+     */
     public function delete(DeleteRequest $request)
     {
-        return $this->success('Job department type deleted', $this->jobDepartmentTypeService->delete(
+        $deleteResponse = $this->jobDepartmentTypeService->delete(
             $request->id
-        ));
+        );
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
+            );
+        }
     }
 }
