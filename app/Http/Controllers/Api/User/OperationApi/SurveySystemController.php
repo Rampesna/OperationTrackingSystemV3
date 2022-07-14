@@ -42,29 +42,68 @@ class SurveySystemController extends Controller
 {
     use Response;
 
+    /**
+     * @var $surveySystemService
+     */
     private $surveySystemService;
 
+    /**
+     * @param ISurveySystemService $surveySystemService
+     */
     public function __construct(ISurveySystemService $surveySystemService)
     {
         $this->surveySystemService = $surveySystemService;
     }
 
+    /**
+     * @param GetSurveyListRequest $request
+     */
     public function getSurveyList(GetSurveyListRequest $request)
     {
-        return $this->success('Survey list', $this->surveySystemService->GetSurveyList());
+        $getSurveyListResponse = $this->surveySystemService->GetSurveyList();
+        if ($getSurveyListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyListResponse->getMessage(),
+                $getSurveyListResponse->getData(),
+                $getSurveyListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyListResponse->getMessage(),
+                $getSurveyListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyPersonConnectRequest $request
+     */
     public function setSurveyPersonConnect(SetSurveyPersonConnectRequest $request)
     {
-        return $this->success('Employee surveys successfully set', $this->surveySystemService->SetSurveyPersonConnect(
+        $setSurveyPersonConnectResponse = $this->surveySystemService->SetSurveyPersonConnect(
             $request->surveyCode,
             $request->guids
-        ));
+        );
+        if ($setSurveyPersonConnectResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyPersonConnectResponse->getMessage(),
+                $setSurveyPersonConnectResponse->getData(),
+                $setSurveyPersonConnectResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyPersonConnectResponse->getMessage(),
+                $setSurveyPersonConnectResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyRequest $request
+     */
     public function setSurvey(SetSurveyRequest $request)
     {
-        return $this->success('Survey', $this->surveySystemService->SetSurvey(
+        $setSurveyResponse = $this->surveySystemService->SetSurvey(
             $request->id ? intval($request->id) : null,
             intval($request->code),
             $request->name,
@@ -91,95 +130,290 @@ class SurveySystemController extends Controller
                     'cariId' => $row[0],
                 ];
             })->toArray() : []
-        ));
+        );
+        if ($setSurveyResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyResponse->getMessage(),
+                $setSurveyResponse->getData(),
+                $setSurveyResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyResponse->getMessage(),
+                $setSurveyResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyEditRequest $request
+     */
     public function getSurveyEdit(GetSurveyEditRequest $request)
     {
-        return $this->success('Survey', $this->surveySystemService->GetSurveyEdit(
+        $getSurveyEditResponse = $this->surveySystemService->GetSurveyEdit(
             $request->id
-        ));
+        );
+        if ($getSurveyEditResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyEditResponse->getMessage(),
+                $getSurveyEditResponse->getData(),
+                $getSurveyEditResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyEditResponse->getMessage(),
+                $getSurveyEditResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyDeleteRequest $request
+     */
     public function setSurveyDelete(SetSurveyDeleteRequest $request)
     {
-        return $this->success('Survey deleted', $this->surveySystemService->setSurveyDelete(
+        $setSurveyDeleteResponse = $this->surveySystemService->setSurveyDelete(
             $request->id
-        ));
+        );
+        if ($setSurveyDeleteResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyDeleteResponse->getMessage(),
+                $setSurveyDeleteResponse->getData(),
+                $setSurveyDeleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyDeleteResponse->getMessage(),
+                $setSurveyDeleteResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyGroupConnectRequest $request
+     */
     public function setSurveyGroupConnect(SetSurveyGroupConnectRequest $request)
     {
-        return $this->success('Survey group connected', $this->surveySystemService->setSurveyGroupConnect(
+        $setSurveyGroupConnectResponse = $this->surveySystemService->setSurveyGroupConnect(
             $request->surveyCode,
             $request->subSurveyCode
-        ));
+        );
+        if ($setSurveyGroupConnectResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyGroupConnectResponse->getMessage(),
+                $setSurveyGroupConnectResponse->getData(),
+                $setSurveyGroupConnectResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyGroupConnectResponse->getMessage(),
+                $setSurveyGroupConnectResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyQuestionsListRequest $request
+     */
     public function getSurveyQuestionsList(GetSurveyQuestionsListRequest $request)
     {
-        return $this->success('Survey questions list', $this->surveySystemService->GetSurveyQuestionsList(
+        $getSurveyQuestionsListResponse = $this->surveySystemService->GetSurveyQuestionsList(
             $request->surveyCode
-        ));
+        );
+        if ($getSurveyQuestionsListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyQuestionsListResponse->getMessage(),
+                $getSurveyQuestionsListResponse->getData(),
+                $getSurveyQuestionsListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyQuestionsListResponse->getMessage(),
+                $getSurveyQuestionsListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyAnswersListRequest $request
+     */
     public function getSurveyAnswersList(GetSurveyAnswersListRequest $request)
     {
-        return $this->success('Survey question answers list', $this->surveySystemService->GetSurveyAnswersList(
+        $getSurveyAnswersListResponse = $this->surveySystemService->GetSurveyAnswersList(
             $request->questionId
-        ));
+        );
+        if ($getSurveyAnswersListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyAnswersListResponse->getMessage(),
+                $getSurveyAnswersListResponse->getData(),
+                $getSurveyAnswersListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyAnswersListResponse->getMessage(),
+                $getSurveyAnswersListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyQuestionEditRequest $request
+     */
     public function getSurveyQuestionEdit(GetSurveyQuestionEditRequest $request)
     {
-        return $this->success('Survey question', $this->surveySystemService->GetSurveyQuestionEdit(
+        $getSurveyQuestionEditResponse = $this->surveySystemService->GetSurveyQuestionEdit(
             $request->questionId
-        ));
+        );
+        if ($getSurveyQuestionEditResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyQuestionEditResponse->getMessage(),
+                $getSurveyQuestionEditResponse->getData(),
+                $getSurveyQuestionEditResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyQuestionEditResponse->getMessage(),
+                $getSurveyQuestionEditResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyProductListRequest $request
+     */
     public function getSurveyProductList(GetSurveyProductListRequest $request)
     {
-        return $this->success('Product list', $this->surveySystemService->GetSurveyProductList());
+        $getSurveyProductListResponse = $this->surveySystemService->GetSurveyProductList();
+        if ($getSurveyProductListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyProductListResponse->getMessage(),
+                $getSurveyProductListResponse->getData(),
+                $getSurveyProductListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyProductListResponse->getMessage(),
+                $getSurveyProductListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyProductEditRequest $request
+     */
     public function getSurveyProductEdit(GetSurveyProductEditRequest $request)
     {
-        return $this->success('Product', $this->surveySystemService->GetSurveyProductEdit(
+        $getSurveyProductEditResponse = $this->surveySystemService->GetSurveyProductEdit(
             $request->productId
-        ));
+        );
+        if ($getSurveyProductEditResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyProductEditResponse->getMessage(),
+                $getSurveyProductEditResponse->getData(),
+                $getSurveyProductEditResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyProductEditResponse->getMessage(),
+                $getSurveyProductEditResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyAnswerEditRequest $request
+     */
     public function getSurveyAnswerEdit(GetSurveyAnswerEditRequest $request)
     {
-        return $this->success('Answer', $this->surveySystemService->GetSurveyAnswerEdit(
+        $getSurveyAnswerEditResponse = $this->surveySystemService->GetSurveyAnswerEdit(
             $request->answerId
-        ));
+        );
+        if ($getSurveyAnswerEditResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyAnswerEditResponse->getMessage(),
+                $getSurveyAnswerEditResponse->getData(),
+                $getSurveyAnswerEditResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyAnswerEditResponse->getMessage(),
+                $getSurveyAnswerEditResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyAnswersCategoryConnectListRequest $request
+     */
     public function getSurveyAnswersCategoryConnectList(GetSurveyAnswersCategoryConnectListRequest $request)
     {
-        return $this->success('Answer category connect list', $this->surveySystemService->GetSurveyAnswersCategoryConnectList(
+        $getSurveyAnswersCategoryConnectListResponse = $this->surveySystemService->GetSurveyAnswersCategoryConnectList(
             $request->answerId
-        ));
+        );
+        if ($getSurveyAnswersCategoryConnectListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyAnswersCategoryConnectListResponse->getMessage(),
+                $getSurveyAnswersCategoryConnectListResponse->getData(),
+                $getSurveyAnswersCategoryConnectListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyAnswersCategoryConnectListResponse->getMessage(),
+                $getSurveyAnswersCategoryConnectListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyAnswersConnectListRequest $request
+     */
     public function getSurveyAnswersConnectList(GetSurveyAnswersConnectListRequest $request)
     {
-        return $this->success('Answer connect list', $this->surveySystemService->GetSurveyAnswersConnectList(
+        $getSurveyAnswersConnectListResponse = $this->surveySystemService->GetSurveyAnswersConnectList(
             $request->answerId
-        ));
+        );
+        if ($getSurveyAnswersConnectListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyAnswersConnectListResponse->getMessage(),
+                $getSurveyAnswersConnectListResponse->getData(),
+                $getSurveyAnswersConnectListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyAnswersConnectListResponse->getMessage(),
+                $getSurveyAnswersConnectListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyAnswersProductConnectListRequest $request
+     */
     public function getSurveyAnswersProductConnectList(GetSurveyAnswersProductConnectListRequest $request)
     {
-        return $this->success('Answer product connect list', $this->surveySystemService->GetSurveyAnswersProductConnectList(
+        $getSurveyAnswersProductConnectListResponse = $this->surveySystemService->GetSurveyAnswersProductConnectList(
             $request->answerId
-        ));
+        );
+        if ($getSurveyAnswersProductConnectListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyAnswersProductConnectListResponse->getMessage(),
+                $getSurveyAnswersProductConnectListResponse->getData(),
+                $getSurveyAnswersProductConnectListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyAnswersProductConnectListResponse->getMessage(),
+                $getSurveyAnswersProductConnectListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyQuestionsRequest $request
+     */
     public function setSurveyQuestions(SetSurveyQuestionsRequest $request)
     {
-        return $this->success('Set survey question', $this->surveySystemService->SetSurveyQuestions(
+        $setSurveyQuestionsResponse = $this->surveySystemService->SetSurveyQuestions(
             $request->id,
             $request->question,
             $request->typeId,
@@ -188,136 +422,386 @@ class SurveySystemController extends Controller
             $request->surveyCode,
             $request->description,
             $request->required
-        ));
+        );
+        if ($setSurveyQuestionsResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyQuestionsResponse->getMessage(),
+                $setSurveyQuestionsResponse->getData(),
+                $setSurveyQuestionsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyQuestionsResponse->getMessage(),
+                $setSurveyQuestionsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyQuestionsDeleteRequest $request
+     */
     public function setSurveyQuestionsDelete(SetSurveyQuestionsDeleteRequest $request)
     {
-        return $this->success('Survey question deleted', $this->surveySystemService->SetSurveyQuestionsDelete(
+        $setSurveyQuestionsDeleteResponse = $this->surveySystemService->SetSurveyQuestionsDelete(
             $request->questionId
-        ));
+        );
+        if ($setSurveyQuestionsDeleteResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyQuestionsDeleteResponse->getMessage(),
+                $setSurveyQuestionsDeleteResponse->getData(),
+                $setSurveyQuestionsDeleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyQuestionsDeleteResponse->getMessage(),
+                $setSurveyQuestionsDeleteResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyAnswersRequest $request
+     */
     public function setSurveyAnswers(SetSurveyAnswersRequest $request)
     {
-        return $this->success('Answer', $this->surveySystemService->SetSurveyAnswers(
+        $setSurveyAnswersResponse = $this->surveySystemService->SetSurveyAnswers(
             $request->id,
             $request->questionId,
             $request->answer,
             $request->order,
             $request->columns
-        ));
+        );
+        if ($setSurveyAnswersResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyAnswersResponse->getMessage(),
+                $setSurveyAnswersResponse->getData(),
+                $setSurveyAnswersResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyAnswersResponse->getMessage(),
+                $setSurveyAnswersResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyAnswersCategoryConnectRequest $request
+     */
     public function setSurveyAnswersCategoryConnect(SetSurveyAnswersCategoryConnectRequest $request)
     {
-        return $this->success('Answer categories connected', $this->surveySystemService->SetSurveyAnswersCategoryConnect(
+        $setSurveyAnswersCategoryConnectResponse = $this->surveySystemService->SetSurveyAnswersCategoryConnect(
             $request->categories
-        ));
+        );
+        if ($setSurveyAnswersCategoryConnectResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyAnswersCategoryConnectResponse->getMessage(),
+                $setSurveyAnswersCategoryConnectResponse->getData(),
+                $setSurveyAnswersCategoryConnectResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyAnswersCategoryConnectResponse->getMessage(),
+                $setSurveyAnswersCategoryConnectResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyAnswersConnectRequest $request
+     */
     public function setSurveyAnswersConnect(SetSurveyAnswersConnectRequest $request)
     {
-        return $this->success('Answer questions connected', $this->surveySystemService->SetSurveyAnswersConnect(
+        $setSurveyAnswersConnectResponse = $this->surveySystemService->SetSurveyAnswersConnect(
             $request->questions
-        ));
+        );
+        if ($setSurveyAnswersConnectResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyAnswersConnectResponse->getMessage(),
+                $setSurveyAnswersConnectResponse->getData(),
+                $setSurveyAnswersConnectResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyAnswersConnectResponse->getMessage(),
+                $setSurveyAnswersConnectResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyAnswersProductConnectRequest $request
+     */
     public function setSurveyAnswersProductConnect(SetSurveyAnswersProductConnectRequest $request)
     {
-        return $this->success('Answer products connected', $this->surveySystemService->SetSurveyAnswersProductConnect(
+        $setSurveyAnswersProductConnectResponse = $this->surveySystemService->SetSurveyAnswersProductConnect(
             $request->products
-        ));
+        );
+        if ($setSurveyAnswersProductConnectResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyAnswersProductConnectResponse->getMessage(),
+                $setSurveyAnswersProductConnectResponse->getData(),
+                $setSurveyAnswersProductConnectResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyAnswersProductConnectResponse->getMessage(),
+                $setSurveyAnswersProductConnectResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyAnswersDeleteRequest $request
+     */
     public function setSurveyAnswersDelete(SetSurveyAnswersDeleteRequest $request)
     {
-        return $this->success('Answer deleted', $this->surveySystemService->SetSurveyAnswersDelete(
+        $setSurveyAnswersDeleteResponse = $this->surveySystemService->SetSurveyAnswersDelete(
             $request->answerId
-        ));
+        );
+        if ($setSurveyAnswersDeleteResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyAnswersDeleteResponse->getMessage(),
+                $setSurveyAnswersDeleteResponse->getData(),
+                $setSurveyAnswersDeleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyAnswersDeleteResponse->getMessage(),
+                $setSurveyAnswersDeleteResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyReportRequest $request
+     */
     public function getSurveyReport(GetSurveyReportRequest $request)
     {
-        return $this->success('Survey report', $this->surveySystemService->GetSurveyReport(
+        $getSurveyReportResponse = $this->surveySystemService->GetSurveyReport(
             $request->surveyCode,
             $request->startDate,
             $request->endDate,
             $request->companyIds
-        ));
+        );
+        if ($getSurveyReportResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyReportResponse->getMessage(),
+                $getSurveyReportResponse->getData(),
+                $getSurveyReportResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyReportResponse->getMessage(),
+                $getSurveyReportResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyReportWantedDetailsRequest $request
+     */
     public function getSurveyReportWantedDetails(GetSurveyReportWantedDetailsRequest $request)
     {
-        return $this->success('Survey wanted report', $this->surveySystemService->GetSurveyReportWantedDetails(
+        $getSurveyReportWantedDetailsResponse = $this->surveySystemService->GetSurveyReportWantedDetails(
             $request->surveyCode
-        ));
+        );
+        if ($getSurveyReportWantedDetailsResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyReportWantedDetailsResponse->getMessage(),
+                $getSurveyReportWantedDetailsResponse->getData(),
+                $getSurveyReportWantedDetailsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyReportWantedDetailsResponse->getMessage(),
+                $getSurveyReportWantedDetailsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyReportRemainingDetailsRequest $request
+     */
     public function getSurveyReportRemainingDetails(GetSurveyReportRemainingDetailsRequest $request)
     {
-        return $this->success('Survey remaining report', $this->surveySystemService->GetSurveyReportRemainingDetails(
+        $getSurveyReportRemainingDetailsResponse = $this->surveySystemService->GetSurveyReportRemainingDetails(
             $request->surveyCode,
             $request->startDate,
             $request->endDate
-        ));
+        );
+        if ($getSurveyReportRemainingDetailsResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyReportRemainingDetailsResponse->getMessage(),
+                $getSurveyReportRemainingDetailsResponse->getData(),
+                $getSurveyReportRemainingDetailsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyReportRemainingDetailsResponse->getMessage(),
+                $getSurveyReportRemainingDetailsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyReportStatusDetailsRequest $request
+     */
     public function getSurveyReportStatusDetails(GetSurveyReportStatusDetailsRequest $request)
     {
-        return $this->success('Survey status report', $this->surveySystemService->GetSurveyReportStatusDetails(
+        $getSurveyReportStatusDetailsResponse = $this->surveySystemService->GetSurveyReportStatusDetails(
             $request->surveyCode,
             $request->startDate,
             $request->endDate,
             $request->statusCodes
-        ));
+        );
+        if ($getSurveyReportStatusDetailsResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyReportStatusDetailsResponse->getMessage(),
+                $getSurveyReportStatusDetailsResponse->getData(),
+                $getSurveyReportStatusDetailsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyReportStatusDetailsResponse->getMessage(),
+                $getSurveyReportStatusDetailsResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyDetailReportRequest $request
+     */
     public function getSurveyDetailReport(GetSurveyDetailReportRequest $request)
     {
-        return $this->success('Survey status report', $this->surveySystemService->GetSurveyDetailReport(
+        $getSurveyDetailReportResponse = $this->surveySystemService->GetSurveyDetailReport(
             $request->surveyCode,
             $request->startDate,
             $request->endDate,
             $request->companyIds
-        ));
+        );
+        if ($getSurveyDetailReportResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyDetailReportResponse->getMessage(),
+                $getSurveyDetailReportResponse->getData(),
+                $getSurveyDetailReportResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyDetailReportResponse->getMessage(),
+                $getSurveyDetailReportResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveyDetailReportRequest $request
+     */
     public function getSurveyDetailReportGroupById(GetSurveyDetailReportRequest $request)
     {
-        return $this->success('Survey status report', collect(
-            $this->surveySystemService->GetSurveyDetailReport(
-                $request->surveyCode,
-                $request->startDate,
-                $request->endDate,
-                $request->companyIds
-            )
-        )->groupBy('id')->all());
+        $getSurveyDetailReportResponse = $this->surveySystemService->GetSurveyDetailReport(
+            $request->surveyCode,
+            $request->startDate,
+            $request->endDate,
+            $request->companyIds
+        );
+        if ($getSurveyDetailReportResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyDetailReportResponse->getMessage(),
+                collect($getSurveyDetailReportResponse->getData())->groupBy('id')->all(),
+                $getSurveyDetailReportResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyDetailReportResponse->getMessage(),
+                $getSurveyDetailReportResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetSurveySellerListRequest $request
+     */
     public function getSurveySellerList(GetSurveySellerListRequest $request)
     {
-        return $this->success('Survey seller list', $this->surveySystemService->GetSurveySellerList());
+        $getSurveySellerListResponse = $this->surveySystemService->GetSurveySellerList();
+        if ($getSurveySellerListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveySellerListResponse->getMessage(),
+                $getSurveySellerListResponse->getData(),
+                $getSurveySellerListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveySellerListResponse->getMessage(),
+                $getSurveySellerListResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveySellerConnectRequest $request
+     */
     public function setSurveySellerConnect(SetSurveySellerConnectRequest $request)
     {
-        return $this->success('Set survey seller connect', $this->surveySystemService->SetSurveySellerConnect(
+        $setSurveySellerConnectResponse = $this->surveySystemService->SetSurveySellerConnect(
             $request->sellers
-        ));
+        );
+        if ($setSurveySellerConnectResponse->isSuccess()) {
+            return $this->success(
+                $setSurveySellerConnectResponse->getMessage(),
+                $setSurveySellerConnectResponse->getData(),
+                $setSurveySellerConnectResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveySellerConnectResponse->getMessage(),
+                $setSurveySellerConnectResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveySellerDeleteRequest $request
+     */
     public function setSurveySellerDelete(SetSurveySellerDeleteRequest $request)
     {
-        return $this->success('Survey seller deleted', $this->surveySystemService->setSurveySellerDelete(
+        $setSurveySellerDeleteResponse = $this->surveySystemService->setSurveySellerDelete(
             $request->sellerId
-        ));
+        );
+        if ($setSurveySellerDeleteResponse->isSuccess()) {
+            return $this->success(
+                $setSurveySellerDeleteResponse->getMessage(),
+                $setSurveySellerDeleteResponse->getData(),
+                $setSurveySellerDeleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveySellerDeleteResponse->getMessage(),
+                $setSurveySellerDeleteResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param SetSurveyProductRequest $request
+     */
     public function setSurveyProduct(SetSurveyProductRequest $request)
     {
-        return $this->success('Set survey product', $this->surveySystemService->SetSurveyProduct(
+        $setSurveyProductResponse = $this->surveySystemService->SetSurveyProduct(
             $request->products
-        ));
+        );
+        if ($setSurveyProductResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyProductResponse->getMessage(),
+                $setSurveyProductResponse->getData(),
+                $setSurveyProductResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyProductResponse->getMessage(),
+                $setSurveyProductResponse->getStatusCode()
+            );
+        }
     }
 }
