@@ -12,24 +12,60 @@ class PersonReportController extends Controller
 {
     use Response;
 
+    /**
+     * @var $personReportService
+     */
     private $personReportService;
 
+    /**
+     * @param IPersonReportService $personReportService
+     */
     public function __construct(IPersonReportService $personReportService)
     {
         $this->personReportService = $personReportService;
     }
 
+    /**
+     * @param GetPersonAppointmentReportRequest $request
+     */
     public function getPersonAppointmentReport(GetPersonAppointmentReportRequest $request)
     {
-        return $this->success('Person appointments', $this->personReportService->GetPersonAppointmentReport(
+        $getPersonAppointmentReportResponse = $this->personReportService->GetPersonAppointmentReport(
             $request->companyIds
-        ));
+        );
+        if ($getPersonAppointmentReportResponse->isSuccess()) {
+            return $this->success(
+                $getPersonAppointmentReportResponse->getMessage(),
+                $getPersonAppointmentReportResponse->getData(),
+                $getPersonAppointmentReportResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getPersonAppointmentReportResponse->getMessage(),
+                $getPersonAppointmentReportResponse->getStatusCode()
+            );
+        }
     }
 
+    /**
+     * @param GetPersonnelAchievementRankingRequest $request
+     */
     public function getPersonnelAchievementRanking(GetPersonnelAchievementRankingRequest $request)
     {
-        return $this->success('Personnel achievement ranking', $this->personReportService->GetPersonnelAchievementRanking(
+        $getPersonnelAchievementRankingResponse = $this->personReportService->GetPersonnelAchievementRanking(
             $request->employeeGuids
-        ));
+        );
+        if ($getPersonnelAchievementRankingResponse->isSuccess()) {
+            return $this->success(
+                $getPersonnelAchievementRankingResponse->getMessage(),
+                $getPersonnelAchievementRankingResponse->getData(),
+                $getPersonnelAchievementRankingResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getPersonnelAchievementRankingResponse->getMessage(),
+                $getPersonnelAchievementRankingResponse->getStatusCode()
+            );
+        }
     }
 }
