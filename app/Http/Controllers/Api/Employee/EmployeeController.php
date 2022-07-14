@@ -13,8 +13,14 @@ class EmployeeController extends Controller
 {
     use Response;
 
+    /**
+     * @var $employeeService
+     */
     private $employeeService;
 
+    /**
+     * @param IEmployeeService $employeeService
+     */
     public function __construct(IEmployeeService $employeeService)
     {
         $this->employeeService = $employeeService;
@@ -23,33 +29,63 @@ class EmployeeController extends Controller
     /**
      * @param LoginRequest $request
      */
-    public function login(LoginRequest $request)
+    public function login(
+        LoginRequest $request
+    )
     {
-        if (!$employee = $this->employeeService->getByEmail($request->email)) {
-            return $this->error('Employee not found', 404);
-        }
+        $employee = $this->employeeService->getByEmail($request->email);
+        if ($employee->isSuccess()) {
+            if (!checkPassword($request->password, $employee->getData()->password)) {
+                return $this->error('Password is incorrect', 401);
+            }
 
-        if (!checkPassword($request->password, $employee->password)) {
-            return $this->error('Password is incorrect', 401);
+            return $this->success('Employee logged in successfully', [
+                'token' => $this->employeeService->generateSanctumToken($employee->getData())
+            ]);
+        } else {
+            return $this->error(
+                $employee->getMessage(),
+                $employee->getStatusCode()
+            );
         }
-
-        return $this->success('Employee logged in successfully', [
-            'token' => $this->employeeService->generateSanctumToken($employee)
-        ]);
     }
 
     public function swapTheme(SwapThemeRequest $request)
     {
-        return $this->success('Theme swapped successfully', $this->employeeService->swapTheme(
+        $swapThemeResponse = $this->employeeService->swapTheme(
             $request->user()->id,
             $request->theme
-        ));
+        );
+        if ($swapThemeResponse->isSuccess()) {
+            return $this->success(
+                $swapThemeResponse->getMessage(),
+                $swapThemeResponse->getData(),
+                $swapThemeResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $swapThemeResponse->getMessage(),
+                $swapThemeResponse->getStatusCode()
+            );
+        }
     }
 
     public function getMarketPayments(GetMarketPaymentsRequest $request)
     {
-        return $this->success('Market payments', $this->employeeService->getMarketPayments(
+        $employeeMarketPayments = $this->employeeService->getMarketPayments(
             $request->user()->id
-        ));
+        );
+        if ($employeeMarketPayments->isSuccess()) {
+            return $this->success(
+                $employeeMarketPayments->getMessage(),
+                $employeeMarketPayments->getData(),
+                $employeeMarketPayments->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $employeeMarketPayments->getMessage(),
+                $employeeMarketPayments->getStatusCode()
+            );
+        }
     }
 }
