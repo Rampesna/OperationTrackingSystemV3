@@ -4,13 +4,13 @@ namespace App\Services;
 
 class ServiceResponse
 {
-    public bool $isSuccess;
+    private bool $isSuccess;
 
-    public string $message;
+    private string $message;
 
-    public mixed $data;
+    private int $statusCode;
 
-    public int $statusCode;
+    private mixed $data;
 
     public function __construct(
         bool   $isSuccess,
