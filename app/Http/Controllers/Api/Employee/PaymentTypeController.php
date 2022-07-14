@@ -11,15 +11,36 @@ class PaymentTypeController extends Controller
 {
     use Response;
 
+    /**
+     * @var $paymentTypeService
+     */
     private $paymentTypeService;
 
+    /**
+     * @param IPaymentTypeService $paymentTypeService
+     */
     public function __construct(IPaymentTypeService $paymentTypeService)
     {
         $this->paymentTypeService = $paymentTypeService;
     }
 
+    /**
+     * @param GetAllRequest $request
+     */
     public function getAll(GetAllRequest $request)
     {
-        return $this->success('Employee paymentTypes', $this->paymentTypeService->getAll());
+        $getAllResponse = $this->paymentTypeService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
+            );
+        }
     }
 }
