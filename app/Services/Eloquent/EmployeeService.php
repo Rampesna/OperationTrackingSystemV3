@@ -111,6 +111,33 @@ class EmployeeService implements IEmployeeService
     }
 
     /**
+     * @param int $employeeId
+     * @param string $deviceToken
+     *
+     * @return ServiceResponse
+     */
+    public function setDeviceToken(
+        int    $employeeId,
+        string $deviceToken
+    ): ServiceResponse
+    {
+        $employee = $this->getById($employeeId);
+        if ($employee->isSuccess()) {
+            $employee->getData()->device_token = $deviceToken;
+            $employee->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Device token set',
+                200,
+                $employee->getData()
+            );
+        } else {
+            return $employee;
+        }
+    }
+
+    /**
      * @param int $pageIndex
      * @param int $pageSize
      * @param array $companyIds

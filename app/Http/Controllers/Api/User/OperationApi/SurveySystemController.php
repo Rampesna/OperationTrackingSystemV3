@@ -52,6 +52,7 @@ class SurveySystemController extends Controller
      */
     public function __construct(ISurveySystemService $surveySystemService)
     {
+        set_time_limit(86400);
         $this->surveySystemService = $surveySystemService;
     }
 

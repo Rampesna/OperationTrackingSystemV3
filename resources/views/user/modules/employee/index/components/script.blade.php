@@ -619,12 +619,14 @@
                 'Authorization': token
             },
             data: {
-                companyIds: companyIds
+                companyIds: companyIds,
+                pageIndex: 0,
+                pageSize: 1000
             },
             success: function (response) {
                 jobDepartmentFilterer.empty();
                 updateEmployeeJobDepartmentJobDepartmentId.empty();
-                $.each(response.response, function (index, jobDepartment) {
+                $.each(response.response.jobDepartments, function (index, jobDepartment) {
                     jobDepartmentFilterer.append(`
                     <option value="${jobDepartment.id}">${jobDepartment.name}</option>
                     `);
@@ -1089,7 +1091,7 @@
 
     SelectAllEmployeesButton.click(function () {
         var employees = $('.employeeCard');
-        $.each(employees, function (i, employee) {
+        $.each(employees, function () {
             if (!$(this).hasClass('d-none')) {
                 $(this).find('.employeeSelector').addClass('selectedEmployee');
             }
@@ -1099,7 +1101,7 @@
 
     DeSelectAllEmployeesButton.click(function () {
         var employees = $('.employeeCard');
-        $.each(employees, function (i, employee) {
+        $.each(employees, function () {
             if (!$(this).hasClass('d-none')) {
                 $(this).find('.employeeSelector').removeClass('selectedEmployee');
             }
@@ -1112,7 +1114,7 @@
         var employeeId = $('#update_employee_queues_employee_id').val();
         var queueIds = [];
         var updateEmployeeQueueCheckboxes = $('.updateEmployeeQueueCheckbox');
-        $.each(updateEmployeeQueueCheckboxes, function (i, checkbox) {
+        $.each(updateEmployeeQueueCheckboxes, function () {
             if ($(this).is(':checked')) {
                 queueIds.push(parseInt($(this).val()));
             }
@@ -1145,7 +1147,7 @@
         var employeeId = $('#update_employee_competences_employee_id').val();
         var competenceIds = [];
         var updateEmployeeCompetenceCheckboxes = $('.updateEmployeeCompetenceCheckbox');
-        $.each(updateEmployeeCompetenceCheckboxes, function (i, checkbox) {
+        $.each(updateEmployeeCompetenceCheckboxes, function () {
             if ($(this).is(':checked')) {
                 competenceIds.push(parseInt($(this).val()));
             }
@@ -1178,7 +1180,7 @@
         var guid = $('#update_employee_tasks_employee_guid').val();
         var tasks = [];
         var updateEmployeeTaskCheckboxes = $('.updateEmployeeTaskCheckbox');
-        $.each(updateEmployeeTaskCheckboxes, function (i, checkbox) {
+        $.each(updateEmployeeTaskCheckboxes, function () {
             if ($(this).is(':checked')) {
                 tasks.push(parseInt($(this).val()));
             }
@@ -1212,7 +1214,7 @@
         var guid = $('#update_employee_work_tasks_employee_guid').val();
         var workTasks = [];
         var updateEmployeeWorkTaskCheckboxes = $('.updateEmployeeWorkTaskCheckbox');
-        $.each(updateEmployeeWorkTaskCheckboxes, function (i, checkbox) {
+        $.each(updateEmployeeWorkTaskCheckboxes, function () {
             if ($(this).is(':checked')) {
                 workTasks.push(parseInt($(this).val()));
             }
@@ -1246,7 +1248,7 @@
         var guid = $('#update_employee_group_tasks_employee_guid').val();
         var groupTasks = [];
         var updateEmployeeGroupTaskCheckboxes = $('.updateEmployeeGroupTaskCheckbox');
-        $.each(updateEmployeeGroupTaskCheckboxes, function (i, checkbox) {
+        $.each(updateEmployeeGroupTaskCheckboxes, function () {
             if ($(this).is(':checked')) {
                 groupTasks.push(parseInt($(this).val()));
             }
@@ -1480,7 +1482,7 @@
         var email = $('#create_employee_email').val();
         var phone = null;
         var jobDepartmentId = createEmployeeJobDepartmentId.val();
-        var username = email.split('@')[0];
+        // var username = email.split('@')[0];
         var santralCode = $('#create_employee_santral_code').val();
         var password = '123456';
         var webCrmUserId = $('#create_employee_web_crm_user_id').val();
@@ -1512,7 +1514,7 @@
 
         var groupTasks = [];
         var createEmployeeGroupTaskCheckboxes = $('.createEmployeeGroupTaskCheckbox:checked');
-        $.each(createEmployeeGroupTaskCheckboxes, function (i, groupTask) {
+        $.each(createEmployeeGroupTaskCheckboxes, function () {
             groupTasks.push($(this).val());
         });
 

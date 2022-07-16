@@ -167,7 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Ladumor\OneSignal\OneSignalServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -193,6 +193,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'OneSignal' => \Ladumor\OneSignal\OneSignal::class,
     ])->toArray(),
 
 ];

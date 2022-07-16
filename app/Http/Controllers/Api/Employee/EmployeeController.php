@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\EmployeeController\LoginRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SwapThemeRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetMarketPaymentsRequest;
+use App\Http\Requests\Api\Employee\EmployeeController\SetDeviceTokenRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Traits\Response;
 
@@ -69,6 +70,29 @@ class EmployeeController extends Controller
             return $this->error(
                 $swapThemeResponse->getMessage(),
                 $swapThemeResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetDeviceTokenRequest $request
+     */
+    public function setDeviceToken(SetDeviceTokenRequest $request)
+    {
+        $setDeviceTokenResponse = $this->employeeService->setDeviceToken(
+            $request->user()->id,
+            $request->deviceToken
+        );
+        if ($setDeviceTokenResponse->isSuccess()) {
+            return $this->success(
+                $setDeviceTokenResponse->getMessage(),
+                $setDeviceTokenResponse->getData(),
+                $setDeviceTokenResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setDeviceTokenResponse->getMessage(),
+                $setDeviceTokenResponse->getStatusCode()
             );
         }
     }

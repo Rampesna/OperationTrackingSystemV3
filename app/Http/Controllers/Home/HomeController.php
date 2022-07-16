@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\Eloquent\IBoardService;
-use App\Interfaces\NetsantralApi\INetsantralApiService;
-use App\Interfaces\OperationApi\IDataScanningService;
+use App\Models\Eloquent\Employee;
+use Ladumor\OneSignal\OneSignal;
 use App\Traits\Response;
 
 class HomeController extends Controller
@@ -29,8 +28,17 @@ class HomeController extends Controller
         return view('home.modules.index.index');
     }
 
-    public function test(IDataScanningService $dataScanningService)
+    public function test()
     {
-        return response()->json($dataScanningService->GetDataScanTables()->getData());
+        $fields['include_player_ids'] = Employee::where('device_token', '<>', null)->pluck('device_token')->toArray();
+        $fields['name'] = 'OTS 2';
+        $fields['contents'] = [
+            'en' => 'Test notification',
+            'tr' => 'Test notification',
+        ];
+        $notificationMsg = 'Hello!! A tiny web push notification.!';
+        OneSignal::sendPush($fields, $notificationMsg);
+
+        return OneSignal::getNotifications();
     }
 }

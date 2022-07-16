@@ -167,7 +167,14 @@ class ShiftService implements IShiftService
             true,
             'Shifts',
             200,
-            Shift::where('employee_id', $employeeId)->whereBetween('start_date', [$startDate, $endDate])->get()
+            Shift::with([
+                'shiftGroup' => function ($shiftGroup) {
+                    $shiftGroup->select([
+                        'id',
+                        'name'
+                    ]);
+                }
+            ])->where('employee_id', $employeeId)->whereBetween('start_date', [$startDate, $endDate])->get()
         );
     }
 

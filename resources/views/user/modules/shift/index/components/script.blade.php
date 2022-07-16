@@ -177,6 +177,7 @@
                     id: info.event.id
                 },
                 success: function (response) {
+                    console.log(response);
                     $('#ShowModal').modal('show');
                     $('#loader').hide();
                 },
@@ -188,7 +189,7 @@
             });
         },
 
-        events: function (info, successCallback, failureCallback) {
+        events: function (info, successCallback) {
             $('#loader').show();
             var companyIds = SelectedCompanies.val();
             $.ajax({
@@ -266,7 +267,7 @@
                     companyId: parseInt(companyId),
                     month: month
                 },
-                success: function (response) {
+                success: function () {
                     $('#loader').hide();
                     $('#RobotModal').modal('hide');
                     toastr.success('Vardiyalar Oluşturuldu!');

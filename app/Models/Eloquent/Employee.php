@@ -72,4 +72,9 @@ class Employee extends Authenticatable
         $marketPayments = $this->marketPayments;
         return $marketPayments->where('direction', 0)->sum('amount') - $marketPayments->where('direction', 1)->where('completed', 1)->sum('amount');
     }
+
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
 }

@@ -27,6 +27,17 @@ interface IEmployeeService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $employeeId
+     * @param string $deviceToken
+     *
+     * @return ServiceResponse
+     */
+    public function setDeviceToken(
+        int    $employeeId,
+        string $deviceToken
+    ): ServiceResponse;
+
+    /**
      * @param array $ids
      *
      * @return ServiceResponse

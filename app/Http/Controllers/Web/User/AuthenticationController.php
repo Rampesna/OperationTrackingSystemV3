@@ -28,17 +28,18 @@ class AuthenticationController extends Controller
 
     public function oAuth(OAuthRequest $request)
     {
-        if (!$token = $this->personelAccessTokenService->findToken($request->token)) {
+        $token = $this->personelAccessTokenService->findToken($request->token);
+        if ($token->isSuccess()) {
+            if (!$employee = $token->getData()->tokenable) {
+                return redirect()->route('user.web.authentication.login.index');
+            }
+
+            auth()->guard('user_web')->login($employee, $request->remember);
+
+            return redirect()->route('user.web.dashboard.index');
+        } else {
             return redirect()->route('user.web.authentication.login.index');
         }
-
-        if (!$user = $token->tokenable) {
-            return redirect()->route('user.web.authentication.login.index');
-        }
-
-        auth()->guard('user_web')->login($user, $request->remember);
-
-        return redirect()->route('user.web.dashboard.index');
     }
 
     public function forgotPassword()
@@ -54,7 +55,7 @@ class AuthenticationController extends Controller
 
         $passwordReset = $passwordResetService->getByToken($request->token);
 
-        if (!$passwordReset || $passwordReset->used == 1) {
+        if (!$passwordReset->getData() || $passwordReset->getData()->used == 1) {
             abort(404);
         }
 
