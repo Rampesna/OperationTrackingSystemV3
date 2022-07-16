@@ -69,7 +69,7 @@
                 </div>
                 <div class="row mt-5">
                     <div class="col-xl-12 text-end">
-                        <button class="btn btn-primary btn-sm" onclick="taskFiles()">Göreve Bağlı Dosyaları Görüntülemek İçin Tıklayın</button>
+                        <button class="btn btn-primary btn-sm" onclick="taskFiles()">Dosyalar</button>
                     </div>
                 </div>
                 <hr>
