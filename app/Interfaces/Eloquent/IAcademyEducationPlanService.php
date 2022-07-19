@@ -21,5 +21,16 @@ interface IAcademyEducationPlanService extends IEloquentService
         array $academyEducationPlans
     ): ServiceResponse;
 
-
+    /**
+     * @param array $companyIds
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function getDateBetweenByCompanyIds(
+        array  $companyIds,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse;
 }

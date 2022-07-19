@@ -119,6 +119,7 @@ Route::middleware([
     });
 
     Route::prefix('academyEducationPlan')->group(function () {
+        Route::get('getDateBetweenByCompanyIds', [\App\Http\Controllers\Api\User\AcademyEducationPlanController::class, 'getDateBetweenByCompanyIds'])->name('user.api.academyEducationPlan.getDateBetweenByCompanyIds');
         Route::post('createBatch', [\App\Http\Controllers\Api\User\AcademyEducationPlanController::class, 'createBatch'])->name('user.api.academyEducationPlan.createBatch');
     });
 

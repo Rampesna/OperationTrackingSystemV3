@@ -2,12 +2,37 @@
 
 namespace App\Services\Eloquent;
 
+use App\Interfaces\Eloquent\IAcademyEducationLessonService;
 use App\Interfaces\Eloquent\IAcademyEducationPlanService;
+use App\Interfaces\Eloquent\IAcademyEducationService;
 use App\Models\Eloquent\AcademyEducationPlan;
 use App\Services\ServiceResponse;
 
 class AcademyEducationPlanService implements IAcademyEducationPlanService
 {
+    /**
+     * @var IAcademyEducationService $academyEducationService
+     */
+    private $academyEducationService;
+
+    /**
+     * @var IAcademyEducationLessonService $academyEducationLessonService
+     */
+    private $academyEducationLessonService;
+
+    /**
+     * @param IAcademyEducationService $academyEducationService
+     * @param IAcademyEducationLessonService $academyEducationLessonService
+     */
+    public function __construct(
+        IAcademyEducationService       $academyEducationService,
+        IAcademyEducationLessonService $academyEducationLessonService
+    )
+    {
+        $this->academyEducationService = $academyEducationService;
+        $this->academyEducationLessonService = $academyEducationLessonService;
+    }
+
     /**
      * @return ServiceResponse
      */
@@ -93,6 +118,8 @@ class AcademyEducationPlanService implements IAcademyEducationPlanService
                 'start_datetime' => $academyEducationPlan['startDatetime'],
                 'academy_education_plan_type_id' => $academyEducationPlan['academyEducationPlanTypeId'],
                 'location' => $academyEducationPlan['location'],
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ];
         }
 
@@ -101,6 +128,40 @@ class AcademyEducationPlanService implements IAcademyEducationPlanService
             'Academy education plans created',
             200,
             AcademyEducationPlan::insert($academyEducationPlansForCreate)
+        );
+    }
+
+    /**
+     * @param array $companyIds
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function getDateBetweenByCompanyIds(
+        array  $companyIds,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse
+    {
+        $academyEducationPlans = AcademyEducationPlan::with([
+            'academyEducationLesson',
+            'academyEducationPlanType'
+        ])->whereIn('academy_education_lesson_id',
+            $this->academyEducationLessonService->getByAcademyEducationIds(
+                $this->academyEducationService->getByCompanyIds(
+                    $companyIds,
+                    0,
+                    1000
+                )->getData()['academyEducations']->pluck('id')->toArray()
+            )->getData()->pluck('id')->toArray())
+            ->whereBetween('start_datetime', [$startDate, $endDate])
+            ->get();
+        return new ServiceResponse(
+            true,
+            'Academy education plans',
+            200,
+            $academyEducationPlans
         );
     }
 }

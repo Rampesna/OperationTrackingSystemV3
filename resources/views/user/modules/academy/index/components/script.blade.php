@@ -98,8 +98,44 @@
         },
 
         events: function (info, successCallback) {
-            var events = [];
-            successCallback(events);
+            $('#loader').show();
+            var companyIds = SelectedCompanies.val();
+            $.ajax({
+                url: '{{ route('user.api.academyEducationPlan.getDateBetweenByCompanyIds') }}',
+                dataType: 'json',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    startDate: info.startStr.valueOf(),
+                    endDate: info.endStr.valueOf(),
+                    companyIds: companyIds,
+                },
+                success: function (response) {
+                    var events = [];
+                    $.each(response.response, function (i, academyEducationPlan) {
+                        events.push({
+                            _id: academyEducationPlan.id,
+                            id: academyEducationPlan.id,
+                            title: `${academyEducationPlan.academy_education_lesson ? academyEducationPlan.academy_education_lesson.name : ''}`,
+                            start: reformatDateForCalendar(academyEducationPlan.start_datetime),
+                            end: reformatDateForCalendar(academyEducationPlan.start_datetime),
+                            type: 'academyEducationPlan',
+                            classNames: 'bg-primary text-white cursor-pointer ms-1 me-1',
+                            backgroundColor: 'white',
+                            academy_education_plan_id: `${academyEducationPlan.id}`
+                        });
+                    });
+                    successCallback(events);
+                    $('#loader').hide();
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Vardiyalar Alınırken Serviste Bir sorun Oluştu!');
+                    $('#loader').hide();
+                }
+            });
         },
     });
 
@@ -225,6 +261,7 @@
                     $('#CreateAcademyEducationPlanModal').modal('hide');
                     CreateAcademyEducationPlanButton.prop('disabled', false).html('Oluştur');
                     toastr.success('Eğitim Planları Başarıyla Oluşturuldu!');
+                    calendar.refetchEvents();
                 },
                 error: function (error) {
                     console.log(error);
@@ -237,6 +274,10 @@
     $('body').on('contextmenu', function () {
         transactions();
         return false;
+    });
+
+    SelectedCompanies.change(function () {
+        calendar.refetchEvents();
     });
 
 </script>

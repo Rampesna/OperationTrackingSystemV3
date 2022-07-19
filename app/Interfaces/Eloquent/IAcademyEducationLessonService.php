@@ -16,6 +16,15 @@ interface IAcademyEducationLessonService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param array $academyEducationIds
+     *
+     * @return ServiceResponse
+     */
+    public function getByAcademyEducationIds(
+        array $academyEducationIds
+    ): ServiceResponse;
+
+    /**
      * @param int $academyEducationId
      * @param string $name
      * @param int $durationInMinutes

@@ -464,4 +464,8 @@
         });
     });
 
+    SelectedCompanies.change(function () {
+        getAcademyEducations();
+    });
+
 </script>

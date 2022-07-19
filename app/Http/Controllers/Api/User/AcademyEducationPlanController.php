@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\AcademyEducationPlanController\GetDateBetweenByCompanyIdsRequest;
 use App\Http\Requests\Api\User\AcademyEducationPlanController\CreateBatchRequest;
 use App\Interfaces\Eloquent\IAcademyEducationPlanService;
 use App\Traits\Response;
@@ -22,6 +23,30 @@ class AcademyEducationPlanController extends Controller
     public function __construct(IAcademyEducationPlanService $academyEducationPlanService)
     {
         $this->academyEducationPlanService = $academyEducationPlanService;
+    }
+
+    /**
+     * @param GetDateBetweenByCompanyIdsRequest $request
+     */
+    public function getDateBetweenByCompanyIds(GetDateBetweenByCompanyIdsRequest $request)
+    {
+        $getDateBetweenByCompanyIdsResponse = $this->academyEducationPlanService->getDateBetweenByCompanyIds(
+            $request->companyIds,
+            $request->startDate,
+            $request->endDate
+        );
+        if ($getDateBetweenByCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getDateBetweenByCompanyIdsResponse->getMessage(),
+                $getDateBetweenByCompanyIdsResponse->getData(),
+                $getDateBetweenByCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDateBetweenByCompanyIdsResponse->getMessage(),
+                $getDateBetweenByCompanyIdsResponse->getStatusCode()
+            );
+        }
     }
 
     /**

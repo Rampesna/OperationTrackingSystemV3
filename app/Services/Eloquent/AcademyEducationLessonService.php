@@ -88,6 +88,23 @@ class AcademyEducationLessonService implements IAcademyEducationLessonService
     }
 
     /**
+     * @param array $academyEducationIds
+     *
+     * @return ServiceResponse
+     */
+    public function getByAcademyEducationIds(
+        array $academyEducationIds
+    ): ServiceResponse
+    {
+        return new ServiceResponse(
+            true,
+            'Academy education lessons',
+            200,
+            AcademyEducationLesson::whereIn('academy_education_id', $academyEducationIds)->get()
+        );
+    }
+
+    /**
      * @param int $academyEducationId
      * @param string $name
      * @param int $durationInMinutes
