@@ -92,6 +92,42 @@ class UserService implements IUserService
     }
 
     /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function getProfile(
+        int $id
+    ): ServiceResponse
+    {
+        $user = User::find($id);
+        if ($user) {
+            return new ServiceResponse(
+                true,
+                'User',
+                200,
+                [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'identity' => $user->identity,
+                    'image' => $user->image,
+                    'theme' => $user->theme,
+                    'device_token' => $user->device_token,
+                ]
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'User not found',
+                404,
+                null
+            );
+        }
+    }
+
+    /**
      * @param int $userId
      * @param int $theme
      *

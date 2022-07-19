@@ -12,6 +12,7 @@ use App\Http\Requests\Api\User\UserController\SetSingleCompanyRequest;
 use App\Http\Requests\Api\User\UserController\GetSelectedCompaniesRequest;
 use App\Http\Requests\Api\User\UserController\SetSelectedCompaniesRequest;
 use App\Http\Requests\Api\User\UserController\LoginRequest;
+use App\Http\Requests\Api\User\UserController\GetProfileRequest;
 use App\Http\Requests\Api\User\UserController\SwapThemeRequest;
 use App\Http\Requests\Api\User\UserController\GetByIdRequest;
 use App\Http\Requests\Api\User\UserController\GetByEmailRequest;
@@ -64,6 +65,28 @@ class UserController extends Controller
             return $this->error(
                 $user->getMessage(),
                 $user->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetProfileRequest $request
+     */
+    public function getProfile(GetProfileRequest $request)
+    {
+        $getProfileResponse = $this->userService->getProfile(
+            $request->user()->id
+        );
+        if ($getProfileResponse->isSuccess()) {
+            return $this->success(
+                $getProfileResponse->getMessage(),
+                $getProfileResponse->getData(),
+                $getProfileResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getProfileResponse->getMessage(),
+                $getProfileResponse->getStatusCode()
             );
         }
     }

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Eloquent\IAcademyEducationLessonService;
+use App\Interfaces\Eloquent\IAcademyEducationPlanService;
+use App\Interfaces\Eloquent\IAcademyEducationService;
 use App\Interfaces\Eloquent\IBoardService;
 use App\Interfaces\Eloquent\IBranchService;
 use App\Interfaces\Eloquent\ICommercialCompanyService;
@@ -47,6 +50,9 @@ use App\Interfaces\OperationApi\ISpecialReportService;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Interfaces\OperationApi\ITvScreenService;
 use App\Models\Eloquent\OvertimeType;
+use App\Services\Eloquent\AcademyEducationLessonService;
+use App\Services\Eloquent\AcademyEducationPlanService;
+use App\Services\Eloquent\AcademyEducationService;
 use App\Services\Eloquent\BoardService;
 use App\Services\Eloquent\BranchService;
 use App\Services\Eloquent\CommercialCompanyService;
@@ -137,6 +143,9 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IFoodListCheckService::class, FoodListCheckService::class);
         $this->app->bind(IMarketPaymentService::class, MarketPaymentService::class);
         $this->app->bind(IMarketService::class, MarketService::class);
+        $this->app->bind(IAcademyEducationService::class, AcademyEducationService::class);
+        $this->app->bind(IAcademyEducationLessonService::class, AcademyEducationLessonService::class);
+        $this->app->bind(IAcademyEducationPlanService::class, AcademyEducationPlanService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

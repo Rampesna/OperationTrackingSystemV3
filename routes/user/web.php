@@ -99,6 +99,7 @@ Route::middleware([
 
     Route::prefix('academy')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\AcademyController::class, 'index'])->name('user.web.academy.index');
+        Route::get('education', [\App\Http\Controllers\Web\User\AcademyController::class, 'education'])->name('user.web.academy.education');
     });
 
     Route::prefix('shift')->group(function () {

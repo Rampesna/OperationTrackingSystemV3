@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AcademyEducation extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

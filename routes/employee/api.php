@@ -10,6 +10,7 @@ Route::middleware([
     'auth:employee_api'
 ])->group(function () {
 
+    Route::get('getProfile', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'getProfile'])->name('employee.api.getProfile');
     Route::post('swapTheme', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'swapTheme'])->name('employee.api.swapTheme');
     Route::post('setDeviceToken', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'setDeviceToken'])->name('employee.api.setDeviceToken');
     Route::get('getMarketPayments', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'getMarketPayments'])->name('employee.api.getMarketPayments');

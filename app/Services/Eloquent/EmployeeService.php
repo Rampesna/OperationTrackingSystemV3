@@ -31,13 +31,65 @@ class EmployeeService implements IEmployeeService
         int $id
     ): ServiceResponse
     {
-        $employee = Employee::find($id);
+        $employee = Employee::with([
+            'jobDepartment',
+            'company',
+        ])->find($id);
         if ($employee) {
             return new ServiceResponse(
                 true,
                 'Employee',
                 200,
                 $employee
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Employee not found',
+                404,
+                null
+            );
+        }
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function getProfile(
+        int $id
+    ): ServiceResponse
+    {
+        $employee = Employee::with([
+            'jobDepartment',
+            'company',
+        ])->find($id);
+        if ($employee) {
+            return new ServiceResponse(
+                true,
+                'Employee',
+                200,
+                [
+                    'id' => $employee->id,
+                    'guid' => $employee->guid,
+                    'name' => $employee->name,
+                    'email' => $employee->email,
+                    'phone' => $employee->phone,
+                    'identity' => $employee->identity,
+                    'image' => $employee->image,
+                    'santral_code' => $employee->santral_code,
+                    'device_token' => $employee->device_token,
+                    'theme' => $employee->theme,
+                    'jobDepartment' => [
+                        'id' => $employee->jobDepartment->id,
+                        'name' => $employee->jobDepartment->name,
+                    ],
+                    'company' => [
+                        'id' => $employee->company->id,
+                        'name' => $employee->company->name,
+                    ],
+                ]
             );
         } else {
             return new ServiceResponse(

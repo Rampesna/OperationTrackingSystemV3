@@ -49,6 +49,39 @@ class MarketService implements IMarketService
     }
 
     /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function getProfile(
+        int $id
+    ): ServiceResponse
+    {
+        $market = Market::find($id);
+        if ($market) {
+            return new ServiceResponse(
+                true,
+                'Market',
+                200,
+                [
+                    'id' => $market->id,
+                    'name' => $market->name,
+                    'code' => $market->code,
+                    'image' => $market->image,
+                    'device_token' => $market->device_token,
+                ]
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Market not found',
+                404,
+                null
+            );
+        }
+    }
+
+    /**
      * @param array $ids
      *
      * @return ServiceResponse
@@ -152,7 +185,7 @@ class MarketService implements IMarketService
                 true,
                 'Market payments',
                 200,
-                $market->getData()->payments
+                $market->getData()->marketPayments
             );
         } else {
             return $market;

@@ -18,6 +18,15 @@ interface IUserService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function getProfile(
+        int $id
+    ): ServiceResponse;
+
+    /**
      * @param int $userId
      * @param int $theme
      *

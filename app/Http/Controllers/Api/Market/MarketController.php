@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Market;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Market\MarketController\LoginRequest;
+use App\Http\Requests\Api\Market\MarketController\GetProfileRequest;
 use App\Http\Requests\Api\Market\MarketController\SwapThemeRequest;
 use App\Http\Requests\Api\Market\MarketController\GetMarketPaymentsRequest;
 use App\Interfaces\Eloquent\IMarketService;
@@ -44,6 +45,28 @@ class MarketController extends Controller
             return $this->error(
                 $market->getMessage(),
                 $market->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetProfileRequest $request
+     */
+    public function getProfile(GetProfileRequest $request)
+    {
+        $getProfileResponse = $this->marketService->getProfile(
+            $request->user()->id
+        );
+        if ($getProfileResponse->isSuccess()) {
+            return $this->success(
+                $getProfileResponse->getMessage(),
+                $getProfileResponse->getData(),
+                $getProfileResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getProfileResponse->getMessage(),
+                $getProfileResponse->getStatusCode()
             );
         }
     }

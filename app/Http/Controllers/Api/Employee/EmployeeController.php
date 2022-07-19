@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\EmployeeController\LoginRequest;
+use App\Http\Requests\Api\Employee\EmployeeController\GetProfileRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SwapThemeRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetMarketPaymentsRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SetDeviceTokenRequest;
@@ -47,6 +48,28 @@ class EmployeeController extends Controller
             return $this->error(
                 $employee->getMessage(),
                 $employee->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetProfileRequest $request
+     */
+    public function getProfile(GetProfileRequest $request)
+    {
+        $getProfileResponse = $this->employeeService->getProfile(
+            $request->user()->id
+        );
+        if ($getProfileResponse->isSuccess()) {
+            return $this->success(
+                $getProfileResponse->getMessage(),
+                $getProfileResponse->getData(),
+                $getProfileResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getProfileResponse->getMessage(),
+                $getProfileResponse->getStatusCode()
             );
         }
     }

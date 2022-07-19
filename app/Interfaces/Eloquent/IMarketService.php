@@ -16,6 +16,15 @@ interface IMarketService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function getProfile(
+        int $id
+    ): ServiceResponse;
+
+    /**
      * @param int $marketId
      * @param int $theme
      *

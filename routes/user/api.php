@@ -13,6 +13,7 @@ Route::middleware([
     'UserCheckSuspend'
 ])->group(function () {
 
+    Route::get('getProfile', [\App\Http\Controllers\Api\User\UserController::class, 'getProfile'])->name('user.api.getProfile');
     Route::get('getCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'getCompanies'])->name('user.api.getCompanies');
     Route::post('setCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'setCompanies'])->name('user.api.setCompanies');
     Route::post('setSingleCompany', [\App\Http\Controllers\Api\User\UserController::class, 'setSingleCompany'])->name('user.api.setSingleCompany');
@@ -100,6 +101,25 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'create'])->name('user.api.jobDepartment.create');
         Route::put('update', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'update'])->name('user.api.jobDepartment.update');
         Route::delete('delete', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'delete'])->name('user.api.jobDepartment.delete');
+    });
+
+    Route::prefix('academyEducation')->group(function () {
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\AcademyEducationController::class, 'getByCompanyIds'])->name('user.api.academyEducation.getByCompanyIds');
+        Route::get('getById', [\App\Http\Controllers\Api\User\AcademyEducationController::class, 'getById'])->name('user.api.academyEducation.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\AcademyEducationController::class, 'create'])->name('user.api.academyEducation.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\AcademyEducationController::class, 'update'])->name('user.api.academyEducation.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\AcademyEducationController::class, 'delete'])->name('user.api.academyEducation.delete');
+    });
+
+    Route::prefix('academyEducationLesson')->group(function () {
+        Route::get('getByAcademyEducationId', [\App\Http\Controllers\Api\User\AcademyEducationLessonController::class, 'getByAcademyEducationId'])->name('user.api.academyEducationLesson.getByAcademyEducationId');
+        Route::post('create', [\App\Http\Controllers\Api\User\AcademyEducationLessonController::class, 'create'])->name('user.api.academyEducationLesson.create');
+        Route::put('updateByParameters', [\App\Http\Controllers\Api\User\AcademyEducationLessonController::class, 'updateByParameters'])->name('user.api.academyEducationLesson.updateByParameters');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\AcademyEducationLessonController::class, 'delete'])->name('user.api.academyEducationLesson.delete');
+    });
+
+    Route::prefix('academyEducationPlan')->group(function () {
+        Route::post('createBatch', [\App\Http\Controllers\Api\User\AcademyEducationPlanController::class, 'createBatch'])->name('user.api.academyEducationPlan.createBatch');
     });
 
     Route::prefix('queue')->group(function () {
