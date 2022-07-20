@@ -22,6 +22,24 @@ interface IAcademyEducationPlanService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $id
+     * @param int $academyEducationLessonId
+     * @param string $educationist
+     * @param string $startDatetime
+     * @param int $academyEducationPlanTypeId
+     * @param string $location
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int    $id,
+        string $educationist,
+        string $startDatetime,
+        int    $academyEducationPlanTypeId,
+        string $location
+    ): ServiceResponse;
+
+    /**
      * @param array $companyIds
      * @param string $startDate
      * @param string $endDate

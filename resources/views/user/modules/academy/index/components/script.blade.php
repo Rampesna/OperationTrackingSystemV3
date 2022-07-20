@@ -3,15 +3,28 @@
 
 <script>
 
-    $(document).ready(function () {
-        $('#loader').hide();
-    });
+    function controlMobile() {
+        if (detectMobile()) {
+            $('#updateAcademyEducationPlanDrawer').attr('data-kt-drawer-width', '90%');
+        } else {
+            $('#updateAcademyEducationPlanDrawer').attr('data-kt-drawer-width', '900px');
+        }
+    }
+
+    controlMobile();
 
     var academyEducationLessonsRow = $('#academyEducationLessonsRow');
+    var academyEducationPlanParticipantsRow = $('#academyEducationPlanParticipantsRow');
 
     var createAcademyEducationPlanAcademyEducationId = $('#create_academy_education_plan_academy_education_id');
+    var updateAcademyEducationPlanEmployeeIds = $('#update_academy_education_plan_employee_ids');
 
+    var updateAcademyEducationPlanDrawerButton = $('#updateAcademyEducationPlanDrawerButton');
     var CreateAcademyEducationPlanButton = $('#CreateAcademyEducationPlanButton');
+    var UpdateAcademyEducationPlanButton = $('#UpdateAcademyEducationPlanButton');
+    var DeleteAcademyEducationPlanModalButton = $('#DeleteAcademyEducationPlanModalButton');
+    var DeleteAcademyEducationPlanButton = $('#DeleteAcademyEducationPlanButton');
+    var ParticipantsAcademyEducationPlanButton = $('#ParticipantsAcademyEducationPlanButton');
 
     function getAcademyEducations() {
         $.ajax({
@@ -41,7 +54,73 @@
         });
     }
 
+    function getEmployeesByCompanyIds() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.employee.getByCompanyIds') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                companyIds: SelectedCompanies.val(),
+                pageIndex: 0,
+                pageSize: 1000,
+                leave: 0
+            },
+            success: function (response) {
+                updateAcademyEducationPlanEmployeeIds.empty();
+                $.each(response.response, function (i, employee) {
+                    updateAcademyEducationPlanEmployeeIds.append(`
+                        <option value="${employee.id}">${employee.name}</option>
+                    `);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personeller Alınırken Serviste Bir Sorun Oluştu! Lütfen Geliştiri Ekibi İle İletişime Geçin!');
+            }
+        });
+    }
+
+    function getAcademyEducationPlanParticipants() {
+        var academyEducationPlanId = $('#update_academy_education_plan_id').val();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.academyEducationPlanParticipant.getByAcademyEducationPlanId') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                academyEducationPlanId: academyEducationPlanId,
+            },
+            success: function (response) {
+                academyEducationPlanParticipantsRow.empty();
+                $.each(response.response, function (i, academyEducationPlanParticipant) {
+                    academyEducationPlanParticipantsRow.append(`
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="input-group mb-5">
+                                <button class="btn btn-sm btn-icon btn-${parseInt(academyEducationPlanParticipant.attendance) === 1 ? `success` : `warning`} setAttendanceButton" data-id="${academyEducationPlanParticipant.id}" data-attendance="${academyEducationPlanParticipant.attendance}">
+                                    <i class="fa fa-check-circle"></i>
+                                </button>
+                                <input type="text" class="form-control form-control-sm form-control-solid" value="${academyEducationPlanParticipant.employee ? academyEducationPlanParticipant.employee.name : ``}" aria-label="${academyEducationPlanParticipant.employee ? academyEducationPlanParticipant.employee.name : ``}" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                });
+                $('#AcademyEducationPlanParticipantsModal').modal('show');
+            },
+            error: function () {
+
+            }
+        });
+    }
+
     getAcademyEducations();
+    getEmployeesByCompanyIds();
 
     function transactions() {
         $('#TransactionsModal').modal('show');
@@ -58,6 +137,10 @@
         academyEducationLessonsRow.empty();
         CreateAcademyEducationPlanButton.attr('disabled', true);
         $('#CreateAcademyEducationPlanModal').modal('show');
+    }
+
+    function deleteAcademyEducationPlan() {
+        $('#DeleteAcademyEducationPlanModal').modal('show');
     }
 
     const element = document.getElementById("calendar");
@@ -89,12 +172,63 @@
         navLinks: true,
 
         dateClick: function (info) {
-            console.log(info);
-            toastr.info(info.dateStr);
+
         },
 
         eventClick: function (info) {
+            $('#loader').show();
+            $('.fc-popover-close').click();
+            var id = info.event._def.extendedProps._id;
+            $.ajax({
+                type: 'get',
+                url: '{{ route('user.api.academyEducationPlan.getById') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                },
+                success: function (response) {
+                    $('#update_academy_education_plan_id').val(response.response.id);
+                    $('#updateAcademyEducationPlanLessonNameSpan').html(response.response.academy_education_lesson.name);
+                    $('#update_academy_education_plan_start_datetime').val(reformatDatetimeForInput(response.response.start_datetime));
+                    $('#update_academy_education_plan_educationist').val(response.response.educationist);
+                    $('#update_academy_education_plan_academy_education_plan_type_id').val(response.response.academy_education_plan_type_id).trigger('change');
+                    $('#update_academy_education_plan_location').val(response.response.location);
+                    updateAcademyEducationPlanDrawerButton.trigger('click');
+                    $('#loader').hide();
 
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Eğitim Planı Verileri Alınırken Serviste Bir Sorun Oluştu! Lütfen Geliştiri Ekibi İle İletişime Geçin!');
+                    $('#loader').hide();
+                }
+            });
+            $.ajax({
+                type: 'get',
+                url: '{{ route('user.api.academyEducationPlanParticipant.getByAcademyEducationPlanId') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    academyEducationPlanId: id,
+                },
+                success: function (response) {
+                    updateAcademyEducationPlanEmployeeIds.val(
+                        $.map(response.response, function (academyEducationPlanParticipant) {
+                            return parseInt(academyEducationPlanParticipant.employee_id);
+                        })
+                    ).trigger('change');
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Eğitim Planı Verileri Alınırken Serviste Bir Sorun Oluştu! Lütfen Geliştiri Ekibi İle İletişime Geçin!');
+                    $('#loader').hide();
+                }
+            });
         },
 
         events: function (info, successCallback) {
@@ -132,7 +266,7 @@
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('Vardiyalar Alınırken Serviste Bir sorun Oluştu!');
+                    toastr.error('Eğitim Planları Alınırken Serviste Bir sorun Oluştu!');
                     $('#loader').hide();
                 }
             });
@@ -271,6 +405,132 @@
         }
     });
 
+    UpdateAcademyEducationPlanButton.click(function () {
+        var id = $('#update_academy_education_plan_id').val();
+        var startDatetime = $('#update_academy_education_plan_start_datetime').val();
+        var educationist = $('#update_academy_education_plan_educationist').val();
+        var academyEducationPlanTypeId = $('#update_academy_education_plan_academy_education_plan_type_id').val();
+        var location = $('#update_academy_education_plan_location').val();
+
+        if (!startDatetime) {
+            toastr.warning('Eğitim Başlangıcı Boş Olamaz!');
+        } else if (!educationist) {
+            toastr.warning('Eğitmen Boş Olamaz!');
+        } else if (!academyEducationPlanTypeId) {
+            toastr.warning('Eğitim Türü Boş Olamaz!');
+        } else if (!location) {
+            toastr.warning('Eğitim Adresi Boş Olamaz!');
+        } else {
+            UpdateAcademyEducationPlanButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.academyEducationPlan.update') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                    startDatetime: startDatetime,
+                    educationist: educationist,
+                    academyEducationPlanTypeId: academyEducationPlanTypeId,
+                    location: location,
+                },
+                success: function () {
+                    UpdateAcademyEducationPlanButton.prop('disabled', false).html('Güncelle');
+                    toastr.success('Eğitim Planı Başarıyla Güncellendi!');
+                    calendar.refetchEvents();
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Eğitim Planı Güncellenirken Serviste Bir Sorun Oluştu! Lütfen Geliştiri Ekibi İle İletişime Geçin!');
+                    UpdateAcademyEducationPlanButton.prop('disabled', false).html('Güncelle');
+                }
+            });
+            $.ajax({
+                type: 'post',
+                url: '{{ route('user.api.academyEducationPlanParticipant.syncAcademyEducationPlanParticipants') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    academyEducationPlanId: id,
+                    employeeIds: updateAcademyEducationPlanEmployeeIds.val() ?? []
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Katılımcı Listesi Güncellenirken Serviste Bir Sorun Oluştu! Lütfen Geliştiri Ekibi İle İletişime Geçin!');
+                }
+            });
+        }
+    });
+
+    DeleteAcademyEducationPlanModalButton.click(function () {
+        deleteAcademyEducationPlan();
+    });
+
+    DeleteAcademyEducationPlanButton.click(function () {
+        var id = $('#update_academy_education_plan_id').val();
+        DeleteAcademyEducationPlanButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('user.api.academyEducationPlan.delete') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function () {
+                toastr.success('Eğitim Planı Başarıyla Silindi!');
+                DeleteAcademyEducationPlanButton.prop('disabled', false).html('Sil');
+                updateAcademyEducationPlanDrawerButton.trigger('click');
+                $('#DeleteAcademyEducationPlanModal').modal('hide');
+                calendar.refetchEvents();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Eğitim Planı Silinirken Serviste Bir Sorun Oluştu! Lütfen Geliştiri Ekibi İle İletişime Geçin!');
+                DeleteAcademyEducationPlanButton.prop('disabled', false).html('Sil');
+            }
+        });
+    });
+
+    ParticipantsAcademyEducationPlanButton.click(function () {
+        getAcademyEducationPlanParticipants();
+    });
+
+    $(document).delegate('.setAttendanceButton', 'click', function () {
+        var id = $(this).data('id');
+        var attendance = parseInt($(this).data('attendance')) === 1 ? 0 : 1;
+        var attendanceButton = $(this);
+        attendanceButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.academyEducationPlanParticipant.setAttendance') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+                attendance: attendance,
+            },
+            success: function () {
+                getAcademyEducationPlanParticipants();
+                attendanceButton.attr('disabled', false);
+                attendance === 1 ? attendanceButton.removeClass('btn-warning').addClass('btn-success') : attendanceButton.removeClass('btn-success').addClass('btn-warning');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Durum Güncellenirken Serviste Bir Sorun Oluştu! Lütfen Geliştiri Ekibi İle İletişime Geçin!');
+                attendanceButton.attr('disabled', false).html('<i class="fa fa-check-circle"></i>');
+            }
+        });
+    });
+
     $('body').on('contextmenu', function () {
         transactions();
         return false;
@@ -278,6 +538,8 @@
 
     SelectedCompanies.change(function () {
         calendar.refetchEvents();
+        getAcademyEducations();
+        getEmployeesByCompanyIds();
     });
 
 </script>

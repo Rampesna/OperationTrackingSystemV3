@@ -14,8 +14,12 @@
 
 @section('content')
 
+    @include('user.modules.academy.index.drawers.updateAcademyEducationPlan')
+
     @include('user.modules.academy.index.modals.transactions')
     @include('user.modules.academy.index.modals.createAcademyEducationPlan')
+    @include('user.modules.academy.index.modals.deleteAcademyEducationPlan')
+    @include('user.modules.academy.index.modals.academyEducationPlanParticipants')
 
     <div class="row">
         <div class="col-xl-3 d-grid">

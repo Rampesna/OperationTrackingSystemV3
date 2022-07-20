@@ -166,6 +166,7 @@
 
         eventClick: function (info) {
             $('#loader').show();
+            $('.fc-popover-close').click();
             $.ajax({
                 type: 'get',
                 url: '{{ route('user.api.shift.getById') }}',

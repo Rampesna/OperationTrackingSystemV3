@@ -40,7 +40,7 @@ class AcademyEducationPlanService implements IAcademyEducationPlanService
     {
         return new ServiceResponse(
             true,
-            'All academy education lessons',
+            'All academy education plans',
             200,
             AcademyEducationPlan::all()
         );
@@ -55,18 +55,25 @@ class AcademyEducationPlanService implements IAcademyEducationPlanService
         int $id
     ): ServiceResponse
     {
-        $academyEducationPlan = AcademyEducationPlan::find($id);
+        $academyEducationPlan = AcademyEducationPlan::with([
+            'participants' => function ($participants) {
+                $participants->with([
+                    'employee'
+                ]);
+            },
+            'academyEducationLesson'
+        ])->find($id);
         if ($academyEducationPlan) {
             return new ServiceResponse(
                 true,
-                'Academy education lesson',
+                'Academy education plan',
                 200,
                 $academyEducationPlan
             );
         } else {
             return new ServiceResponse(
                 false,
-                'Academy education not found',
+                'Academy education plan not found',
                 404,
                 null
             );
@@ -86,7 +93,7 @@ class AcademyEducationPlanService implements IAcademyEducationPlanService
         if ($academyEducationPlan->isSuccess()) {
             return new ServiceResponse(
                 true,
-                'Academy education deleted',
+                'Academy education plan deleted',
                 200,
                 $academyEducationPlan->getData()->delete()
             );
@@ -129,6 +136,42 @@ class AcademyEducationPlanService implements IAcademyEducationPlanService
             200,
             AcademyEducationPlan::insert($academyEducationPlansForCreate)
         );
+    }
+
+    /**
+     * @param int $id
+     * @param int $academyEducationLessonId
+     * @param string $educationist
+     * @param string $startDatetime
+     * @param int $academyEducationPlanTypeId
+     * @param string $location
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int    $id,
+        string $educationist,
+        string $startDatetime,
+        int    $academyEducationPlanTypeId,
+        string $location
+    ): ServiceResponse
+    {
+        $academyEducationPlan = $this->getById($id);
+        if ($academyEducationPlan->isSuccess()) {
+            $academyEducationPlan->getData()->educationist = $educationist;
+            $academyEducationPlan->getData()->start_datetime = $startDatetime;
+            $academyEducationPlan->getData()->academy_education_plan_type_id = $academyEducationPlanTypeId;
+            $academyEducationPlan->getData()->location = $location;
+            $academyEducationPlan->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Academy education plan updated',
+                200,
+                $academyEducationPlan->getData()
+            );
+        } else {
+            return $academyEducationPlan;
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\Eloquent\IAcademyEducationLessonService;
+use App\Interfaces\Eloquent\IAcademyEducationPlanParticipantService;
 use App\Interfaces\Eloquent\IAcademyEducationPlanService;
 use App\Interfaces\Eloquent\IAcademyEducationService;
 use App\Interfaces\Eloquent\IBoardService;
@@ -51,6 +52,7 @@ use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Interfaces\OperationApi\ITvScreenService;
 use App\Models\Eloquent\OvertimeType;
 use App\Services\Eloquent\AcademyEducationLessonService;
+use App\Services\Eloquent\AcademyEducationPlanParticipantService;
 use App\Services\Eloquent\AcademyEducationPlanService;
 use App\Services\Eloquent\AcademyEducationService;
 use App\Services\Eloquent\BoardService;
@@ -146,6 +148,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IAcademyEducationService::class, AcademyEducationService::class);
         $this->app->bind(IAcademyEducationLessonService::class, AcademyEducationLessonService::class);
         $this->app->bind(IAcademyEducationPlanService::class, AcademyEducationPlanService::class);
+        $this->app->bind(IAcademyEducationPlanParticipantService::class, AcademyEducationPlanParticipantService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

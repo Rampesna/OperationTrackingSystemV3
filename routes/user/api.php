@@ -120,7 +120,16 @@ Route::middleware([
 
     Route::prefix('academyEducationPlan')->group(function () {
         Route::get('getDateBetweenByCompanyIds', [\App\Http\Controllers\Api\User\AcademyEducationPlanController::class, 'getDateBetweenByCompanyIds'])->name('user.api.academyEducationPlan.getDateBetweenByCompanyIds');
+        Route::get('getById', [\App\Http\Controllers\Api\User\AcademyEducationPlanController::class, 'getById'])->name('user.api.academyEducationPlan.getById');
         Route::post('createBatch', [\App\Http\Controllers\Api\User\AcademyEducationPlanController::class, 'createBatch'])->name('user.api.academyEducationPlan.createBatch');
+        Route::put('update', [\App\Http\Controllers\Api\User\AcademyEducationPlanController::class, 'update'])->name('user.api.academyEducationPlan.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\AcademyEducationPlanController::class, 'delete'])->name('user.api.academyEducationPlan.delete');
+    });
+
+    Route::prefix('academyEducationPlanParticipant')->group(function () {
+        Route::get('getByAcademyEducationPlanId', [\App\Http\Controllers\Api\User\AcademyEducationPlanParticipantController::class, 'getByAcademyEducationPlanId'])->name('user.api.academyEducationPlanParticipant.getByAcademyEducationPlanId');
+        Route::post('syncAcademyEducationPlanParticipants', [\App\Http\Controllers\Api\User\AcademyEducationPlanParticipantController::class, 'syncAcademyEducationPlanParticipants'])->name('user.api.academyEducationPlanParticipant.syncAcademyEducationPlanParticipants');
+        Route::put('setAttendance', [\App\Http\Controllers\Api\User\AcademyEducationPlanParticipantController::class, 'setAttendance'])->name('user.api.academyEducationPlanParticipant.setAttendance');
     });
 
     Route::prefix('queue')->group(function () {

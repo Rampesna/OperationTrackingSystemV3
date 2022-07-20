@@ -19,4 +19,9 @@ class AcademyEducationPlan extends Model
     {
         return $this->belongsTo(AcademyEducationLesson::class);
     }
+
+    public function participants()
+    {
+        return $this->hasMany(AcademyEducationPlanParticipant::class, 'academy_education_plan_id', 'id');
+    }
 }

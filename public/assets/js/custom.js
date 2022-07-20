@@ -56,7 +56,7 @@ Inputmask({mask: "9999 9999 9999 9999"}).mask(".creditCardMask");
 Inputmask({
     mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
     greedy: false,
-    onBeforePaste: function (pastedValue, opts) {
+    onBeforePaste: function (pastedValue) {
         pastedValue = pastedValue.toLowerCase();
         return pastedValue.replace("mailto:", "");
     },
@@ -161,6 +161,15 @@ function reformatDatetime(date) {
         String(formattedDate.getSeconds()).padStart(2, '0');
 }
 
+function reformatDatetimeForInput(date) {
+    var formattedDate = new Date(date);
+    return formattedDate.getFullYear() + '-' +
+        String(formattedDate.getMonth() + 1).padStart(2, '0') + '-' +
+        String(formattedDate.getDate()).padStart(2, '0') + 'T' +
+        String(formattedDate.getHours()).padStart(2, '0') + ':' +
+        String(formattedDate.getMinutes()).padStart(2, '0');
+}
+
 function reformatDatetimeTo_YYYY_MM_DD_WithDot(date) {
     var formattedDate = new Date(date);
     return formattedDate.getFullYear() + '.' +
@@ -229,16 +238,11 @@ function reformatNumberToMoney(number) {
 }
 
 function detectMobile() {
-    if (navigator.userAgent.match(/Android/i)
+    return !!(navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/webOS/i)
         || navigator.userAgent.match(/iPhone/i)
         || navigator.userAgent.match(/BlackBerry/i)
-        || navigator.userAgent.match(/Windows Phone/i)
-    ) {
-        return true;
-    } else {
-        return false;
-    }
+        || navigator.userAgent.match(/Windows Phone/i));
 }
 
 function checkScreen() {
@@ -250,7 +254,7 @@ function checkScreen() {
         $('#mobileFooter').show();
 
         $('#kt_body').swipe({
-            swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+            swipe: function (event, direction, distance) {
                 if (detectMobile() && distance > 150) {
                     if (direction === 'right') {
                         $('#kt_aside_mobile_toggle').trigger('click');
@@ -287,7 +291,7 @@ $(window).resize(function () {
 
 checkScreen();
 
-$('.modal').on('shown.bs.modal', function (e) {
+$('.modal').on('shown.bs.modal', function () {
     $(this).find('.select2Input').select2({
         dropdownParent: $(this).find('.modal-content')
     });
