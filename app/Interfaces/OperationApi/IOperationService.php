@@ -373,12 +373,12 @@ interface IOperationService
     ): ServiceResponse;
 
     /**
-     * @param int $id
+     * @param int $shiftId
      *
      * @return ServiceResponse
      */
     public function GetStaffParameterEdit(
-        int $id
+        int $shiftId
     ): ServiceResponse;
 
     /**

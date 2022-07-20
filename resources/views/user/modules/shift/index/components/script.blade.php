@@ -3,6 +3,8 @@
 
 <script>
 
+    var allShiftGroups = [];
+
     var keywordFilter = $('#keyword');
     var jobDepartmentFilter = $('#jobDepartment');
     var shiftGroupFilter = $('#shiftGroup');
@@ -10,6 +12,7 @@
     var robotCompanyId = $('#robot_company_id');
     var setStaffParameterCompanyIds = $('#set_staff_parameter_company_ids');
     var deleteMultipleCompanyIds = $('#delete_multiple_company_ids');
+    var updateShiftShiftGroupId = $('#update_shift_shift_group_id');
 
     var FilterButton = $('#FilterButton');
     var RobotButton = $('#RobotButton');
@@ -61,10 +64,14 @@
                 pageSize: 1000
             },
             success: function (response) {
+                allShiftGroups = response.response.shiftGroups;
                 shiftGroupFilter.attr('disabled', false);
                 shiftGroupFilter.empty();
                 $.each(response.response.shiftGroups, function (index, shiftGroup) {
                     shiftGroupFilter.append(`
+                    <option value="${shiftGroup.id}">${shiftGroup.name}</option>
+                    `);
+                    updateShiftShiftGroupId.append(`
                     <option value="${shiftGroup.id}">${shiftGroup.name}</option>
                     `);
                 });
@@ -127,6 +134,57 @@
         $('#DeleteMultipleModal').modal('show');
     }
 
+    function swapShiftEmployee() {
+        $('#ShowModal').modal('hide');
+        $('#SwapShiftEmployeeModal').modal('show');
+    }
+
+    function updateShift() {
+        var shiftId = $('#update_shift_id').val();
+        $('#ShowModal').modal('hide');
+        $('#loader').show();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.operationApi.operation.getStaffParameterEdit') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                shiftId: shiftId,
+            },
+            success: function (response) {
+                $('#update_shift_food_break_start').val(response.response.yemekBaslangicSaatiStr.split(' ')[1]);
+                $('#update_shift_food_break_end').val(response.response.yemekBitisSaatiStr.split(' ')[1]);
+                $('#update_shift_get_break_while_food_time').val(response.response.yemekMolasindaIhtiyacMolasi);
+                $('#update_shift_get_food_break_without_food_time').val(response.response.yemekMolasiDisindaYemekMolasi);
+                $('#update_shift_single_break_duration').val(response.response.birMolaHakkiDakikasi);
+                $('#update_shift_get_first_break_after_shift_start').val(response.response.vardiyaBasiIlkMolaHakkiDakikasi);
+                $('#update_shift_get_last_break_before_shift_end').val(response.response.vardiyaSonuMolaYasagiDakikasi);
+                $('#update_shift_get_break_after_last_break').val(response.response.sonMoladanSonraMolaMusadesiDakikasi);
+                $('#update_shift_daily_food_break_amount').val(response.response.gunlukYemekMolasiHakkiSayisi);
+                $('#update_shift_daily_break_duration').val(response.response.gunlukToplamMolaDakikasi);
+                $('#update_shift_daily_food_break_duration').val(response.response.gunlukYemekMolasiDakikasi);
+                $('#update_shift_daily_break_break_duration').val(response.response.gunlukIhtiyacMolasiDakikasi);
+                $('#update_shift_momentary_food_break_duration').val(response.response.anlikYemekMolasiDakikasi);
+                $('#update_shift_momentary_break_break_duration').val(response.response.anlikIhtiyacMolasiDakikasi);
+                $('#update_shift_suspend_break_using').val(response.response.molaKullanimKisitlamasiVarMi);
+                $('#UpdateShiftModal').modal('show');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Vardiya Bilgileri Alınırken Serviste Bir Sorun Oluştu!');
+                $('#loader').hide();
+            }
+        });
+    }
+
+    function deleteShift() {
+        $('#ShowModal').modal('hide');
+        $('#DeleteShiftModal').modal('show');
+    }
+
     getJobDepartments();
     getShiftGroups();
     getCompanies();
@@ -178,7 +236,15 @@
                     id: info.event.id
                 },
                 success: function (response) {
-                    console.log(response);
+                    $('#show_shift_employee_name').text(response.response.employee.name);
+                    $('#show_shift_start_date').text(reformatDatetimeToDatetimeForHuman(response.response.start_date));
+                    $('#show_shift_end_date').text(reformatDatetimeToDatetimeForHuman(response.response.end_date));
+                    $('#update_shift_id').val(response.response.id);
+                    $('#update_shift_employee_name_span').text(`${response.response.employee.name} - Vardiya Güncelle`);
+                    updateShiftShiftGroupId.val(response.response.shift_group_id).trigger('change');
+                    $('#update_shift_date').val(response.response.start_date);
+                    $('#update_shift_start_date').val(reformatDatetimeForInput(response.response.start_date));
+                    $('#update_shift_end_date').val(reformatDatetimeForInput(response.response.end_date));
                     $('#ShowModal').modal('show');
                     $('#loader').hide();
                 },
@@ -422,6 +488,32 @@
                 }
             });
         }
+    });
+
+    updateShiftShiftGroupId.change(function () {
+        var shiftGroup = allShiftGroups.find(shiftGroup => shiftGroup.id === parseInt(updateShiftShiftGroupId.val()));
+        var selectedShiftStartDateForJquery = new Date($('#update_shift_date').val());
+        var date = reformatDatetimeTo_YYYY_MM_DD(selectedShiftStartDateForJquery);
+        var startTimeVariable = `day${selectedShiftStartDateForJquery.getDay()}_start_time`;
+        var endTimeVariable = `day${selectedShiftStartDateForJquery.getDay()}_end_time`;
+
+        $('#update_shift_start_date').val(`${date}T${shiftGroup[startTimeVariable]}`);
+        $('#update_shift_end_date').val(`${date}T${shiftGroup[endTimeVariable]}`);
+        $('#update_shift_food_break_start').val(shiftGroup.food_break_start);
+        $('#update_shift_food_break_end').val(shiftGroup.food_break_end);
+        $('#update_shift_get_break_while_food_time').val(shiftGroup.get_break_while_food_time);
+        $('#update_shift_get_food_break_without_food_time').val(shiftGroup.get_food_break_without_food_time);
+        $('#update_shift_single_break_duration').val(shiftGroup.single_break_duration);
+        $('#update_shift_get_first_break_after_shift_start').val(shiftGroup.get_first_break_after_shift_start);
+        $('#update_shift_get_last_break_before_shift_end').val(shiftGroup.get_last_break_before_shift_end);
+        $('#update_shift_get_break_after_last_break').val(shiftGroup.get_break_after_last_break);
+        $('#update_shift_daily_food_break_amount').val(shiftGroup.daily_food_break_amount);
+        $('#update_shift_daily_break_duration').val(shiftGroup.daily_break_duration);
+        $('#update_shift_daily_food_break_duration').val(shiftGroup.daily_food_break_duration);
+        $('#update_shift_daily_break_break_duration').val(shiftGroup.daily_break_break_duration);
+        $('#update_shift_momentary_food_break_duration').val(shiftGroup.momentary_food_break_duration);
+        $('#update_shift_momentary_break_break_duration').val(shiftGroup.momentary_break_break_duration);
+        $('#update_shift_suspend_break_using').val(shiftGroup.suspend_break_using);
     });
 
     SelectedCompanies.change(function () {

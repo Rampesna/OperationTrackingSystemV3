@@ -952,12 +952,12 @@ class OperationService extends OperationApiService implements IOperationService
     }
 
     /**
-     * @param int $id
+     * @param int $shiftId
      *
      * @return ServiceResponse
      */
     public function GetStaffParameterEdit(
-        int $id
+        int $shiftId
     ): ServiceResponse
     {
         $endpoint = "Operation/GetStaffParameterEdit";
@@ -966,14 +966,14 @@ class OperationService extends OperationApiService implements IOperationService
         ];
 
         $params = [
-            'VardiyaId' => $id
+            'VardiyaId' => $shiftId
         ];
 
         return new ServiceResponse(
             true,
             'Get staff parameter edit',
             200,
-            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'get', $headers, $params)['response']
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'get', $headers, $params)['response'][0]
         );
     }
 

@@ -19,6 +19,7 @@
     @include('user.modules.shift.index.modals.setStaffParameter')
     @include('user.modules.shift.index.modals.deleteMultiple')
     @include('user.modules.shift.index.modals.show')
+    @include('user.modules.shift.index.modals.updateShift')
 
     <div class="row">
         <div class="col-xl-12 mb-5">
@@ -28,7 +29,7 @@
                         <div class="col-xl-6 mb-5">
                             <div class="form-group">
                                 <label style="width: 100%">
-                                    <input id="keyword" type="text" class="form-control" placeholder="Personel Arayın..." aria-hidden="true">
+                                    <input id="keyword" type="text" class="form-control" placeholder="Personel Arayın..." aria-hidden="true" value="Talha">
                                 </label>
                             </div>
                         </div>

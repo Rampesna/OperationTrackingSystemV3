@@ -22,18 +22,18 @@
                         <div class="row text-center">
                             <div class="col-6 border-right pb-4 pt-4">
                                 <label class="mb-0">Başlangıç</label>
-                                <h6 id="shift_start_date" class="font-20 font-weight-bold text-col-blue">--</h6>
+                                <h6 id="show_shift_start_date" class="font-20 font-weight-bold text-col-blue">--</h6>
                             </div>
                             <div class="col-6 pb-4 pt-4">
                                 <label class="mb-0">Bitiş</label>
-                                <h6 id="shift_end_date" class="font-20 font-weight-bold text-col-blue">--</h6>
+                                <h6 id="show_shift_end_date" class="font-20 font-weight-bold text-col-blue">--</h6>
                             </div>
                         </div>
                         <hr class="text-muted">
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn btn-info me-3">Personel Değiştir</button>
-                        <button type="button" class="btn btn-primary me-3">Düzenle</button>
+                        <button type="button" class="btn btn-info me-3" onclick="swapShiftEmployee()">Personel Değiştir</button>
+                        <button type="button" class="btn btn-primary me-3" onclick="updateShift()">Düzenle</button>
                         <button type="button" class="btn btn-danger" onclick="deleteShift()">Sil</button>
                     </div>
                 </div>

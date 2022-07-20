@@ -248,6 +248,7 @@ Route::middleware([
             Route::post('setEmployee', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setEmployee'])->name('user.api.operationApi.operation.setEmployee');
             Route::get('getDataScreening', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getDataScreening'])->name('user.api.operationApi.operation.getDataScreening');
             Route::post('setStaffParameter', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setStaffParameter'])->name('user.api.operationApi.operation.setStaffParameter');
+            Route::get('getStaffParameterEdit', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getStaffParameterEdit'])->name('user.api.operationApi.operation.getStaffParameterEdit');
         });
 
         Route::prefix('personSystem')->group(function () {

@@ -57,7 +57,8 @@ class ShiftService implements IShiftService
     ): ServiceResponse
     {
         $shift = Shift::with([
-            'shiftGroup'
+            'shiftGroup',
+            'employee'
         ])->find($id);
         if ($shift) {
             return new ServiceResponse(
