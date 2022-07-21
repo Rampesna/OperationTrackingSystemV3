@@ -10,6 +10,7 @@ use App\Http\Requests\Api\User\ShiftController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\ShiftController\CreateBatchRequest;
 use App\Http\Requests\Api\User\ShiftController\UpdateRequest;
 use App\Http\Requests\Api\User\ShiftController\RobotRequest;
+use App\Http\Requests\Api\User\ShiftController\DeleteRequest;
 use App\Http\Requests\Api\User\ShiftController\DeleteByIdsRequest;
 use App\Interfaces\Eloquent\IShiftService;
 use App\Traits\Response;
@@ -195,6 +196,28 @@ class ShiftController extends Controller
             return $this->error(
                 $robotResponse->getMessage(),
                 $robotResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param DeleteRequest $request
+     */
+    public function delete(DeleteRequest $request)
+    {
+        $deleteResponse = $this->shiftService->delete(
+            $request->id
+        );
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
             );
         }
     }

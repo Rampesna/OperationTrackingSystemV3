@@ -198,6 +198,7 @@ Route::middleware([
         Route::post('createBatch', [\App\Http\Controllers\Api\User\ShiftController::class, 'createBatch'])->name('user.api.shift.createBatch');
         Route::put('update', [\App\Http\Controllers\Api\User\ShiftController::class, 'update'])->name('user.api.shift.update');
         Route::post('robot', [\App\Http\Controllers\Api\User\ShiftController::class, 'robot'])->name('user.api.shift.robot');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\ShiftController::class, 'delete'])->name('user.api.shift.delete');
         Route::delete('deleteByIds', [\App\Http\Controllers\Api\User\ShiftController::class, 'deleteByIds'])->name('user.api.shift.deleteByIds');
     });
 
@@ -252,6 +253,7 @@ Route::middleware([
             Route::get('getDataScreening', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getDataScreening'])->name('user.api.operationApi.operation.getDataScreening');
             Route::post('setStaffParameter', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setStaffParameter'])->name('user.api.operationApi.operation.setStaffParameter');
             Route::get('getStaffParameterEdit', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getStaffParameterEdit'])->name('user.api.operationApi.operation.getStaffParameterEdit');
+            Route::post('setStaffParameterDelete', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setStaffParameterDelete'])->name('user.api.operationApi.operation.setStaffParameterDelete');
         });
 
         Route::prefix('personSystem')->group(function () {

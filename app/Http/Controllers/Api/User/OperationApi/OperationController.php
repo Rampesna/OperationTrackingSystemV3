@@ -17,6 +17,7 @@ use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeTasks
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeWorkTasksInsertRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetStaffParameterRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\GetStaffParameterEditRequest;
+use App\Http\Requests\Api\User\OperationApi\OperationController\SetStaffParameterDeleteRequest;
 use App\Interfaces\OperationApi\IOperationService;
 use App\Traits\Response;
 
@@ -332,6 +333,28 @@ class OperationController extends Controller
     public function getStaffParameterEdit(GetStaffParameterEditRequest $request)
     {
         $setStaffParameterResponse = $this->operationService->GetStaffParameterEdit(
+            $request->shiftId
+        );
+        if ($setStaffParameterResponse->isSuccess()) {
+            return $this->success(
+                $setStaffParameterResponse->getMessage(),
+                $setStaffParameterResponse->getData(),
+                $setStaffParameterResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setStaffParameterResponse->getMessage(),
+                $setStaffParameterResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetStaffParameterDeleteRequest $request
+     */
+    public function setStaffParameterDelete(SetStaffParameterDeleteRequest $request)
+    {
+        $setStaffParameterResponse = $this->operationService->SetStaffParameterDelete(
             $request->shiftId
         );
         if ($setStaffParameterResponse->isSuccess()) {

@@ -391,11 +391,11 @@ interface IOperationService
     ): ServiceResponse;
 
     /**
-     * @param int $id
+     * @param int $shiftId
      *
      * @return ServiceResponse
      */
     public function SetStaffParameterDelete(
-        int $id
+        int $shiftId
     ): ServiceResponse;
 }

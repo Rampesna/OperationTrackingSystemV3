@@ -21,6 +21,7 @@
     var SetStaffParameterButton = $('#SetStaffParameterButton');
     var CreateShiftButton = $('#CreateShiftButton');
     var UpdateShiftButton = $('#UpdateShiftButton');
+    var DeleteShiftButton = $('#DeleteShiftButton');
     var DeleteMultipleButton = $('#DeleteMultipleButton');
 
     function getJobDepartments() {
@@ -241,7 +242,7 @@
     }
 
     function deleteShift() {
-        $('#ShowModal').modal('hide');
+        $('#delete_shift_id').val($('#update_shift_id').val());
         $('#DeleteShiftModal').modal('show');
     }
 
@@ -724,7 +725,7 @@
                             staffParameters: staffParameters,
                         },
                         success: function () {
-                            toastr.error('Vardiyalar Başarıyla Oluşturuldu!');
+                            toastr.success('Vardiyalar Başarıyla Oluşturuldu!');
                             calendar.refetchEvents();
                         },
                         error: function (error) {
@@ -891,6 +892,52 @@
                 }
             });
         }
+    });
+
+    DeleteShiftButton.click(function () {
+        DeleteShiftButton.attr('disabled', true).html(`<i class="fa fa-spinner fa-spin"></i>`);
+        var id = $('#delete_shift_id').val();
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('user.api.shift.delete') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function () {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('user.api.operationApi.operation.setStaffParameterDelete') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        shiftId: id,
+                    },
+                    success: function () {
+                        $('#ShowModal').modal('hide');
+                        $('#DeleteShiftModal').modal('hide');
+                        toastr.success('Vardiya Başarıyla Silindi!');
+                        calendar.refetchEvents();
+                        DeleteShiftButton.attr('disabled', false).html(`Sil`);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error('Vardiya OTS Sisteminden Silinirken Serviste Bir Hata Oluştu!');
+                        DeleteShiftButton.attr('disabled', false).html(`Sil`);
+                    }
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Vardiya Silinirken Serviste Bir Hata Oluştu!');
+                DeleteShiftButton.attr('disabled', false).html(`Sil`);
+            }
+        });
     });
 
     SelectedCompanies.change(function () {

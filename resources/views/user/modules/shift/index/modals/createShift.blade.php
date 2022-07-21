@@ -15,9 +15,7 @@
                 <input type="hidden" id="create_shift_clicked_date">
                 <div class="form fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="mb-13 text-center">
-                        <h1 class="mb-3">
-                            Yeni Vardiya Oluştur
-                        </h1>
+                        <h1 class="mb-3">Yeni Vardiya Oluştur</h1>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <div class="row mb-5">

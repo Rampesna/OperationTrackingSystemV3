@@ -1000,12 +1000,12 @@ class OperationService extends OperationApiService implements IOperationService
     }
 
     /**
-     * @param int $id
+     * @param int $shiftId
      *
      * @return ServiceResponse
      */
     public function SetStaffParameterDelete(
-        int $id
+        int $shiftId
     ): ServiceResponse
     {
         $endpoint = "Operation/SetStaffParameterDelete";
@@ -1014,7 +1014,7 @@ class OperationService extends OperationApiService implements IOperationService
         ];
 
         $params = [
-            'VardiyaId' => $id
+            'VardiyaId' => $shiftId
         ];
 
         return new ServiceResponse(
