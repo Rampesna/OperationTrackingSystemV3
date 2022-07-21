@@ -224,6 +224,81 @@ class ShiftService implements IShiftService
     }
 
     /**
+     * @param array $shifts {
+     * @param int $employeeId
+     * @param int $shiftGroupId
+     * @param string $startDate
+     * @param string $endDate
+     * }
+     * @param int $authUserId
+     *
+     * @return ServiceResponse
+     */
+    public function createBatch(
+        array $shifts,
+        int   $authUserId
+    ): ServiceResponse
+    {
+        $shiftsForCreate = [];
+        foreach ($shifts as $shift) {
+            $employeeResponse = $this->employeeService->getById($shift['employeeId']);
+            if ($employeeResponse->isSuccess()) {
+                $shiftsForCreate[] = [
+                    'company_id' => $employeeResponse->getData()->company_id,
+                    'employee_id' => $shift['employeeId'],
+                    'shift_group_id' => $shift['shiftGroupId'],
+                    'created_by' => $authUserId,
+                    'last_updated_by' => $authUserId,
+                    'start_date' => $shift['startDate'],
+                    'end_date' => $shift['endDate'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ];
+            }
+        }
+
+        return new ServiceResponse(
+            true,
+            'Shifts created',
+            201,
+            Shift::insert($shiftsForCreate)
+        );
+    }
+
+    /**
+     * @param int $id
+     * @param int $shiftGroupId
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int    $id,
+        int    $shiftGroupId,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse
+    {
+        $shift = $this->getById($id);
+        if ($shift->isSuccess()) {
+            $shift->getData()->shift_group_id = $shiftGroupId;
+            $shift->getData()->start_date = $startDate;
+            $shift->getData()->end_date = $endDate;
+            $shift->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Shift updated',
+                200,
+                $shift->getData()
+            );
+        } else {
+            return $shift;
+        }
+    }
+
+    /**
      * @param int $companyId
      * @param string $month
      * @param int $userId

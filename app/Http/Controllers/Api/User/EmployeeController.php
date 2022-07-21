@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\EmployeeController\CreateRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompaniesRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByJobDepartmentTypeIdsRequest;
+use App\Http\Requests\Api\User\EmployeeController\GetByIdRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByEmailRequest;
 use App\Http\Requests\Api\User\EmployeeController\UpdateJobDepartmentRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
@@ -86,6 +87,26 @@ class EmployeeController extends Controller
             return $this->error(
                 $jobDepartments->getMessage(),
                 $jobDepartments->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByIdRequest $request
+     */
+    public function getById(GetByIdRequest $request)
+    {
+        $getByIdResponse = $this->employeeService->getById($request->id);
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
             );
         }
     }

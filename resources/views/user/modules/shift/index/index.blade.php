@@ -19,6 +19,7 @@
     @include('user.modules.shift.index.modals.setStaffParameter')
     @include('user.modules.shift.index.modals.deleteMultiple')
     @include('user.modules.shift.index.modals.show')
+    @include('user.modules.shift.index.modals.createShift')
     @include('user.modules.shift.index.modals.updateShift')
 
     <div class="row">

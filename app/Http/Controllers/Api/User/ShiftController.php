@@ -7,6 +7,8 @@ use App\Http\Requests\Api\User\ShiftController\GetAllRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByIdRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByCompanyIdRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByCompanyIdsRequest;
+use App\Http\Requests\Api\User\ShiftController\CreateBatchRequest;
+use App\Http\Requests\Api\User\ShiftController\UpdateRequest;
 use App\Http\Requests\Api\User\ShiftController\RobotRequest;
 use App\Http\Requests\Api\User\ShiftController\DeleteByIdsRequest;
 use App\Interfaces\Eloquent\IShiftService;
@@ -120,6 +122,54 @@ class ShiftController extends Controller
             return $this->error(
                 $getByCompanyIdsResponse->getMessage(),
                 $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param CreateBatchRequest $request
+     */
+    public function createBatch(CreateBatchRequest $request)
+    {
+        $createBatchResponse = $this->shiftService->createBatch(
+            $request->shifts,
+            $request->user()->id
+        );
+        if ($createBatchResponse->isSuccess()) {
+            return $this->success(
+                $createBatchResponse->getMessage(),
+                $createBatchResponse->getData(),
+                $createBatchResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createBatchResponse->getMessage(),
+                $createBatchResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateRequest $request
+     */
+    public function update(UpdateRequest $request)
+    {
+        $updateResponse = $this->shiftService->update(
+            $request->id,
+            $request->shiftGroupId,
+            $request->startDate,
+            $request->endDate
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
             );
         }
     }

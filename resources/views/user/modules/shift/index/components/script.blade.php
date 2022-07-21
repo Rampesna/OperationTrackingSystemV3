@@ -12,11 +12,15 @@
     var robotCompanyId = $('#robot_company_id');
     var setStaffParameterCompanyIds = $('#set_staff_parameter_company_ids');
     var deleteMultipleCompanyIds = $('#delete_multiple_company_ids');
+    var createShiftShiftGroupId = $('#create_shift_shift_group_id');
     var updateShiftShiftGroupId = $('#update_shift_shift_group_id');
+    var createShiftEmployees = $('#create_shift_employees');
 
     var FilterButton = $('#FilterButton');
     var RobotButton = $('#RobotButton');
     var SetStaffParameterButton = $('#SetStaffParameterButton');
+    var CreateShiftButton = $('#CreateShiftButton');
+    var UpdateShiftButton = $('#UpdateShiftButton');
     var DeleteMultipleButton = $('#DeleteMultipleButton');
 
     function getJobDepartments() {
@@ -71,6 +75,9 @@
                     shiftGroupFilter.append(`
                     <option value="${shiftGroup.id}">${shiftGroup.name}</option>
                     `);
+                    createShiftShiftGroupId.append(`
+                    <option value="${shiftGroup.id}">${shiftGroup.name}</option>
+                    `);
                     updateShiftShiftGroupId.append(`
                     <option value="${shiftGroup.id}">${shiftGroup.name}</option>
                     `);
@@ -79,6 +86,35 @@
             error: function (error) {
                 console.log(error);
                 toastr.error('Vardiya Grupları Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
+    function getEmployees() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.employee.getByCompanyIds') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                companyIds: SelectedCompanies.val(),
+                pageIndex: 0,
+                pageSize: 1000,
+                leave: 0
+            },
+            success: function (response) {
+                createShiftEmployees.empty();
+                $.each(response.response, function (i, employee) {
+                    createShiftEmployees.append(`
+                    <option value="${employee.id}" data-guid="${employee.guid}">${employee.name}</option>
+                    `);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personeller Alınırken Serviste Bir Sorun Oluştu!');
             }
         });
     }
@@ -139,6 +175,29 @@
         $('#SwapShiftEmployeeModal').modal('show');
     }
 
+    function createShift() {
+        createShiftShiftGroupId.val('');
+        $('#create_shift_start_date').val('');
+        $('#create_shift_end_date').val('');
+        $('#create_shift_food_break_start').val('');
+        $('#create_shift_food_break_end').val('');
+        $('#create_shift_get_break_while_food_time').val('');
+        $('#create_shift_get_food_break_without_food_time').val('');
+        $('#create_shift_single_break_duration').val('');
+        $('#create_shift_get_first_break_after_shift_start').val('');
+        $('#create_shift_get_last_break_before_shift_end').val('');
+        $('#create_shift_get_break_after_last_break').val('');
+        $('#create_shift_daily_food_break_amount').val('');
+        $('#create_shift_daily_break_duration').val('');
+        $('#create_shift_daily_food_break_duration').val('');
+        $('#create_shift_daily_break_break_duration').val('');
+        $('#create_shift_momentary_food_break_duration').val('');
+        $('#create_shift_momentary_break_break_duration').val('');
+        $('#create_shift_friday_additional_break_duration').val('');
+        $('#create_shift_suspend_break_using').val('');
+        $('#CreateShiftModal').modal('show');
+    }
+
     function updateShift() {
         var shiftId = $('#update_shift_id').val();
         $('#ShowModal').modal('hide');
@@ -154,6 +213,7 @@
                 shiftId: shiftId,
             },
             success: function (response) {
+                var shiftDate = $('#update_shift_date').val();
                 $('#update_shift_food_break_start').val(response.response.yemekBaslangicSaatiStr.split(' ')[1]);
                 $('#update_shift_food_break_end').val(response.response.yemekBitisSaatiStr.split(' ')[1]);
                 $('#update_shift_get_break_while_food_time').val(response.response.yemekMolasindaIhtiyacMolasi);
@@ -163,9 +223,9 @@
                 $('#update_shift_get_last_break_before_shift_end').val(response.response.vardiyaSonuMolaYasagiDakikasi);
                 $('#update_shift_get_break_after_last_break').val(response.response.sonMoladanSonraMolaMusadesiDakikasi);
                 $('#update_shift_daily_food_break_amount').val(response.response.gunlukYemekMolasiHakkiSayisi);
-                $('#update_shift_daily_break_duration').val(response.response.gunlukToplamMolaDakikasi);
+                $('#update_shift_daily_break_duration').val(getWeekDayOfDate(shiftDate) === 5 ? parseInt(response.response.gunlukToplamMolaDakikasi) - parseInt(allShiftGroups.find(shiftGroup => parseInt(shiftGroup.id) === parseInt(updateShiftShiftGroupId.val())).friday_additional_break_duration) : response.response.gunlukToplamMolaDakikasi);
                 $('#update_shift_daily_food_break_duration').val(response.response.gunlukYemekMolasiDakikasi);
-                $('#update_shift_daily_break_break_duration').val(response.response.gunlukIhtiyacMolasiDakikasi);
+                $('#update_shift_daily_break_break_duration').val(getWeekDayOfDate(shiftDate) === 5 ? parseInt(response.response.gunlukIhtiyacMolasiDakikasi) - parseInt(allShiftGroups.find(shiftGroup => parseInt(shiftGroup.id) === parseInt(updateShiftShiftGroupId.val())).friday_additional_break_duration) : response.response.gunlukIhtiyacMolasiDakikasi);
                 $('#update_shift_momentary_food_break_duration').val(response.response.anlikYemekMolasiDakikasi);
                 $('#update_shift_momentary_break_break_duration').val(response.response.anlikIhtiyacMolasiDakikasi);
                 $('#update_shift_suspend_break_using').val(response.response.molaKullanimKisitlamasiVarMi);
@@ -187,6 +247,7 @@
 
     getJobDepartments();
     getShiftGroups();
+    getEmployees();
     getCompanies();
 
     const element = document.getElementById("calendar");
@@ -218,8 +279,8 @@
         navLinks: true,
 
         dateClick: function (info) {
-            console.log(info);
-            toastr.info(info.dateStr);
+            $('#create_shift_clicked_date').val(info.dateStr);
+            createShift();
         },
 
         eventClick: function (info) {
@@ -240,11 +301,13 @@
                     $('#show_shift_start_date').text(reformatDatetimeToDatetimeForHuman(response.response.start_date));
                     $('#show_shift_end_date').text(reformatDatetimeToDatetimeForHuman(response.response.end_date));
                     $('#update_shift_id').val(response.response.id);
+                    $('#update_shift_employee_id').val(response.response.employee_id);
                     $('#update_shift_employee_name_span').text(`${response.response.employee.name} - Vardiya Güncelle`);
                     updateShiftShiftGroupId.val(response.response.shift_group_id).trigger('change');
                     $('#update_shift_date').val(response.response.start_date);
                     $('#update_shift_start_date').val(reformatDatetimeForInput(response.response.start_date));
                     $('#update_shift_end_date').val(reformatDatetimeForInput(response.response.end_date));
+                    $('#update_shift_friday_additional_break_duration').val(allShiftGroups.find(shiftGroup => parseInt(shiftGroup.id) === parseInt(response.response.shift_group_id)).friday_additional_break_duration);
                     $('#ShowModal').modal('show');
                     $('#loader').hide();
                 },
@@ -490,6 +553,33 @@
         }
     });
 
+    createShiftShiftGroupId.change(function () {
+        var shiftGroup = allShiftGroups.find(shiftGroup => shiftGroup.id === parseInt(createShiftShiftGroupId.val()));
+        var selectedShiftStartDateForJquery = new Date($('#create_shift_clicked_date').val());
+        var date = reformatDatetimeTo_YYYY_MM_DD(selectedShiftStartDateForJquery);
+        var startTimeVariable = `day${selectedShiftStartDateForJquery.getDay()}_start_time`;
+        var endTimeVariable = `day${selectedShiftStartDateForJquery.getDay()}_end_time`;
+
+        $('#create_shift_start_date').val(`${date}T${shiftGroup[startTimeVariable]}`);
+        $('#create_shift_end_date').val(`${date}T${shiftGroup[endTimeVariable]}`);
+        $('#create_shift_food_break_start').val(shiftGroup.food_break_start);
+        $('#create_shift_food_break_end').val(shiftGroup.food_break_end);
+        $('#create_shift_get_break_while_food_time').val(shiftGroup.get_break_while_food_time);
+        $('#create_shift_get_food_break_without_food_time').val(shiftGroup.get_food_break_without_food_time);
+        $('#create_shift_single_break_duration').val(shiftGroup.single_break_duration);
+        $('#create_shift_get_first_break_after_shift_start').val(shiftGroup.get_first_break_after_shift_start);
+        $('#create_shift_get_last_break_before_shift_end').val(shiftGroup.get_last_break_before_shift_end);
+        $('#create_shift_get_break_after_last_break').val(shiftGroup.get_break_after_last_break);
+        $('#create_shift_daily_food_break_amount').val(shiftGroup.daily_food_break_amount);
+        $('#create_shift_daily_break_duration').val(shiftGroup.daily_break_duration);
+        $('#create_shift_daily_food_break_duration').val(shiftGroup.daily_food_break_duration);
+        $('#create_shift_daily_break_break_duration').val(shiftGroup.daily_break_break_duration);
+        $('#create_shift_momentary_food_break_duration').val(shiftGroup.momentary_food_break_duration);
+        $('#create_shift_momentary_break_break_duration').val(shiftGroup.momentary_break_break_duration);
+        $('#create_shift_friday_additional_break_duration').val(shiftGroup.friday_additional_break_duration);
+        $('#create_shift_suspend_break_using').val(shiftGroup.suspend_break_using);
+    });
+
     updateShiftShiftGroupId.change(function () {
         var shiftGroup = allShiftGroups.find(shiftGroup => shiftGroup.id === parseInt(updateShiftShiftGroupId.val()));
         var selectedShiftStartDateForJquery = new Date($('#update_shift_date').val());
@@ -513,11 +603,300 @@
         $('#update_shift_daily_break_break_duration').val(shiftGroup.daily_break_break_duration);
         $('#update_shift_momentary_food_break_duration').val(shiftGroup.momentary_food_break_duration);
         $('#update_shift_momentary_break_break_duration').val(shiftGroup.momentary_break_break_duration);
+        $('#update_shift_friday_additional_break_duration').val(shiftGroup.friday_additional_break_duration);
         $('#update_shift_suspend_break_using').val(shiftGroup.suspend_break_using);
+    });
+
+    CreateShiftButton.click(function () {
+        var shifts = [];
+        var staffParameters = [];
+        var shiftGroupId = createShiftShiftGroupId.val();
+        var startDate = $('#create_shift_start_date').val();
+        var endDate = $('#create_shift_end_date').val();
+        var foodBreakStart = $('#create_shift_food_break_start').val();
+        var foodBreakEnd = $('#create_shift_food_break_end').val();
+        var getBreakWhileFoodTime = $('#create_shift_get_break_while_food_time').val();
+        var getFoodBreakWithoutFoodTime = $('#create_shift_get_food_break_without_food_time').val();
+        var singleBreakDuration = $('#create_shift_single_break_duration').val();
+        var getFirstBreakAfterShiftStart = $('#create_shift_get_first_break_after_shift_start').val();
+        var getLastBreakBeforeShiftEnd = $('#create_shift_get_last_break_before_shift_end').val();
+        var getBreakAfterLastBreak = $('#create_shift_get_break_after_last_break').val();
+        var dailyFoodBreakAmount = $('#create_shift_daily_food_break_amount').val();
+        var dailyBreakDuration = $('#create_shift_daily_break_duration').val();
+        var dailyFoodBreakDuration = $('#create_shift_daily_food_break_duration').val();
+        var dailyBreakBreakDuration = $('#create_shift_daily_break_break_duration').val();
+        var momentaryFoodBreakDuration = $('#create_shift_momentary_food_break_duration').val();
+        var momentaryBreakBreakDuration = $('#create_shift_momentary_break_break_duration').val();
+        var fridayAdditionalBreakDuration = $('#create_shift_friday_additional_break_duration').val();
+        var suspendBreakUsing = $('#create_shift_suspend_break_using').val();
+
+        if (createShiftEmployees.val().length === 0) {
+            toastr.warning('Hiç Personel Seçmediniz!');
+        } else if (!shiftGroupId) {
+            toastr.warning('Vardiya Grubu Seçmedinid!');
+        } else if (!startDate) {
+            toastr.warning('Başlangıç Tarihi Girmediniz!');
+        } else if (!endDate) {
+            toastr.warning('Bitiş Tarihi Girmediniz!');
+        } else if (!foodBreakStart) {
+            toastr.warning('Yemek Molası Başlangıç Saati Zorunludur!');
+        } else if (!foodBreakEnd) {
+            toastr.warning('Yemek Molası Bitiş Saati Zorunludur!');
+        } else if (!getBreakWhileFoodTime) {
+            toastr.warning('Yemek Molası Saatlerinde İhtiyaç Molası Alabilmek Seçilmedi!');
+        } else if (!getFoodBreakWithoutFoodTime) {
+            toastr.warning('Yemek Saatleri Dışında Yemek Molası Alabilmek Seçilmedi!');
+        } else if (!singleBreakDuration) {
+            toastr.warning('Kaç Dakikada Bir Mola Hakkı Kazanılır Girilmedi!');
+        } else if (!getFirstBreakAfterShiftStart) {
+            toastr.warning('İlk Mola Vardiya Başlangıcından Kaç Dakika Sonra Kullanılabilir Girilmedi!');
+        } else if (!getLastBreakBeforeShiftEnd) {
+            toastr.warning('Vardiya Bitimine Kaç Dakika Kala Mola Alınamaz Girilmedi!');
+        } else if (!getBreakAfterLastBreak) {
+            toastr.warning('Son Moladan Kaç Dakika Sonra Tekrar Mola Alınabilir Girilmedi!');
+        } else if (!dailyFoodBreakAmount) {
+            toastr.warning('Günlük Yemek Molası Hakkı Sayısı Girilmedi!');
+        } else if (!dailyBreakDuration) {
+            toastr.warning('Günlük Toplam Mola Süresi Girilmedi!');
+        } else if (!dailyFoodBreakDuration) {
+            toastr.warning('Günlük Yemek Molası Süresi Girilmedi!');
+        } else if (!dailyBreakBreakDuration) {
+            toastr.warning('Günlük İhtiyaç Molası Süresi Girilmedi!');
+        } else if (!momentaryFoodBreakDuration) {
+            toastr.warning('Anlık Yemek Molası Süresi Girilmedi!');
+        } else if (!momentaryBreakBreakDuration) {
+            toastr.warning('Anlık İhtiyaç Molası Süresi Girilmedi!');
+        } else if (!fridayAdditionalBreakDuration) {
+            toastr.warning('Cuma Günü Ek Mola Süresi Girilmedi!');
+        } else if (!suspendBreakUsing) {
+            toastr.warning('Mola Kullanım Kuralları Aktif Mi Seçilmedi!');
+        } else {
+            $('#loader').show();
+            $('#CreateShiftModal').modal('hide');
+            var shiftDate = reformatDatetimeTo_YYYY_MM_DD(startDate);
+            $.each(createShiftEmployees.find(':selected'), function () {
+                shifts.push({
+                    employeeId: $(this).val(),
+                    shiftGroupId: shiftGroupId,
+                    startDate: startDate,
+                    endDate: endDate,
+                });
+                staffParameters.push({
+                    vardiyaId: null,
+                    kullanicilarId: $(this).data('guid'),
+                    tarih: shiftDate,
+                    yemekBaslangicSaati: `${shiftDate} ${foodBreakStart}`,
+                    yemekBitisSaati: `${shiftDate} ${foodBreakEnd}`,
+                    yemekMolasindaIhtiyacMolasi: getBreakWhileFoodTime,
+                    yemekMolasiDisindaYemekMolasi: getFoodBreakWithoutFoodTime,
+                    birMolaHakkiDakikasi: singleBreakDuration,
+                    vardiyaBasiIlkMolaHakkiDakikasi: getFirstBreakAfterShiftStart,
+                    vardiyaSonuMolaYasagiDakikasi: getLastBreakBeforeShiftEnd,
+                    sonMoladanSonraMolaMusadesiDakikasi: getBreakAfterLastBreak,
+                    gunlukYemekMolasiHakkiSayisi: dailyFoodBreakAmount,
+                    gunlukToplamMolaDakikasi: getWeekDayOfDate(shiftDate) === 5 ? parseInt(dailyBreakDuration) + parseInt(fridayAdditionalBreakDuration) : dailyBreakDuration,
+                    gunlukYemekMolasiDakikasi: dailyFoodBreakDuration,
+                    gunlukIhtiyacMolasiDakikasi: getWeekDayOfDate(shiftDate) === 5 ? parseInt(dailyBreakBreakDuration) + parseInt(fridayAdditionalBreakDuration) : dailyBreakBreakDuration,
+                    anlikYemekMolasiDakikasi: momentaryFoodBreakDuration,
+                    anlikIhtiyacMolasiDakikasi: momentaryBreakBreakDuration,
+                    molaKullanimKisitlamasiVarMi: suspendBreakUsing,
+                });
+            });
+            $.ajax({
+                type: 'post',
+                url: '{{ route('user.api.shift.createBatch') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    shifts: shifts,
+                },
+                success: function () {
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ route('user.api.operationApi.operation.setStaffParameter') }}',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': token
+                        },
+                        data: {
+                            staffParameters: staffParameters,
+                        },
+                        success: function () {
+                            toastr.error('Vardiyalar Başarıyla Oluşturuldu!');
+                            calendar.refetchEvents();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            toastr.error('Oluşturulan Vardiyalar OTS Aktarılırken Serviste Hata Oluştu!');
+                            $('#loader').hide();
+                        }
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Vardiyalar Oluşturulurken Serviste Hata Oluştu!');
+                    $('#loader').hide();
+                }
+            });
+        }
+    });
+
+    UpdateShiftButton.click(function () {
+        var id = $('#update_shift_id').val();
+        var shiftGroupId = updateShiftShiftGroupId.val();
+        var startDate = $('#update_shift_start_date').val();
+        var endDate = $('#update_shift_end_date').val();
+        var foodBreakStart = $('#update_shift_food_break_start').val();
+        var foodBreakEnd = $('#update_shift_food_break_end').val();
+        var getBreakWhileFoodTime = $('#update_shift_get_break_while_food_time').val();
+        var getFoodBreakWithoutFoodTime = $('#update_shift_get_food_break_without_food_time').val();
+        var singleBreakDuration = $('#update_shift_single_break_duration').val();
+        var getFirstBreakAfterShiftStart = $('#update_shift_get_first_break_after_shift_start').val();
+        var getLastBreakBeforeShiftEnd = $('#update_shift_get_last_break_before_shift_end').val();
+        var getBreakAfterLastBreak = $('#update_shift_get_break_after_last_break').val();
+        var dailyFoodBreakAmount = $('#update_shift_daily_food_break_amount').val();
+        var dailyBreakDuration = $('#update_shift_daily_break_duration').val();
+        var dailyFoodBreakDuration = $('#update_shift_daily_food_break_duration').val();
+        var dailyBreakBreakDuration = $('#update_shift_daily_break_break_duration').val();
+        var momentaryFoodBreakDuration = $('#update_shift_momentary_food_break_duration').val();
+        var momentaryBreakBreakDuration = $('#update_shift_momentary_break_break_duration').val();
+        var fridayAdditionalBreakDuration = $('#update_shift_friday_additional_break_duration').val();
+        var suspendBreakUsing = $('#update_shift_suspend_break_using').val();
+
+        if (!shiftGroupId) {
+            toastr.warning('Vardiya Grubu Seçmediniz!');
+        } else if (!startDate) {
+            toastr.warning('Vardiya Başlangıcı Zorunludur!');
+        } else if (!endDate) {
+            toastr.warning('Vardiya Bitişi Zorunludur!');
+        } else if (!foodBreakStart) {
+            toastr.warning('Yemek Molası Başlangıç Saati Zorunludur!');
+        } else if (!foodBreakEnd) {
+            toastr.warning('Yemek Molası Bitiş Saati Zorunludur!');
+        } else if (!getBreakWhileFoodTime) {
+            toastr.warning('Yemek Molası Saatlerinde İhtiyaç Molası Alabilmek Seçilmedi!');
+        } else if (!getFoodBreakWithoutFoodTime) {
+            toastr.warning('Yemek Saatleri Dışında Yemek Molası Alabilmek Seçilmedi!');
+        } else if (!singleBreakDuration) {
+            toastr.warning('Kaç Dakikada Bir Mola Hakkı Kazanılır Girilmedi!');
+        } else if (!getFirstBreakAfterShiftStart) {
+            toastr.warning('İlk Mola Vardiya Başlangıcından Kaç Dakika Sonra Kullanılabilir Girilmedi!');
+        } else if (!getLastBreakBeforeShiftEnd) {
+            toastr.warning('Vardiya Bitimine Kaç Dakika Kala Mola Alınamaz Girilmedi!');
+        } else if (!getBreakAfterLastBreak) {
+            toastr.warning('Son Moladan Kaç Dakika Sonra Tekrar Mola Alınabilir Girilmedi!');
+        } else if (!dailyFoodBreakAmount) {
+            toastr.warning('Günlük Yemek Molası Hakkı Sayısı Girilmedi!');
+        } else if (!dailyBreakDuration) {
+            toastr.warning('Günlük Toplam Mola Süresi Girilmedi!');
+        } else if (!dailyFoodBreakDuration) {
+            toastr.warning('Günlük Yemek Molası Süresi Girilmedi!');
+        } else if (!dailyBreakBreakDuration) {
+            toastr.warning('Günlük İhtiyaç Molası Süresi Girilmedi!');
+        } else if (!momentaryFoodBreakDuration) {
+            toastr.warning('Anlık Yemek Molası Süresi Girilmedi!');
+        } else if (!momentaryBreakBreakDuration) {
+            toastr.warning('Anlık İhtiyaç Molası Süresi Girilmedi!');
+        } else if (!fridayAdditionalBreakDuration) {
+            toastr.warning('Cuma Günü Ek Mola Süresi Girilmedi!');
+        } else if (!suspendBreakUsing) {
+            toastr.warning('Mola Kullanım Kuralları Aktif Mi Seçilmedi!');
+        } else {
+            $('#loader').show();
+            $('#UpdateShiftModal').modal('hide');
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.shift.update') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                    shiftGroupId: shiftGroupId,
+                    startDate: startDate,
+                    endDate: endDate,
+                },
+                success: function () {
+                    var employeeId = $('#update_shift_employee_id').val();
+                    $.ajax({
+                        type: 'get',
+                        url: '{{ route('user.api.employee.getById') }}',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': token
+                        },
+                        data: {
+                            id: employeeId,
+                        },
+                        success: function (response) {
+                            var shiftDate = reformatDatetimeTo_YYYY_MM_DD($('#update_shift_start_date').val());
+                            var staffParameters = [
+                                {
+                                    vardiyaId: id,
+                                    kullanicilarId: response.response.guid,
+                                    tarih: shiftDate,
+                                    yemekBaslangicSaati: `${shiftDate} ${foodBreakStart}`,
+                                    yemekBitisSaati: `${shiftDate} ${foodBreakEnd}`,
+                                    yemekMolasindaIhtiyacMolasi: getBreakWhileFoodTime,
+                                    yemekMolasiDisindaYemekMolasi: getFoodBreakWithoutFoodTime,
+                                    birMolaHakkiDakikasi: singleBreakDuration,
+                                    vardiyaBasiIlkMolaHakkiDakikasi: getFirstBreakAfterShiftStart,
+                                    vardiyaSonuMolaYasagiDakikasi: getLastBreakBeforeShiftEnd,
+                                    sonMoladanSonraMolaMusadesiDakikasi: getBreakAfterLastBreak,
+                                    gunlukYemekMolasiHakkiSayisi: dailyFoodBreakAmount,
+                                    gunlukToplamMolaDakikasi: getWeekDayOfDate(shiftDate) === 5 ? parseInt(dailyBreakDuration) + parseInt(fridayAdditionalBreakDuration) : dailyBreakDuration,
+                                    gunlukYemekMolasiDakikasi: dailyFoodBreakDuration,
+                                    gunlukIhtiyacMolasiDakikasi: getWeekDayOfDate(shiftDate) === 5 ? parseInt(dailyBreakBreakDuration) + parseInt(fridayAdditionalBreakDuration) : dailyBreakBreakDuration,
+                                    anlikYemekMolasiDakikasi: momentaryFoodBreakDuration,
+                                    anlikIhtiyacMolasiDakikasi: momentaryBreakBreakDuration,
+                                    molaKullanimKisitlamasiVarMi: suspendBreakUsing,
+                                }
+                            ];
+                            $.ajax({
+                                type: 'post',
+                                url: '{{ route('user.api.operationApi.operation.setStaffParameter') }}',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Authorization': token
+                                },
+                                data: {
+                                    staffParameters: staffParameters,
+                                },
+                                success: function () {
+                                    toastr.success('Vardiya Başarıyla Güncellendi!');
+                                    calendar.refetchEvents();
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                    toastr.error('Güncellenen Vardiya Verileri OTS Sistemine Gönderilemedi!');
+                                    $('#loader').hide();
+                                }
+                            });
+
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            toastr.error('Güncellenen Vardiyaya Ait Personel Verisi Alınamadığı İçin Veriler OTS Sistemine Gönderilemedi!');
+                            $('#loader').hide();
+                        }
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Vardiya Güncellenirken Serviste Bir Hata Oluştu!');
+                    $('#loader').hide();
+                }
+            });
+        }
     });
 
     SelectedCompanies.change(function () {
         getJobDepartments();
+        getShiftGroups();
+        getEmployees();
         calendar.refetchEvents();
     });
 
