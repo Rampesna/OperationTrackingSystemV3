@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\User\SpecialReportController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class GetByCompanyIdsRequest extends BaseApiRequest
+class DeleteRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class GetByCompanyIdsRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'companyIds' => 'required|array',
-            'pageIndex' => 'required|integer|min:0',
-            'pageSize' => 'required|integer|min:1',
-            'keyword' => 'nullable|string',
+            'id' => 'required',
         ];
     }
 }

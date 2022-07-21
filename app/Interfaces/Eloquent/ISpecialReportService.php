@@ -8,10 +8,44 @@ interface ISpecialReportService extends IEloquentService
 {
     /**
      * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
      *
      * @return ServiceResponse
      */
     public function getByCompanyIds(
-        array $companyIds
+        array       $companyIds,
+        int         $pageIndex = 0,
+        int         $pageSize = 10,
+        string|null $keyword = null
+    ): ServiceResponse;
+
+    /**
+     * @param int $companyId
+     * @param string $name
+     * @param string $query
+     *
+     * @return ServiceResponse
+     */
+    public function create(
+        int    $companyId,
+        string $name,
+        string $query
+    ): ServiceResponse;
+
+    /**
+     * @param int $id
+     * @param int $companyId
+     * @param string $name
+     * @param string $query
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int    $id,
+        int    $companyId,
+        string $name,
+        string $query
     ): ServiceResponse;
 }

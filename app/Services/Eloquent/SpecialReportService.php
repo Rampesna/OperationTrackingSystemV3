@@ -72,20 +72,99 @@ class SpecialReportService implements ISpecialReportService
 
     /**
      * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
      *
      * @return ServiceResponse
      */
     public function getByCompanyIds(
-        array $companyIds
+        array       $companyIds,
+        int         $pageIndex = 0,
+        int         $pageSize = 10,
+        string|null $keyword = null
     ): ServiceResponse
     {
+        $specialReports = SpecialReport::with([
+            'company'
+        ])->whereIn('company_id', $companyIds);
+
+        if ($keyword) {
+            $specialReports->where('name', 'like', '%' . $keyword . '%');
+        }
+
         return new ServiceResponse(
             true,
             'Special reports',
             200,
-            SpecialReport::with([
-                'company',
-            ])->whereIn('company_id', $companyIds)->get()
+            [
+                'totalCount' => $specialReports->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'specialReports' => $specialReports->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
         );
+    }
+
+    /**
+     * @param int $companyId
+     * @param string $name
+     * @param string $query
+     *
+     * @return ServiceResponse
+     */
+    public function create(
+        int    $companyId,
+        string $name,
+        string $query
+    ): ServiceResponse
+    {
+        $specialReport = new SpecialReport;
+        $specialReport->company_id = $companyId;
+        $specialReport->name = $name;
+        $specialReport->query = $query;
+        $specialReport->save();
+
+        return new ServiceResponse(
+            true,
+            'Special report created',
+            201,
+            $specialReport
+        );
+    }
+
+    /**
+     * @param int $id
+     * @param int $companyId
+     * @param string $name
+     * @param string $query
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int    $id,
+        int    $companyId,
+        string $name,
+        string $query
+    ): ServiceResponse
+    {
+        $specialReport = $this->getById($id);
+        if ($specialReport->isSuccess()) {
+            $specialReport->getData()->company_id = $companyId;
+            $specialReport->getData()->name = $name;
+            $specialReport->getData()->query = $query;
+            $specialReport->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Special report updated',
+                200,
+                $specialReport->getData()
+            );
+        } else {
+            return $specialReport;
+        }
     }
 }

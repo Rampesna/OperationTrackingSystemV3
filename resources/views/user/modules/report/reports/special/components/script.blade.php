@@ -47,11 +47,13 @@
             },
             data: {
                 companyIds: companyIds,
+                pageIndex: 0,
+                pageSize: 1000,
             },
             success: function (response) {
-                allSpecialReports = response.response;
+                allSpecialReports = response.response.specialReports;
                 specialReportsInput.empty();
-                $.each(response.response, function (i, specialReport) {
+                $.each(response.response.specialReports, function (i, specialReport) {
                     specialReportsInput.append(`<option value="${specialReport.id}">${specialReport.name}</option>`);
                 });
                 $('#loader').hide();
@@ -100,7 +102,7 @@
                     var dataFields = [];
                     var columns = [];
 
-                    $.each(response.response[0], function (key, value) {
+                    $.each(response.response[0], function (key) {
                         dataFields.push({
                             name: `${key}`,
                             type: 'string'

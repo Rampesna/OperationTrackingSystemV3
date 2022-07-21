@@ -188,6 +188,10 @@ Route::middleware([
 
     Route::prefix('specialReport')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\SpecialReportController::class, 'getByCompanyIds'])->name('user.api.specialReport.getByCompanyIds');
+        Route::get('getById', [\App\Http\Controllers\Api\User\SpecialReportController::class, 'getById'])->name('user.api.specialReport.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\SpecialReportController::class, 'create'])->name('user.api.specialReport.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\SpecialReportController::class, 'update'])->name('user.api.specialReport.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\SpecialReportController::class, 'delete'])->name('user.api.specialReport.delete');
     });
 
     Route::prefix('shift')->group(function () {
