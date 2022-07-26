@@ -394,6 +394,7 @@
                 $('#update_permit_end_date').val(reformatDatetimeForInput(response.response.end_date));
                 $('#update_permit_description').val(response.response.description);
                 $('#loader').hide();
+                $('#UpdatePermitModal').modal('show');
             },
             error: function (error) {
                 console.log(error);
@@ -401,7 +402,6 @@
                 $('#loader').hide();
             }
         });
-        $('#UpdatePermitModal').modal('show');
     }
 
     function deletePermit(permitId) {
@@ -420,8 +420,32 @@
     }
 
     function updateOvertime(overtimeId) {
+        $('#loader').show();
         $('#update_overtime_id').val(overtimeId);
-        $('#UpdateOvertimeModal').modal('show');
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.overtime.getById') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: overtimeId,
+            },
+            success: function (response) {
+                updateOvertimeTypeId.val(response.response.type_id);
+                $('#update_overtime_start_date').val(reformatDatetimeForInput(response.response.start_date));
+                $('#update_overtime_end_date').val(reformatDatetimeForInput(response.response.end_date));
+                $('#update_overtime_description').val(response.response.description);
+                $('#loader').hide();
+                $('#UpdateOvertimeModal').modal('show');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Mesai Verileri Alınırken Serviste Bir Hata Oluştu.');
+                $('#loader').hide();
+            }
+        });
     }
 
     function deleteOvertime(overtimeId) {
@@ -440,8 +464,32 @@
     }
 
     function updatePayment(paymentId) {
+        $('#loader').show();
         $('#update_payment_id').val(paymentId);
-        $('#UpdatePaymentModal').modal('show');
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.payment.getById') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: paymentId,
+            },
+            success: function (response) {
+                updatePaymentTypeId.val(response.response.type_id);
+                $('#update_payment_date').val(response.response.date);
+                $('#update_payment_amount').val(response.response.amount);
+                $('#update_payment_description').val(response.response.description);
+                $('#loader').hide();
+                $('#UpdatePaymentModal').modal('show');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Ödeme Verileri Alınırken Serviste Bir Hata Oluştu.');
+                $('#loader').hide();
+            }
+        });
     }
 
     function deletePayment(paymentId) {

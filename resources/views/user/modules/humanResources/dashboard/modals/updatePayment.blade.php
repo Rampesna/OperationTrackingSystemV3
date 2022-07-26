@@ -18,7 +18,46 @@
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <input type="hidden" id="update_payment_id">
-
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="update_payment_type_id" class="font-weight-bolder">Ödeme Türü</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <select id="update_payment_type_id" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Ödeme Türü"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="update_payment_date" class="font-weight-bolder">İstenilen Tarihi</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <input id="update_payment_date" type="date" class="form-control form-control-solid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="update_payment_amount" class="font-weight-bolder">İstenilen Miktar</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <input id="update_payment_amount" type="number" class="form-control form-control-solid onlyNumber">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="update_payment_description" class="font-weight-bolder">Açıklamalar</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <textarea id="update_payment_description" class="form-control form-control-solid" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>
