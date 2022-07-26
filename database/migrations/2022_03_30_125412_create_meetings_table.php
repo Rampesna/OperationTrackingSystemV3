@@ -14,16 +14,13 @@ return new class extends Migration {
     {
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('status_id');
+            $table->unsignedBigInteger('creator_id');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->text('link');
-            $table->boolean('type');
-            $table->boolean('visibility');
+            $table->text('location');
+            $table->unsignedBigInteger('type_id');
             $table->timestamps();
             $table->softDeletes();
         });

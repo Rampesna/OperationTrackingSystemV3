@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class);
     }
 
+    public function meetings()
+    {
+        return $this->belongsToMany(Meeting::class);
+    }
+
     public function selectedCompanies()
     {
         return $this->belongsToMany(Company::class, 'user_selected_company');

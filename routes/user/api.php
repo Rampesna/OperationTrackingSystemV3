@@ -194,6 +194,25 @@ Route::middleware([
         Route::delete('delete', [\App\Http\Controllers\Api\User\SpecialReportController::class, 'delete'])->name('user.api.specialReport.delete');
     });
 
+    Route::prefix('meeting')->group(function () {
+        Route::get('getDateBetweenByUserId', [\App\Http\Controllers\Api\User\MeetingController::class, 'getDateBetweenByUserId'])->name('user.api.meeting.getDateBetweenByUserId');
+        Route::get('getById', [\App\Http\Controllers\Api\User\MeetingController::class, 'getById'])->name('user.api.meeting.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\MeetingController::class, 'create'])->name('user.api.meeting.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\MeetingController::class, 'update'])->name('user.api.meeting.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\MeetingController::class, 'delete'])->name('user.api.meeting.delete');
+    });
+
+    Route::prefix('meetingType')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\MeetingTypeController::class, 'getAll'])->name('user.api.meetingType.getAll');
+    });
+
+    Route::prefix('meetingUser')->group(function () {
+        Route::get('getMeetingUsers', [\App\Http\Controllers\Api\User\MeetingUserController::class, 'getMeetingUsers'])->name('user.api.meetingUser.getMeetingUsers');
+        Route::post('setMeetingUsers', [\App\Http\Controllers\Api\User\MeetingUserController::class, 'setMeetingUsers'])->name('user.api.meetingUser.setMeetingUsers');
+        Route::get('getUserMeetings', [\App\Http\Controllers\Api\User\MeetingUserController::class, 'getUserMeetings'])->name('user.api.meetingUser.getUserMeetings');
+        Route::post('setUserMeetings', [\App\Http\Controllers\Api\User\MeetingUserController::class, 'setUserMeetings'])->name('user.api.meetingUser.setUserMeetings');
+    });
+
     Route::prefix('shift')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\ShiftController::class, 'getAll'])->name('user.api.shift.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\ShiftController::class, 'getById'])->name('user.api.shift.getById');
@@ -239,6 +258,39 @@ Route::middleware([
 
     Route::prefix('taskPriority')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\TaskPriorityController::class, 'getAll'])->name('user.api.taskPriority.getAll');
+    });
+
+    Route::prefix('permit')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\PermitController::class, 'getAll'])->name('user.api.permit.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\PermitController::class, 'getById'])->name('user.api.permit.getById');
+        Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.permit.getByStatusIdAndCompanyIds');
+        Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByDateAndCompanyIds'])->name('user.api.permit.getByDateAndCompanyIds');
+    });
+
+    Route::prefix('overtime')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getAll'])->name('user.api.overtime.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getById'])->name('user.api.overtime.getById');
+        Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.overtime.getByStatusIdAndCompanyIds');
+        Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getByDateAndCompanyIds'])->name('user.api.overtime.getByDateAndCompanyIds');
+    });
+
+    Route::prefix('payment')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\PaymentController::class, 'getAll'])->name('user.api.payment.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\PaymentController::class, 'getById'])->name('user.api.payment.getById');
+        Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.payment.getByStatusIdAndCompanyIds');
+        Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByDateAndCompanyIds'])->name('user.api.payment.getByDateAndCompanyIds');
+    });
+
+    Route::prefix('permitType')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\PermitTypeController::class, 'getAll'])->name('user.api.permitType.getAll');
+    });
+
+    Route::prefix('overtimeType')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\OvertimeTypeController::class, 'getAll'])->name('user.api.overtimeType.getAll');
+    });
+
+    Route::prefix('paymentType')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\PaymentTypeController::class, 'getAll'])->name('user.api.paymentType.getAll');
     });
 
     Route::prefix('operationApi')->group(function () {

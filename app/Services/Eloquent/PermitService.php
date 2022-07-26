@@ -3,11 +3,25 @@
 namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IPermitService;
+use App\Interfaces\Eloquent\IEmployeeService;
 use App\Models\Eloquent\Permit;
 use App\Services\ServiceResponse;
 
 class PermitService implements IPermitService
 {
+    /**
+     * @var $employeeService
+     */
+    private $employeeService;
+
+    /**
+     * @param IEmployeeService $employeeService
+     */
+    public function __construct(IEmployeeService $employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
     /**
      * @return ServiceResponse
      */
@@ -189,5 +203,88 @@ class PermitService implements IPermitService
                     });
                 })->get()
         );
+    }
+
+    /**
+     * @param int $statusId
+     * @param array $companyIds
+     *
+     * @return ServiceResponse
+     */
+    public function getByStatusIdAndCompanyIds(
+        int   $statusId,
+        array $companyIds
+    ): ServiceResponse
+    {
+        $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(
+            0,
+            1000,
+            $companyIds
+        );
+        if ($employeesByCompanyIdsResponse->isSuccess()) {
+            $permits = Permit::with([
+                'employee',
+                'status',
+                'type'
+            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+                ->where('status_id', $statusId)
+                ->get();
+
+            return new ServiceResponse(
+                true,
+                'Permits on date',
+                200,
+                $permits
+            );
+        } else {
+            return $employeesByCompanyIdsResponse;
+        }
+    }
+
+    /**
+     * @param string $date
+     * @param array $companyIds
+     *
+     * @return ServiceResponse
+     */
+    public function getByDateAndCompanyIds(
+        string $date,
+        array  $companyIds
+    ): ServiceResponse
+    {
+        $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(
+            0,
+            1000,
+            $companyIds
+        );
+        if ($employeesByCompanyIdsResponse->isSuccess()) {
+            $permits = Permit::with([
+                'employee',
+                'status',
+                'type'
+            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+                ->where(function ($permits) use ($date) {
+                    $permits->whereBetween('start_date', [
+                        $date . ' 00:00:00',
+                        $date . ' 23:59:59'
+                    ])->orWhereBetween('end_date', [
+                        $date . ' 00:00:00',
+                        $date . ' 23:59:59'
+                    ])->orWhere(function ($permits) use ($date) {
+                        $permits->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+                    });
+                })
+                ->where('status_id', 2)
+                ->get();
+
+            return new ServiceResponse(
+                true,
+                'Permits on date',
+                200,
+                $permits
+            );
+        } else {
+            return $employeesByCompanyIdsResponse;
+        }
     }
 }

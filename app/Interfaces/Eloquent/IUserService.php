@@ -89,6 +89,26 @@ interface IUserService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $userId
+     *
+     * @return ServiceResponse
+     */
+    public function getUserMeetings(
+        int $userId
+    ): ServiceResponse;
+
+    /**
+     * @param int $userId
+     * @param array $meetingIds
+     *
+     * @return ServiceResponse
+     */
+    public function setUserMeetings(
+        int   $userId,
+        array $meetingIds
+    ): ServiceResponse;
+
+    /**
      * @param int $roleId
      * @param string $name
      * @param string $email
@@ -144,5 +164,14 @@ interface IUserService extends IEloquentService
     public function updatePassword(
         int    $userId,
         string $password
+    ): ServiceResponse;
+
+    /**
+     * @param int $userId
+     *
+     * @return ServiceResponse
+     */
+    public function getMeetings(
+        int $userId,
     ): ServiceResponse;
 }

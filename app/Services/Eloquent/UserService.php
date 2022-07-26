@@ -275,6 +275,53 @@ class UserService implements IUserService
     }
 
     /**
+     * @param int $userId
+     *
+     * @return ServiceResponse
+     */
+    public function getUserMeetings(
+        int $userId
+    ): ServiceResponse
+    {
+        $user = $this->getById($userId);
+        if ($user->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'User meetings',
+                200,
+                $user->getData()->meetings
+            );
+        } else {
+            return $user;
+        }
+    }
+
+    /**
+     * @param int $userId
+     * @param array $meetingIds
+     *
+     * @return ServiceResponse
+     */
+    public function setUserMeetings(
+        int   $userId,
+        array $meetingIds
+    ): ServiceResponse
+    {
+        $user = $this->getById($userId);
+        if ($user->isSuccess()) {
+            $user->getData()->meetings()->sync($meetingIds);
+            return new ServiceResponse(
+                true,
+                'User meetings set',
+                200,
+                $user->getData()
+            );
+        } else {
+            return $user;
+        }
+    }
+
+    /**
      * @param User $user
      */
     public function generateSanctumToken(
@@ -414,6 +461,28 @@ class UserService implements IUserService
                 'User password updated',
                 200,
                 $user->getData()
+            );
+        } else {
+            return $user;
+        }
+    }
+
+    /**
+     * @param int $userId
+     *
+     * @return ServiceResponse
+     */
+    public function getMeetings(
+        int $userId,
+    ): ServiceResponse
+    {
+        $user = $this->getById($userId);
+        if ($user->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'User meetings',
+                200,
+                $user->getData()->meetings
             );
         } else {
             return $user;

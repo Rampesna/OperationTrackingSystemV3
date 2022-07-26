@@ -19,6 +19,8 @@ use App\Interfaces\Eloquent\IJobDepartmentService;
 use App\Interfaces\Eloquent\IJobDepartmentTypeService;
 use App\Interfaces\Eloquent\IMarketPaymentService;
 use App\Interfaces\Eloquent\IMarketService;
+use App\Interfaces\Eloquent\IMeetingService;
+use App\Interfaces\Eloquent\IMeetingTypeService;
 use App\Interfaces\Eloquent\IOvertimeService;
 use App\Interfaces\Eloquent\IOvertimeTypeService;
 use App\Interfaces\Eloquent\IPasswordResetService;
@@ -68,6 +70,8 @@ use App\Services\Eloquent\JobDepartmentService;
 use App\Services\Eloquent\JobDepartmentTypeService;
 use App\Services\Eloquent\MarketPaymentService;
 use App\Services\Eloquent\MarketService;
+use App\Services\Eloquent\MeetingService;
+use App\Services\Eloquent\MeetingTypeService;
 use App\Services\Eloquent\OvertimeService;
 use App\Services\Eloquent\OvertimeTypeService;
 use App\Services\Eloquent\PasswordResetService;
@@ -149,6 +153,8 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IAcademyEducationLessonService::class, AcademyEducationLessonService::class);
         $this->app->bind(IAcademyEducationPlanService::class, AcademyEducationPlanService::class);
         $this->app->bind(IAcademyEducationPlanParticipantService::class, AcademyEducationPlanParticipantService::class);
+        $this->app->bind(IMeetingService::class, MeetingService::class);
+        $this->app->bind(IMeetingTypeService::class, MeetingTypeService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);
