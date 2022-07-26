@@ -2,12 +2,26 @@
 
 namespace App\Services\Eloquent;
 
+use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IPaymentService;
 use App\Models\Eloquent\Payment;
 use App\Services\ServiceResponse;
 
 class PaymentService implements IPaymentService
 {
+    /**
+     * @var $employeeService
+     */
+    private $employeeService;
+
+    /**
+     * @param IEmployeeService $employeeService
+     */
+    public function __construct(IEmployeeService $employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
     /**
      * @return ServiceResponse
      */
@@ -174,5 +188,78 @@ class PaymentService implements IPaymentService
                 'type'
             ])->where('employee_id', $employeeId)->whereBetween('date', [$startDate, $endDate])->get()
         );
+    }
+
+    /**
+     * @param int $statusId
+     * @param array $companyIds
+     *
+     * @return ServiceResponse
+     */
+    public function getByStatusIdAndCompanyIds(
+        int   $statusId,
+        array $companyIds
+    ): ServiceResponse
+    {
+        $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(
+            0,
+            1000,
+            $companyIds
+        );
+        if ($employeesByCompanyIdsResponse->isSuccess()) {
+            $payments = Payment::with([
+                'employee',
+                'status',
+                'type'
+            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+                ->where('status_id', $statusId)
+                ->get();
+
+            return new ServiceResponse(
+                true,
+                'Payments on date',
+                200,
+                $payments
+            );
+        } else {
+            return $employeesByCompanyIdsResponse;
+        }
+    }
+
+    /**
+     * @param string $date
+     * @param array $companyIds
+     *
+     * @return ServiceResponse
+     */
+    public function getByDateAndCompanyIds(
+        string $date,
+        array  $companyIds
+    ): ServiceResponse
+    {
+        $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(
+            0,
+            1000,
+            $companyIds
+        );
+        if ($employeesByCompanyIdsResponse->isSuccess()) {
+            $payments = Payment::with([
+                'employee',
+                'status',
+                'type'
+            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+                ->where('date', $date)
+                ->where('status_id', 2)
+                ->get();
+
+            return new ServiceResponse(
+                true,
+                'Payments on date',
+                200,
+                $payments
+            );
+        } else {
+            return $employeesByCompanyIdsResponse;
+        }
     }
 }
