@@ -18,6 +18,8 @@
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <input type="hidden" id="update_permit_id">
+                        <input type="hidden" id="update_permit_employee_id">
+                        <input type="hidden" id="update_permit_status_id">
                         <div class="row mb-5">
                             <div class="col-xl-3 mt-3">
                                 <label for="update_permit_type_id" class="font-weight-bolder">İzin Türü</label>

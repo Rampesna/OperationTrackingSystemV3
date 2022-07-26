@@ -405,6 +405,8 @@
                 id: permitId,
             },
             success: function (response) {
+                $('#update_permit_employee_id').val(response.response.employee_id);
+                $('#update_permit_status_id').val(response.response.status_id);
                 updatePermitTypeId.val(response.response.type_id);
                 $('#update_permit_start_date').val(reformatDatetimeForInput(response.response.start_date));
                 $('#update_permit_end_date').val(reformatDatetimeForInput(response.response.end_date));
@@ -449,6 +451,8 @@
                 id: overtimeId,
             },
             success: function (response) {
+                $('#update_overtime_employee_id').val(response.response.employee_id);
+                $('#update_overtime_status_id').val(response.response.status_id);
                 updateOvertimeTypeId.val(response.response.type_id);
                 $('#update_overtime_start_date').val(reformatDatetimeForInput(response.response.start_date));
                 $('#update_overtime_end_date').val(reformatDatetimeForInput(response.response.end_date));
@@ -493,6 +497,8 @@
                 id: paymentId,
             },
             success: function (response) {
+                $('#update_payment_employee_id').val(response.response.employee_id);
+                $('#update_payment_status_id').val(response.response.status_id);
                 updatePaymentTypeId.val(response.response.type_id);
                 $('#update_payment_date').val(response.response.date);
                 $('#update_payment_amount').val(response.response.amount);
@@ -569,6 +575,54 @@
                 DenyPermitButton.attr('disabled', false).html(`Reddet`);
             }
         });
+    });
+
+    UpdatePermitButton.click(function () {
+        var id = $('#update_permit_id').val();
+        var employeeId = $('#update_permit_employee_id').val();
+        var statusId = $('#update_permit_status_id').val();
+        var typeId = updatePermitTypeId.val();
+        var startDate = $('#update_permit_start_date').val();
+        var endDate = $('#update_permit_end_date').val();
+        var description = $('#update_permit_description').val();
+
+        if (!typeId) {
+            toastr.warning('İzin Türü Seçmediniz!');
+        } else if (!startDate) {
+            toastr.warning('Başlangıç Tarihi Seçmediniz!');
+        } else if (!endDate) {
+            toastr.warning('Bitiş Tarihi Seçmediniz!');
+        } else {
+            UpdatePermitButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.permit.update') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                    employeeId: employeeId,
+                    statusId: statusId,
+                    typeId: typeId,
+                    startDate: startDate,
+                    endDate: endDate,
+                    description: description,
+                },
+                success: function () {
+                    getWaitingTransactions();
+                    $('#UpdatePermitModal').modal('hide');
+                    toastr.success('İzin Güncellendi!');
+                    UpdatePermitButton.attr('disabled', false).html(`Güncelle`);
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('İzin Güncellenirken Serviste Bir Hata Oluştu.');
+                    UpdatePermitButton.attr('disabled', false).html(`Güncelle`);
+                }
+            });
+        }
     });
 
     DeletePermitButton.click(function () {
@@ -656,6 +710,54 @@
         });
     });
 
+    UpdateOvertimeButton.click(function () {
+        var id = $('#update_overtime_id').val();
+        var employeeId = $('#update_overtime_employee_id').val();
+        var statusId = $('#update_overtime_status_id').val();
+        var typeId = updateOvertimeTypeId.val();
+        var startDate = $('#update_overtime_start_date').val();
+        var endDate = $('#update_overtime_end_date').val();
+        var description = $('#update_overtime_description').val();
+
+        if (!typeId) {
+            toastr.warning('Mesai Türü Seçmediniz!');
+        } else if (!startDate) {
+            toastr.warning('Başlangıç Tarihi Seçmediniz!');
+        } else if (!endDate) {
+            toastr.warning('Bitiş Tarihi Seçmediniz!');
+        } else {
+            UpdateOvertimeButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.overtime.update') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                    employeeId: employeeId,
+                    statusId: statusId,
+                    typeId: typeId,
+                    startDate: startDate,
+                    endDate: endDate,
+                    description: description,
+                },
+                success: function () {
+                    getWaitingTransactions();
+                    $('#UpdateOvertimeModal').modal('hide');
+                    toastr.success('Mesai Güncellendi!');
+                    UpdateOvertimeButton.attr('disabled', false).html(`Güncelle`);
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Mesai Güncellenirken Serviste Bir Hata Oluştu.');
+                    UpdateOvertimeButton.attr('disabled', false).html(`Güncelle`);
+                }
+            });
+        }
+    });
+
     DeleteOvertimeButton.click(function () {
         DeleteOvertimeButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
         var overtimeId = $('#delete_overtime_id').val();
@@ -739,6 +841,54 @@
                 DenyPaymentButton.attr('disabled', false).html(`Reddet`);
             }
         });
+    });
+
+    UpdatePaymentButton.click(function () {
+        var id = $('#update_payment_id').val();
+        var employeeId = $('#update_payment_employee_id').val();
+        var statusId = $('#update_payment_status_id').val();
+        var typeId = updatePaymentTypeId.val();
+        var date = $('#update_payment_date').val();
+        var amount = $('#update_payment_amount').val();
+        var description = $('#update_payment_description').val();
+
+        if (!typeId) {
+            toastr.warning('Ödeme Türü Seçmediniz!');
+        } else if (!date) {
+            toastr.warning('İstenilen Tarihi Seçmediniz!');
+        } else if (!amount) {
+            toastr.warning('İstenilen Miktarı Girmediniz!');
+        } else {
+            UpdatePaymentButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.payment.update') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: id,
+                    employeeId: employeeId,
+                    statusId: statusId,
+                    typeId: typeId,
+                    date: date,
+                    amount: amount,
+                    description: description,
+                },
+                success: function () {
+                    getWaitingTransactions();
+                    $('#UpdatePaymentModal').modal('hide');
+                    toastr.success('Ödeme Güncellendi!');
+                    UpdatePaymentButton.attr('disabled', false).html(`Güncelle`);
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Ödeme Güncellenirken Serviste Bir Hata Oluştu.');
+                    UpdatePaymentButton.attr('disabled', false).html(`Güncelle`);
+                }
+            });
+        }
     });
 
     DeletePaymentButton.click(function () {

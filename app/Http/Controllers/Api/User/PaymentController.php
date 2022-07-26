@@ -7,6 +7,8 @@ use App\Http\Requests\Api\User\PaymentController\GetAllRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByIdRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByDateAndCompanyIdsRequest;
+use App\Http\Requests\Api\User\PaymentController\CreateRequest;
+use App\Http\Requests\Api\User\PaymentController\UpdateRequest;
 use App\Http\Requests\Api\User\PaymentController\SetStatusRequest;
 use App\Http\Requests\Api\User\PaymentController\DeleteRequest;
 use App\Interfaces\Eloquent\IPaymentService;
@@ -111,6 +113,61 @@ class PaymentController extends Controller
             return $this->error(
                 $getByDateResponse->getMessage(),
                 $getByDateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param CreateRequest $request
+     */
+    public function create(CreateRequest $request)
+    {
+        $createResponse = $this->paymentService->create(
+            $request->employeeId,
+            $request->typeId,
+            $request->statusId,
+            $request->date,
+            $request->amount,
+            $request->description
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateRequest $request
+     */
+    public function update(UpdateRequest $request)
+    {
+        $updateResponse = $this->paymentService->update(
+            $request->id,
+            $request->employeeId,
+            $request->typeId,
+            $request->statusId,
+            $request->date,
+            $request->amount,
+            $request->description
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
             );
         }
     }

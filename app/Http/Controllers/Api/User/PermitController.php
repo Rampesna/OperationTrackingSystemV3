@@ -7,6 +7,8 @@ use App\Http\Requests\Api\User\PermitController\GetAllRequest;
 use App\Http\Requests\Api\User\PermitController\GetByIdRequest;
 use App\Http\Requests\Api\User\PermitController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByDateAndCompanyIdsRequest;
+use App\Http\Requests\Api\User\PermitController\CreateRequest;
+use App\Http\Requests\Api\User\PermitController\UpdateRequest;
 use App\Http\Requests\Api\User\PermitController\SetStatusRequest;
 use App\Http\Requests\Api\User\PermitController\DeleteRequest;
 use App\Interfaces\Eloquent\IPermitService;
@@ -111,6 +113,61 @@ class PermitController extends Controller
             return $this->error(
                 $getByDateResponse->getMessage(),
                 $getByDateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param CreateRequest $request
+     */
+    public function create(CreateRequest $request)
+    {
+        $createResponse = $this->permitService->create(
+            $request->employeeId,
+            $request->typeId,
+            $request->statusId,
+            $request->startDate,
+            $request->endDate,
+            $request->description
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateRequest $request
+     */
+    public function update(UpdateRequest $request)
+    {
+        $updateResponse = $this->permitService->update(
+            $request->id,
+            $request->employeeId,
+            $request->typeId,
+            $request->statusId,
+            $request->startDate,
+            $request->endDate,
+            $request->description
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
             );
         }
     }

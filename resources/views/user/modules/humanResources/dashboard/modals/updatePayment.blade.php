@@ -18,6 +18,8 @@
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <input type="hidden" id="update_payment_id">
+                        <input type="hidden" id="update_payment_employee_id">
+                        <input type="hidden" id="update_payment_status_id">
                         <div class="row mb-5">
                             <div class="col-xl-3 mt-3">
                                 <label for="update_payment_type_id" class="font-weight-bolder">Ödeme Türü</label>

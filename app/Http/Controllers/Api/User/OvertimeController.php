@@ -7,6 +7,8 @@ use App\Http\Requests\Api\User\OvertimeController\GetAllRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByIdRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByDateAndCompanyIdsRequest;
+use App\Http\Requests\Api\User\OvertimeController\CreateRequest;
+use App\Http\Requests\Api\User\OvertimeController\UpdateRequest;
 use App\Http\Requests\Api\User\OvertimeController\SetStatusRequest;
 use App\Http\Requests\Api\User\OvertimeController\DeleteRequest;
 use App\Interfaces\Eloquent\IOvertimeService;
@@ -111,6 +113,61 @@ class OvertimeController extends Controller
             return $this->error(
                 $getByDateResponse->getMessage(),
                 $getByDateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param CreateRequest $request
+     */
+    public function create(CreateRequest $request)
+    {
+        $createResponse = $this->overtimeService->create(
+            $request->employeeId,
+            $request->typeId,
+            $request->statusId,
+            $request->startDate,
+            $request->endDate,
+            $request->description
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateRequest $request
+     */
+    public function update(UpdateRequest $request)
+    {
+        $updateResponse = $this->overtimeService->update(
+            $request->id,
+            $request->employeeId,
+            $request->typeId,
+            $request->statusId,
+            $request->startDate,
+            $request->endDate,
+            $request->description
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
             );
         }
     }
