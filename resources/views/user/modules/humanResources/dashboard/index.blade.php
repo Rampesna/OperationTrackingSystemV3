@@ -26,9 +26,10 @@
     @include('user.modules.humanResources.dashboard.modals.deletePermit')
     @include('user.modules.humanResources.dashboard.modals.deleteOvertime')
     @include('user.modules.humanResources.dashboard.modals.deletePayment')
+    @include('user.modules.humanResources.dashboard.modals.todayPermittedEmployees')
 
     <div class="row">
-        <div class="col-xl-4 col-6 cursor-pointer mb-5">
+        <div class="col-xl-4 col-6 mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
@@ -52,7 +53,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-6 cursor-pointer mb-5">
+        <div class="col-xl-4 col-6 cursor-pointer mb-5" onclick="todayPermittedEmployees()">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
@@ -74,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-6 cursor-pointer mb-5">
+        <div class="col-xl-4 col-6 mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
