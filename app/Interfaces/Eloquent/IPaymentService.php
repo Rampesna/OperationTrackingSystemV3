@@ -80,4 +80,15 @@ interface IPaymentService extends IEloquentService
         string $date,
         array  $companyIds
     ): ServiceResponse;
+
+    /**
+     * @param int $paymentId
+     * @param int $statusId
+     *
+     * @return ServiceResponse
+     */
+    public function setStatus(
+        int $paymentId,
+        int $statusId
+    ): ServiceResponse;
 }

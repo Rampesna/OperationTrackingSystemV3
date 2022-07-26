@@ -80,4 +80,15 @@ interface IOvertimeService extends IEloquentService
         string $date,
         array  $companyIds
     ): ServiceResponse;
+
+    /**
+     * @param int $overtimeId
+     * @param int $statusId
+     *
+     * @return ServiceResponse
+     */
+    public function setStatus(
+        int $overtimeId,
+        int $statusId
+    ): ServiceResponse;
 }

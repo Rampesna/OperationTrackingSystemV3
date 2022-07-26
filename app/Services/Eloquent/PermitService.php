@@ -287,4 +287,31 @@ class PermitService implements IPermitService
             return $employeesByCompanyIdsResponse;
         }
     }
+
+    /**
+     * @param int $permitId
+     * @param int $statusId
+     *
+     * @return ServiceResponse
+     */
+    public function setStatus(
+        int $permitId,
+        int $statusId
+    ): ServiceResponse
+    {
+        $permit = $this->getById($permitId);
+        if ($permit->isSuccess()) {
+            $permit->getData()->status_id = $statusId;
+            $permit->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Permit status updated',
+                200,
+                $permit->getData()
+            );
+        } else {
+            return $permit;
+        }
+    }
 }

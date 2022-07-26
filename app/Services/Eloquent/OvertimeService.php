@@ -287,4 +287,31 @@ class OvertimeService implements IOvertimeService
             return $employeesByCompanyIdsResponse;
         }
     }
+
+    /**
+     * @param int $overtimeId
+     * @param int $statusId
+     *
+     * @return ServiceResponse
+     */
+    public function setStatus(
+        int $overtimeId,
+        int $statusId
+    ): ServiceResponse
+    {
+        $overtime = $this->getById($overtimeId);
+        if ($overtime->isSuccess()) {
+            $overtime->getData()->status_id = $statusId;
+            $overtime->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Overtime status updated',
+                200,
+                $overtime->getData()
+            );
+        } else {
+            return $overtime;
+        }
+    }
 }

@@ -262,4 +262,31 @@ class PaymentService implements IPaymentService
             return $employeesByCompanyIdsResponse;
         }
     }
+
+    /**
+     * @param int $paymentId
+     * @param int $statusId
+     *
+     * @return ServiceResponse
+     */
+    public function setStatus(
+        int $paymentId,
+        int $statusId
+    ): ServiceResponse
+    {
+        $payment = $this->getById($paymentId);
+        if ($payment->isSuccess()) {
+            $payment->getData()->status_id = $statusId;
+            $payment->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Payment status updated',
+                200,
+                $payment->getData()
+            );
+        } else {
+            return $payment;
+        }
+    }
 }

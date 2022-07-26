@@ -17,6 +17,22 @@
     var updateOvertimeTypeId = $('#update_overtime_type_id');
     var updatePaymentTypeId = $('#update_payment_type_id');
 
+    var AcceptPermitButton = $('#AcceptPermitButton');
+    var AcceptOvertimeButton = $('#AcceptOvertimeButton');
+    var AcceptPaymentButton = $('#AcceptPaymentButton');
+
+    var DenyPermitButton = $('#DenyPermitButton');
+    var DenyOvertimeButton = $('#DenyOvertimeButton');
+    var DenyPaymentButton = $('#DenyPaymentButton');
+
+    var UpdatePermitButton = $('#UpdatePermitButton');
+    var UpdateOvertimeButton = $('#UpdateOvertimeButton');
+    var UpdatePaymentButton = $('#UpdatePaymentButton');
+
+    var DeletePermitButton = $('#DeletePermitButton');
+    var DeleteOvertimeButton = $('#DeleteOvertimeButton');
+    var DeletePaymentButton = $('#DeletePaymentButton');
+
     function getPermitTypes() {
         $.ajax({
             type: 'get',
@@ -496,6 +512,261 @@
         $('#delete_payment_id').val(paymentId);
         $('#DeletePaymentModal').modal('show');
     }
+
+    AcceptPermitButton.click(function () {
+        AcceptPermitButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+        var permitId = $('#accept_permit_id').val();
+        var statusId = 2;
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.permit.setStatus') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                permitId: permitId,
+                statusId: statusId,
+            },
+            success: function () {
+                getWaitingTransactions();
+                toastr.success('İzin Onaylandı!');
+                $('#AcceptPermitModal').modal('hide');
+                AcceptPermitButton.attr('disabled', false).html(`Onayla`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('İzin Onaylanırken Serviste Bir Hata Oluştu.');
+                AcceptPermitButton.attr('disabled', false).html(`Onayla`);
+            }
+        });
+    });
+
+    DenyPermitButton.click(function () {
+        DenyPermitButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+        var permitId = $('#deny_permit_id').val();
+        var statusId = 3;
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.permit.setStatus') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                permitId: permitId,
+                statusId: statusId,
+            },
+            success: function () {
+                getWaitingTransactions();
+                toastr.success('İzin Reddedildi!');
+                $('#DenyPermitModal').modal('hide');
+                DenyPermitButton.attr('disabled', false).html(`Reddet`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('İzin Reddedilirken Serviste Bir Hata Oluştu.');
+                DenyPermitButton.attr('disabled', false).html(`Reddet`);
+            }
+        });
+    });
+
+    DeletePermitButton.click(function () {
+        DeletePermitButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+        var permitId = $('#delete_permit_id').val();
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('user.api.permit.delete') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: permitId,
+            },
+            success: function () {
+                getWaitingTransactions();
+                toastr.success('İzin Silindi!');
+                $('#DeletePermitModal').modal('hide');
+                DeletePermitButton.attr('disabled', false).html(`Sil`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('İzin Silinirken Serviste Bir Hata Oluştu.');
+                DeletePermitButton.attr('disabled', false).html(`Sil`);
+            }
+        });
+    });
+
+    AcceptOvertimeButton.click(function () {
+        AcceptOvertimeButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+        var overtimeId = $('#accept_overtime_id').val();
+        var statusId = 2;
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.overtime.setStatus') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                overtimeId: overtimeId,
+                statusId: statusId,
+            },
+            success: function () {
+                getWaitingTransactions();
+                toastr.success('Mesai Onaylandı!');
+                $('#AcceptOvertimeModal').modal('hide');
+                AcceptOvertimeButton.attr('disabled', false).html(`Onayla`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Mesai Onaylanırken Serviste Bir Hata Oluştu.');
+                AcceptOvertimeButton.attr('disabled', false).html(`Onayla`);
+            }
+        });
+    });
+
+    DenyOvertimeButton.click(function () {
+        DenyOvertimeButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+        var overtimeId = $('#deny_overtime_id').val();
+        var statusId = 3;
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.overtime.setStatus') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                overtimeId: overtimeId,
+                statusId: statusId,
+            },
+            success: function () {
+                getWaitingTransactions();
+                toastr.success('Mesai Reddedildi!');
+                $('#DenyOvertimeModal').modal('hide');
+                DenyOvertimeButton.attr('disabled', false).html(`Reddet`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Mesai Reddedilirken Serviste Bir Hata Oluştu.');
+                DenyOvertimeButton.attr('disabled', false).html(`Reddet`);
+            }
+        });
+    });
+
+    DeleteOvertimeButton.click(function () {
+        DeleteOvertimeButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+        var overtimeId = $('#delete_overtime_id').val();
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('user.api.overtime.delete') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: overtimeId,
+            },
+            success: function () {
+                getWaitingTransactions();
+                toastr.success('Mesai Silindi!');
+                $('#DeleteOvertimeModal').modal('hide');
+                DeleteOvertimeButton.attr('disabled', false).html(`Sil`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Mesai Silinirken Serviste Bir Hata Oluştu.');
+                DeleteOvertimeButton.attr('disabled', false).html(`Sil`);
+            }
+        });
+    });
+
+    AcceptPaymentButton.click(function () {
+        AcceptPaymentButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+        var paymentId = $('#accept_payment_id').val();
+        var statusId = 2;
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.payment.setStatus') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                paymentId: paymentId,
+                statusId: statusId,
+            },
+            success: function () {
+                getWaitingTransactions();
+                toastr.success('Ödeme Onaylandı!');
+                $('#AcceptPaymentModal').modal('hide');
+                AcceptPaymentButton.attr('disabled', false).html(`Onayla`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Ödeme Onaylanırken Serviste Bir Hata Oluştu.');
+                AcceptPaymentButton.attr('disabled', false).html(`Onayla`);
+            }
+        });
+    });
+
+    DenyPaymentButton.click(function () {
+        DenyPaymentButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+        var paymentId = $('#deny_payment_id').val();
+        var statusId = 3;
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.payment.setStatus') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                paymentId: paymentId,
+                statusId: statusId,
+            },
+            success: function () {
+                getWaitingTransactions();
+                toastr.success('Ödeme Reddedildi!');
+                $('#DenyPaymentModal').modal('hide');
+                DenyPaymentButton.attr('disabled', false).html(`Reddet`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Ödeme Reddedilirken Serviste Bir Hata Oluştu.');
+                DenyPaymentButton.attr('disabled', false).html(`Reddet`);
+            }
+        });
+    });
+
+    DeletePaymentButton.click(function () {
+        DeletePaymentButton.attr('disabled', true).html(`<i class="fa fa-lg fa-spinner fa-spin"></i>`);
+        var paymentId = $('#delete_payment_id').val();
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('user.api.payment.delete') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: paymentId,
+            },
+            success: function () {
+                getWaitingTransactions();
+                toastr.success('Ödeme Silindi!');
+                $('#DeletePaymentModal').modal('hide');
+                DeletePaymentButton.attr('disabled', false).html(`Sil`);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Ödeme Silinirken Serviste Bir Hata Oluştu.');
+                DeletePaymentButton.attr('disabled', false).html(`Sil`);
+            }
+        });
+    });
 
     SelectedCompanies.change(function () {
         getEmployeesByCompanyIds();

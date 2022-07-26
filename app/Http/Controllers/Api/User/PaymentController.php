@@ -7,6 +7,8 @@ use App\Http\Requests\Api\User\PaymentController\GetAllRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByIdRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByDateAndCompanyIdsRequest;
+use App\Http\Requests\Api\User\PaymentController\SetStatusRequest;
+use App\Http\Requests\Api\User\PaymentController\DeleteRequest;
 use App\Interfaces\Eloquent\IPaymentService;
 use App\Traits\Response;
 
@@ -109,6 +111,49 @@ class PaymentController extends Controller
             return $this->error(
                 $getByDateResponse->getMessage(),
                 $getByDateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetStatusRequest $request
+     */
+    public function setStatus(SetStatusRequest $request)
+    {
+        $setStatusResponse = $this->paymentService->setStatus(
+            $request->paymentId,
+            $request->statusId
+        );
+        if ($setStatusResponse->isSuccess()) {
+            return $this->success(
+                $setStatusResponse->getMessage(),
+                $setStatusResponse->getData(),
+                $setStatusResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setStatusResponse->getMessage(),
+                $setStatusResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param DeleteRequest $request
+     */
+    public function delete(DeleteRequest $request)
+    {
+        $deleteResponse = $this->paymentService->delete($request->id);
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
             );
         }
     }

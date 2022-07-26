@@ -265,6 +265,8 @@ Route::middleware([
         Route::get('getById', [\App\Http\Controllers\Api\User\PermitController::class, 'getById'])->name('user.api.permit.getById');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.permit.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByDateAndCompanyIds'])->name('user.api.permit.getByDateAndCompanyIds');
+        Route::put('setStatus', [\App\Http\Controllers\Api\User\PermitController::class, 'setStatus'])->name('user.api.permit.setStatus');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\PermitController::class, 'delete'])->name('user.api.permit.delete');
     });
 
     Route::prefix('overtime')->group(function () {
@@ -272,6 +274,8 @@ Route::middleware([
         Route::get('getById', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getById'])->name('user.api.overtime.getById');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.overtime.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getByDateAndCompanyIds'])->name('user.api.overtime.getByDateAndCompanyIds');
+        Route::put('setStatus', [\App\Http\Controllers\Api\User\OvertimeController::class, 'setStatus'])->name('user.api.overtime.setStatus');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\OvertimeController::class, 'delete'])->name('user.api.overtime.delete');
     });
 
     Route::prefix('payment')->group(function () {
@@ -279,6 +283,8 @@ Route::middleware([
         Route::get('getById', [\App\Http\Controllers\Api\User\PaymentController::class, 'getById'])->name('user.api.payment.getById');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.payment.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByDateAndCompanyIds'])->name('user.api.payment.getByDateAndCompanyIds');
+        Route::put('setStatus', [\App\Http\Controllers\Api\User\PaymentController::class, 'setStatus'])->name('user.api.payment.setStatus');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\PaymentController::class, 'delete'])->name('user.api.payment.delete');
     });
 
     Route::prefix('permitType')->group(function () {

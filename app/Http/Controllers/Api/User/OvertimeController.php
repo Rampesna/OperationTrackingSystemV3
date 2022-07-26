@@ -7,6 +7,8 @@ use App\Http\Requests\Api\User\OvertimeController\GetAllRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByIdRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByDateAndCompanyIdsRequest;
+use App\Http\Requests\Api\User\OvertimeController\SetStatusRequest;
+use App\Http\Requests\Api\User\OvertimeController\DeleteRequest;
 use App\Interfaces\Eloquent\IOvertimeService;
 use App\Traits\Response;
 
@@ -109,6 +111,49 @@ class OvertimeController extends Controller
             return $this->error(
                 $getByDateResponse->getMessage(),
                 $getByDateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetStatusRequest $request
+     */
+    public function setStatus(SetStatusRequest $request)
+    {
+        $setStatusResponse = $this->overtimeService->setStatus(
+            $request->overtimeId,
+            $request->statusId
+        );
+        if ($setStatusResponse->isSuccess()) {
+            return $this->success(
+                $setStatusResponse->getMessage(),
+                $setStatusResponse->getData(),
+                $setStatusResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setStatusResponse->getMessage(),
+                $setStatusResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param DeleteRequest $request
+     */
+    public function delete(DeleteRequest $request)
+    {
+        $deleteResponse = $this->overtimeService->delete($request->id);
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
             );
         }
     }

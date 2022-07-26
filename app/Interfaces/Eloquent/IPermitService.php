@@ -80,4 +80,15 @@ interface IPermitService extends IEloquentService
         string $date,
         array  $companyIds
     ): ServiceResponse;
+
+    /**
+     * @param int $permitId
+     * @param int $statusId
+     *
+     * @return ServiceResponse
+     */
+    public function setStatus(
+        int $permitId,
+        int $statusId
+    ): ServiceResponse;
 }
