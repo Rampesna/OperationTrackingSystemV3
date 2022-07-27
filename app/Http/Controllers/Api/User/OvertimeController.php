@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\OvertimeController\GetAllRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByIdRequest;
+use App\Http\Requests\Api\User\OvertimeController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\CreateRequest;
@@ -57,6 +58,35 @@ class OvertimeController extends Controller
     public function getById(GetByIdRequest $request)
     {
         $getByIdResponse = $this->overtimeService->getById($request->id);
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByCompanyIdsRequest $request
+     */
+    public function getByCompanyIds(GetByCompanyIdsRequest $request)
+    {
+        $getByIdResponse = $this->overtimeService->getByCompanyIds(
+            $request->companyIds,
+            $request->pageIndex,
+            $request->pageSize,
+            $request->keyword,
+            $request->startDate,
+            $request->endDate,
+            $request->statusId,
+            $request->typeId
+        );
         if ($getByIdResponse->isSuccess()) {
             return $this->success(
                 $getByIdResponse->getMessage(),

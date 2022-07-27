@@ -242,6 +242,76 @@ class OvertimeService implements IOvertimeService
     }
 
     /**
+     * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param int|null $statusId
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByCompanyIds(
+        array   $companyIds,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword,
+        ?string $startDate,
+        ?string $endDate,
+        ?int    $statusId,
+        ?int    $typeId
+    ): ServiceResponse
+    {
+        $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(
+            0,
+            1000,
+            $companyIds,
+            0,
+            $keyword
+        );
+        if ($employeesByCompanyIdsResponse->isSuccess()) {
+            $overtimes = Overtime::with([
+                'employee',
+                'status',
+                'type'
+            ])->orderBy('id', 'desc')->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray());
+            if ($startDate) {
+                $overtimes->where('start_date', '>=', $startDate);
+            }
+
+            if ($endDate) {
+                $overtimes->where('end_date', '<=', $endDate);
+            }
+
+            if ($statusId) {
+                $overtimes->where('status_id', $statusId);
+            }
+
+            if ($typeId) {
+                $overtimes->where('type_id', $typeId);
+            }
+
+            return new ServiceResponse(
+                true,
+                'Overtimes',
+                200,
+                [
+                    'totalCount' => $overtimes->count(),
+                    'pageIndex' => $pageIndex,
+                    'pageSize' => $pageSize,
+                    'overtimes' => $overtimes->skip($pageSize * $pageIndex)
+                        ->take($pageSize)
+                        ->get()
+                ]
+            );
+        } else {
+            return $employeesByCompanyIdsResponse;
+        }
+    }
+
+    /**
      * @param string $date
      * @param array $companyIds
      *

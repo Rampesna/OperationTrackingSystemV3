@@ -147,8 +147,8 @@
         var pageIndex = parseInt(page.html()) - 1;
         var pageSize = pageSizeSelector.val();
         var keyword = keywordFilter.val();
-        var startDate = startDateFilter.val();
-        var endDate = endDateFilter.val();
+        var startDate = startDateFilter.val() + ' 00:00:00';
+        var endDate = endDateFilter.val() + ' 23:59:59';
         var statusId = statusIdFilter.val();
         var typeId = typeIdFilter.val();
 
