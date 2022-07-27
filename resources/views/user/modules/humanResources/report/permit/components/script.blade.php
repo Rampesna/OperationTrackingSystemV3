@@ -1,13 +1,33 @@
+<script src="{{ asset('assets/jqwidgets/jqxcore.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxbuttons.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxscrollbar.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxlistbox.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxdropdownlist.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxmenu.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.selection.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.columnsresize.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.filter.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.sort.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxdata.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.pager.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxnumberinput.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxwindow.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxdata.export.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.export.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxexport.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.grouping.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/globalization/globalize.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqgrid-localization.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jszip.min.js') }}"></script>
+
 <script>
 
     $(document).ready(function () {
         $('#loader').hide();
-
-        var dates = getDatesInRange(new Date('2022-07-01'), new Date('2022-07-05'));
-        $.each(dates, function (i, date) {
-            console.log(date.getDate());
-        });
     });
+
+    var permitReportDiv = $('#permitReport');
 
     var employeeIdsSelector = $('#employeeIds');
     var typeIdsSelector = $('#typeIds');
@@ -16,6 +36,7 @@
     var UnSelectAllEmployeesButton = $('#UnSelectAllEmployeesButton');
 
     var ReportButton = $('#ReportButton');
+    var DownloadExcelButton = $('#DownloadExcelButton');
 
     function getEmployeesByCompanyIds() {
         $.ajax({
@@ -83,6 +104,7 @@
         } else if (!endDate) {
             toastr.warning('Bitiş Tarihi Seçilmedi.');
         } else {
+            DownloadExcelButton.hide();
             $.ajax({
                 type: 'get',
                 url: '{{ route('user.api.permit.getDateBetweenByEmployeeIdsAndTypeIds') }}',
@@ -105,16 +127,64 @@
                             minutes += getMinutesBetweenTwoDates(permit.start_date, permit.end_date);
                         });
                         employees.push({
-                            name: permits[0].name,
+                            name: permits[0].employee.name,
                             duration: minutesToString(minutes),
                         });
                     });
-
-                    console.log(employees);
+                    var source = {
+                        localdata: employees,
+                        datatype: "array",
+                        datafields:
+                            [
+                                {name: 'name', type: 'string'},
+                                {name: 'duration', type: 'string'},
+                            ]
+                    };
+                    var dataAdapter = new $.jqx.dataAdapter(source);
+                    permitReportDiv.jqxGrid({
+                        width: '100%',
+                        height: '600',
+                        source: dataAdapter,
+                        columnsresize: true,
+                        groupable: true,
+                        theme: jqxGridGlobalTheme,
+                        filterable: true,
+                        showfilterrow: true,
+                        pageable: false,
+                        sortable: true,
+                        pagesizeoptions: ['10', '20', '50', '1000'],
+                        localization: getLocalization('tr'),
+                        columns: [
+                            {
+                                text: 'Personel',
+                                dataField: 'name',
+                                columntype: 'textbox',
+                                width: '50%'
+                            },
+                            {
+                                text: 'Toplam İzin Süresi',
+                                dataField: 'duration',
+                                columntype: 'textbox',
+                                width: '50%'
+                            }
+                        ],
+                    });
+                    permitReportDiv.on('rowclick', function (event) {
+                        permitReportDiv.jqxGrid('selectrow', event.args.rowindex);
+                        var rowindex = permitReportDiv.jqxGrid('getselectedrowindex');
+                        $('#selected_survey_row_index').val(rowindex);
+                        var dataRecord = permitReportDiv.jqxGrid('getrowdata', rowindex);
+                        $('#selected_survey_id').val(dataRecord.id);
+                        $('#selected_survey_code').val(dataRecord.kodu);
+                        return false;
+                    });
+                    permitReportDiv.jqxGrid('sortby', 'name', 'asc');
+                    DownloadExcelButton.show();
                 },
                 error: function (error) {
                     console.log(error);
                     toastr.error('İzinler Alınırken Serviste Bir Hata Oluştu.');
+                    DownloadExcelButton.hide();
                 }
             });
         }
@@ -133,6 +203,10 @@
 
     ReportButton.click(function () {
         getPermitsDateBetweenByEmployeeIds();
+    });
+
+    DownloadExcelButton.click(function () {
+        permitReportDiv.jqxGrid('exportdata', 'xls', 'Yaş & Cinsiyet Raporu');
     });
 
     SelectedCompanies.change(function () {

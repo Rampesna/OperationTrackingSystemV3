@@ -266,6 +266,12 @@ function getMinutesBetweenTwoDates(startDate, endDate) {
     }
 }
 
+function getMinutesBetweenTwoDatesForOvertime(startDate, endDate) {
+    var firstDate = new Date(startDate);
+    var lastDate = new Date(endDate);
+    return calculatedMinutes = (lastDate.getTime() - firstDate.getTime()) / 1000 / 60;
+}
+
 function minutesToString(minutes) {
     var remainingMinutes = minutes % 60;
     var hours = Math.floor(minutes / 60);

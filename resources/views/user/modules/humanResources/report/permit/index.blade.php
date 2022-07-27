@@ -47,9 +47,15 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-xl-12">
-            <div id="permitsReport"></div>
+            <div id="permitReport"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-9"></div>
+        <div class="col-xl-3 d-grid">
+            <button class="btn btn-primary" id="DownloadExcelButton" style="display: none">Excel İndir</button>
         </div>
     </div>
 

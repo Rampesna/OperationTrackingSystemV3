@@ -202,7 +202,7 @@
                             ${reformatDatetimeToDatetimeForHuman(overtime.end_date)}
                         </td>
                         <td class="hideIfMobile">
-                            --
+                            ${minutesToString(getMinutesBetweenTwoDatesForOvertime(overtime.start_date, overtime.end_date))}
                         </td>
                     </tr>
                     `);
