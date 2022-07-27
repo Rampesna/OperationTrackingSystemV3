@@ -227,6 +227,76 @@ class PaymentService implements IPaymentService
     }
 
     /**
+     * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     * @param string|null $date
+     * @param float|null $amount
+     * @param int|null $statusId
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByCompanyIds(
+        array   $companyIds,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword,
+        ?string $date,
+        ?float  $amount,
+        ?int    $statusId,
+        ?int    $typeId
+    ): ServiceResponse
+    {
+        $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(
+            0,
+            1000,
+            $companyIds,
+            0,
+            $keyword
+        );
+        if ($employeesByCompanyIdsResponse->isSuccess()) {
+            $payments = Payment::with([
+                'employee',
+                'status',
+                'type'
+            ])->orderBy('id', 'desc')->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray());
+            if ($date) {
+                $payments->where('date', $date);
+            }
+
+            if ($amount) {
+                $payments->where('amount', $amount);
+            }
+
+            if ($statusId) {
+                $payments->where('status_id', $statusId);
+            }
+
+            if ($typeId) {
+                $payments->where('type_id', $typeId);
+            }
+
+            return new ServiceResponse(
+                true,
+                'Payments',
+                200,
+                [
+                    'totalCount' => $payments->count(),
+                    'pageIndex' => $pageIndex,
+                    'pageSize' => $pageSize,
+                    'payments' => $payments->skip($pageSize * $pageIndex)
+                        ->take($pageSize)
+                        ->get()
+                ]
+            );
+        } else {
+            return $employeesByCompanyIdsResponse;
+        }
+    }
+
+    /**
      * @param string $date
      * @param array $companyIds
      *

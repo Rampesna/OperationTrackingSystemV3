@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\PaymentController\GetAllRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByIdRequest;
+use App\Http\Requests\Api\User\PaymentController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\CreateRequest;
@@ -57,6 +58,35 @@ class PaymentController extends Controller
     public function getById(GetByIdRequest $request)
     {
         $getByIdResponse = $this->paymentService->getById($request->id);
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByCompanyIdsRequest $request
+     */
+    public function getByCompanyIds(GetByCompanyIdsRequest $request)
+    {
+        $getByIdResponse = $this->paymentService->getByCompanyIds(
+            $request->companyIds,
+            $request->pageIndex,
+            $request->pageSize,
+            $request->keyword,
+            $request->date,
+            $request->amount,
+            $request->statusId,
+            $request->typeId
+        );
         if ($getByIdResponse->isSuccess()) {
             return $this->success(
                 $getByIdResponse->getMessage(),
