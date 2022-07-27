@@ -38,6 +38,6 @@ class HumanResourcesController extends Controller
 
     public function report()
     {
-        return view('user.modules.humanResources.report.index');
+        return view('user.modules.humanResources.report.index.index');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\PermitController\GetAllRequest;
 use App\Http\Requests\Api\User\PermitController\GetByIdRequest;
 use App\Http\Requests\Api\User\PermitController\GetByCompanyIdsRequest;
+use App\Http\Requests\Api\User\PermitController\GetDateBetweenByEmployeeIdsAndTypeIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\CreateRequest;
@@ -86,6 +87,31 @@ class PermitController extends Controller
             $request->endDate,
             $request->statusId,
             $request->typeId
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetDateBetweenByEmployeeIdsAndTypeIdsRequest $request
+     */
+    public function getDateBetweenByEmployeeIdsAndTypeIds(GetDateBetweenByEmployeeIdsAndTypeIdsRequest $request)
+    {
+        $getByIdResponse = $this->permitService->getDateBetweenByEmployeeIdsAndTypeIds(
+            $request->employeeIds,
+            $request->typeIds,
+            $request->startDate,
+            $request->endDate,
         );
         if ($getByIdResponse->isSuccess()) {
             return $this->success(

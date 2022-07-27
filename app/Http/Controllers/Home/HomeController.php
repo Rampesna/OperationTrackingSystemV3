@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Employee;
+use App\Models\Eloquent\EmployeePersonalInformation;
 use Ladumor\OneSignal\OneSignal;
 use App\Traits\Response;
 
@@ -29,6 +30,11 @@ class HomeController extends Controller
     }
 
     public function test()
+    {
+        return 'No Way!';
+    }
+
+    public function oneSignalTest()
     {
         $fields['include_player_ids'] = Employee::where('device_token', '<>', null)->pluck('device_token')->toArray();
         $fields['name'] = 'OTS 2';

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\EmployeeController\CreateRequest;
-use App\Http\Requests\Api\User\EmployeeController\GetByCompaniesRequest;
+use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsRequest;
+use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithPersonalInformationRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByJobDepartmentTypeIdsRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByIdRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByEmailRequest;
@@ -31,9 +32,9 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @param GetByCompaniesRequest $request
+     * @param GetByCompanyIdsRequest $request
      */
-    public function getByCompanyIds(GetByCompaniesRequest $request)
+    public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
         $companyIds = $request->user()->companies->pluck('id')->toArray();
 
@@ -46,6 +47,41 @@ class EmployeeController extends Controller
         }
 
         $getByCompaniesResponse = $this->employeeService->getByCompanyIds(
+            $request->pageIndex,
+            $request->pageSize,
+            $request->companyIds,
+            $request->leave
+        );
+        if ($getByCompaniesResponse->isSuccess()) {
+            return $this->success(
+                $getByCompaniesResponse->getMessage(),
+                $getByCompaniesResponse->getData(),
+                $getByCompaniesResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompaniesResponse->getMessage(),
+                $getByCompaniesResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByCompanyIdsWithPersonalInformationRequest $request
+     */
+    public function getByCompanyIdsWithPersonalInformation(GetByCompanyIdsWithPersonalInformationRequest $request)
+    {
+        $companyIds = $request->user()->companies->pluck('id')->toArray();
+
+        if (count($request->companyIds) == 0) return $this->error('Minimum one company is required.', 404);
+
+        foreach ($request->companyIds as $companyId) {
+            if (!in_array($companyId, $companyIds)) {
+                return $this->error('Unauthorized', 401);
+            }
+        }
+
+        $getByCompaniesResponse = $this->employeeService->getByCompanyIdsWithPersonalInformation(
             $request->pageIndex,
             $request->pageSize,
             $request->companyIds,

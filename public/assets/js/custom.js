@@ -225,6 +225,57 @@ function reformatInvoiceNumber(datetime, number) {
     return (new Date(datetime)).getFullYear() + '-' + number.padStart(9, '0');
 }
 
+function _calculateAge(birthday) {
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
+function getDatesInRange(startDate, endDate) {
+    const date = new Date(startDate.getTime());
+    const dates = [];
+    while (date <= endDate) {
+        dates.push(new Date(date));
+        date.setDate(date.getDate() + 1);
+    }
+    return dates;
+}
+
+function getMinutesBetweenTwoDates(startDate, endDate) {
+    var firstDate = new Date(startDate);
+    var lastDate = new Date(endDate);
+
+    if (reformatDatetimeTo_YYYY_MM_DD(firstDate) === reformatDatetimeTo_YYYY_MM_DD(lastDate)) {
+        calculatedMinutes = (lastDate.getTime() - firstDate.getTime()) / 1000 / 60;
+        return calculatedMinutes >= 480 ? 480 : calculatedMinutes;
+    } else {
+        totalMinutes = 0;
+        var dates = getDatesInRange(firstDate, lastDate);
+        $.each(dates, function (i, date) {
+            if (reformatDatetimeTo_YYYY_MM_DD(firstDate) === reformatDatetimeTo_YYYY_MM_DD(date)) {
+                calculatedMinutes = (new Date(reformatDatetimeTo_YYYY_MM_DD(date) + ' 18:00').getTime() - firstDate.getTime()) / 1000 / 60;
+                totalMinutes += calculatedMinutes >= 480 ? 480 : calculatedMinutes;
+            } else if (reformatDatetimeTo_YYYY_MM_DD(lastDate) === reformatDatetimeTo_YYYY_MM_DD(date)) {
+                calculatedMinutes = (lastDate.getTime() - new Date(reformatDatetimeTo_YYYY_MM_DD(date) + ' 09:00').getTime()) / 1000 / 60;
+                totalMinutes += calculatedMinutes >= 480 ? 480 : calculatedMinutes;
+            } else {
+                totalMinutes += 480;
+            }
+        });
+        return totalMinutes;
+    }
+}
+
+function minutesToString(minutes) {
+    var remainingMinutes = minutes % 60;
+    var hours = Math.floor(minutes / 60);
+    var remainingHours = hours % 8;
+    var days = Math.floor(hours / 8);
+
+    return `${days > 0 ? days + ' Gün ' : ''}${remainingHours > 0 ? remainingHours + ' Saat ' : ''}${remainingMinutes > 0 ? remainingMinutes + ' Dakika' : ''}`;
+    // return days + ' days, ' + remainingHours + ' hours, ' + remainingMinutes + ' minutes';
+}
+
 $.sum = function (arr) {
     var r = 0;
     $.each(arr, function (i, v) {

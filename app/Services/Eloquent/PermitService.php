@@ -359,6 +359,47 @@ class PermitService implements IPermitService
     }
 
     /**
+     * @param array $employeeIds
+     * @param array $typeIds
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function getDateBetweenByEmployeeIdsAndTypeIds(
+        array  $employeeIds,
+        array  $typeIds,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse
+    {
+        $permits = Permit::with([
+            'employee'
+        ])->whereIn('employee_id', $employeeIds)->whereIn('type_id', $typeIds)->where(function ($permits) use ($startDate, $endDate) {
+            $permits->whereBetween('start_date', [
+                $startDate . ' 00:00:00',
+                $endDate . ' 23:59:59'
+            ])->
+            orWhere(function ($permits) use ($startDate, $endDate) {
+                $permits->whereBetween('end_date', [
+                    $startDate . ' 00:00:00',
+                    $endDate . ' 23:59:59'
+                ]);
+            })->
+            orWhere(function ($permits) use ($startDate, $endDate) {
+                $permits->where('start_date', '<=', $startDate)->where('end_date', '>=', $endDate);
+            });
+        })->where('status_id', 2)->get();
+
+        return new ServiceResponse(
+            true,
+            'Permits',
+            200,
+            $permits
+        );
+    }
+
+    /**
      * @param int $permitId
      * @param int $statusId
      *

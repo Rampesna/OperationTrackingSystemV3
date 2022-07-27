@@ -142,6 +142,15 @@ Route::middleware([
         Route::get('overtime', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'overtime'])->name('user.web.humanResources.overtime');
         Route::get('payment', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'payment'])->name('user.web.humanResources.payment');
         Route::get('report', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'report'])->name('user.web.humanResources.report');
+
+        Route::prefix('report')->group(function () {
+            Route::get('ageAndGender', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'ageAndGender'])->name('user.web.humanResources.report.ageAndGender');
+            Route::get('education', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'education'])->name('user.web.humanResources.report.education');
+            Route::get('bloodGroup', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'bloodGroup'])->name('user.web.humanResources.report.bloodGroup');
+            Route::get('permit', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'permit'])->name('user.web.humanResources.report.permit');
+            Route::get('overtime', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'overtime'])->name('user.web.humanResources.report.overtime');
+            Route::get('payment', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'payment'])->name('user.web.humanResources.report.payment');
+        });
     });
 
     Route::prefix('recruiting')->group(function () {

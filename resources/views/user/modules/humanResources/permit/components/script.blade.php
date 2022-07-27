@@ -202,7 +202,7 @@
                             ${reformatDatetimeToDatetimeForHuman(permit.end_date)}
                         </td>
                         <td class="hideIfMobile">
-                            --
+                            ${minutesToString(getMinutesBetweenTwoDates(permit.start_date, permit.end_date))}
                         </td>
                     </tr>
                     `);
