@@ -278,6 +278,7 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getAll'])->name('user.api.overtime.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getById'])->name('user.api.overtime.getById');
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getByCompanyIds'])->name('user.api.overtime.getByCompanyIds');
+        Route::get('getDateBetweenByEmployeeIdsAndTypeIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getDateBetweenByEmployeeIdsAndTypeIds'])->name('user.api.overtime.getDateBetweenByEmployeeIdsAndTypeIds');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.overtime.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getByDateAndCompanyIds'])->name('user.api.overtime.getByDateAndCompanyIds');
         Route::post('create', [\App\Http\Controllers\Api\User\OvertimeController::class, 'create'])->name('user.api.overtime.create');

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\OvertimeController\GetAllRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByIdRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByCompanyIdsRequest;
+use App\Http\Requests\Api\User\OvertimeController\GetDateBetweenByEmployeeIdsAndTypeIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\CreateRequest;
@@ -77,7 +78,7 @@ class OvertimeController extends Controller
      */
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
-        $getByIdResponse = $this->overtimeService->getByCompanyIds(
+        $getByCompanyIdsResponse = $this->overtimeService->getByCompanyIds(
             $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
@@ -87,16 +88,41 @@ class OvertimeController extends Controller
             $request->statusId,
             $request->typeId
         );
-        if ($getByIdResponse->isSuccess()) {
+        if ($getByCompanyIdsResponse->isSuccess()) {
             return $this->success(
-                $getByIdResponse->getMessage(),
-                $getByIdResponse->getData(),
-                $getByIdResponse->getStatusCode()
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
             );
         } else {
             return $this->error(
-                $getByIdResponse->getMessage(),
-                $getByIdResponse->getStatusCode()
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetDateBetweenByEmployeeIdsAndTypeIdsRequest $request
+     */
+    public function getDateBetweenByEmployeeIdsAndTypeIds(GetDateBetweenByEmployeeIdsAndTypeIdsRequest $request)
+    {
+        $getDateBetweenByEmployeeIdsAndTypeIdsResponse = $this->overtimeService->getDateBetweenByEmployeeIdsAndTypeIds(
+            $request->employeeIds,
+            $request->typeIds,
+            $request->startDate,
+            $request->endDate,
+        );
+        if ($getDateBetweenByEmployeeIdsAndTypeIdsResponse->isSuccess()) {
+            return $this->success(
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getMessage(),
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getData(),
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getMessage(),
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getStatusCode()
             );
         }
     }

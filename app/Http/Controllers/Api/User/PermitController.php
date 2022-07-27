@@ -78,7 +78,7 @@ class PermitController extends Controller
      */
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
-        $getByIdResponse = $this->permitService->getByCompanyIds(
+        $getByCompanyIdsResponse = $this->permitService->getByCompanyIds(
             $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
@@ -88,16 +88,16 @@ class PermitController extends Controller
             $request->statusId,
             $request->typeId
         );
-        if ($getByIdResponse->isSuccess()) {
+        if ($getByCompanyIdsResponse->isSuccess()) {
             return $this->success(
-                $getByIdResponse->getMessage(),
-                $getByIdResponse->getData(),
-                $getByIdResponse->getStatusCode()
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
             );
         } else {
             return $this->error(
-                $getByIdResponse->getMessage(),
-                $getByIdResponse->getStatusCode()
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
             );
         }
     }
@@ -107,22 +107,22 @@ class PermitController extends Controller
      */
     public function getDateBetweenByEmployeeIdsAndTypeIds(GetDateBetweenByEmployeeIdsAndTypeIdsRequest $request)
     {
-        $getByIdResponse = $this->permitService->getDateBetweenByEmployeeIdsAndTypeIds(
+        $getDateBetweenByEmployeeIdsAndTypeIdsResponse = $this->permitService->getDateBetweenByEmployeeIdsAndTypeIds(
             $request->employeeIds,
             $request->typeIds,
             $request->startDate,
             $request->endDate,
         );
-        if ($getByIdResponse->isSuccess()) {
+        if ($getDateBetweenByEmployeeIdsAndTypeIdsResponse->isSuccess()) {
             return $this->success(
-                $getByIdResponse->getMessage(),
-                $getByIdResponse->getData(),
-                $getByIdResponse->getStatusCode()
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getMessage(),
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getData(),
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getStatusCode()
             );
         } else {
             return $this->error(
-                $getByIdResponse->getMessage(),
-                $getByIdResponse->getStatusCode()
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getMessage(),
+                $getDateBetweenByEmployeeIdsAndTypeIdsResponse->getStatusCode()
             );
         }
     }

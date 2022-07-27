@@ -312,6 +312,47 @@ class OvertimeService implements IOvertimeService
     }
 
     /**
+     * @param array $employeeIds
+     * @param array $typeIds
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function getDateBetweenByEmployeeIdsAndTypeIds(
+        array  $employeeIds,
+        array  $typeIds,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse
+    {
+        $overtimes = Overtime::with([
+            'employee'
+        ])->whereIn('employee_id', $employeeIds)->whereIn('type_id', $typeIds)->where(function ($overtimes) use ($startDate, $endDate) {
+            $overtimes->whereBetween('start_date', [
+                $startDate . ' 00:00:00',
+                $endDate . ' 23:59:59'
+            ])->
+            orWhere(function ($overtimes) use ($startDate, $endDate) {
+                $overtimes->whereBetween('end_date', [
+                    $startDate . ' 00:00:00',
+                    $endDate . ' 23:59:59'
+                ]);
+            })->
+            orWhere(function ($overtimes) use ($startDate, $endDate) {
+                $overtimes->where('start_date', '<=', $startDate)->where('end_date', '>=', $endDate);
+            });
+        })->where('status_id', 2)->get();
+
+        return new ServiceResponse(
+            true,
+            'Overtimes',
+            200,
+            $overtimes
+        );
+    }
+
+    /**
      * @param string $date
      * @param array $companyIds
      *

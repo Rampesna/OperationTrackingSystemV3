@@ -94,6 +94,21 @@ interface IOvertimeService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param array $employeeIds
+     * @param array $typeIds
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function getDateBetweenByEmployeeIdsAndTypeIds(
+        array  $employeeIds,
+        array  $typeIds,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse;
+
+    /**
      * @param string $date
      * @param array $companyIds
      *
