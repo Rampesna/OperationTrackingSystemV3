@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\PermitController\GetAllRequest;
 use App\Http\Requests\Api\User\PermitController\GetByIdRequest;
+use App\Http\Requests\Api\User\PermitController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\CreateRequest;
@@ -57,6 +58,35 @@ class PermitController extends Controller
     public function getById(GetByIdRequest $request)
     {
         $getByIdResponse = $this->permitService->getById($request->id);
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByCompanyIdsRequest $request
+     */
+    public function getByCompanyIds(GetByCompanyIdsRequest $request)
+    {
+        $getByIdResponse = $this->permitService->getByCompanyIds(
+            $request->companyIds,
+            $request->pageIndex,
+            $request->pageSize,
+            $request->keyword,
+            $request->startDate,
+            $request->endDate,
+            $request->statusId,
+            $request->typeId
+        );
         if ($getByIdResponse->isSuccess()) {
             return $this->success(
                 $getByIdResponse->getMessage(),

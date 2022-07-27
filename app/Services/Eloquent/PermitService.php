@@ -289,6 +289,76 @@ class PermitService implements IPermitService
     }
 
     /**
+     * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param int|null $statusId
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByCompanyIds(
+        array   $companyIds,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword,
+        ?string $startDate,
+        ?string $endDate,
+        ?int    $statusId,
+        ?int    $typeId
+    ): ServiceResponse
+    {
+        $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(
+            0,
+            1000,
+            $companyIds,
+            0,
+            $keyword
+        );
+        if ($employeesByCompanyIdsResponse->isSuccess()) {
+            $permits = Permit::with([
+                'employee',
+                'status',
+                'type'
+            ])->orderBy('id', 'desc')->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray());
+            if ($startDate) {
+                $permits->where('start_date', '>=', $startDate);
+            }
+
+            if ($endDate) {
+                $permits->where('end_date', '<=', $endDate);
+            }
+
+            if ($statusId) {
+                $permits->where('status_id', $statusId);
+            }
+
+            if ($typeId) {
+                $permits->where('type_id', $typeId);
+            }
+
+            return new ServiceResponse(
+                true,
+                'Permits',
+                200,
+                [
+                    'totalCount' => $permits->count(),
+                    'pageIndex' => $pageIndex,
+                    'pageSize' => $pageSize,
+                    'permits' => $permits->skip($pageSize * $pageIndex)
+                        ->take($pageSize)
+                        ->get()
+                ]
+            );
+        } else {
+            return $employeesByCompanyIdsResponse;
+        }
+    }
+
+    /**
      * @param int $permitId
      * @param int $statusId
      *

@@ -82,6 +82,29 @@ interface IPermitService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param int|null $statusId
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByCompanyIds(
+        array   $companyIds,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword,
+        ?string $startDate,
+        ?string $endDate,
+        ?int    $statusId,
+        ?int    $typeId
+    ): ServiceResponse;
+
+    /**
      * @param int $permitId
      * @param int $statusId
      *
