@@ -147,8 +147,8 @@
         var pageIndex = parseInt(page.html()) - 1;
         var pageSize = pageSizeSelector.val();
         var keyword = keywordFilter.val();
-        var startDate = startDateFilter.val() + ' 00:00:00';
-        var endDate = endDateFilter.val() + ' 23:59:59';
+        var startDate = startDateFilter.val();
+        var endDate = endDateFilter.val();
         var statusId = statusIdFilter.val();
         var typeId = typeIdFilter.val();
 
@@ -164,8 +164,8 @@
                 pageIndex: pageIndex,
                 pageSize: pageSize,
                 keyword: keyword,
-                startDate: startDate,
-                endDate: endDate,
+                startDate: startDate ? startDate + ' 00:00:00' : null,
+                endDate: endDate ? endDate + ' 23:59:59' : null,
                 statusId: statusId,
                 typeId: typeId,
             },
@@ -229,6 +229,7 @@
     getOvertimes();
 
     SelectedCompanies.change(function () {
+        getEmployeesByCompanyIds();
         getOvertimes();
     });
 
