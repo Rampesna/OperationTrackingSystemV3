@@ -1,0 +1,108 @@
+<script>
+
+    var employees = $('#employees');
+
+    var page = $('#page');
+    var pageUpButton = $('#pageUp');
+    var pageDownButton = $('#pageDown');
+    var pageSizeSelector = $('#pageSize');
+
+    var keywordFilter = $('#keyword');
+    var leaveFilter = $('#leave');
+
+    function getEmployeesByCompanyIds() {
+        $('#loader').show();
+        var companyIds = SelectedCompanies.val();
+        var pageIndex = parseInt(page.html()) - 1;
+        var pageSize = pageSizeSelector.val();
+        var keyword = keywordFilter.val();
+        var leave = leaveFilter.val();
+
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.employee.getByCompanyIds') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                companyIds: companyIds,
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                keyword: keyword,
+                leave: leave,
+            },
+            success: function (response) {
+                console.log(response);
+                employees.empty();
+                $.each(response.response.employees, function (i, employee) {
+                    employees.append(`
+                    <tr>
+                        <td>
+                            <span class="cursor-pointer text-primary">${employee.name}</span>
+                        </td>
+                        <td>
+                            ${employee.identity}
+                        </td>
+                        <td>
+                            ${employee.email}
+                        </td>
+                        <td>
+                            ${employee.phone}
+                        </td>
+                    </tr>
+                    `);
+                });
+
+                if (response.response.totalCount <= (pageIndex + 1) * pageSize) {
+                    pageUpButton.attr('disabled', true);
+                } else {
+                    pageUpButton.attr('disabled', false);
+                }
+
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('İş Departmanler Alınırken Serviste Bir Sorun Oluştu.');
+                $('#loader').hide();
+            }
+        });
+    }
+
+    getEmployeesByCompanyIds();
+
+    SelectedCompanies.change(function () {
+        getEmployeesByCompanyIds();
+    });
+
+    keywordFilter.on('keypress', function (e) {
+        if (e.which === 13) {
+            changePage(1);
+        }
+    });
+
+    function changePage(newPage) {
+        if (newPage === 1) {
+            pageDownButton.attr('disabled', true);
+        } else {
+            pageDownButton.attr('disabled', false);
+        }
+
+        page.html(newPage);
+        getEmployeesByCompanyIds();
+    }
+
+    pageUpButton.click(function () {
+        changePage(parseInt(page.html()) + 1);
+    });
+
+    pageDownButton.click(function () {
+        changePage(parseInt(page.html()) - 1);
+    });
+
+    pageSizeSelector.change(function () {
+        changePage(1);
+    });
+
+</script>

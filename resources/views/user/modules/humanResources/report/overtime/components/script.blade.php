@@ -54,7 +54,7 @@
             },
             success: function (response) {
                 employeeIdsSelector.empty();
-                $.each(response.response, function (i, employee) {
+                $.each(response.response.employees, function (i, employee) {
                     employeeIdsSelector.append(`<option value="${employee.id}">${employee.name}</option>`);
                 });
                 employeeIdsSelector.selectpicker('refresh');

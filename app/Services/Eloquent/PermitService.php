@@ -226,7 +226,7 @@ class PermitService implements IPermitService
                 'employee',
                 'status',
                 'type'
-            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+            ])->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray())
                 ->where('status_id', $statusId)
                 ->get();
 
@@ -262,7 +262,7 @@ class PermitService implements IPermitService
                 'employee',
                 'status',
                 'type'
-            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+            ])->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray())
                 ->where(function ($permits) use ($date) {
                     $permits->whereBetween('start_date', [
                         $date . ' 00:00:00',
@@ -323,7 +323,7 @@ class PermitService implements IPermitService
                 'employee',
                 'status',
                 'type'
-            ])->orderBy('id', 'desc')->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray());
+            ])->orderBy('id', 'desc')->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray());
             if ($startDate) {
                 $permits->where('start_date', '>=', $startDate);
             }

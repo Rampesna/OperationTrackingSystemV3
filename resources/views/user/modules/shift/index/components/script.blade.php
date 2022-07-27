@@ -107,7 +107,7 @@
             },
             success: function (response) {
                 createShiftEmployees.empty();
-                $.each(response.response, function (i, employee) {
+                $.each(response.response.employees, function (i, employee) {
                     createShiftEmployees.append(`
                     <option value="${employee.id}" data-guid="${employee.guid}">${employee.name}</option>
                     `);

@@ -378,7 +378,7 @@
                 leave: 0
             },
             success: function (response) {
-                var employees = response.response;
+                var employees = response.response.employees;
                 var operationEmployees = [];
 
                 $.each(companyIds, function (i, companyId) {

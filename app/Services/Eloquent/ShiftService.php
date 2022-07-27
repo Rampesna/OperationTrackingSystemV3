@@ -127,7 +127,7 @@ class ShiftService implements IShiftService
             $employees = $this->employeeService->getByCompanyIds(0, 1000, [$companyId]);
 
             if ($employees->isSuccess()) {
-                $employees = $employees->getData();
+                $employees = collect($employeesByCompanyIdsResponse->getData()['employees']);
 
                 if ($keyword) {
                     $employees = $employees->where('name', 'like', '%' . $keyword . '%')->all();
@@ -207,7 +207,7 @@ class ShiftService implements IShiftService
         if ($keyword || $jobDepartmentIds) {
             $shifts->whereIn(
                 'employee_id',
-                $this->employeeService->getByCompanyIds(0, 1000, $companyIds, 0, $keyword, $jobDepartmentIds)->getData()->pluck('id')->toArray()
+                collect($this->employeeService->getByCompanyIds(0, 1000, $companyIds, 0, $keyword, $jobDepartmentIds)->getData()['employees'])->pluck('id')->toArray()
             );
         }
 

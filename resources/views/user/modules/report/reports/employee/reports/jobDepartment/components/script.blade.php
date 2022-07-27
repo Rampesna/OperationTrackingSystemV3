@@ -47,7 +47,7 @@
             },
             success: function (response) {
                 var employees = [];
-                $.each(response.response, function (i, employee) {
+                $.each(response.response.employees, function (i, employee) {
                     employees.push({
                         name: employee.name,
                         job_department: employee.job_department ? employee.job_department.name : ''

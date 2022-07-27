@@ -16,6 +16,11 @@ class HumanResourcesController extends Controller
         return view('user.modules.humanResources.dashboard.index');
     }
 
+    public function employee()
+    {
+        return view('user.modules.humanResources.employee.index');
+    }
+
     public function calendar()
     {
         return view('user.modules.humanResources.calendar.index');

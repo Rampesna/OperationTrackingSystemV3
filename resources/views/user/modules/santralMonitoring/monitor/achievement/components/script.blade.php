@@ -37,7 +37,7 @@
                 },
                 success: function (response) {
                     console.log(response);
-                    var employeeGuids = $.map(response.response, function (employee) {
+                    var employeeGuids = $.map(response.response.employees, function (employee) {
                         return parseInt(employee.guid);
                     });
                     setAchievements(employeeGuids);

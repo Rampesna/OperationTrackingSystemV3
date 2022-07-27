@@ -121,7 +121,7 @@
                 leave: 0,
             },
             success: function (response) {
-                totalEmployeesCountSpan.html(response.response.length);
+                totalEmployeesCountSpan.html(response.response.employees.length);
             },
             error: function (error) {
                 console.log(error);

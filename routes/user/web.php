@@ -137,6 +137,7 @@ Route::middleware([
     Route::prefix('humanResources')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'index'])->name('user.web.humanResources.index');
         Route::get('dashboard', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'dashboard'])->name('user.web.humanResources.dashboard');
+        Route::get('employee', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'employee'])->name('user.web.humanResources.employee');
         Route::get('calendar', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'calendar'])->name('user.web.humanResources.calendar');
         Route::get('permit', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'permit'])->name('user.web.humanResources.permit');
         Route::get('overtime', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'overtime'])->name('user.web.humanResources.overtime');

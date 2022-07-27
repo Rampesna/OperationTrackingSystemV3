@@ -70,7 +70,7 @@
             },
             success: function (response) {
                 updateAcademyEducationPlanEmployeeIds.empty();
-                $.each(response.response, function (i, employee) {
+                $.each(response.response.employees, function (i, employee) {
                     updateAcademyEducationPlanEmployeeIds.append(`
                         <option value="${employee.id}">${employee.name}</option>
                     `);

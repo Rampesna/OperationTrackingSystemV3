@@ -94,7 +94,7 @@
             },
             success: function (response) {
                 createPermitEmployeeId.empty();
-                $.each(response.response, function (i, employee) {
+                $.each(response.response.employees, function (i, employee) {
                     createPermitEmployeeId.append(`<option value="${employee.id}">${employee.name}</option>`);
                 });
             },

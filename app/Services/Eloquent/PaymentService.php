@@ -211,7 +211,7 @@ class PaymentService implements IPaymentService
                 'employee',
                 'status',
                 'type'
-            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+            ])->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray())
                 ->where('status_id', $statusId)
                 ->get();
 
@@ -261,7 +261,7 @@ class PaymentService implements IPaymentService
                 'employee',
                 'status',
                 'type'
-            ])->orderBy('id', 'desc')->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray());
+            ])->orderBy('id', 'desc')->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray());
             if ($date) {
                 $payments->where('date', $date);
             }
@@ -317,7 +317,7 @@ class PaymentService implements IPaymentService
                 'employee',
                 'status',
                 'type'
-            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+            ])->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray())
                 ->where('date', $date)
                 ->where('status_id', 2)
                 ->get();

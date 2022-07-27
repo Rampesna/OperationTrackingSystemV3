@@ -94,7 +94,7 @@
             },
             success: function (response) {
                 createPaymentEmployeeId.empty();
-                $.each(response.response, function (i, employee) {
+                $.each(response.response.employees, function (i, employee) {
                     createPaymentEmployeeId.append(`<option value="${employee.id}">${employee.name}</option>`);
                 });
             },

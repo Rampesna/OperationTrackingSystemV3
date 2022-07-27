@@ -94,7 +94,7 @@
             },
             success: function (response) {
                 createOvertimeEmployeeId.empty();
-                $.each(response.response, function (i, employee) {
+                $.each(response.response.employees, function (i, employee) {
                     createOvertimeEmployeeId.append(`<option value="${employee.id}">${employee.name}</option>`);
                 });
             },

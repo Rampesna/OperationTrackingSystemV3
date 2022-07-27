@@ -226,7 +226,7 @@ class OvertimeService implements IOvertimeService
                 'employee',
                 'status',
                 'type'
-            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+            ])->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray())
                 ->where('status_id', $statusId)
                 ->get();
 
@@ -276,7 +276,7 @@ class OvertimeService implements IOvertimeService
                 'employee',
                 'status',
                 'type'
-            ])->orderBy('id', 'desc')->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray());
+            ])->orderBy('id', 'desc')->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray());
             if ($startDate) {
                 $overtimes->where('start_date', '>=', $startDate);
             }
@@ -373,7 +373,7 @@ class OvertimeService implements IOvertimeService
                 'employee',
                 'status',
                 'type'
-            ])->whereIn('employee_id', $employeesByCompanyIdsResponse->getData()->pluck('id')->toArray())
+            ])->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray())
                 ->where(function ($overtimes) use ($date) {
                     $overtimes->whereBetween('start_date', [
                         $date . ' 00:00:00',

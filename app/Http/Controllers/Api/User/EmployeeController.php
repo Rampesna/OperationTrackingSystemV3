@@ -50,7 +50,8 @@ class EmployeeController extends Controller
             $request->pageIndex,
             $request->pageSize,
             $request->companyIds,
-            $request->leave
+            $request->leave,
+            $request->keyword
         );
         if ($getByCompaniesResponse->isSuccess()) {
             return $this->success(

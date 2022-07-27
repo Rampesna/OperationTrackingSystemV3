@@ -226,9 +226,14 @@ class EmployeeService implements IEmployeeService
             true,
             'Employees',
             200,
-            $employees->orderBy('name')->skip($pageIndex * $pageSize)
-                ->take($pageSize)
-                ->get()
+            [
+                'totalCount' => $employees->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'employees' => $employees->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
         );
     }
 
