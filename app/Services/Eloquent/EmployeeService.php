@@ -215,7 +215,14 @@ class EmployeeService implements IEmployeeService
             ->where('leave', $leave);
 
         if ($keyword) {
-            $employees->where('name', 'like', '%' . $keyword . '%');
+            $employees->where(function ($employees) use ($keyword) {
+                $employees
+                    ->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('identity', 'like', '%' . $keyword . '%')
+                    ->orWhere('email', 'like', '%' . $keyword . '%')
+                    ->orWhere('phone', 'like', '%' . $keyword . '%');
+            });
+
         }
 
         if ($jobDepartmentIds && count($jobDepartmentIds) > 0) {
