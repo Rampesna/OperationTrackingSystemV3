@@ -52,7 +52,7 @@
     function getUsersByCompanyIds() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.user.getByCompanyIds') }}',
+            url: '{{ route('user.api.user.getAll') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token

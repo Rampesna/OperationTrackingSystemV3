@@ -14,6 +14,7 @@ use App\Http\Requests\Api\User\UserController\SetSelectedCompaniesRequest;
 use App\Http\Requests\Api\User\UserController\LoginRequest;
 use App\Http\Requests\Api\User\UserController\GetProfileRequest;
 use App\Http\Requests\Api\User\UserController\SwapThemeRequest;
+use App\Http\Requests\Api\User\UserController\GetAllRequest;
 use App\Http\Requests\Api\User\UserController\GetByIdRequest;
 use App\Http\Requests\Api\User\UserController\GetByEmailRequest;
 use App\Http\Requests\Api\User\UserController\CreateRequest;
@@ -266,6 +267,26 @@ class UserController extends Controller
             return $this->error(
                 $companies->getMessage(),
                 $companies->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetAllRequest $request
+     */
+    public function getAll(GetAllRequest $request)
+    {
+        $getAllResponse = $this->userService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
             );
         }
     }

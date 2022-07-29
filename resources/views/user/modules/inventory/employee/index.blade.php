@@ -14,6 +14,14 @@
 
 @section('content')
 
+    <div class="row">
+        <div class="col-xl-6 col-12 mb-5">
+            <label style="width: 100%">
+                <input id="keyword" type="text" class="form-control" placeholder="Arayın...">
+            </label>
+        </div>
+    </div>
+    <hr class="text-muted">
     <div class="row" id="employees"></div>
 
 @endsection
