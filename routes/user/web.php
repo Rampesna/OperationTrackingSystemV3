@@ -170,6 +170,8 @@ Route::middleware([
 
     Route::prefix('inventory')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\InventoryController::class, 'index'])->name('user.web.inventory.index');
+        Route::get('employee', [\App\Http\Controllers\Web\User\InventoryController::class, 'employee'])->name('user.web.inventory.employee');
+        Route::get('device', [\App\Http\Controllers\Web\User\InventoryController::class, 'device'])->name('user.web.inventory.device');
     });
 
     Route::prefix('assignment')->group(function () {

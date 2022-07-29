@@ -10,4 +10,14 @@ class InventoryController extends Controller
     {
         return view('user.modules.inventory.index.index');
     }
+
+    public function employee()
+    {
+        return view('user.modules.inventory.employee.index');
+    }
+
+    public function device()
+    {
+        return view('user.modules.inventory.device.index');
+    }
 }

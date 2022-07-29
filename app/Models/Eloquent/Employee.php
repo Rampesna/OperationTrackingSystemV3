@@ -82,4 +82,9 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(Shift::class);
     }
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class, 'employee_id', 'id');
+    }
 }

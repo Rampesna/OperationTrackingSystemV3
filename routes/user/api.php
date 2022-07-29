@@ -90,6 +90,7 @@ Route::middleware([
     Route::prefix('employee')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIds'])->name('user.api.employee.getByCompanyIds');
         Route::get('getByCompanyIdsWithPersonalInformation', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIdsWithPersonalInformation'])->name('user.api.employee.getByCompanyIdsWithPersonalInformation');
+        Route::get('getByCompanyIdsWithDevices', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIdsWithDevices'])->name('user.api.employee.getByCompanyIdsWithDevices');
         Route::get('getByJobDepartmentTypeIds', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByJobDepartmentTypeIds'])->name('user.api.employee.getByJobDepartmentTypeIds');
         Route::get('getById', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getById'])->name('user.api.employee.getById');
         Route::get('getByEmail', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByEmail'])->name('user.api.employee.getByEmail');

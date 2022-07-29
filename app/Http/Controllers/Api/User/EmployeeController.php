@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\EmployeeController\CreateRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithPersonalInformationRequest;
+use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithDevicesRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByJobDepartmentTypeIdsRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByIdRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByEmailRequest;
@@ -82,22 +83,57 @@ class EmployeeController extends Controller
             }
         }
 
-        $getByCompaniesResponse = $this->employeeService->getByCompanyIdsWithPersonalInformation(
+        $getByCompanyIdsWithPersonalInformationResponse = $this->employeeService->getByCompanyIdsWithPersonalInformation(
             $request->pageIndex,
             $request->pageSize,
             $request->companyIds,
             $request->leave
         );
-        if ($getByCompaniesResponse->isSuccess()) {
+        if ($getByCompanyIdsWithPersonalInformationResponse->isSuccess()) {
             return $this->success(
-                $getByCompaniesResponse->getMessage(),
-                $getByCompaniesResponse->getData(),
-                $getByCompaniesResponse->getStatusCode()
+                $getByCompanyIdsWithPersonalInformationResponse->getMessage(),
+                $getByCompanyIdsWithPersonalInformationResponse->getData(),
+                $getByCompanyIdsWithPersonalInformationResponse->getStatusCode()
             );
         } else {
             return $this->error(
-                $getByCompaniesResponse->getMessage(),
-                $getByCompaniesResponse->getStatusCode()
+                $getByCompanyIdsWithPersonalInformationResponse->getMessage(),
+                $getByCompanyIdsWithPersonalInformationResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByCompanyIdsWithDevicesRequest $request
+     */
+    public function getByCompanyIdsWithDevices(GetByCompanyIdsWithDevicesRequest $request)
+    {
+        $companyIds = $request->user()->companies->pluck('id')->toArray();
+
+        if (count($request->companyIds) == 0) return $this->error('Minimum one company is required.', 404);
+
+        foreach ($request->companyIds as $companyId) {
+            if (!in_array($companyId, $companyIds)) {
+                return $this->error('Unauthorized', 401);
+            }
+        }
+
+        $getByCompanyIdsWithDevicesResponse = $this->employeeService->getByCompanyIdsWithDevices(
+            $request->pageIndex,
+            $request->pageSize,
+            $request->companyIds,
+            $request->leave
+        );
+        if ($getByCompanyIdsWithDevicesResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdsWithDevicesResponse->getMessage(),
+                $getByCompanyIdsWithDevicesResponse->getData(),
+                $getByCompanyIdsWithDevicesResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdsWithDevicesResponse->getMessage(),
+                $getByCompanyIdsWithDevicesResponse->getStatusCode()
             );
         }
     }

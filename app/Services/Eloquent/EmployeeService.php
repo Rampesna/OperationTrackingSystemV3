@@ -265,8 +265,7 @@ class EmployeeService implements IEmployeeService
     {
         $employees = Employee::with([
             'personalInformation',
-        ])->whereIn('company_id', $companyIds)
-            ->where('leave', $leave);
+        ])->whereIn('company_id', $companyIds)->where('leave', $leave);
 
         if ($keyword) {
             $employees->where('name', 'like', '%' . $keyword . '%');
@@ -283,6 +282,57 @@ class EmployeeService implements IEmployeeService
             $employees->orderBy('name')->skip($pageIndex * $pageSize)
                 ->take($pageSize)
                 ->get()
+        );
+    }
+
+    /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param array $companyIds
+     * @param int $leave
+     * @param string|null $keyword
+     * @param array|null $jobDepartmentIds
+     *
+     * @return ServiceResponse
+     */
+    public function getByCompanyIdsWithDevices(
+        int         $pageIndex = 0,
+        int         $pageSize = 10,
+        array       $companyIds = [],
+        int         $leave = 0,
+        string|null $keyword = null,
+        array|null  $jobDepartmentIds = []
+    ): ServiceResponse
+    {
+        $employees = Employee::with([
+            'devices' => function ($devices) {
+                $devices->with([
+                    'status',
+                    'category'
+                ]);
+            },
+        ])->whereIn('company_id', $companyIds)->where('leave', $leave);
+
+        if ($keyword) {
+            $employees->where('name', 'like', '%' . $keyword . '%');
+        }
+
+        if ($jobDepartmentIds && count($jobDepartmentIds) > 0) {
+            $employees->whereIn('job_department_id', $jobDepartmentIds);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Employees',
+            200,
+            [
+                'totalCount' => $employees->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'employees' => $employees->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
         );
     }
 
