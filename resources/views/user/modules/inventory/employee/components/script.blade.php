@@ -31,20 +31,22 @@
                     if (employee.devices.length > 0) {
                         $.each(employee.devices, function (j, device) {
                             devices += `
-                        <div class="col-xl-12 mb-3">
-                            <div class="row">
-                                <div class="col-xl-1">
-                                    <span class="badge badge-sm badge-${device.status ? device.status.color : 'secondary'} badge-circle"></span>
+                                <div class="d-flex align-items-center mb-5">
+                                    <span class="bullet bullet-vertical h-50px w-7px bg-${device.status ? device.status.color : 'secondary'} me-4"></span>
+                                    <div class="flex-grow-1">
+                                        <a href="#" class="text-gray-800 text-hover-primary fw-bolder fs-6 deviceNameSearch">${device.name}</a>
+                                        <span class="text-muted fw-bold d-block deviceStatusSearch">Durum: ${device.status ? device.status.name : '--'}</span>
+                                        <span class="text-muted fw-bold d-block deviceCategorySearch">Kategori: ${device.category ? device.category.name : '--'}</span>
+                                        <span class="text-muted fw-bold d-block deviceBrandSearch">Marka: ${device.brand ?? '--'}</span>
+                                        <span class="text-muted fw-bold d-block deviceModelSearch">Model: ${device.model ?? '--'}</span>
+                                        <span class="text-muted fw-bold d-block deviceSerialSearch">Seri No: ${device.serial_number ?? '--'}</span>
+                                        <span class="text-muted fw-bold d-block deviceIpSearch">IP: ${device.ip_address ?? '--'}</span>
+                                    </div>
                                 </div>
-                                <div class="col-xl-11 d-grid">
-                                    <span class="badge badge-secondary fw-bolder text-start pt-2 pb-2">${device.name}</span>
-                                </div>
-                            </div>
-                        </div>
-                        `;
+                            `;
                         });
                     } else {
-                        devices = `Hiç Cihaz Yok`;
+                        devices = `<p class="text-center fw-bolder">Hiç Cihaz Yok</p>`;
                     }
                     employeesRow.append(`
                     <div class="col-xl-3 col-12 employeeCard" id="${employee.id}_employeeCard" data-id="${employee.id}" data-guid="${employee.guid}" data-name="${employee.name}" data-job-department="${employee.job_department ? employee.job_department.id : 0}">
@@ -55,9 +57,7 @@
                                 </div>
                                 <div class="separator separator-dashed my-5"></div>
                                 <div id="employee${employee.id}Devices" style="display: none">
-                                    <div class="row">
-                                        ${devices}
-                                    </div>
+                                    ${devices}
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,24 @@
         var employees = $('.employeeCard');
         $.each(employees, function (i, employeeCard) {
             var employeeName = $(employeeCard).data('name');
-            if (employeeName.toLowerCase().includes(keyword.val().toLowerCase())) {
+            var deviceName = $(employeeCard).find('.deviceNameSearch').text();
+            var deviceStatus = $(employeeCard).find('.deviceStatusSearch').text();
+            var deviceCategory = $(employeeCard).find('.deviceCategorySearch').text();
+            var deviceBrand = $(employeeCard).find('.deviceBrandSearch').text();
+            var deviceModel = $(employeeCard).find('.deviceModelSearch').text();
+            var deviceSerial = $(employeeCard).find('.deviceSerialSearch').text();
+            var deviceIp = $(employeeCard).find('.deviceIpSearch').text();
+
+            if (
+                employeeName.toLowerCase().includes(keyword.val().toLowerCase()) ||
+                deviceName.toLowerCase().includes(keyword.val().toLowerCase()) ||
+                deviceStatus.toLowerCase().includes(keyword.val().toLowerCase()) ||
+                deviceCategory.toLowerCase().includes(keyword.val().toLowerCase()) ||
+                deviceBrand.toLowerCase().includes(keyword.val().toLowerCase()) ||
+                deviceModel.toLowerCase().includes(keyword.val().toLowerCase()) ||
+                deviceSerial.toLowerCase().includes(keyword.val().toLowerCase()) ||
+                deviceIp.toLowerCase().includes(keyword.val().toLowerCase())
+            ) {
                 $(this).removeClass('d-none');
             } else {
                 $(this).addClass('d-none');
