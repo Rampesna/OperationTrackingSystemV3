@@ -44,6 +44,15 @@ interface IDeviceService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $employeeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByEmployeeId(
+        int $employeeId
+    ): ServiceResponse;
+
+    /**
      * @param array $ids
      * @param int|null $packageId
      *
@@ -56,13 +65,13 @@ interface IDeviceService extends IEloquentService
 
     /**
      * @param array $ids
-     * @param int $employeeId
+     * @param int|null $employeeId
      *
      * @return ServiceResponse
      */
     public function updateEmployeeIdByIds(
-        array $ids,
-        int   $employeeId
+        array    $ids,
+        int|null $employeeId = null
     ): ServiceResponse;
 
     /**

@@ -178,24 +178,36 @@ class DevicePackageService implements IDevicePackageService
         int $employeeId
     ): ServiceResponse
     {
-        $getByPackageIdResponse = $this->deviceService->getByPackageId($devicePackageId);
-        if ($getByPackageIdResponse->isSuccess()) {
+        $getByEmployeeIdResponse = $this->deviceService->getByEmployeeId($employeeId);
+        if ($getByEmployeeIdResponse->isSuccess()) {
             $updateEmployeeIdByIdsResponse = $this->deviceService->updateEmployeeIdByIds(
-                $getByPackageIdResponse->getData()->pluck('id')->toArray(),
-                $employeeId
+                $getByEmployeeIdResponse->getData()->pluck('id')->toArray()
             );
             if ($updateEmployeeIdByIdsResponse->isSuccess()) {
-                return new ServiceResponse(
-                    true,
-                    'Device package employee updated',
-                    200,
-                    null
-                );
+                $getByPackageIdResponse = $this->deviceService->getByPackageId($devicePackageId);
+                if ($getByPackageIdResponse->isSuccess()) {
+                    $updateEmployeeIdByIdsResponse = $this->deviceService->updateEmployeeIdByIds(
+                        $getByPackageIdResponse->getData()->pluck('id')->toArray(),
+                        $employeeId
+                    );
+                    if ($updateEmployeeIdByIdsResponse->isSuccess()) {
+                        return new ServiceResponse(
+                            true,
+                            'Device package employee updated',
+                            200,
+                            null
+                        );
+                    } else {
+                        return $updateEmployeeIdByIdsResponse;
+                    }
+                } else {
+                    return $getByPackageIdResponse;
+                }
             } else {
                 return $updateEmployeeIdByIdsResponse;
             }
         } else {
-            return $getByPackageIdResponse;
+            return $getByEmployeeIdResponse;
         }
     }
 

@@ -156,6 +156,23 @@ class DeviceService implements IDeviceService
     }
 
     /**
+     * @param int $employeeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByEmployeeId(
+        int $employeeId
+    ): ServiceResponse
+    {
+        return new ServiceResponse(
+            true,
+            'Devices',
+            200,
+            Device::where('employee_id', $employeeId)->get()
+        );
+    }
+
+    /**
      * @param array $ids
      * @param int|null $packageId
      *
@@ -176,13 +193,13 @@ class DeviceService implements IDeviceService
 
     /**
      * @param array $ids
-     * @param int $employeeId
+     * @param int|null $employeeId
      *
      * @return ServiceResponse
      */
     public function updateEmployeeIdByIds(
-        array $ids,
-        int   $employeeId
+        array    $ids,
+        int|null $employeeId = null
     ): ServiceResponse
     {
         return new ServiceResponse(

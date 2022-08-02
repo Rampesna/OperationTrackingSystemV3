@@ -25,7 +25,6 @@ class UpdateEmployeeRequest extends BaseApiRequest
     {
         return [
             'devicePackageId' => 'required|integer',
-            'employeeId' => 'required|integer',
         ];
     }
 }

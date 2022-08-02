@@ -415,34 +415,29 @@
     UpdateDevicePackageEmployeeButton.click(function () {
         var devicePackageId = $('#update_device_package_employee_id').val();
         var employeeId = updateDevicePackageEmployeeEmployeeId.val();
-
-        if (!employeeId) {
-            toastr.warning('Personel Seçimi Zorunludur!');
-        } else {
-            UpdateDevicePackageEmployeeButton.attr('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
-            $.ajax({
-                type: 'post',
-                url: '{{ route('user.api.devicePackage.updateEmployee') }}',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': token
-                },
-                data: {
-                    devicePackageId: devicePackageId,
-                    employeeId: employeeId,
-                },
-                success: function () {
-                    toastr.success('Cihaz Grubu Personeli Başarıyla Güncellendi!');
-                    $('#UpdateDevicePackageEmployeeModal').modal('hide');
-                    UpdateDevicePackageEmployeeButton.attr('disabled', false).html('Güncelle');
-                },
-                error: function (error) {
-                    console.log(error);
-                    toastr.error('Cihaz Grubu Personeli Güncellenirken Serviste Bir Sorun Oluştu!');
-                    UpdateDevicePackageEmployeeButton.attr('disabled', false).html('Güncelle');
-                }
-            });
-        }
+        UpdateDevicePackageEmployeeButton.attr('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.devicePackage.updateEmployee') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                devicePackageId: devicePackageId,
+                employeeId: employeeId,
+            },
+            success: function () {
+                toastr.success('Cihaz Grubu Personeli Başarıyla Güncellendi!');
+                $('#UpdateDevicePackageEmployeeModal').modal('hide');
+                UpdateDevicePackageEmployeeButton.attr('disabled', false).html('Güncelle');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Cihaz Grubu Personeli Güncellenirken Serviste Bir Sorun Oluştu!');
+                UpdateDevicePackageEmployeeButton.attr('disabled', false).html('Güncelle');
+            }
+        });
     });
 
     DeleteDevicePackageButton.click(function () {
