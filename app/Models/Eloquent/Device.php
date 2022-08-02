@@ -10,6 +10,11 @@ class Device extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id', 'id');
@@ -23,5 +28,10 @@ class Device extends Model
     public function category()
     {
         return $this->belongsTo(DeviceCategory::class, 'category_id', 'id');
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(DevicePackage::class, 'package_id', 'id');
     }
 }

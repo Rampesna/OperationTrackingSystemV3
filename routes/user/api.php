@@ -107,6 +107,42 @@ Route::middleware([
         Route::delete('delete', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'delete'])->name('user.api.jobDepartment.delete');
     });
 
+    Route::prefix('device')->group(function () {
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\DeviceController::class, 'getByCompanyIds'])->name('user.api.device.getByCompanyIds');
+        Route::get('getById', [\App\Http\Controllers\Api\User\DeviceController::class, 'getById'])->name('user.api.device.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\DeviceController::class, 'create'])->name('user.api.device.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\DeviceController::class, 'update'])->name('user.api.device.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\DeviceController::class, 'delete'])->name('user.api.device.delete');
+    });
+
+    Route::prefix('deviceCategory')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\DeviceCategoryController::class, 'getAll'])->name('user.api.deviceCategory.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\DeviceCategoryController::class, 'getById'])->name('user.api.deviceCategory.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\DeviceCategoryController::class, 'create'])->name('user.api.deviceCategory.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\DeviceCategoryController::class, 'update'])->name('user.api.deviceCategory.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\DeviceCategoryController::class, 'delete'])->name('user.api.deviceCategory.delete');
+    });
+
+    Route::prefix('deviceStatus')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\DeviceStatusController::class, 'getAll'])->name('user.api.deviceStatus.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\DeviceStatusController::class, 'getById'])->name('user.api.deviceStatus.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\DeviceStatusController::class, 'create'])->name('user.api.deviceStatus.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\DeviceStatusController::class, 'update'])->name('user.api.deviceStatus.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\DeviceStatusController::class, 'delete'])->name('user.api.deviceStatus.delete');
+    });
+
+    Route::prefix('devicePackage')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\DevicePackageController::class, 'getAll'])->name('user.api.devicePackage.getAll');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\DevicePackageController::class, 'getByCompanyIds'])->name('user.api.devicePackage.getByCompanyIds');
+        Route::get('getById', [\App\Http\Controllers\Api\User\DevicePackageController::class, 'getById'])->name('user.api.devicePackage.getById');
+        Route::get('getDevices', [\App\Http\Controllers\Api\User\DevicePackageController::class, 'getDevices'])->name('user.api.devicePackage.getDevices');
+        Route::post('setDevices', [\App\Http\Controllers\Api\User\DevicePackageController::class, 'setDevices'])->name('user.api.devicePackage.setDevices');
+        Route::post('updateEmployee', [\App\Http\Controllers\Api\User\DevicePackageController::class, 'updateEmployee'])->name('user.api.devicePackage.updateEmployee');
+        Route::post('create', [\App\Http\Controllers\Api\User\DevicePackageController::class, 'create'])->name('user.api.devicePackage.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\DevicePackageController::class, 'update'])->name('user.api.devicePackage.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\DevicePackageController::class, 'delete'])->name('user.api.devicePackage.delete');
+    });
+
     Route::prefix('academyEducation')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\AcademyEducationController::class, 'getByCompanyIds'])->name('user.api.academyEducation.getByCompanyIds');
         Route::get('getById', [\App\Http\Controllers\Api\User\AcademyEducationController::class, 'getById'])->name('user.api.academyEducation.getById');

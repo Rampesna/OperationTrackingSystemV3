@@ -1,10 +1,10 @@
 @extends('user.layouts.master')
-@section('title', 'Envanter Yönetimi / Cihaz Listesi | ')
+@section('title', 'Envanter Yönetimi / Cihaz Grupları | ')
 
 @section('subheader')
     <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
         <div class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
-            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Envanter Yönetimi / Cihaz Listesi</h1>
+            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Envanter Yönetimi / Cihaz Grupları</h1>
         </div>
         <div class="d-flex align-items-center gap-2 gap-lg-3">
 
@@ -14,9 +14,11 @@
 
 @section('content')
 
-    @include('user.modules.inventory.device.modals.createDevice')
-    @include('user.modules.inventory.device.modals.updateDevice')
-    @include('user.modules.inventory.device.modals.deleteDevice')
+    @include('user.modules.inventory.package.modals.createDevicePackage')
+    @include('user.modules.inventory.package.modals.updateDevicePackage')
+    @include('user.modules.inventory.package.modals.updateDevicePackageDevices')
+    @include('user.modules.inventory.package.modals.updateDevicePackageEmployee')
+    @include('user.modules.inventory.package.modals.deleteDevicePackage')
 
     <div class="row">
         <div class="col-xl-8 mb-5">
@@ -25,20 +27,8 @@
                     <div class="row">
                         <div class="col-xl-12 mb-5">
                             <div class="form-group">
-                                <label for="keyword">Arayın</label>
-                                <input id="keyword" type="text" class="form-control form-control-solid filterInput" placeholder="Cihaz Adı, Marka, Model, Seri No...">
-                            </div>
-                        </div>
-                        <div class="col-xl-3 mb-5">
-                            <div class="form-group">
-                                <label for="categoryIds">Kategori</label>
-                                <select id="categoryIds" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Kategori" multiple></select>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 mb-5">
-                            <div class="form-group">
-                                <label for="statusIds">Cihaz Durumu</label>
-                                <select id="statusIds" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Cihaz Durumu" multiple></select>
+                                <label for="keyword">Grup Adı</label>
+                                <input id="keyword" type="text" class="form-control form-control-solid filterInput" placeholder="Grup Adı">
                             </div>
                         </div>
                         <div class="col-xl-6 mb-5">
@@ -62,7 +52,7 @@
         <div class="col-xl-4 mb-5 text-end">
             <div class="row">
                 <div class="col-xl-12 d-grid">
-                    <button class="btn btn-primary" onclick="createDevice()">Yeni Cihaz Oluştur</button>
+                    <button class="btn btn-primary" onclick="createDevicePackage()">Yeni Cihaz Grubu Oluştur</button>
                 </div>
             </div>
         </div>
@@ -101,19 +91,12 @@
                     <table class="table align-middle table-row-dashed fs-6 gy-5">
                         <thead>
                         <tr class="text-start text-dark fw-bolder fs-7 gs-0">
-                            <th class="">#</th>
-                            <th class="">Cihaz Adı</th>
-                            <th class="">Personel</th>
-                            <th class="hideIfMobile">Durum</th>
-                            <th class="hideIfMobile">Cihaz Grubu</th>
-                            <th class="hideIfMobile">Kategori</th>
-                            <th class="hideIfMobile">Seri No</th>
-                            <th class="hideIfMobile">Marka</th>
-                            <th class="hideIfMobile">Model</th>
-                            <th class="hideIfMobile">IP</th>
+                            <th class="w-50px">#</th>
+                            <th class="w-500px">Firma</th>
+                            <th class="">Cihaz Grubu Adı</th>
                         </tr>
                         </thead>
-                        <tbody class="fw-bold text-gray-600" id="devices"></tbody>
+                        <tbody class="fw-bold text-gray-600" id="devicePackages"></tbody>
                     </table>
                 </div>
             </div>
@@ -123,9 +106,9 @@
 @endsection
 
 @section('customStyles')
-    @include('user.modules.inventory.device.components.style')
+    @include('user.modules.inventory.package.components.style')
 @endsection
 
 @section('customScripts')
-    @include('user.modules.inventory.device.components.script')
+    @include('user.modules.inventory.package.components.script')
 @endsection

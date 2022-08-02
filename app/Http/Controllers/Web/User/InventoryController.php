@@ -20,4 +20,9 @@ class InventoryController extends Controller
     {
         return view('user.modules.inventory.device.index');
     }
+
+    public function package()
+    {
+        return view('user.modules.inventory.package.index');
+    }
 }

@@ -12,6 +12,10 @@ use App\Interfaces\Eloquent\ICommercialCompanyService;
 use App\Interfaces\Eloquent\ICompanyService;
 use App\Interfaces\Eloquent\ICompetenceService;
 use App\Interfaces\Eloquent\IDepartmentService;
+use App\Interfaces\Eloquent\IDeviceCategoryService;
+use App\Interfaces\Eloquent\IDevicePackageService;
+use App\Interfaces\Eloquent\IDeviceService;
+use App\Interfaces\Eloquent\IDeviceStatusService;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IFoodListCheckService;
 use App\Interfaces\Eloquent\IFoodListService;
@@ -63,6 +67,10 @@ use App\Services\Eloquent\CommercialCompanyService;
 use App\Services\Eloquent\CompanyService;
 use App\Services\Eloquent\CompetenceService;
 use App\Services\Eloquent\DepartmentService;
+use App\Services\Eloquent\DeviceCategoryService;
+use App\Services\Eloquent\DevicePackageService;
+use App\Services\Eloquent\DeviceService;
+use App\Services\Eloquent\DeviceStatusService;
 use App\Services\Eloquent\EmployeeService;
 use App\Services\Eloquent\FoodListCheckService;
 use App\Services\Eloquent\FoodListService;
@@ -155,6 +163,10 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IAcademyEducationPlanParticipantService::class, AcademyEducationPlanParticipantService::class);
         $this->app->bind(IMeetingService::class, MeetingService::class);
         $this->app->bind(IMeetingTypeService::class, MeetingTypeService::class);
+        $this->app->bind(IDeviceCategoryService::class, DeviceCategoryService::class);
+        $this->app->bind(IDeviceStatusService::class, DeviceStatusService::class);
+        $this->app->bind(IDeviceService::class, DeviceService::class);
+        $this->app->bind(IDevicePackageService::class, DevicePackageService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

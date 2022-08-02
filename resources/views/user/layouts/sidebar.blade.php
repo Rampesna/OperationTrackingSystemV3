@@ -272,8 +272,9 @@
                         <span class="menu-icon">
                             <span class="svg-icon svg-icon-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M12 5C12.3 5 12.7 4.99998 13 5.09998V5V3C13 2.4 12.6 2 12 2C11.4 2 11 2.4 11 3V5V5.09998C11.3 4.99998 11.7 5 12 5Z" fill="black"/>
-                                    <path opacity="0.3" d="M12 22C8.7 22 6 19.3 6 16V11C6 7.7 8.7 5 12 5C15.3 5 18 7.7 18 11V16C18 19.3 15.3 22 12 22ZM13 12V9C13 8.4 12.6 8 12 8C11.4 8 11 8.4 11 9V12C11 12.6 11.4 13 12 13C12.6 13 13 12.6 13 12Z" fill="black"/>
+                                    <path d="M2 16C2 16.6 2.4 17 3 17H21C21.6 17 22 16.6 22 16V15H2V16Z" fill="black"/>
+                                    <path opacity="0.3" d="M21 3H3C2.4 3 2 3.4 2 4V15H22V4C22 3.4 21.6 3 21 3Z" fill="black"/>
+                                    <path opacity="0.3" d="M15 17H9V20H15V17Z" fill="black"/>
                                 </svg>
                             </span>
                         </span>

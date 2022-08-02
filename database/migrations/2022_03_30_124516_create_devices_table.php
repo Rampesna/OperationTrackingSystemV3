@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('employee_id')->nullable();
+            $table->unsignedBigInteger('package_id')->nullable();
             $table->string('name')->nullable();
             $table->string('brand')->nullable();
             $table->string('model')->nullable();
