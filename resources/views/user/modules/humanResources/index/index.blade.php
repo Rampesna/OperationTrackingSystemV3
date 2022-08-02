@@ -33,7 +33,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('user.web.humanResources.employee') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
+        <a href="{{ route('user.web.humanResources.employee.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
