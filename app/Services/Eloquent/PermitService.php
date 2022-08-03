@@ -359,6 +359,64 @@ class PermitService implements IPermitService
     }
 
     /**
+     * @param int $employeeId
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param int|null $statusId
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByEmployeeId(
+        int     $employeeId,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $startDate,
+        ?string $endDate,
+        ?int    $statusId,
+        ?int    $typeId
+    ): ServiceResponse
+    {
+        $permits = Permit::with([
+            'employee',
+            'status',
+            'type'
+        ])->orderBy('id', 'desc')->where('employee_id', $employeeId);
+
+        if ($startDate) {
+            $permits->where('start_date', '>=', $startDate);
+        }
+
+        if ($endDate) {
+            $permits->where('end_date', '<=', $endDate);
+        }
+
+        if ($statusId) {
+            $permits->where('status_id', $statusId);
+        }
+
+        if ($typeId) {
+            $permits->where('type_id', $typeId);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Permits',
+            200,
+            [
+                'totalCount' => $permits->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'permits' => $permits->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
+        );
+    }
+
+    /**
      * @param array $employeeIds
      * @param array $typeIds
      * @param string $startDate

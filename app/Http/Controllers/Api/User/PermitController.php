@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\PermitController\GetAllRequest;
 use App\Http\Requests\Api\User\PermitController\GetByIdRequest;
 use App\Http\Requests\Api\User\PermitController\GetByCompanyIdsRequest;
+use App\Http\Requests\Api\User\PermitController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\PermitController\GetDateBetweenByEmployeeIdsAndTypeIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByDateAndCompanyIdsRequest;
@@ -98,6 +99,34 @@ class PermitController extends Controller
             return $this->error(
                 $getByCompanyIdsResponse->getMessage(),
                 $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByEmployeeIdRequest $request
+     */
+    public function getByEmployeeId(GetByEmployeeIdRequest $request)
+    {
+        $getByEmployeeIdResponse = $this->permitService->getByEmployeeId(
+            $request->employeeId,
+            $request->pageIndex,
+            $request->pageSize,
+            $request->startDate,
+            $request->endDate,
+            $request->statusId,
+            $request->typeId
+        );
+        if ($getByEmployeeIdResponse->isSuccess()) {
+            return $this->success(
+                $getByEmployeeIdResponse->getMessage(),
+                $getByEmployeeIdResponse->getData(),
+                $getByEmployeeIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByEmployeeIdResponse->getMessage(),
+                $getByEmployeeIdResponse->getStatusCode()
             );
         }
     }

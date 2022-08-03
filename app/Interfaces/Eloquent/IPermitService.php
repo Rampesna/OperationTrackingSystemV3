@@ -105,6 +105,27 @@ interface IPermitService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $employeeId
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param int|null $statusId
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByEmployeeId(
+        int     $employeeId,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $startDate,
+        ?string $endDate,
+        ?int    $statusId,
+        ?int    $typeId
+    ): ServiceResponse;
+
+    /**
      * @param array $employeeIds
      * @param array $typeIds
      * @param string $startDate

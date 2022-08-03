@@ -320,6 +320,7 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\PermitController::class, 'getAll'])->name('user.api.permit.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\PermitController::class, 'getById'])->name('user.api.permit.getById');
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByCompanyIds'])->name('user.api.permit.getByCompanyIds');
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\PermitController::class, 'getByEmployeeId'])->name('user.api.permit.getByEmployeeId');
         Route::get('getDateBetweenByEmployeeIdsAndTypeIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getDateBetweenByEmployeeIdsAndTypeIds'])->name('user.api.permit.getDateBetweenByEmployeeIdsAndTypeIds');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.permit.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByDateAndCompanyIds'])->name('user.api.permit.getByDateAndCompanyIds');
