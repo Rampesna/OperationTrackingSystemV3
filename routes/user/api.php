@@ -104,6 +104,18 @@ Route::middleware([
         Route::put('update', [\App\Http\Controllers\Api\User\EmployeePersonalInformationController::class, 'update'])->name('user.api.employeePersonalInformation.update');
     });
 
+    Route::prefix('position')->group(function () {
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\PositionController::class, 'getByEmployeeId'])->name('user.api.position.getByEmployeeId');
+        Route::get('getById', [\App\Http\Controllers\Api\User\PositionController::class, 'getById'])->name('user.api.position.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\PositionController::class, 'create'])->name('user.api.position.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\PositionController::class, 'update'])->name('user.api.position.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\PositionController::class, 'delete'])->name('user.api.position.delete');
+    });
+
+    Route::prefix('leavingReason')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\LeavingReasonController::class, 'getAll'])->name('user.api.leavingReason.getAll');
+    });
+
     Route::prefix('jobDepartment')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'getByCompanyIds'])->name('user.api.jobDepartment.getByCompanyIds');
         Route::get('getById', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'getById'])->name('user.api.jobDepartment.getById');
