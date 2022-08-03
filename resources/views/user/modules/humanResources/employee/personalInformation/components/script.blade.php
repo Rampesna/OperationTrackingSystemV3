@@ -1,5 +1,7 @@
 <script>
 
+    var employee = null;
+
     var employeeId = `{{ $id }}`;
 
     var employeeImageSpan = $('#employeeImageSpan');
@@ -20,6 +22,7 @@
                 id: employeeId,
             },
             success: function (response) {
+                employee = response;
                 if (response.response.image) employeeImageSpan.attr('src', `${baseAssetUrl}${response.response.image}`);
                 employeeNameSpan.html(response.response.name);
                 employeeIdentitySpan.html(`<i class="far fa-user-circle me-4"></i><span class="mt-n1">${response.response.identity}</span>`);

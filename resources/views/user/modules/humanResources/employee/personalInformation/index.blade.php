@@ -1,5 +1,5 @@
 @extends('user.layouts.master')
-@section('title', 'İnsan Kaynakları / Personeller | ')
+@section('title', 'İnsan Kaynakları / Personeller / Kişisel Bilgiler | ')
 
 @section('subheader')
     <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
