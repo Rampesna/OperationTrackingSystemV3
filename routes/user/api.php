@@ -99,6 +99,11 @@ Route::middleware([
         Route::post('updateJobDepartment', [\App\Http\Controllers\Api\User\EmployeeController::class, 'updateJobDepartment'])->name('user.api.employee.updateJobDepartment');
     });
 
+    Route::prefix('employeePersonalInformation')->group(function () {
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\EmployeePersonalInformationController::class, 'getByEmployeeId'])->name('user.api.employeePersonalInformation.getByEmployeeId');
+        Route::put('update', [\App\Http\Controllers\Api\User\EmployeePersonalInformationController::class, 'update'])->name('user.api.employeePersonalInformation.update');
+    });
+
     Route::prefix('jobDepartment')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'getByCompanyIds'])->name('user.api.jobDepartment.getByCompanyIds');
         Route::get('getById', [\App\Http\Controllers\Api\User\JobDepartmentController::class, 'getById'])->name('user.api.jobDepartment.getById');

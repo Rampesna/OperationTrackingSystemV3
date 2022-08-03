@@ -154,6 +154,15 @@ Route::middleware([
 
         Route::prefix('employee')->group(function () {
             Route::get('index', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'index'])->name('user.web.humanResources.employee.index');
+            Route::get('personalInformation/{id?}', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'personalInformation'])->name('user.web.humanResources.employee.personalInformation');
+            Route::get('position/{id?}', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'position'])->name('user.web.humanResources.employee.position');
+            Route::get('permit/{id?}', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'permit'])->name('user.web.humanResources.employee.permit');
+            Route::get('overtime/{id?}', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'overtime'])->name('user.web.humanResources.employee.overtime');
+            Route::get('payment/{id?}', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'payment'])->name('user.web.humanResources.employee.payment');
+            Route::get('device/{id?}', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'device'])->name('user.web.humanResources.employee.device');
+            Route::get('file/{id?}', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'file'])->name('user.web.humanResources.employee.file');
+            Route::get('shift/{id?}', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'shift'])->name('user.web.humanResources.employee.shift');
+            Route::get('punishment/{id?}', [\App\Http\Controllers\Web\User\HumanResources\EmployeeController::class, 'punishment'])->name('user.web.humanResources.employee.punishment');
         });
     });
 

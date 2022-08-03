@@ -33,13 +33,13 @@
                 leave: leave,
             },
             success: function (response) {
-                console.log(response);
                 employees.empty();
                 $.each(response.response.employees, function (i, employee) {
+                    var personalInformationRoute = `{{ route('user.web.humanResources.employee.personalInformation') }}/${employee.id}`;
                     employees.append(`
                     <tr>
                         <td>
-                            <span class="cursor-pointer text-primary">${employee.name}</span>
+                            <a href="${personalInformationRoute}" class="cursor-pointer text-primary">${employee.name}</a>
                         </td>
                         <td>
                             ${employee.identity}

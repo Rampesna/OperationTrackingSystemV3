@@ -67,6 +67,7 @@
     var QuickActionsButton = $('#QuickActionsButton');
     var SelectedCompanies = $('#SelectedCompanies');
     var jqxGridGlobalTheme = 'metro';
+    var baseAssetUrl = '{{ asset('') }}';
 
     SelectedCompanies.selectpicker();
 
