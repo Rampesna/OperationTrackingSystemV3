@@ -312,6 +312,64 @@ class OvertimeService implements IOvertimeService
     }
 
     /**
+     * @param int $employeeId
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param int|null $statusId
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByEmployeeId(
+        int     $employeeId,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $startDate,
+        ?string $endDate,
+        ?int    $statusId,
+        ?int    $typeId
+    ): ServiceResponse
+    {
+        $overtimes = Overtime::with([
+            'employee',
+            'status',
+            'type'
+        ])->orderBy('id', 'desc')->where('employee_id', $employeeId);
+
+        if ($startDate) {
+            $overtimes->where('start_date', '>=', $startDate);
+        }
+
+        if ($endDate) {
+            $overtimes->where('end_date', '<=', $endDate);
+        }
+
+        if ($statusId) {
+            $overtimes->where('status_id', $statusId);
+        }
+
+        if ($typeId) {
+            $overtimes->where('type_id', $typeId);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Overtimes',
+            200,
+            [
+                'totalCount' => $overtimes->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'overtimes' => $overtimes->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
+        );
+    }
+
+    /**
      * @param array $employeeIds
      * @param array $typeIds
      * @param string $startDate
