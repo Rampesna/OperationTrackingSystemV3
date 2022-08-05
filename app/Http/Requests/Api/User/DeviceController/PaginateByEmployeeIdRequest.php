@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\ShiftController;
+namespace App\Http\Requests\Api\User\DeviceController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class GetByCompanyIdRequest extends BaseApiRequest
+class PaginateByEmployeeIdRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class GetByCompanyIdRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'companyId' => 'required|integer',
-            'startDate' => 'required',
-            'endDate' => 'required',
+            'employeeId' => 'required|integer',
+            'pageIndex' => 'required|integer',
+            'pageSize' => 'required|integer',
         ];
     }
 }

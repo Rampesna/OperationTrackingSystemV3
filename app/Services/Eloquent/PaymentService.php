@@ -297,6 +297,64 @@ class PaymentService implements IPaymentService
     }
 
     /**
+     * @param int $employeeId
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $date
+     * @param float|null $amount
+     * @param int|null $statusId
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByEmployeeId(
+        int     $employeeId,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $date,
+        ?float  $amount,
+        ?int    $statusId,
+        ?int    $typeId
+    ): ServiceResponse
+    {
+        $payments = Payment::with([
+            'employee',
+            'status',
+            'type'
+        ])->orderBy('id', 'desc')->where('employee_id', $employeeId);
+
+        if ($date) {
+            $payments->where('date', $date);
+        }
+
+        if ($amount) {
+            $payments->where('amount', $amount);
+        }
+
+        if ($statusId) {
+            $payments->where('status_id', $statusId);
+        }
+
+        if ($typeId) {
+            $payments->where('type_id', $typeId);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Payments',
+            200,
+            [
+                'totalCount' => $payments->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'payments' => $payments->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
+        );
+    }
+
+    /**
      * @param string $date
      * @param array $companyIds
      *

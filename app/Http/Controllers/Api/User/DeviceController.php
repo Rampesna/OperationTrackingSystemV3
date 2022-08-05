@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\DeviceController\GetByCompanyIdsRequest;
+use App\Http\Requests\Api\User\DeviceController\PaginateByEmployeeIdRequest;
 use App\Http\Requests\Api\User\DeviceController\GetByIdRequest;
 use App\Http\Requests\Api\User\DeviceController\CreateRequest;
 use App\Http\Requests\Api\User\DeviceController\UpdateRequest;
@@ -43,6 +44,33 @@ class DeviceController extends Controller
 
         $getByCompanyIdsResponse = $this->deviceService->getByCompanyIds(
             $request->companyIds,
+            $request->pageIndex,
+            $request->pageSize,
+            $request->keyword,
+            $request->categoryIds,
+            $request->statusIds
+        );
+        if ($getByCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param PaginateByEmployeeIdRequest $request
+     */
+    public function paginateByEmployeeId(PaginateByEmployeeIdRequest $request)
+    {
+        $getByCompanyIdsResponse = $this->deviceService->paginateByEmployeeId(
+            $request->employeeId,
             $request->pageIndex,
             $request->pageSize,
             $request->keyword,

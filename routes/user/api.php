@@ -126,6 +126,7 @@ Route::middleware([
 
     Route::prefix('device')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\DeviceController::class, 'getByCompanyIds'])->name('user.api.device.getByCompanyIds');
+        Route::get('paginateByEmployeeId', [\App\Http\Controllers\Api\User\DeviceController::class, 'paginateByEmployeeId'])->name('user.api.device.paginateByEmployeeId');
         Route::get('getById', [\App\Http\Controllers\Api\User\DeviceController::class, 'getById'])->name('user.api.device.getById');
         Route::post('create', [\App\Http\Controllers\Api\User\DeviceController::class, 'create'])->name('user.api.device.create');
         Route::put('update', [\App\Http\Controllers\Api\User\DeviceController::class, 'update'])->name('user.api.device.update');
@@ -273,6 +274,7 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\ShiftController::class, 'getAll'])->name('user.api.shift.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\ShiftController::class, 'getById'])->name('user.api.shift.getById');
         Route::get('getByCompanyId', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByCompanyId'])->name('user.api.shift.getByCompanyId');
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByEmployeeId'])->name('user.api.shift.getByEmployeeId');
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByCompanyIds'])->name('user.api.shift.getByCompanyIds');
         Route::post('createBatch', [\App\Http\Controllers\Api\User\ShiftController::class, 'createBatch'])->name('user.api.shift.createBatch');
         Route::put('update', [\App\Http\Controllers\Api\User\ShiftController::class, 'update'])->name('user.api.shift.update');
@@ -348,6 +350,7 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\PaymentController::class, 'getAll'])->name('user.api.payment.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\PaymentController::class, 'getById'])->name('user.api.payment.getById');
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByCompanyIds'])->name('user.api.payment.getByCompanyIds');
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByEmployeeId'])->name('user.api.payment.getByEmployeeId');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.payment.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByDateAndCompanyIds'])->name('user.api.payment.getByDateAndCompanyIds');
         Route::post('create', [\App\Http\Controllers\Api\User\PaymentController::class, 'create'])->name('user.api.payment.create');

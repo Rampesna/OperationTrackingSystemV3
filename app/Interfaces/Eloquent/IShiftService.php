@@ -37,6 +37,19 @@ interface IShiftService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $employeeId
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function getByEmployeeId(
+        int    $employeeId,
+        string $startDate,
+        string $endDate,
+    ): ServiceResponse;
+
+    /**
      * @param array $companyIds
      * @param string $startDate
      * @param string $endDate

@@ -16,7 +16,20 @@
 
     @include('user.modules.humanResources.employee.layouts.overview')
 
-
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title align-items-start flex-column">
+                        <span class="card-label fw-bolder text-dark">Vardiyalar</span>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 

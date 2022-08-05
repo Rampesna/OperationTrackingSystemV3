@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\ShiftController\GetAllRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByIdRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByCompanyIdRequest;
+use App\Http\Requests\Api\User\ShiftController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\ShiftController\CreateBatchRequest;
 use App\Http\Requests\Api\User\ShiftController\UpdateRequest;
@@ -96,6 +97,30 @@ class ShiftController extends Controller
             return $this->error(
                 $getByCompanyIdResponse->getMessage(),
                 $getByCompanyIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByEmployeeIdRequest $request
+     */
+    public function getByEmployeeId(GetByEmployeeIdRequest $request)
+    {
+        $getByCompanyIdsResponse = $this->shiftService->getByEmployeeId(
+            $request->employeeId,
+            $request->startDate,
+            $request->endDate
+        );
+        if ($getByCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
             );
         }
     }

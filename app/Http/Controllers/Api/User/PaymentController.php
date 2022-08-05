@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\PaymentController\GetAllRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByIdRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByCompanyIdsRequest;
+use App\Http\Requests\Api\User\PaymentController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\CreateRequest;
@@ -77,7 +78,7 @@ class PaymentController extends Controller
      */
     public function getByCompanyIds(GetByCompanyIdsRequest $request)
     {
-        $getByIdResponse = $this->paymentService->getByCompanyIds(
+        $getByCompanyIdsResponse = $this->paymentService->getByCompanyIds(
             $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
@@ -87,16 +88,44 @@ class PaymentController extends Controller
             $request->statusId,
             $request->typeId
         );
-        if ($getByIdResponse->isSuccess()) {
+        if ($getByCompanyIdsResponse->isSuccess()) {
             return $this->success(
-                $getByIdResponse->getMessage(),
-                $getByIdResponse->getData(),
-                $getByIdResponse->getStatusCode()
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getData(),
+                $getByCompanyIdsResponse->getStatusCode()
             );
         } else {
             return $this->error(
-                $getByIdResponse->getMessage(),
-                $getByIdResponse->getStatusCode()
+                $getByCompanyIdsResponse->getMessage(),
+                $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByEmployeeIdRequest $request
+     */
+    public function getByEmployeeId(GetByEmployeeIdRequest $request)
+    {
+        $getByEmployeeIdResponse = $this->paymentService->getByEmployeeId(
+            $request->employeeId,
+            $request->pageIndex,
+            $request->pageSize,
+            $request->date,
+            $request->amount,
+            $request->statusId,
+            $request->typeId
+        );
+        if ($getByEmployeeIdResponse->isSuccess()) {
+            return $this->success(
+                $getByEmployeeIdResponse->getMessage(),
+                $getByEmployeeIdResponse->getData(),
+                $getByEmployeeIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByEmployeeIdResponse->getMessage(),
+                $getByEmployeeIdResponse->getStatusCode()
             );
         }
     }

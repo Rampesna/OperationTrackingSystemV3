@@ -122,6 +122,66 @@ class DeviceService implements IDeviceService
     }
 
     /**
+     * @param int $employeeId
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string $keyword
+     * @param array|null $categoryIds
+     * @param array|null $statusIds
+     *
+     * @return ServiceResponse
+     */
+    public function paginateByEmployeeId(
+        int    $employeeId,
+        int    $pageIndex = 0,
+        int    $pageSize = 10,
+        string $keyword = null,
+        array  $categoryIds = null,
+        array  $statusIds = null
+    ): ServiceResponse
+    {
+        $devices = Device::with([
+            'company',
+            'category',
+            'status',
+            'employee',
+            'package'
+        ])->orderBy('id', 'desc')->where('employee_id', $employeeId);
+
+        if ($keyword) {
+            $devices->where(function ($devices) use ($keyword) {
+                $devices->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('brand', 'like', '%' . $keyword . '%')
+                    ->orWhere('model', 'like', '%' . $keyword . '%')
+                    ->orWhere('serial_number', 'like', '%' . $keyword . '%')
+                    ->orWhere('ip_address', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        if ($categoryIds && count($categoryIds) > 0) {
+            $devices->whereIn('category_id', $categoryIds);
+        }
+
+        if ($statusIds && count($statusIds) > 0) {
+            $devices->whereIn('status_id', $statusIds);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Devices',
+            200,
+            [
+                'totalCount' => $devices->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'devices' => $devices->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
+        );
+    }
+
+    /**
      * @param array $ids
      *
      * @return ServiceResponse

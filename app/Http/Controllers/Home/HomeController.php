@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use Aws\S3\S3Client;
 use App\Models\Eloquent\Device;
 use App\Models\Eloquent\DevicePackage;
 use App\Models\Eloquent\Employee;
 use App\Models\Eloquent\EmployeePersonalInformation;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Ladumor\OneSignal\OneSignal;
 use App\Traits\Response;
 
@@ -32,7 +35,38 @@ class HomeController extends Controller
         return view('home.modules.index.index');
     }
 
-    public function test()
+    public function test(Request $request)
+    {
+        $file = $request->file('file');
+
+        define('AWS_KEY', 'ots');
+        define('AWS_SECRET_KEY', '357159123');
+        $ENDPOINT = 'http://ays.s3.ayssoft.com';
+
+        $client = new S3Client([
+            'region' => '',
+            'version' => '2006-03-01',
+            'endpoint' => $ENDPOINT,
+            'credentials' => [
+                'key' => AWS_KEY,
+                'secret' => AWS_SECRET_KEY
+            ],
+            // Set the S3 class to use objects.dreamhost.com/bucket
+            // instead of bucket.objects.dreamhost.com
+            'use_path_style_endpoint' => true
+        ]);
+
+        $response = $client->putObject([
+            'Bucket' => "otsweb",
+            'Key' => 'avatar4.png',
+            'Body' => fopen($file->getPath() . '/' . $file->getFilename(), 'r'),
+            'ACL' => 'public-read'
+        ]);
+
+        return $client->getObjectUrl('otsweb', 'avatar4.png');
+    }
+
+    public function test2()
     {
         $client = new Client;
         $response = $client->get('https://suchen.mobile.de/fahrzeuge/search.html?dam=0&isSearchRequest=true&ref=quickSearch&sb=rel&vc=Car', [

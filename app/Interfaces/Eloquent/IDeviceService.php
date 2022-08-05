@@ -26,6 +26,25 @@ interface IDeviceService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $employeeId
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string $keyword
+     * @param array|null $categoryIds
+     * @param array|null $statusIds
+     *
+     * @return ServiceResponse
+     */
+    public function paginateByEmployeeId(
+        int    $employeeId,
+        int    $pageIndex = 0,
+        int    $pageSize = 10,
+        string $keyword = null,
+        array  $categoryIds = null,
+        array  $statusIds = null
+    ): ServiceResponse;
+
+    /**
      * @param array $ids
      *
      * @return ServiceResponse

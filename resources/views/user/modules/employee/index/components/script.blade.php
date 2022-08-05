@@ -434,7 +434,7 @@
                     var yBadge = 'warning';
 
                     if (employee.image) {
-                        avatar = '{{ asset('') }}' + employee.image;
+                        avatar = employee.image;
                     }
                     if (employee.operationEmployee) {
                         if (parseInt(employee.operationEmployee.yetkiEgitim) === 1) {

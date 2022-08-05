@@ -124,9 +124,9 @@ class ShiftService implements IShiftService
             ->get();
 
         if ($keyword || $jobDepartmentIds) {
-            $employees = $this->employeeService->getByCompanyIds(0, 1000, [$companyId]);
+            $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(0, 1000, [$companyId]);
 
-            if ($employees->isSuccess()) {
+            if ($employeesByCompanyIdsResponse->isSuccess()) {
                 $employees = collect($employeesByCompanyIdsResponse->getData()['employees']);
 
                 if ($keyword) {
@@ -139,7 +139,7 @@ class ShiftService implements IShiftService
 
                 $shifts->whereIn('employee_id', $employees->pluck('id')->toArray());
             } else {
-                return $employees;
+                return $employeesByCompanyIdsResponse;
             }
         }
 
@@ -176,6 +176,33 @@ class ShiftService implements IShiftService
                     ]);
                 }
             ])->where('employee_id', $employeeId)->whereBetween('start_date', [$startDate, $endDate])->get()
+        );
+    }
+
+    /**
+     * @param int $employeeId
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function getByEmployeeId(
+        int    $employeeId,
+        string $startDate,
+        string $endDate,
+    ): ServiceResponse
+    {
+        $shifts = Shift::with([
+            'employee',
+            'shiftGroup'
+        ])->where('employee_id', $employeeId)
+            ->whereBetween('start_date', [$startDate, $endDate]);
+
+        return new ServiceResponse(
+            true,
+            'Shifts',
+            200,
+            $shifts->get()
         );
     }
 

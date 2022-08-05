@@ -94,6 +94,27 @@ interface IPaymentService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $employeeId
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $date
+     * @param float|null $amount
+     * @param int|null $statusId
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getByEmployeeId(
+        int     $employeeId,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $date,
+        ?float  $amount,
+        ?int    $statusId,
+        ?int    $typeId
+    ): ServiceResponse;
+
+    /**
      * @param string $date
      * @param array $companyIds
      *
