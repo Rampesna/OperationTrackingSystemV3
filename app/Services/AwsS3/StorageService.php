@@ -7,17 +7,45 @@ use App\Services\ServiceResponse;
 
 class StorageService extends AwsS3Service implements IStorageService
 {
+    /**
+     * @param mixed $file
+     * @param string $filePath
+     */
     public function store(
         mixed  $file,
-        string $fileName,
         string $filePath
     ): ServiceResponse
     {
-        $response = $this->getFileSystem()->put($filePath . $fileName, file_get_contents($file));
+        $response = $this->getClient()->putObject([
+            'Bucket' => $this->getBucket(),
+            'Key' => $filePath . $file->getClientOriginalName(),
+            'Body' => fopen($file->getPath() . '/' . $file->getFilename(), 'r'),
+            'ACL' => 'public-read'
+        ]);
 
         return new ServiceResponse(
             true,
-            'File uploaded successfully',
+            'File uploaded',
+            200,
+            $filePath . $file->getClientOriginalName()
+        );
+    }
+
+    /**
+     * @param string $key
+     */
+    public function getByKey(
+        string $key
+    ): ServiceResponse
+    {
+        $response = $this->getClient()->getObject([
+            'Bucket' => $this->getBucket(),
+            'Key' => $key
+        ]);
+
+        return new ServiceResponse(
+            true,
+            'File',
             200,
             $response
         );

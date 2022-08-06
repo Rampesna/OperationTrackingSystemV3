@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Interfaces\AwsS3\IStorageService;
 use App\Interfaces\Eloquent\IAcademyEducationLessonService;
 use App\Interfaces\Eloquent\IAcademyEducationPlanParticipantService;
 use App\Interfaces\Eloquent\IAcademyEducationPlanService;
@@ -18,6 +19,7 @@ use App\Interfaces\Eloquent\IDeviceService;
 use App\Interfaces\Eloquent\IDeviceStatusService;
 use App\Interfaces\Eloquent\IEmployeePersonalInformationService;
 use App\Interfaces\Eloquent\IEmployeeService;
+use App\Interfaces\Eloquent\IFileService;
 use App\Interfaces\Eloquent\IFoodListCheckService;
 use App\Interfaces\Eloquent\IFoodListService;
 use App\Interfaces\Eloquent\IJobDepartmentService;
@@ -60,6 +62,7 @@ use App\Interfaces\OperationApi\ISpecialReportService;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Interfaces\OperationApi\ITvScreenService;
 use App\Models\Eloquent\OvertimeType;
+use App\Services\AwsS3\StorageService;
 use App\Services\Eloquent\AcademyEducationLessonService;
 use App\Services\Eloquent\AcademyEducationPlanParticipantService;
 use App\Services\Eloquent\AcademyEducationPlanService;
@@ -76,6 +79,7 @@ use App\Services\Eloquent\DeviceService;
 use App\Services\Eloquent\DeviceStatusService;
 use App\Services\Eloquent\EmployeePersonalInformationService;
 use App\Services\Eloquent\EmployeeService;
+use App\Services\Eloquent\FileService;
 use App\Services\Eloquent\FoodListCheckService;
 use App\Services\Eloquent\FoodListService;
 use App\Services\Eloquent\JobDepartmentService;
@@ -176,6 +180,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IEmployeePersonalInformationService::class, EmployeePersonalInformationService::class);
         $this->app->bind(IPositionService::class, PositionService::class);
         $this->app->bind(ILeavingReasonService::class, LeavingReasonService::class);
+        $this->app->bind(IFileService::class, FileService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);
@@ -194,6 +199,9 @@ class InterfaceServiceProvider extends ServiceProvider
 
         // NetsantralApiServices
         $this->app->bind(INetsantralApiService::class, NetsantralApiService::class);
+
+        // AwsServices
+        $this->app->bind(IStorageService::class, StorageService::class);
     }
 
     /**

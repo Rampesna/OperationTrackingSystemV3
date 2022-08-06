@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->string('uploader_type');
             $table->unsignedBigInteger('relation_id');
             $table->string('relation_type');
-            $table->string('type');
-            $table->string('icon');
+            $table->string('type')->nullable();
+            $table->string('icon')->nullable();
             $table->string('name');
             $table->text('path');
             $table->timestamps();

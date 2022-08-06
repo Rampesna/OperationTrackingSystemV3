@@ -231,4 +231,7 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\UserRoleController::class, 'index'])->name('user.web.userRole.index');
     });
 
+    Route::prefix('file')->group(function () {
+        Route::get('download/{id?}', [\App\Http\Controllers\Web\User\FileController::class, 'download'])->name('user.web.file.download');
+    });
 });

@@ -16,7 +16,19 @@
 
     @include('user.modules.humanResources.employee.layouts.overview')
 
+    @include('user.modules.humanResources.employee.file.modals.show')
 
+    <input type="file" id="fileSelector" style="display: none">
+
+    <div class="row" id="filesRow">
+        <div class="col-xl-2 mb-5">
+            <div class="card h-100 flex-center border-dashed p-8 cursor-pointer" id="fileUploadArea">
+                <img src="{{ asset('assets/media/svg/files/upload.svg') }}" class="mb-8" alt="" />
+                <a class="font-weight-bolder text-dark-75 mb-2">Yeni Dosya</a>
+                <div class="fs-7 fw-bold text-gray-400 mt-auto">Tıklayın veya Sürükleyin</div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Services\AwsS3\StorageService;
 use Aws\S3\S3Client;
 use App\Models\Eloquent\Device;
 use App\Models\Eloquent\DevicePackage;
@@ -37,33 +38,23 @@ class HomeController extends Controller
 
     public function test(Request $request)
     {
-        $file = $request->file('file');
+        $storageService = new StorageService;
+        return response()->download(
+            $storageService->getClient()->getObject([
+                'Bucket' => env('AWS_BUCKET'),
+                'Key' => 'uploads/employee/6/files/Bien E- DÖNÜŞÜM KONTÖR LİSTESİ.pdf'
+            ])['Body']->getContents()
+        );
+    }
 
-        define('AWS_KEY', 'ots');
-        define('AWS_SECRET_KEY', '357159123');
-        $ENDPOINT = 'http://ays.s3.ayssoft.com';
-
-        $client = new S3Client([
-            'region' => '',
-            'version' => '2006-03-01',
-            'endpoint' => $ENDPOINT,
-            'credentials' => [
-                'key' => AWS_KEY,
-                'secret' => AWS_SECRET_KEY
-            ],
-            // Set the S3 class to use objects.dreamhost.com/bucket
-            // instead of bucket.objects.dreamhost.com
-            'use_path_style_endpoint' => true
-        ]);
-
-        $response = $client->putObject([
-            'Bucket' => "otsweb",
-            'Key' => 'avatar4.png',
-            'Body' => fopen($file->getPath() . '/' . $file->getFilename(), 'r'),
-            'ACL' => 'public-read'
-        ]);
-
-        return $client->getObjectUrl('otsweb', 'avatar4.png');
+    function searchByValue($array, $key, $value)
+    {
+        foreach ($array ?? [] as $index => $data) {
+            if ($data->$key == $value) {
+                return $index;
+            }
+        }
+        return -1;
     }
 
     public function test2()
