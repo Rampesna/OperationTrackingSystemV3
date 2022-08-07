@@ -9,4 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TicketMessage extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
+
+    public function creator()
+    {
+        return $this->morphTo();
+    }
 }

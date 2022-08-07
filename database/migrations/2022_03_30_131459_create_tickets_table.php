@@ -14,13 +14,17 @@ return new class extends Migration {
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->string('relation_type');
+            $table->unsignedBigInteger('relation_id');
             $table->string('creator_type');
             $table->unsignedBigInteger('creator_id');
             $table->unsignedBigInteger('priority_id');
-            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('subject_id')->nullable();
             $table->unsignedBigInteger('status_id');
-            $table->unsignedBigInteger('title');
+            $table->string('title');
+            $table->string('source')->nullable();
             $table->longText('description')->nullable();
+            $table->longText('notes')->nullable();
             $table->dateTime('requested_end_date')->nullable();
             $table->dateTime('todo_end_date')->nullable();
             $table->timestamps();

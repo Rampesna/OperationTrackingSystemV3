@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\UserController;
+namespace App\Http\Requests\Api\User\TicketMessageController;
 
 use App\Http\Requests\Api\BaseApiRequest;
-use Illuminate\Http\Request;
 
-class LoginRequest extends BaseApiRequest
+class CreateRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +24,10 @@ class LoginRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required',
+            'ticketId' => 'required|integer',
+            'creatorType' => 'required|string',
+            'creatorId' => 'required|integer',
+            'message' => 'required|string',
         ];
     }
 }

@@ -24,8 +24,12 @@ use App\Http\Requests\Api\User\UserController\DeleteRequest;
 use App\Interfaces\Eloquent\IPasswordResetService;
 use App\Interfaces\Eloquent\IUserService;
 use App\Mail\User\ForgotPasswordEmail;
+use App\Models\Eloquent\User;
 use App\Traits\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -69,6 +73,51 @@ class UserController extends Controller
             );
         }
     }
+
+    public function login2(Request $request)
+    {
+        if (!$request->email) {
+            return response()->json([
+                'message' => 'E-posta Göndermediniz'
+            ], 422);
+        }
+
+        if (!$request->password) {
+            return response()->json([
+                'message' => 'Şifrenizi Göndermediniz'
+            ], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                $token = Str::random(8);
+                return response()->json([
+                    'message' => 'Başarıyla Giriş Yaptınız',
+                    'token' => $token
+                ], 400);
+            } else {
+                return response()->json([
+                    'message' => 'Girdiğiniz Şifre Hatalı'
+                ], 400);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Bu E-posta Adresi Sistemde Kayıtlı Değil'
+            ], 400);
+        }
+    }
+
+    /*
+     *
+     * Single Responsibility
+     * Open / Closed
+     * L
+     * Interface Segration
+     * Dependency Injection
+     *
+     * */
 
     /**
      * @param GetProfileRequest $request

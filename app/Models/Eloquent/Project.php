@@ -75,6 +75,11 @@ class Project extends Model
         return $this->morphedByMany(User::class, 'connection', 'project_connections', 'project_id', 'connection_id');
     }
 
+    public function tickets()
+    {
+        return $this->morphMany(Ticket::class, 'relation');
+    }
+
     public function getProgressAttribute()
     {
         return number_format($this->subTasks->count() > 0 ? $this->subTasks->where('checked', 1)->count() * 100 / $this->subTasks->count() : 100, 2);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Models\Eloquent\Ticket;
 use App\Services\AwsS3\StorageService;
 use Aws\S3\S3Client;
 use App\Models\Eloquent\Device;
@@ -38,13 +39,7 @@ class HomeController extends Controller
 
     public function test(Request $request)
     {
-        $storageService = new StorageService;
-        return response()->download(
-            $storageService->getClient()->getObject([
-                'Bucket' => env('AWS_BUCKET'),
-                'Key' => 'uploads/employee/6/files/Bien E- DÖNÜŞÜM KONTÖR LİSTESİ.pdf'
-            ])['Body']->getContents()
-        );
+        return $tickets = Ticket::where('creator_type', 'App\Models\Eloquent\User')->where('creator_id', 6)->get();
     }
 
     function searchByValue($array, $key, $value)

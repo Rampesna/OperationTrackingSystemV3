@@ -14,14 +14,6 @@
 
 @section('content')
 
-
-    <form action="{{ route('uploadS3File') }}" enctype="multipart/form-data" method="post">
-        @csrf
-        <input type="file" name="file">
-        <button class="btn btn-primary" type="submit">Gönder</button>
-    </form>
-
-
     <div class="row mb-5">
         <div class="col-12 col-xl-4">
             <label style="width: 100%">

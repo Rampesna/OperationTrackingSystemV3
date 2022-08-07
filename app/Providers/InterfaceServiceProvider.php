@@ -46,6 +46,10 @@ use App\Interfaces\Eloquent\IShiftService;
 use App\Interfaces\Eloquent\ISubTaskService;
 use App\Interfaces\Eloquent\ITaskPriorityService;
 use App\Interfaces\Eloquent\ITaskService;
+use App\Interfaces\Eloquent\ITicketMessageService;
+use App\Interfaces\Eloquent\ITicketPriorityService;
+use App\Interfaces\Eloquent\ITicketService;
+use App\Interfaces\Eloquent\ITicketStatusService;
 use App\Interfaces\Eloquent\ITitleService;
 use App\Interfaces\Eloquent\IUserPermissionService;
 use App\Interfaces\Eloquent\IUserRoleService;
@@ -106,6 +110,10 @@ use App\Services\Eloquent\ShiftService;
 use App\Services\Eloquent\SubTaskService;
 use App\Services\Eloquent\TaskPriorityService;
 use App\Services\Eloquent\TaskService;
+use App\Services\Eloquent\TicketMessageService;
+use App\Services\Eloquent\TicketPriorityService;
+use App\Services\Eloquent\TicketService;
+use App\Services\Eloquent\TicketStatusService;
 use App\Services\Eloquent\TitleService;
 use App\Services\Eloquent\UserPermissionService;
 use App\Services\Eloquent\UserRoleService;
@@ -181,6 +189,10 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IPositionService::class, PositionService::class);
         $this->app->bind(ILeavingReasonService::class, LeavingReasonService::class);
         $this->app->bind(IFileService::class, FileService::class);
+        $this->app->bind(ITicketService::class, TicketService::class);
+        $this->app->bind(ITicketPriorityService::class, TicketPriorityService::class);
+        $this->app->bind(ITicketStatusService::class, TicketStatusService::class);
+        $this->app->bind(ITicketMessageService::class, TicketMessageService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

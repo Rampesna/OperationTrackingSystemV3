@@ -380,6 +380,33 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\PaymentTypeController::class, 'getAll'])->name('user.api.paymentType.getAll');
     });
 
+    Route::prefix('ticket')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\TicketController::class, 'getAll'])->name('user.api.ticket.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\TicketController::class, 'getById'])->name('user.api.ticket.getById');
+        Route::get('getByRelation', [\App\Http\Controllers\Api\User\TicketController::class, 'getByRelation'])->name('user.api.ticket.getByRelation');
+        Route::get('getByCreator', [\App\Http\Controllers\Api\User\TicketController::class, 'getByCreator'])->name('user.api.ticket.getByCreator');
+        Route::post('create', [\App\Http\Controllers\Api\User\TicketController::class, 'create'])->name('user.api.ticket.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\TicketController::class, 'update'])->name('user.api.ticket.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\TicketController::class, 'delete'])->name('user.api.ticket.delete');
+    });
+
+    Route::prefix('ticketMessage')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\TicketMessageController::class, 'getAll'])->name('user.api.ticketMessage.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\TicketMessageController::class, 'getById'])->name('user.api.ticketMessage.getById');
+        Route::get('getByRelation', [\App\Http\Controllers\Api\User\TicketMessageController::class, 'getByTicketId'])->name('user.api.ticketMessage.getByTicketId');
+        Route::post('create', [\App\Http\Controllers\Api\User\TicketMessageController::class, 'create'])->name('user.api.ticketMessage.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\TicketMessageController::class, 'update'])->name('user.api.ticketMessage.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\TicketMessageController::class, 'delete'])->name('user.api.ticketMessage.delete');
+    });
+
+    Route::prefix('ticketPriority')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\TicketPriorityController::class, 'getAll'])->name('user.api.ticketPriority.getAll');
+    });
+
+    Route::prefix('ticketStatus')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\TicketStatusController::class, 'getAll'])->name('user.api.ticketStatus.getAll');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');
