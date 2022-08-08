@@ -132,6 +132,8 @@ Route::middleware([
 
     Route::prefix('market')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\MarketController::class, 'index'])->name('user.web.market.index');
+        Route::get('employee', [\App\Http\Controllers\Web\User\MarketController::class, 'employee'])->name('user.web.market.employee');
+        Route::get('market', [\App\Http\Controllers\Web\User\MarketController::class, 'market'])->name('user.web.market.market');
     });
 
     Route::prefix('humanResources')->group(function () {

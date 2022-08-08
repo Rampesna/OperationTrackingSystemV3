@@ -254,6 +254,60 @@ class EmployeeService implements IEmployeeService
      *
      * @return ServiceResponse
      */
+    public function getByCompanyIdsWithBalance(
+        int         $pageIndex = 0,
+        int         $pageSize = 10,
+        array       $companyIds = [],
+        int         $leave = 0,
+        string|null $keyword = null,
+        array|null  $jobDepartmentIds = []
+    ): ServiceResponse
+    {
+        $employees = Employee::with([
+            'jobDepartment'
+        ])->whereIn('company_id', $companyIds)
+            ->where('leave', $leave);
+
+        if ($keyword) {
+            $employees->where(function ($employees) use ($keyword) {
+                $employees
+                    ->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('identity', 'like', '%' . $keyword . '%')
+                    ->orWhere('email', 'like', '%' . $keyword . '%')
+                    ->orWhere('phone', 'like', '%' . $keyword . '%');
+            });
+
+        }
+
+        if ($jobDepartmentIds && count($jobDepartmentIds) > 0) {
+            $employees->whereIn('job_department_id', $jobDepartmentIds);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Employees',
+            200,
+            [
+                'totalCount' => $employees->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'employees' => $employees->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()->append('balance')
+            ]
+        );
+    }
+
+    /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param array $companyIds
+     * @param int $leave
+     * @param string|null $keyword
+     * @param array|null $jobDepartmentIds
+     *
+     * @return ServiceResponse
+     */
     public function getByCompanyIdsWithPersonalInformation(
         int         $pageIndex = 0,
         int         $pageSize = 10,

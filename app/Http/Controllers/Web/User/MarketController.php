@@ -10,4 +10,14 @@ class MarketController extends Controller
     {
         return view('user.modules.market.index.index');
     }
+
+    public function employee()
+    {
+        return view('user.modules.market.employee.index');
+    }
+
+    public function market()
+    {
+        return view('user.modules.market.market.index');
+    }
 }

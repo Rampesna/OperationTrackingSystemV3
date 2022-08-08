@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\EmployeeController\CreateRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithPersonalInformationRequest;
+use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithBalanceRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithDevicesRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByJobDepartmentTypeIdsRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByIdRequest;
@@ -99,6 +100,41 @@ class EmployeeController extends Controller
             return $this->error(
                 $getByCompanyIdsWithPersonalInformationResponse->getMessage(),
                 $getByCompanyIdsWithPersonalInformationResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByCompanyIdsWithBalanceRequest $request
+     */
+    public function getByCompanyIdsWithBalance(GetByCompanyIdsWithBalanceRequest $request)
+    {
+        $companyIds = $request->user()->companies->pluck('id')->toArray();
+
+        if (count($request->companyIds) == 0) return $this->error('Minimum one company is required.', 404);
+
+        foreach ($request->companyIds as $companyId) {
+            if (!in_array($companyId, $companyIds)) {
+                return $this->error('Unauthorized', 401);
+            }
+        }
+
+        $getByCompanyIdsWithBalanceResponse = $this->employeeService->getByCompanyIdsWithBalance(
+            $request->pageIndex,
+            $request->pageSize,
+            $request->companyIds,
+            $request->leave
+        );
+        if ($getByCompanyIdsWithBalanceResponse->isSuccess()) {
+            return $this->success(
+                $getByCompanyIdsWithBalanceResponse->getMessage(),
+                $getByCompanyIdsWithBalanceResponse->getData(),
+                $getByCompanyIdsWithBalanceResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByCompanyIdsWithBalanceResponse->getMessage(),
+                $getByCompanyIdsWithBalanceResponse->getStatusCode()
             );
         }
     }

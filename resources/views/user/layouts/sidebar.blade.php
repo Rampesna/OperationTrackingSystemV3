@@ -222,7 +222,7 @@
                                 </svg>
                             </span>
                         </span>
-                        <span class="menu-title">Market</span>
+                        <span class="menu-title">Market Yönetimi</span>
                     </span>
                 </a>
                 <a href="{{ route('user.web.humanResources.index') }}" class="menu-item {{ request()->segment(2) == 'humanResources' ? 'show' : '' }}">

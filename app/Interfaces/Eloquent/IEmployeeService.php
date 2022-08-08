@@ -84,6 +84,25 @@ interface IEmployeeService extends IEloquentService
      *
      * @return ServiceResponse
      */
+    public function getByCompanyIdsWithBalance(
+        int         $pageIndex = 0,
+        int         $pageSize = 10,
+        array       $companyIds = [],
+        int         $leave = 0,
+        string|null $keyword = null,
+        array|null  $jobDepartmentIds = []
+    ): ServiceResponse;
+
+    /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param array $companyIds
+     * @param int $leave
+     * @param string|null $keyword
+     * @param array|null $jobDepartmentIds
+     *
+     * @return ServiceResponse
+     */
     public function getByCompanyIdsWithPersonalInformation(
         int         $pageIndex = 0,
         int         $pageSize = 10,

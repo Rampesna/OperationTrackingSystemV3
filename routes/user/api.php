@@ -91,6 +91,7 @@ Route::middleware([
     Route::prefix('employee')->group(function () {
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIds'])->name('user.api.employee.getByCompanyIds');
         Route::get('getByCompanyIdsWithPersonalInformation', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIdsWithPersonalInformation'])->name('user.api.employee.getByCompanyIdsWithPersonalInformation');
+        Route::get('getByCompanyIdsWithBalance', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIdsWithBalance'])->name('user.api.employee.getByCompanyIdsWithBalance');
         Route::get('getByCompanyIdsWithDevices', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIdsWithDevices'])->name('user.api.employee.getByCompanyIdsWithDevices');
         Route::get('getByJobDepartmentTypeIds', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByJobDepartmentTypeIds'])->name('user.api.employee.getByJobDepartmentTypeIds');
         Route::get('getById', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getById'])->name('user.api.employee.getById');
@@ -416,6 +417,10 @@ Route::middleware([
     Route::prefix('comment')->group(function () {
         Route::get('getByRelation', [\App\Http\Controllers\Api\User\CommentController::class, 'getByRelation'])->name('user.api.comment.getByRelation');
         Route::post('create', [\App\Http\Controllers\Api\User\CommentController::class, 'create'])->name('user.api.comment.create');
+    });
+
+    Route::prefix('marketPayment')->group(function () {
+        Route::post('addBalanceEmployees', [\App\Http\Controllers\Api\User\MarketPaymentController::class, 'addBalanceEmployees'])->name('user.api.marketPayment.addBalanceEmployees');
     });
 
     Route::prefix('operationApi')->group(function () {
