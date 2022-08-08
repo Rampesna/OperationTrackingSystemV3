@@ -97,4 +97,60 @@ class BoardService implements IBoardService
             null
         );
     }
+
+    /**
+     * @param int $projectId
+     * @param string|null $name
+     * @param int $management
+     *
+     * @return ServiceResponse
+     */
+    public function create(
+        int     $projectId,
+        ?string $name,
+        int     $management
+    ): ServiceResponse
+    {
+        $lastBoard = Board::where('project_id', $projectId)->where('management', $management)->orderBy('order', 'desc')->first();
+        $board = new Board;
+        $board->project_id = $projectId;
+        $board->name = $name;
+        $board->order = $lastBoard ? ($lastBoard->order + 1) : 1;
+        $board->management = $management;
+        $board->save();
+
+        return new ServiceResponse(
+            true,
+            'Board created',
+            201,
+            $board
+        );
+    }
+
+    /**
+     * @param int $id
+     * @param string|null $name
+     *
+     * @return ServiceResponse
+     */
+    public function updateName(
+        int     $id,
+        ?string $name,
+    ): ServiceResponse
+    {
+        $board = $this->getById($id);
+        if ($board->isSuccess()) {
+            $board->getData()->name = $name;
+            $board->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Board name updated',
+                200,
+                $board->getData()
+            );
+        } else {
+            return $board;
+        }
+    }
 }

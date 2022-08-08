@@ -23,6 +23,8 @@
     @include('user.modules.project.task.modals.deleteTask')
     @include('user.modules.project.task.modals.taskFiles')
 
+    @include('user.modules.project.task.modals.deleteBoard')
+
     <input type="hidden" id="selected_board_id">
     <input type="hidden" id="selected_task_id">
     <div id="boards" class="mt-5"></div>

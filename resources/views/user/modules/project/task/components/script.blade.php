@@ -87,6 +87,7 @@
     var CreateSubTaskSelectedTaskButton = $('#CreateSubTaskSelectedTaskButton');
     var CreateSubTaskSelectedTaskInput = $('#CreateSubTaskSelectedTaskInput');
     var DeleteTaskButton = $('#DeleteTaskButton');
+    var DeleteBoardButton = $('#DeleteBoardButton');
 
     var selectedTaskSubTasksRow = $('#selectedTaskSubTasksRow');
 
@@ -298,25 +299,14 @@
                                <i class="far fa-circle fa-sm mt-5 moveTaskIcon"></i>
                             </div>
                             <div class="col-xl-9">
-                               <input data-id="${board.id}" class="form-control font-weight-bold moveTaskIcon editBoardTitle" type="text" value="${board.name ?? ''}" style="color:gray; font-size: 15px; border: none; background: transparent">
+                               <input data-id="${board.id}" class="form-control font-weight-bold moveTaskIcon updateBoardTitle" type="text" value="${board.name ?? ''}" style="color:gray; font-size: 15px; border: none; background: transparent">
                             </div>
-                            <div class="col-xl-1 text-right">
-                                <div class="dropdown dropdown-inline">
-                                    <i class="fas fa-grip-horizontal fa-sm mt-5 cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                        <ul class="navi navi-hover">
-                                            <li class="navi-item mt-n2 mb-n2">
-                                                <a href="#" class="navi-link deleteBoard" data-id="${board.id}">
-                                                    <span class="navi-icon">
-                                                        <i class="fas fa-trash fa-sm text-danger"></i>
-                                                    </span>
-                                                    <span class="navi-text font-size-xs">
-                                                        Panoyu Sil
-                                                    </span>
-                                                </a>
-                                            </li>
-                                         </ul>
-                                     </div>
+                            <div class="col-xl-1 mt-2 text-right">
+                                <div class="dropdown">
+                                    <i class="fas fa-th cursor-pointer" id="${board.id}_Dropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <div class="dropdown-menu" aria-labelledby="${board.id}_Dropdown" style="width: 175px">
+                                        <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteBoard(${board.id})" title="Panoyu Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Panoyu Sil</span></a>
+                                    </div>
                                 </div>
                            </div>
                         </div>
@@ -378,6 +368,137 @@
     }
 
     getTaskPriorities();
+
+    // ------------------- Task Transactions Start -------------------
+
+    $(document).delegate('.boardTaskAdder', 'keypress', function (e) {
+        if (parseInt(e.which) === 13) {
+            var boardId = $(this).data('board-id');
+            var name = $(this).val();
+            if (!name) {
+                toastr.warning('Görev Adı Girmediniz!');
+            } else {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('user.api.task.create') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        boardId: boardId,
+                        name: name
+                    },
+                    success: function () {
+                        fetchBoards();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error('Görev Oluşturulurken Serviste Bir Hata Oluştu.');
+                    }
+                });
+            }
+        }
+    });
+
+    // ------------------- Task Transactions End -------------------
+
+
+    // ------------------- Board Transactions Start -------------------
+
+    function deleteBoard(boardId) {
+        $('#selected_board_id').val(boardId);
+        $('#DeleteBoardModal').modal('show');
+    }
+
+    DeleteBoardButton.click(function () {
+        var id = $('#selected_board_id').val();
+        DeleteBoardButton.prop('disabled', true).html('<i class="fas fa-spinner fa-pulse"></i>');
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('user.api.board.delete') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function () {
+                fetchBoards();
+                toastr.success('Pano Başarıyla Silindi.');
+                $('#DeleteBoardModal').modal('hide');
+                DeleteBoardButton.prop('disabled', false).html('Panoyu Sil');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Pano Silinirken Silerken Serviste Bir Hata Oluştu.');
+                DeleteBoardButton.prop('disabled', false).html('Panoyu Sil');
+            }
+        });
+    });
+
+    $(document).delegate('#CreateBoardButton', 'click', function () {
+        var button = $(this);
+        button.attr('disabled', true).html(`
+        <span class="form-control mt-1 font-weight-bold text-dark-75" type="text" style="font-size: 12px; border: none; background: transparent">
+            <i class="fa fa-spinner fa-spin"></i>
+        </span>
+        `);
+
+        var projectId = parseInt(`{{ $id }}`);
+        var management = 0;
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.board.create') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                projectId: projectId,
+                management: management,
+            },
+            success: function () {
+                fetchBoards();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Pano Oluşturulurken Serviste Bir Hata Oluştu.');
+                button.attr('disabled', false).html(`
+                <span class="form-control mt-1 font-weight-bold text-dark-75" type="text" style="font-size: 12px; border: none; background: transparent">
+                    <i class="fa fa-plus fa-sm mr-2"></i>
+                    <span class="ms-2">Yeni Pano</span>
+                </span>
+                `);
+            }
+        });
+    });
+
+    $(document).delegate('.updateBoardTitle', 'focusout', function () {
+        var id = $(this).data('id');
+        var name = $(this).val();
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.board.updateName') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+                name: name,
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Pano Başlığı Güncellenirken Serviste Bir Hata Oluştu.');
+            }
+        });
+    });
+
+    // ------------------- Board Transactions End -------------------
+
 
     // ------------------- Selected Task Functions Start -------------------
 
@@ -734,7 +855,7 @@
 
     DeleteTaskButton.click(function () {
         var id = $('#selected_task_id').val();
-        $('#DeleteTaskModal').modal('hide');
+        DeleteTaskButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
         $.ajax({
             type: 'delete',
             url: '{{ route('user.api.task.delete') }}',
@@ -749,10 +870,13 @@
                 updateTaskDrawerButton.trigger('click');
                 fetchBoards();
                 toastr.success('Görev Başarıyla Silindi!');
+                DeleteTaskButton.attr('disabled', false).html('Görevi Sil');
+                $('#DeleteTaskModal').modal('hide');
             },
             error: function (error) {
                 console.log(error);
-                toastr.error('Görev Silinirken Serviste Bir Sorun Olutşu!');
+                toastr.error('Görev Silinirken Serviste Bir Sorun Oluştu!');
+                DeleteTaskButton.attr('disabled', false).html('Görevi Sil');
             }
         });
     });

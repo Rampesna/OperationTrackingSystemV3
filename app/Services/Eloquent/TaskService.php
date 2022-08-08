@@ -70,6 +70,32 @@ class TaskService implements ITaskService
     }
 
     /**
+     * @param int $boardId
+     * @param string $name
+     *
+     * @return ServiceResponse
+     */
+    public function create(
+        int    $boardId,
+        string $name
+    ): ServiceResponse
+    {
+        $lastTask = Task::where('board_id', $boardId)->orderBy('order', 'desc')->first();
+        $task = new Task;
+        $task->board_id = $boardId;
+        $task->name = $name;
+        $task->order = $lastTask ? ($lastTask->order + 1) : 1;
+        $task->save();
+
+        return new ServiceResponse(
+            true,
+            'Task created',
+            201,
+            $task
+        );
+    }
+
+    /**
      * @param int $taskId
      * @param int $boardId
      *

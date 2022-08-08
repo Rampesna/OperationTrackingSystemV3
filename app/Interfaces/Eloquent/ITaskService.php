@@ -7,6 +7,17 @@ use App\Services\ServiceResponse;
 interface ITaskService extends IEloquentService
 {
     /**
+     * @param int $boardId
+     * @param string $name
+     *
+     * @return ServiceResponse
+     */
+    public function create(
+        int    $boardId,
+        string $name
+    ): ServiceResponse;
+
+    /**
      * @param int $taskId
      * @param int $boardId
      *

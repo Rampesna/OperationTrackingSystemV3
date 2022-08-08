@@ -7,6 +7,7 @@ use App\Http\Requests\Api\User\TaskController\GetByIdRequest;
 use App\Http\Requests\Api\User\TaskController\GetFilesByIdRequest;
 use App\Http\Requests\Api\User\TaskController\GetSubTasksByIdRequest;
 use App\Http\Requests\Api\User\TaskController\GetCommentsByIdRequest;
+use App\Http\Requests\Api\User\TaskController\CreateRequest;
 use App\Http\Requests\Api\User\TaskController\UpdateBoardRequest;
 use App\Http\Requests\Api\User\TaskController\UpdateOrderRequest;
 use App\Http\Requests\Api\User\TaskController\UpdateByParametersRequest;
@@ -107,6 +108,29 @@ class TaskController extends Controller
             return $this->error(
                 $getCommentsByIdResponse->getMessage(),
                 $getCommentsByIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param CreateRequest $request
+     */
+    public function create(CreateRequest $request)
+    {
+        $updateBoardResponse = $this->taskService->create(
+            $request->boardId,
+            $request->name
+        );
+        if ($updateBoardResponse->isSuccess()) {
+            return $this->success(
+                $updateBoardResponse->getMessage(),
+                $updateBoardResponse->getData(),
+                $updateBoardResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateBoardResponse->getMessage(),
+                $updateBoardResponse->getStatusCode()
             );
         }
     }
