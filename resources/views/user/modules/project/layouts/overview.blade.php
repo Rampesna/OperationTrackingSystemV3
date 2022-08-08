@@ -75,7 +75,7 @@
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'file' ? 'active' : '' }}" href="{{ route('user.web.project.file', ['id' => $id]) }}">Dosyalar</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'supportRequest' ? 'active' : '' }}" href="{{ route('user.web.project.supportRequest', ['id' => $id]) }}">Destek Talepleri</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'ticket' ? 'active' : '' }}" href="{{ route('user.web.project.ticket', ['id' => $id]) }}">Destek Talepleri</a>
             </li>
         </ul>
     </div>

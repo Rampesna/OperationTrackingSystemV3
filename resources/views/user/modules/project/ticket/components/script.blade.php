@@ -1,8 +1,76 @@
 <script>
 
-    $(document).ready(function () {
-        $('#loader').hide();
-    });
+    function getProject() {
+        var id = parseInt('{{ $id }}');
+        $('#loader').show();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.project.getById') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function (response) {
+                $('#projectNameSpan').text(response.response.name);
+                $('#projectStatusBadge').text(response.response.status ? response.response.status.name : '--').addClass(`badge-light-${response.response.status ? response.response.status.color : 'info'}`);
+                $('#projectDescription').html(response.response.description ?? '');
+                $('#projectEndDateSpan').text(response.response.end_date ? reformatDatetimeToDateForHuman(response.response.end_date) : '--');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                if (parseInt(error.status) === 404) {
+                    toastr.error('Proje Bulunamadı!');
+                } else {
+                    toastr.error('Proje Bilgileri Alınırken Serviste Bir Sorun Oluştu!');
+                }
+                $('#loader').hide();
+            }
+        });
+    }
+
+    function getProjectSubTasks() {
+        var projectId = parseInt('{{ $id }}');
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.project.getSubtasksByProjectId') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                projectId: projectId,
+            },
+            success: function (response) {
+                var waitingSubTasks = 0;
+                $.each(response.response, function (i, subTask) {
+                    if (parseInt(subTask.checked) === 0) {
+                        waitingSubTasks++;
+                    }
+                });
+                $('#projectWaitingTasksSpan').text(waitingSubTasks);
+            },
+            error: function (error) {
+                console.log(error);
+                if (parseInt(error.status) === 404) {
+                    toastr.error('Proje Bulunamadı!');
+                } else {
+                    toastr.error('Proje Bilgileri Alınırken Serviste Bir Sorun Oluştu!');
+                }
+            }
+        });
+    }
+
+    getProject();
+    getProjectSubTasks();
+
+</script>
+
+
+<script>
 
     var tickets = $('#tickets');
     var ticketMessagesRow = $('#ticketMessagesRow');
@@ -25,13 +93,10 @@
     var ticketMessagesDrawerButton = $('#ticketMessagesDrawerButton');
     var CreateTicketMessageButton = $('#CreateTicketMessageButton');
 
-    var createTicketRelationType = $('#create_ticket_relation_type');
-    var createTicketRelationId = $('#create_ticket_relation_id');
-    var createTicketPriorityId = $('#create_ticket_priority_id');
-
     var updateTicketRelationType = $('#update_ticket_relation_type');
     var updateTicketRelationId = $('#update_ticket_relation_id');
     var updateTicketPriorityId = $('#update_ticket_priority_id');
+    var updateTicketStatusId = $('#update_ticket_status_id');
 
     var ticketMessagesTicketFiles = $('#ticket_messages_ticket_files');
 
@@ -44,18 +109,6 @@
     }
 
     controlMobile();
-
-    function createTicket() {
-        createTicketRelationType.val('');
-        $('#create_ticket_title').val('');
-        $('#create_ticket_source').val('');
-        createTicketPriorityId.val('').trigger('change');
-        $('#create_ticket_requested_end_date').val('');
-        $('#create_ticket_description').val('');
-        $('#create_ticket_notes').val('');
-        $('#create_ticket_files').val('');
-        $('#CreateTicketModal').modal('show');
-    }
 
     function updateTicket(id) {
         $('#loader').show();
@@ -76,7 +129,7 @@
                 $('#update_ticket_title').val(response.response.title);
                 $('#update_ticket_source').val(response.response.source);
                 updateTicketPriorityId.val(response.response.priority_id).trigger('change');
-                $('#update_ticket_status_id').val(response.response.status_id);
+                updateTicketStatusId.val(response.response.status_id).trigger('change');
                 $('#update_ticket_requested_end_date').val(response.response.requested_end_date);
                 $('#update_ticket_todo_end_date').val(response.response.todo_end_date);
                 $('#update_ticket_description').val(response.response.description);
@@ -199,14 +252,9 @@
             },
             data: {},
             success: function (response) {
-                createTicketPriorityId.empty();
                 updateTicketPriorityId.empty();
                 priorityIdFilter.empty();
                 $.each(response.response, function (i, ticketPriority) {
-                    createTicketPriorityId.append($('<option>', {
-                        value: ticketPriority.id,
-                        text: ticketPriority.name
-                    }));
                     updateTicketPriorityId.append($('<option>', {
                         value: ticketPriority.id,
                         text: ticketPriority.name
@@ -234,8 +282,13 @@
             },
             data: {},
             success: function (response) {
+                updateTicketStatusId.empty();
                 statusIdFilter.empty();
                 $.each(response.response, function (i, ticketStatus) {
+                    updateTicketStatusId.append($('<option>', {
+                        value: ticketStatus.id,
+                        text: ticketStatus.name
+                    }));
                     statusIdFilter.append($('<option>', {
                         value: ticketStatus.id,
                         text: ticketStatus.name
@@ -249,10 +302,10 @@
         });
     }
 
-    function getTicketsByCreator() {
+    function getTicketsByRelation() {
         tickets.html(`<tr><td colspan="9" class="text-center fw-bolder"><i class="fa fa-lg fa-spinner fa-spin"></i></td></tr>`);
-        var creatorType = 'App\\Models\\Eloquent\\User';
-        var creatorId = parseInt(`{{ auth()->id() }}`);
+        var relationType = 'App\\Models\\Eloquent\\Project';
+        var relationId = parseInt(`{{ $id }}`);
         var pageIndex = parseInt(page.html()) - 1;
         var pageSize = pageSizeSelector.val();
         var keyword = keywordFilter.val();
@@ -261,14 +314,14 @@
 
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.ticket.getByCreator') }}',
+            url: '{{ route('user.api.ticket.getByRelation') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {
-                creatorType: creatorType,
-                creatorId: creatorId,
+                relationType: relationType,
+                relationId: relationId,
                 pageIndex: pageIndex,
                 pageSize: pageSize,
                 keyword: keyword,
@@ -403,7 +456,7 @@
 
     getTicketPriorities();
     getTicketStatuses();
-    getTicketsByCreator();
+    getTicketsByRelation();
 
     keywordFilter.on('keypress', function (e) {
         if (e.which === 13) {
@@ -419,7 +472,7 @@
         }
 
         page.html(newPage);
-        getTicketsByCreator();
+        getTicketsByRelation();
     }
 
     pageUpButton.click(function () {
@@ -438,10 +491,6 @@
         changePage(1);
     });
 
-    createTicketRelationType.change(function () {
-        getRelationsForCreate();
-    });
-
     updateTicketRelationType.change(function () {
         getRelationsForUpdate();
     });
@@ -453,101 +502,6 @@
         changePage(1);
     });
 
-    CreateTicketButton.click(function () {
-        var creatorType = 'App\\Models\\Eloquent\\User';
-        var creatorId = parseInt(`{{ auth()->id() }}`);
-        var relationType = createTicketRelationType.val();
-        var relationId = createTicketRelationId.val();
-        var priorityId = createTicketPriorityId.val();
-        var statusId = 1;
-        var title = $('#create_ticket_title').val();
-        var source = $('#create_ticket_source').val();
-        var description = $('#create_ticket_description').val();
-        var notes = $('#create_ticket_notes').val();
-        var requestedEndDate = $('#create_ticket_requested_end_date').val();
-        var todoEndDate = null;
-
-
-        if (!relationType) {
-            toastr.warning('Bağlantı Türü Seçimi Zorunludur!');
-        } else if (!relationId) {
-            toastr.warning('Talep Bağlantısı Seçimi Zorunludur!');
-        } else if (!title) {
-            toastr.warning('Talep Başlığı Zorunludur!');
-        } else if (!priorityId) {
-            toastr.warning('Talep Önceliği Seçimi Zorunludur!');
-        } else {
-            CreateTicketButton.attr('disabled', true).html(`<i class="fas fa-spinner fa-spin"></i>`);
-            $.ajax({
-                type: 'post',
-                url: '{{ route('user.api.ticket.create') }}',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': token
-                },
-                data: {
-                    creatorType: creatorType,
-                    creatorId: creatorId,
-                    relationType: relationType,
-                    relationId: relationId,
-                    priorityId: priorityId,
-                    statusId: statusId,
-                    title: title,
-                    source: source,
-                    description: description,
-                    notes: notes,
-                    requestedEndDate: requestedEndDate,
-                    todoEndDate: todoEndDate
-                },
-                success: function (response) {
-                    toastr.success('Destek Talebi Başarıyla Oluşturuldu.');
-                    var createTicketFilesCount = document.getElementById('create_ticket_files').files.length;
-                    if (createTicketFilesCount > 0) {
-                        toastr.info('Destek Talebi Dosyalarınız Yükleniyor, Lütfen Bekleyin!');
-                        var data = new FormData();
-                        data.append('relationType', 'App\\Models\\Eloquent\\Ticket');
-                        data.append('relationId', response.response.id);
-                        data.append('filePath', `uploads/ticket/${response.response.id}/files/`);
-                        for (var index = 0; index < createTicketFilesCount; index++) {
-                            data.append("files[]", document.getElementById('create_ticket_files').files[index]);
-                        }
-                        $.ajax({
-                            contentType: false,
-                            processData: false,
-                            type: 'post',
-                            url: '{{ route('user.api.file.uploadBatch') }}',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Authorization': token
-                            },
-                            data: data,
-                            success: function () {
-                                toastr.success('Dosyalarınız Başarıyla Destek Talebine Yüklendi.');
-                                changePage(1);
-                                $('#CreateTicketModal').modal('hide');
-                                CreateTicketButton.attr('disabled', false).html(`Oluştur`);
-                            },
-                            error: function (error) {
-                                console.log(error);
-                                toastr.error('Destek Talebi Oluşturuldu Ancak Dosyalar Eklenirken Serviste Bir Sorun Oluştu!');
-                                CreateTicketButton.attr('disabled', false).html(`Oluştur`);
-                            }
-                        });
-                    } else {
-                        changePage(1);
-                        $('#CreateTicketModal').modal('hide');
-                        CreateTicketButton.attr('disabled', false).html(`Oluştur`);
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                    toastr.error('Destek Talebi Oluşturulurken Serviste Bir Sorun Oluştu!');
-                    CreateTicketButton.attr('disabled', false).html(`Oluştur`);
-                }
-            });
-        }
-    });
-
     UpdateTicketButton.click(function () {
         var id = $('#update_ticket_id').val();
         var creatorType = 'App\\Models\\Eloquent\\User';
@@ -555,7 +509,7 @@
         var relationType = updateTicketRelationType.val();
         var relationId = updateTicketRelationId.val();
         var priorityId = updateTicketPriorityId.val();
-        var statusId = $('#update_ticket_status_id').val();
+        var statusId = updateTicketStatusId.val();
         var title = $('#update_ticket_title').val();
         var source = $('#update_ticket_source').val();
         var description = $('#update_ticket_description').val();
@@ -571,6 +525,8 @@
             toastr.warning('Talep Başlığı Zorunludur!');
         } else if (!priorityId) {
             toastr.warning('Talep Önceliği Seçimi Zorunludur!');
+        } else if (!statusId) {
+            toastr.warning('Talep Durumu Seçimi Zorunludur!');
         } else {
             UpdateTicketButton.attr('disabled', true).html(`<i class="fas fa-spinner fa-spin"></i>`);
             $.ajax({
@@ -670,7 +626,7 @@
                         },
                         data: {
                             ticketId: ticketId,
-                            statusId: 1
+                            statusId: 2
                         },
                         error: function (error) {
                             console.log(error);

@@ -47,9 +47,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function supportRequest(Request $request)
+    public function ticket(Request $request)
     {
-        return view('user.modules.project.supportRequest.index', [
+        return view('user.modules.project.ticket.index', [
             'id' => $request->id
         ]);
     }

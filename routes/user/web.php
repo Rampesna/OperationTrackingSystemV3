@@ -177,7 +177,7 @@ Route::middleware([
         Route::get('managementTask/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'managementTask'])->name('user.web.project.managementTask');
         Route::get('note/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'note'])->name('user.web.project.note');
         Route::get('file/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'file'])->name('user.web.project.file');
-        Route::get('supportRequest/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'supportRequest'])->name('user.web.project.supportRequest');
+        Route::get('ticket/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'ticket'])->name('user.web.project.ticket');
     });
 
     Route::prefix('inventory')->group(function () {
