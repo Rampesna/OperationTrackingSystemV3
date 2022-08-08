@@ -432,6 +432,22 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\User\MarketPaymentController::class, 'create'])->name('user.api.marketPayment.create');
     });
 
+    Route::prefix('centralMission')->group(function () {
+        Route::get('getByRelation', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'getByRelation'])->name('user.api.centralMission.getByRelation');
+        Route::get('getById', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'getById'])->name('user.api.centralMission.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'create'])->name('user.api.centralMission.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'update'])->name('user.api.centralMission.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'delete'])->name('user.api.centralMission.delete');
+    });
+
+    Route::prefix('centralMissionType')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\CentralMissionTypeController::class, 'getAll'])->name('user.api.centralMissionType.getAll');
+    });
+
+    Route::prefix('centralMissionStatus')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\CentralMissionStatusController::class, 'getAll'])->name('user.api.centralMissionStatus.getAll');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

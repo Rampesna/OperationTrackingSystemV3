@@ -174,4 +174,13 @@ interface IUserService extends IEloquentService
     public function getMeetings(
         int $userId,
     ): ServiceResponse;
+
+    /**
+     * @param int $userId
+     *
+     * @return ServiceResponse
+     */
+    public function getCentralMissions(
+        int $userId,
+    ): ServiceResponse;
 }

@@ -281,7 +281,7 @@
                         <span class="menu-title">Envanter</span>
                     </span>
                 </a>
-                <a href="{{ route('user.web.assignment.index') }}" class="menu-item {{ request()->segment(2) == 'assignment' ? 'show' : '' }}">
+                <a href="{{ route('user.web.centralMission.index') }}" class="menu-item {{ request()->segment(2) == 'assignment' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <span class="svg-icon svg-icon-1">
@@ -291,7 +291,7 @@
                                 </svg>
                             </span>
                         </span>
-                        <span class="menu-title">Görevlendirmeler</span>
+                        <span class="menu-title">Merkezi Görev Sistemi</span>
                     </span>
                 </a>
                 <a href="{{ route('user.web.ticket.index') }}" class="menu-item {{ request()->segment(2) == 'ticket' ? 'show' : '' }}">

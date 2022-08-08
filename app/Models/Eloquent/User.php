@@ -72,6 +72,11 @@ class User extends Authenticatable
         return $this->morphMany(TicketMessage::class, 'creator');
     }
 
+    public function centralMissions()
+    {
+        return $this->morphMany(CentralMission::class, 'relation');
+    }
+
     public function getBalanceAttribute()
     {
         $marketPayments = $this->marketPayments;

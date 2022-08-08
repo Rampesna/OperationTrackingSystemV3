@@ -490,6 +490,28 @@ class UserService implements IUserService
     }
 
     /**
+     * @param int $userId
+     *
+     * @return ServiceResponse
+     */
+    public function getCentralMissions(
+        int $userId,
+    ): ServiceResponse
+    {
+        $user = $this->getById($userId);
+        if ($user->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'User centralMissions',
+                200,
+                $user->getData()->centralMissions
+            );
+        } else {
+            return $user;
+        }
+    }
+
+    /**
      * @param int $id
      *
      * @return ServiceResponse

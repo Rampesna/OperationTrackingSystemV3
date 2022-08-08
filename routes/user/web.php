@@ -193,6 +193,10 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\AssignmentController::class, 'index'])->name('user.web.assignment.index');
     });
 
+    Route::prefix('centralMission')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\CentralMissionController::class, 'index'])->name('user.web.centralMission.index');
+    });
+
     Route::prefix('ticket')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\TicketController::class, 'index'])->name('user.web.ticket.index');
     });

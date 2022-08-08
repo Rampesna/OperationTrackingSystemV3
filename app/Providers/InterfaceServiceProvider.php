@@ -9,6 +9,9 @@ use App\Interfaces\Eloquent\IAcademyEducationPlanService;
 use App\Interfaces\Eloquent\IAcademyEducationService;
 use App\Interfaces\Eloquent\IBoardService;
 use App\Interfaces\Eloquent\IBranchService;
+use App\Interfaces\Eloquent\ICentralMissionService;
+use App\Interfaces\Eloquent\ICentralMissionStatusService;
+use App\Interfaces\Eloquent\ICentralMissionTypeService;
 use App\Interfaces\Eloquent\ICommentService;
 use App\Interfaces\Eloquent\ICommercialCompanyService;
 use App\Interfaces\Eloquent\ICompanyService;
@@ -74,6 +77,9 @@ use App\Services\Eloquent\AcademyEducationPlanService;
 use App\Services\Eloquent\AcademyEducationService;
 use App\Services\Eloquent\BoardService;
 use App\Services\Eloquent\BranchService;
+use App\Services\Eloquent\CentralMissionService;
+use App\Services\Eloquent\CentralMissionStatusService;
+use App\Services\Eloquent\CentralMissionTypeService;
 use App\Services\Eloquent\CommentService;
 use App\Services\Eloquent\CommercialCompanyService;
 use App\Services\Eloquent\CompanyService;
@@ -196,6 +202,9 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ITicketStatusService::class, TicketStatusService::class);
         $this->app->bind(ITicketMessageService::class, TicketMessageService::class);
         $this->app->bind(ICommentService::class, CommentService::class);
+        $this->app->bind(ICentralMissionService::class, CentralMissionService::class);
+        $this->app->bind(ICentralMissionTypeService::class, CentralMissionTypeService::class);
+        $this->app->bind(ICentralMissionStatusService::class, CentralMissionStatusService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

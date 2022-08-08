@@ -72,6 +72,11 @@ class Employee extends Authenticatable
         return $this->morphMany(MarketPayment::class, 'relation');
     }
 
+    public function centralMissions()
+    {
+        return $this->morphMany(CentralMission::class, 'relation');
+    }
+
     public function getBalanceAttribute()
     {
         $marketPayments = $this->marketPayments;

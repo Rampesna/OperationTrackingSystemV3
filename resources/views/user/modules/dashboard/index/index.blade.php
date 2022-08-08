@@ -359,7 +359,7 @@
         </div>
 
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Görevlendirmeler">
-            <a href="{{ route('user.web.assignment.index') }}" class="card cursor-pointer h-lg-100">
+            <a href="{{ route('user.web.centralMission.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                     <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -370,7 +370,7 @@
                     </span>
                     </div>
                     <div class="d-flex flex-column mt-7">
-                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Görevlendirmeler</span>
+                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Merkezi Görev Sistemi</span>
                     </div>
                 </div>
             </a>
