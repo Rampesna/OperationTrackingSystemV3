@@ -17,6 +17,7 @@
     @include('user.modules.centralMission.index.modals.createCentralMission')
     @include('user.modules.centralMission.index.modals.updateCentralMission')
     @include('user.modules.centralMission.index.modals.deleteCentralMission')
+    @include('user.modules.centralMission.index.modals.diagram')
 
     <div class="row">
         <div class="col-xl-8 mb-5">
