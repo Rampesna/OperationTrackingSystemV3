@@ -9,4 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comment extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function creator()
+    {
+        return $this->morphTo();
+    }
+
+    public function relation()
+    {
+        return $this->morphTo();
+    }
 }

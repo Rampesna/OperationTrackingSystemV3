@@ -413,6 +413,11 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\TicketStatusController::class, 'getAll'])->name('user.api.ticketStatus.getAll');
     });
 
+    Route::prefix('comment')->group(function () {
+        Route::get('getByRelation', [\App\Http\Controllers\Api\User\CommentController::class, 'getByRelation'])->name('user.api.comment.getByRelation');
+        Route::post('create', [\App\Http\Controllers\Api\User\CommentController::class, 'create'])->name('user.api.comment.create');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

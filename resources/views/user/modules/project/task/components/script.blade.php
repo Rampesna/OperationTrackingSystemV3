@@ -88,8 +88,10 @@
     var CreateSubTaskSelectedTaskInput = $('#CreateSubTaskSelectedTaskInput');
     var DeleteTaskButton = $('#DeleteTaskButton');
     var DeleteBoardButton = $('#DeleteBoardButton');
+    var CreateCommentButton = $('#CreateCommentButton');
 
     var selectedTaskSubTasksRow = $('#selectedTaskSubTasksRow');
+    var selectedTaskCommentsRow = $('#selectedTaskCommentsRow');
 
     $(document).delegate('.kanban-item', 'mouseover', function () {
         $(this).css({
@@ -517,8 +519,8 @@
             },
             success: function (response) {
                 updateTaskNameInput.val(response.response.name);
-                updateTaskStartDateInput.val(reformatDatetimeTo_YYYY_MM_DD(response.response.start_date));
-                updateTaskEndDateInput.val(reformatDatetimeTo_YYYY_MM_DD(response.response.end_date));
+                updateTaskStartDateInput.val(response.response.start_date ? reformatDatetimeTo_YYYY_MM_DD(response.response.start_date) : '');
+                updateTaskEndDateInput.val(response.response.end_date ? reformatDatetimeTo_YYYY_MM_DD(response.response.end_date) : '');
                 updateTaskPriorityIdInput.val(response.response.priority_id).select2();
                 updateTaskRequesterIdInput.val(response.response.requester_id);
                 updateTaskDescriptionInput.val(response.response.description);
@@ -605,7 +607,31 @@
                 id: id,
             },
             success: function (response) {
-
+                var avatar = `{{ asset('assets/media/logos/avatar.png') }}`;
+                selectedTaskCommentsRow.empty();
+                $.each(response.response, function (i, comment) {
+                    selectedTaskCommentsRow.append(`
+                    <div class="d-flex flex-wrap gap-2 flex-stack mb-10">
+                        <div class="d-flex align-items-center">
+                            <div class="symbol symbol-50 me-4">
+                                <span class="symbol-label" style="background-image:url(${avatar});"></span>
+                            </div>
+                            <div class="pe-5">
+                                <div class="d-flex align-items-center flex-wrap gap-1">
+                                    <a href="#" class="fw-bolder text-dark text-hover-primary">${comment.creator ? comment.creator.name : '--'}</a>
+                                    <span class="svg-icon svg-icon-7 svg-icon-success mx-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                                            <circle fill="#000000" cx="12" cy="12" r="8"></circle>
+                                        </svg>
+                                    </span>
+                                    <span class="text-muted fw-bolder me-5">${reformatDatetimeToDatetimeForHuman(comment.created_at)}</span>
+                                </div>
+                                <div class="text-muted fw-bold mw-450px" data-kt-inbox-message="preview">${comment.comment}</div>
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                });
             },
             error: function (error) {
                 console.log(error);
@@ -879,6 +905,42 @@
                 DeleteTaskButton.attr('disabled', false).html('Görevi Sil');
             }
         });
+    });
+
+    CreateCommentButton.click(function () {
+        var relationType = 'App\\Models\\Eloquent\\Task';
+        var relationId = $('#selected_task_id').val();
+        var comment = $('#create_comment_comment').val();
+
+        if (!comment) {
+            toastr.warning('Yorumunuzu Girmediniz!');
+        } else {
+            CreateCommentButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            $.ajax({
+                type: 'post',
+                url: '{{ route('user.api.comment.create') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    relationType: relationType,
+                    relationId: relationId,
+                    comment: comment
+                },
+                success: function () {
+                    $('#create_comment_comment').val('');
+                    toastr.success('Yorumunuz Başarıyla Eklendi!');
+                    CreateCommentButton.attr('disabled', false).html('Yanıtla');
+                    getSelectedTaskComments();
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Yorumunuz Eklenirken Serviste Bir Sorun Oluştu!');
+                    CreateCommentButton.attr('disabled', false).html('Yanıtla');
+                }
+            });
+        }
     });
 
     $(document).delegate(".sublistToggleIcon", "click", function () {

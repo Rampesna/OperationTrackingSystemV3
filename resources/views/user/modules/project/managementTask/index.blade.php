@@ -16,6 +16,19 @@
 
     @include('user.modules.project.layouts.overview')
 
+    <button id="updateTaskDrawerButton" style="display: none"></button>
+
+    @include('user.modules.project.managementTask.drawers.updateTask')
+
+    @include('user.modules.project.managementTask.modals.deleteTask')
+    @include('user.modules.project.managementTask.modals.taskFiles')
+
+    @include('user.modules.project.managementTask.modals.deleteBoard')
+
+    <input type="hidden" id="selected_board_id">
+    <input type="hidden" id="selected_task_id">
+    <div id="boards" class="mt-5"></div>
+
 @endsection
 
 @section('customStyles')

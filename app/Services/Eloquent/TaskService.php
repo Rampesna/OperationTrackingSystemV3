@@ -233,7 +233,9 @@ class TaskService implements ITaskService
                 true,
                 'Task comments',
                 200,
-                $task->getData()->comments
+                $task->getData()->comments()->with([
+                    'creator'
+                ])->get()
             );
         } else {
             return $task;

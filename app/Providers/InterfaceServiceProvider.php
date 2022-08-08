@@ -9,6 +9,7 @@ use App\Interfaces\Eloquent\IAcademyEducationPlanService;
 use App\Interfaces\Eloquent\IAcademyEducationService;
 use App\Interfaces\Eloquent\IBoardService;
 use App\Interfaces\Eloquent\IBranchService;
+use App\Interfaces\Eloquent\ICommentService;
 use App\Interfaces\Eloquent\ICommercialCompanyService;
 use App\Interfaces\Eloquent\ICompanyService;
 use App\Interfaces\Eloquent\ICompetenceService;
@@ -73,6 +74,7 @@ use App\Services\Eloquent\AcademyEducationPlanService;
 use App\Services\Eloquent\AcademyEducationService;
 use App\Services\Eloquent\BoardService;
 use App\Services\Eloquent\BranchService;
+use App\Services\Eloquent\CommentService;
 use App\Services\Eloquent\CommercialCompanyService;
 use App\Services\Eloquent\CompanyService;
 use App\Services\Eloquent\CompetenceService;
@@ -193,6 +195,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ITicketPriorityService::class, TicketPriorityService::class);
         $this->app->bind(ITicketStatusService::class, TicketStatusService::class);
         $this->app->bind(ITicketMessageService::class, TicketMessageService::class);
+        $this->app->bind(ICommentService::class, CommentService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);
