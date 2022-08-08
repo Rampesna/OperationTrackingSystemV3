@@ -77,8 +77,8 @@ interface ITicketService extends IEloquentService
         ?string $source,
         ?string $description,
         ?string $notes,
-        ?string  $requestedEndDate,
-        ?string  $todoEndDate
+        ?string $requestedEndDate,
+        ?string $todoEndDate
     ): ServiceResponse;
 
     /**
@@ -111,7 +111,18 @@ interface ITicketService extends IEloquentService
         ?string $source,
         ?string $description,
         ?string $notes,
-        ?string  $requestedEndDate,
-        ?string  $todoEndDate
+        ?string $requestedEndDate,
+        ?string $todoEndDate
+    ): ServiceResponse;
+
+    /**
+     * @param int $ticketId
+     * @param int $statusId
+     *
+     * @return ServiceResponse
+     */
+    public function setStatus(
+        int $ticketId,
+        int $statusId
     ): ServiceResponse;
 }

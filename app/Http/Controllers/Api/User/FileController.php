@@ -7,6 +7,7 @@ use App\Interfaces\AwsS3\IStorageService;
 use App\Interfaces\Eloquent\IFileService;
 use App\Http\Requests\Api\User\FileController\GetAllRequest;
 use App\Http\Requests\Api\User\FileController\UploadRequest;
+use App\Http\Requests\Api\User\FileController\UploadBatchRequest;
 use App\Http\Requests\Api\User\FileController\DownloadRequest;
 use App\Http\Requests\Api\User\FileController\GetByIdRequest;
 use App\Http\Requests\Api\User\FileController\GetByRelationRequest;
@@ -139,6 +140,49 @@ class FileController extends Controller
                 $storeResponse->getStatusCode()
             );
         }
+    }
+
+    /**
+     * @param UploadBatchRequest $request
+     */
+    public function uploadBatch(UploadBatchRequest $request)
+    {
+        foreach ($request->file('files') as $file) {
+            $storeResponse = $this->storageService->store(
+                $file,
+                $request->filePath
+            );
+            if ($storeResponse->isSuccess()) {
+                $createResponse = $this->fileService->create(
+                    $request->user()->id,
+                    'App\\Models\\Eloquent\\User',
+                    $request->relationId,
+                    $request->relationType,
+                    $file->getClientMimeType(),
+                    $request->icon,
+                    $file->getClientOriginalName(),
+                    $storeResponse->getData()
+                );
+                if ($createResponse->isSuccess()) {
+                    continue;
+                } else {
+                    return $this->error(
+                        $createResponse->getMessage(),
+                        $createResponse->getStatusCode()
+                    );
+                }
+            } else {
+                return $this->error(
+                    $storeResponse->getMessage(),
+                    $storeResponse->getStatusCode()
+                );
+            }
+        }
+
+        return $this->success(
+            'Files uploaded successfully',
+            null
+        );
     }
 
     /**

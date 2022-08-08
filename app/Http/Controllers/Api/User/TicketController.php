@@ -10,6 +10,7 @@ use App\Http\Requests\Api\User\TicketController\GetByRelationRequest;
 use App\Http\Requests\Api\User\TicketController\GetByCreatorRequest;
 use App\Http\Requests\Api\User\TicketController\CreateRequest;
 use App\Http\Requests\Api\User\TicketController\UpdateRequest;
+use App\Http\Requests\Api\User\TicketController\SetStatusRequest;
 use App\Http\Requests\Api\User\TicketController\DeleteRequest;
 use App\Traits\Response;
 
@@ -193,6 +194,29 @@ class TicketController extends Controller
             return $this->error(
                 $updateResponse->getMessage(),
                 $updateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetStatusRequest $request
+     */
+    public function setStatus(SetStatusRequest $request)
+    {
+        $setStatusResponse = $this->ticketService->setStatus(
+            $request->ticketId,
+            $request->statusId
+        );
+        if ($setStatusResponse->isSuccess()) {
+            return $this->success(
+                $setStatusResponse->getMessage(),
+                $setStatusResponse->getData(),
+                $setStatusResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setStatusResponse->getMessage(),
+                $setStatusResponse->getStatusCode()
             );
         }
     }

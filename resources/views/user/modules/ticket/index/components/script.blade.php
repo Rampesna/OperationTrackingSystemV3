@@ -5,6 +5,8 @@
     });
 
     var tickets = $('#tickets');
+    var ticketMessagesRow = $('#ticketMessagesRow');
+    var createTicketMessageArea = $('#createTicketMessageArea');
 
     var page = $('#page');
     var pageUpButton = $('#pageUp');
@@ -21,6 +23,7 @@
     var UpdateTicketButton = $('#UpdateTicketButton');
     var DeleteTicketButton = $('#DeleteTicketButton');
     var ticketMessagesDrawerButton = $('#ticketMessagesDrawerButton');
+    var CreateTicketMessageButton = $('#CreateTicketMessageButton');
 
     var createTicketRelationType = $('#create_ticket_relation_type');
     var createTicketRelationId = $('#create_ticket_relation_id');
@@ -29,6 +32,8 @@
     var updateTicketRelationType = $('#update_ticket_relation_type');
     var updateTicketRelationId = $('#update_ticket_relation_id');
     var updateTicketPriorityId = $('#update_ticket_priority_id');
+
+    var ticketMessagesTicketFiles = $('#ticket_messages_ticket_files');
 
     function controlMobile() {
         if (detectMobile()) {
@@ -48,6 +53,7 @@
         $('#create_ticket_requested_end_date').val('');
         $('#create_ticket_description').val('');
         $('#create_ticket_notes').val('');
+        $('#create_ticket_files').val('');
         $('#CreateTicketModal').modal('show');
     }
 
@@ -86,7 +92,7 @@
         });
     }
 
-    function getTicketMessages(ticketId) {
+    function getTicketMessages(ticketId, drawer = 0) {
         $('#loader').show();
         $.ajax({
             type: 'get',
@@ -99,15 +105,26 @@
                 id: ticketId,
             },
             success: function (response) {
+                if (parseInt(response.response.status_id) === 1 || parseInt(response.response.status_id) === 2) {
+                    createTicketMessageArea.show();
+                } else {
+                    createTicketMessageArea.hide();
+                }
+                var fileDownloadUrl = `{{ route('user.web.file.download') }}`;
+                $('#create_ticket_message_ticket_id').val(response.response.id);
                 $('#ticket_messages_ticket_title_input').val(response.response.title);
                 $('#ticket_messages_ticket_creator_input').val(response.response.creator ? response.response.creator.name : '');
                 $('#ticket_messages_ticket_source_input').val(response.response.source ?? '');
                 $('#ticket_messages_ticket_description_input').val(response.response.description ?? '');
                 $('#ticket_messages_ticket_notes_input').val(response.response.notes ?? '');
                 $('#ticket_messages_ticket_created_at_input').val(reformatDatetimeForInput(response.response.created_at));
-                $('#ticket_messages_ticket_requested_end_date_input').val(response.response.requested_end_date ? response.response.requested_end_date : '');
-                $('#ticket_messages_ticket_todo_end_date_input').val(response.response.todo_end_date ? response.response.todo_end_date : '');
-                ticketMessagesDrawerButton.click();
+                $('#ticket_messages_ticket_requested_end_date_input').val(response.response.requested_end_date);
+                $('#ticket_messages_ticket_todo_end_date_input').val(response.response.todo_end_date);
+                ticketMessagesTicketFiles.empty();
+                $.each(response.response.files, function (i, file) {
+                    ticketMessagesTicketFiles.append(`<a href="${fileDownloadUrl}/${file.id}" target="_blank" title="${file.name}" class="me-2"><i class="fa fa-lg fa-file"></i></a>`);
+                });
+                if (drawer === 0) ticketMessagesDrawerButton.click();
                 $('#loader').hide();
 
                 $.ajax({
@@ -121,7 +138,36 @@
                         ticketId: ticketId,
                     },
                     success: function (response) {
-                        console.log(response);
+                        var avatar = `{{ asset('assets/media/logos/avatar.png') }}`;
+                        ticketMessagesRow.empty();
+                        $.each(response.response, function (i, ticketMessage) {
+                            var ticketMessageFiles = ``;
+                            $.each(ticketMessage.files, function (i, ticketMessageFile) {
+                                ticketMessageFiles += `<a href="${fileDownloadUrl}/${ticketMessageFile.id}" target="_blank" title="${ticketMessageFile.name}" class="me-2"><i class="fa fa-lg fa-file"></i></a>`;
+                            });
+                            ticketMessagesRow.append(`
+                            <div class="d-flex flex-wrap gap-2 flex-stack mb-10">
+                                <div class="d-flex align-items-center">
+                                    <div class="symbol symbol-50 me-4">
+                                        <span class="symbol-label" style="background-image:url(${avatar});"></span>
+                                    </div>
+                                    <div class="pe-5">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <a href="#" class="fw-bolder text-dark text-hover-primary">${ticketMessage.creator ? ticketMessage.creator.name : '--'}</a>
+                                            <span class="svg-icon svg-icon-7 svg-icon-success mx-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                                                    <circle fill="#000000" cx="12" cy="12" r="8"></circle>
+                                                </svg>
+                                            </span>
+                                            <span class="text-muted fw-bolder me-5">${reformatDatetimeToDatetimeForHuman(ticketMessage.created_at)}, </span>
+                                            <span class="text-muted fw-bolder">${ticketMessageFiles}</span>
+                                        </div>
+                                        <div class="text-muted fw-bold mw-450px" data-kt-inbox-message="preview">${ticketMessage.message}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            `);
+                        });
                     },
                     error: function (error) {
                         console.log(error);
@@ -204,7 +250,7 @@
     }
 
     function getTicketsByCreator() {
-        tickets.html(`<tr><td colspan="7" class="text-center fw-bolder"><i class="fa fa-lg fa-spinner fa-spin"></i></td></tr>`);
+        tickets.html(`<tr><td colspan="9" class="text-center fw-bolder"><i class="fa fa-lg fa-spinner fa-spin"></i></td></tr>`);
         var creatorType = 'App\\Models\\Eloquent\\User';
         var creatorId = parseInt(`{{ auth()->id() }}`);
         var pageIndex = parseInt(page.html()) - 1;
@@ -230,7 +276,6 @@
                 statusIds: statusIds,
             },
             success: function (response) {
-                console.log(response);
                 tickets.empty();
                 $.each(response.response.tickets, function (i, ticket) {
                     tickets.append(`
@@ -422,6 +467,7 @@
         var requestedEndDate = $('#create_ticket_requested_end_date').val();
         var todoEndDate = null;
 
+
         if (!relationType) {
             toastr.warning('Bağlantı Türü Seçimi Zorunludur!');
         } else if (!relationId) {
@@ -453,11 +499,45 @@
                     requestedEndDate: requestedEndDate,
                     todoEndDate: todoEndDate
                 },
-                success: function () {
-                    toastr.success('Destek Talebi Başarıyla Oluşturuldu!');
-                    changePage(1);
-                    $('#CreateTicketModal').modal('hide');
-                    CreateTicketButton.attr('disabled', false).html(`Oluştur`);
+                success: function (response) {
+                    toastr.success('Destek Talebi Başarıyla Oluşturuldu.');
+                    var createTicketFilesCount = document.getElementById('create_ticket_files').files.length;
+                    if (createTicketFilesCount > 0) {
+                        toastr.info('Destek Talebi Dosyalarınız Yükleniyor, Lütfen Bekleyin!');
+                        var data = new FormData();
+                        data.append('relationType', 'App\\Models\\Eloquent\\Ticket');
+                        data.append('relationId', response.response.id);
+                        data.append('filePath', `uploads/ticket/${response.response.id}/files/`);
+                        for (var index = 0; index < createTicketFilesCount; index++) {
+                            data.append("files[]", document.getElementById('create_ticket_files').files[index]);
+                        }
+                        $.ajax({
+                            contentType: false,
+                            processData: false,
+                            type: 'post',
+                            url: '{{ route('user.api.file.uploadBatch') }}',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Authorization': token
+                            },
+                            data: data,
+                            success: function () {
+                                toastr.success('Dosyalarınız Başarıyla Destek Talebine Yüklendi.');
+                                changePage(1);
+                                $('#CreateTicketModal').modal('hide');
+                                CreateTicketButton.attr('disabled', false).html(`Oluştur`);
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                toastr.error('Destek Talebi Oluşturuldu Ancak Dosyalar Eklenirken Serviste Bir Sorun Oluştu!');
+                                CreateTicketButton.attr('disabled', false).html(`Oluştur`);
+                            }
+                        });
+                    } else {
+                        changePage(1);
+                        $('#CreateTicketModal').modal('hide');
+                        CreateTicketButton.attr('disabled', false).html(`Oluştur`);
+                    }
                 },
                 error: function (error) {
                     console.log(error);
@@ -555,6 +635,95 @@
                 DeleteTicketButton.attr('disabled', false).html(`Sil`);
             }
         });
+    });
+
+    CreateTicketMessageButton.click(function () {
+        var ticketId = $('#create_ticket_message_ticket_id').val();
+        var creatorType = 'App\\Models\\Eloquent\\User';
+        var creatorId = parseInt(`{{ auth()->id() }}`);
+        var message = $('#create_ticket_message_message').val();
+
+        if (!message) {
+            toastr.warning('Mesaj Girmediniz!');
+        } else {
+            CreateTicketMessageButton.attr('disabled', true).html(`<i class="fas fa-spinner fa-spin"></i>`);
+            $.ajax({
+                type: 'post',
+                url: '{{ route('user.api.ticketMessage.create') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    ticketId: ticketId,
+                    creatorType: creatorType,
+                    creatorId: creatorId,
+                    message: message
+                },
+                success: function (response) {
+                    $.ajax({
+                        type: 'put',
+                        url: '{{ route('user.api.ticket.setStatus') }}',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': token
+                        },
+                        data: {
+                            ticketId: ticketId,
+                            statusId: 1
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            toastr.error('Destek Talebi Durumu Güncellenirken Serviste Bir Sorun Oluştu!');
+                        }
+                    });
+                    toastr.success('Mesajınız Başarıyla Oluşturuldu.');
+                    var createTicketMessageFilesCount = document.getElementById('create_ticket_message_files').files.length;
+                    if (createTicketMessageFilesCount > 0) {
+                        toastr.info('Mesajınıza Ait Dosyalarınız Yükleniyor, Lütfen Bekleyin!');
+                        var data = new FormData();
+                        data.append('relationType', 'App\\Models\\Eloquent\\TicketMessage');
+                        data.append('relationId', response.response.id);
+                        data.append('filePath', `uploads/ticket/${response.response.ticket_id}/ticketMessages/${response.response.id}/files/`);
+                        for (var index = 0; index < createTicketMessageFilesCount; index++) {
+                            data.append("files[]", document.getElementById('create_ticket_message_files').files[index]);
+                        }
+                        $.ajax({
+                            contentType: false,
+                            processData: false,
+                            type: 'post',
+                            url: '{{ route('user.api.file.uploadBatch') }}',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Authorization': token
+                            },
+                            data: data,
+                            success: function () {
+                                toastr.success('Mesajınıza Ait Dosyalarınız Başarıyla Yüklendi!');
+                                getTicketMessages(ticketId, 1);
+                                CreateTicketMessageButton.attr('disabled', false).html(`Cevapla`);
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                toastr.error('Mesajınız Gönderildi Ancak Dosyalar Eklenirken Serviste Bir Sorun Oluştu!');
+                                CreateTicketMessageButton.attr('disabled', false).html(`Cevapla`);
+                            }
+                        });
+                    } else {
+                        getTicketMessages(ticketId, 1);
+                        CreateTicketMessageButton.attr('disabled', false).html(`Cevapla`);
+                    }
+                    $('#create_ticket_message_message').val('');
+                    $('#create_ticket_message_files').val('');
+                    changePage(parseInt(page.html()));
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Mesaj Gönderilirken Serviste Bir Sorun Oluştu!');
+                    CreateTicketMessageButton.attr('disabled', true).html(`Cevapla`);
+                }
+            });
+        }
     });
 
 </script>

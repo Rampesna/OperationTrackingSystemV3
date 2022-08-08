@@ -288,6 +288,7 @@ Route::middleware([
         Route::get('getById', [\App\Http\Controllers\Api\User\FileController::class, 'getById'])->name('user.api.file.getById');
         Route::get('getByRelation', [\App\Http\Controllers\Api\User\FileController::class, 'getByRelation'])->name('user.api.file.getByRelation');
         Route::post('upload', [\App\Http\Controllers\Api\User\FileController::class, 'upload'])->name('user.api.file.upload');
+        Route::post('uploadBatch', [\App\Http\Controllers\Api\User\FileController::class, 'uploadBatch'])->name('user.api.file.uploadBatch');
         Route::get('download', [\App\Http\Controllers\Api\User\FileController::class, 'download'])->name('user.api.file.download');
         Route::delete('delete', [\App\Http\Controllers\Api\User\FileController::class, 'delete'])->name('user.api.file.delete');
     });
@@ -387,6 +388,7 @@ Route::middleware([
         Route::get('getByCreator', [\App\Http\Controllers\Api\User\TicketController::class, 'getByCreator'])->name('user.api.ticket.getByCreator');
         Route::post('create', [\App\Http\Controllers\Api\User\TicketController::class, 'create'])->name('user.api.ticket.create');
         Route::put('update', [\App\Http\Controllers\Api\User\TicketController::class, 'update'])->name('user.api.ticket.update');
+        Route::put('setStatus', [\App\Http\Controllers\Api\User\TicketController::class, 'setStatus'])->name('user.api.ticket.setStatus');
         Route::delete('delete', [\App\Http\Controllers\Api\User\TicketController::class, 'delete'])->name('user.api.ticket.delete');
     });
 

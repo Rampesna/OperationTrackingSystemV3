@@ -19,4 +19,9 @@ class TicketMessage extends Model
     {
         return $this->morphTo();
     }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'relation');
+    }
 }

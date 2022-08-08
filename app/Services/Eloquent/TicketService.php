@@ -30,7 +30,13 @@ class TicketService implements ITicketService
         int $id
     ): ServiceResponse
     {
-        $ticket = Ticket::find($id);
+        $ticket = Ticket::with([
+            'creator',
+            'relation',
+            'priority',
+            'status',
+            'files',
+        ])->find($id);
         if ($ticket) {
             return new ServiceResponse(
                 true,
@@ -293,6 +299,32 @@ class TicketService implements ITicketService
             return new ServiceResponse(
                 true,
                 'Ticket updated',
+                200,
+                $ticket->getData()
+            );
+        } else {
+            return $ticket;
+        }
+    }
+
+    /**
+     * @param int $ticketId
+     * @param int $statusId
+     *
+     * @return ServiceResponse
+     */
+    public function setStatus(
+        int $ticketId,
+        int $statusId
+    ): ServiceResponse
+    {
+        $ticket = $this->getById($ticketId);
+        if ($ticket->isSuccess()) {
+            $ticket->getData()->status_id = $statusId;
+            $ticket->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Ticket status updated',
                 200,
                 $ticket->getData()
             );

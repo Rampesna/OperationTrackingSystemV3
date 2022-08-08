@@ -33,6 +33,7 @@ class TicketMessageService implements ITicketMessageService
         $ticketMessage = TicketMessage::with([
             'ticket',
             'creator',
+            'files',
         ])->find($id);
         if ($ticketMessage) {
             return new ServiceResponse(
@@ -89,6 +90,7 @@ class TicketMessageService implements ITicketMessageService
             TicketMessage::with([
                 'ticket',
                 'creator',
+                'files',
             ])->where('ticket_id', $ticketId)->get()
         );
     }

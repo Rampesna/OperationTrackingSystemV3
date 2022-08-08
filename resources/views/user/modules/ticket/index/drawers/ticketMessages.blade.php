@@ -74,17 +74,35 @@
                         <input type="date" class="form-control form-control-solid" id="ticket_messages_ticket_todo_end_date_input" aria-label="Yapılacak Temin Zamanı" disabled>
                     </div>
                 </div>
-                <hr class="text-muted">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="form-group">
-                            <textarea class="form-control form-control-lg form-control-solid" id="create_ticket_message_message" rows="3" placeholder="Mesajınız..." aria-label="Mesajınız..."></textarea>
-                        </div>
+                <div class="row mt-3">
+                    <div class="col-xl-3 mt-3">
+                        <span class="fw-bolder">Yüklenen Dosyalar</span>
+                    </div>
+                    <div class="col-xl-9 pt-2" id="ticket_messages_ticket_files">
+
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-xl-12 text-end">
-                        <button type="button" id="CreateTicketMessageButton" class="btn btn-light-success font-weight-bold">Cevapla</button>
+                <div id="createTicketMessageArea">
+                    <hr class="text-muted">
+                    <input type="hidden" id="create_ticket_message_ticket_id">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <input type="file" class="form-control form-control-solid" id="create_ticket_message_files" multiple>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <textarea class="form-control form-control-lg form-control-solid" id="create_ticket_message_message" rows="3" placeholder="Mesajınız..." aria-label="Mesajınız..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-xl-12 text-end">
+                            <button type="button" id="CreateTicketMessageButton" class="btn btn-light-success font-weight-bold">Cevapla</button>
+                        </div>
                     </div>
                 </div>
                 <hr class="text-muted">

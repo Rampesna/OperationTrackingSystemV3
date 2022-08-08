@@ -102,6 +102,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="create_ticket_files" class="font-weight-bolder">Dosyalar</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <input id="create_ticket_files" type="file" class="form-control form-control-solid" multiple>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>
