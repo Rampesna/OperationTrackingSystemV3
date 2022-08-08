@@ -52,4 +52,43 @@ interface IMarketService extends IEloquentService
     public function getMarketPayments(
         int $marketId
     ): ServiceResponse;
+
+    /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     *
+     * @return ServiceResponse
+     */
+    public function index(
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword
+    ): ServiceResponse;
+
+    /**
+     * @param string $code
+     * @param string $name
+     * @param string $password
+     *
+     * @return ServiceResponse
+     */
+    public function create(
+        string $code,
+        string $name,
+        string $password
+    ): ServiceResponse;
+
+    /**
+     * @param int $id
+     * @param string $code
+     * @param string $name
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int    $id,
+        string $code,
+        string $name
+    ): ServiceResponse;
 }

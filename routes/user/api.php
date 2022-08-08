@@ -419,8 +419,17 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\User\CommentController::class, 'create'])->name('user.api.comment.create');
     });
 
+    Route::prefix('market')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Api\User\MarketController::class, 'index'])->name('user.api.market.index');
+        Route::get('getById', [\App\Http\Controllers\Api\User\MarketController::class, 'getById'])->name('user.api.market.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\MarketController::class, 'create'])->name('user.api.market.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\MarketController::class, 'update'])->name('user.api.market.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\MarketController::class, 'delete'])->name('user.api.market.delete');
+    });
+
     Route::prefix('marketPayment')->group(function () {
         Route::post('addBalanceEmployees', [\App\Http\Controllers\Api\User\MarketPaymentController::class, 'addBalanceEmployees'])->name('user.api.marketPayment.addBalanceEmployees');
+        Route::post('create', [\App\Http\Controllers\Api\User\MarketPaymentController::class, 'create'])->name('user.api.marketPayment.create');
     });
 
     Route::prefix('operationApi')->group(function () {

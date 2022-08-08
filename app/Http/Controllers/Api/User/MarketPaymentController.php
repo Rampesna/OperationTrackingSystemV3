@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\MarketPaymentController\AddBalanceEmployeesRequest;
+use App\Http\Requests\Api\User\MarketPaymentController\CreateRequest;
 use App\Interfaces\Eloquent\IMarketPaymentService;
 use App\Traits\Response;
 
@@ -31,7 +32,7 @@ class MarketPaymentController extends Controller
     {
         foreach ($request->employeeIds as $employeeId) {
             $createResponse = $this->marketPaymentService->create(
-                null,
+                $request->user()->id,
                 null,
                 $employeeId,
                 'App\Models\Eloquent\Employee',
@@ -55,5 +56,34 @@ class MarketPaymentController extends Controller
             $createResponse->getData(),
             $createResponse->getStatusCode()
         );
+    }
+
+    /**
+     * @param CreateRequest $request
+     */
+    public function create(CreateRequest $request)
+    {
+        $createResponse = $this->marketPaymentService->create(
+            $request->user()->id,
+            $request->marketId,
+            $request->relationId,
+            $request->relationType,
+            $request->amount,
+            $request->code,
+            $request->direction,
+            $request->completed
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
     }
 }

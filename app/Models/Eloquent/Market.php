@@ -41,4 +41,10 @@ class Market extends Authenticatable
     {
         return $this->hasMany(MarketPayment::class, 'market_id', 'id');
     }
+
+    public function getBalanceAttribute()
+    {
+        $marketPayments = $this->marketPayments;
+        return $marketPayments->where('direction', 1)->where('completed', 1)->sum('amount') - $marketPayments->where('direction', 0)->sum('amount');
+    }
 }
