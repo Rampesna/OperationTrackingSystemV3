@@ -119,7 +119,8 @@ class CompanyController extends Controller
             $request->uyumCrmCompanyId,
             $request->uyumCrmBranchId,
             $request->uyumCrmBranchCode,
-            $request->activeYear
+            $request->activeYear,
+            $request->saturdayPermitService,
         );
         if ($createResponse->isSuccess()) {
             return $this->success(
@@ -150,7 +151,8 @@ class CompanyController extends Controller
             $request->uyumCrmCompanyId,
             $request->uyumCrmBranchId,
             $request->uyumCrmBranchCode,
-            $request->activeYear
+            $request->activeYear,
+            $request->saturdayPermitService
         );
         if ($updateResponse->isSuccess()) {
             return $this->success(

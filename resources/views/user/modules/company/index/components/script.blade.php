@@ -254,6 +254,7 @@
                 $('#update_company_uyum_crm_branch_id').val(response.response.uyum_crm_branch_id);
                 $('#update_company_uyum_crm_branch_code').val(response.response.uyum_crm_branch_code);
                 $('#update_company_active_year').val(response.response.active_year);
+                $('#update_company_saturday_permit_service').val(response.response.saturday_permit_service);
                 $('#UpdateCompanyModal').modal('show');
                 $('#loader').hide();
             },
@@ -398,6 +399,7 @@
         var uyumCrmBranchId = $('#create_company_uyum_crm_branch_id').val();
         var uyumCrmBranchCode = $('#create_company_uyum_crm_branch_code').val();
         var activeYear = $('#create_company_active_year').val();
+        var saturdayPermitService = $('#create_company_saturday_permit_service').val();
 
         if (!title) {
             toastr.warning('Firma Adı Boş Bırakılamaz.');
@@ -420,6 +422,7 @@
                     uyumCrmBranchId: uyumCrmBranchId,
                     uyumCrmBranchCode: uyumCrmBranchCode,
                     activeYear: activeYear,
+                    saturdayPermitService: saturdayPermitService,
                 },
                 success: function (response) {
                     $.ajax({
@@ -462,6 +465,7 @@
         var uyumCrmBranchId = $('#update_company_uyum_crm_branch_id').val();
         var uyumCrmBranchCode = $('#update_company_uyum_crm_branch_code').val();
         var activeYear = $('#update_company_active_year').val();
+        var saturdayPermitService = $('#update_company_saturday_permit_service').val();
 
         if (!title) {
             toastr.warning('Firma Adı Boş Bırakılamaz.');
@@ -485,6 +489,7 @@
                     uyumCrmBranchId: uyumCrmBranchId,
                     uyumCrmBranchCode: uyumCrmBranchCode,
                     activeYear: activeYear,
+                    saturdayPermitService: saturdayPermitService,
                 },
                 success: function () {
                     $('#UpdateCompanyModal').modal('hide');

@@ -398,7 +398,7 @@
                     companyId: parseInt(companyId),
                     month: month
                 },
-                success: function () {
+                success: function (response) {
                     $('#loader').hide();
                     $('#RobotModal').modal('hide');
                     toastr.success('Vardiyalar Oluşturuldu!');

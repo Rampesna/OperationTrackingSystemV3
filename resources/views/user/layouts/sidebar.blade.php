@@ -142,7 +142,7 @@
                                 </svg>
                             </span>
                         </span>
-                        <span class="menu-title">Cumartesi İzni</span>
+                        <span class="menu-title">Cumartesi İzinleri</span>
                     </span>
                 </a>
                 <a href="{{ route('user.web.specialReport.index') }}" class="menu-item {{ request()->segment(2) == 'specialReport' ? 'show' : '' }}">

@@ -601,6 +601,10 @@ class EmployeeService implements IEmployeeService
         ?string $password
     ): ServiceResponse
     {
+        $employeesByJobDepartment = Employee::where('job_department_id', $jobDepartmentId)->get();
+        $saturdayPermitOrderOnes = $employeesByJobDepartment->where('saturday_permit_order', 1)->all();
+        $saturdayPermitOrderZeros = $employeesByJobDepartment->where('saturday_permit_order', 0)->all();
+
         $employee = new Employee();
         $employee->guid = $guid;
         $employee->company_id = $companyId;

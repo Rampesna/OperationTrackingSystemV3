@@ -2,6 +2,8 @@
 
 namespace App\Services\Eloquent;
 
+use App\Interfaces\Eloquent\ICompanyService;
+use App\Interfaces\Eloquent\ISaturdayPermitService;
 use App\Interfaces\Eloquent\IShiftGroupEmployeeUseListService;
 use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
@@ -12,26 +14,51 @@ use Illuminate\Support\Carbon;
 
 class ShiftService implements IShiftService
 {
+    /**
+     * @var $employeeService
+     */
     private $employeeService;
 
+    /**
+     * @var $companyService
+     */
+    private $companyService;
+
+    /**
+     * @var $shiftGroupService
+     */
     private $shiftGroupService;
 
+    /**
+     * @var $shiftGroupEmployeeUseListService
+     */
     private $shiftGroupEmployeeUseListService;
 
     /**
+     * @var $saturdayPermitService
+     */
+    private $saturdayPermitService;
+
+    /**
      * @param IEmployeeService $employeeService
+     * @param ICompanyService $companyService
      * @param IShiftGroupService $shiftGroupService
      * @param IShiftGroupEmployeeUseListService $shiftGroupEmployeeUseListService
+     * @param ISaturdayPermitService $saturdayPermitService
      */
     public function __construct(
         IEmployeeService                  $employeeService,
+        ICompanyService                   $companyService,
         IShiftGroupService                $shiftGroupService,
-        IShiftGroupEmployeeUseListService $shiftGroupEmployeeUseListService
+        IShiftGroupEmployeeUseListService $shiftGroupEmployeeUseListService,
+        ISaturdayPermitService            $saturdayPermitService
     )
     {
         $this->employeeService = $employeeService;
+        $this->companyService = $companyService;
         $this->shiftGroupService = $shiftGroupService;
         $this->shiftGroupEmployeeUseListService = $shiftGroupEmployeeUseListService;
+        $this->saturdayPermitService = $saturdayPermitService;
     }
 
     /**
@@ -338,11 +365,20 @@ class ShiftService implements IShiftService
         int    $userId
     ): ServiceResponse
     {
+        $allCompanies = $this->companyService->getAll()->getData();
+        foreach ($allCompanies as $company) {
+            if ($company->saturday_permit_service === 1) {
+                $this->saturdayPermitService->robot(
+                    $month,
+                    $company->id
+                );
+            }
+        }
         $this->shiftGroupEmployeeUseListService->initialize();
         $shiftGroups = $this->shiftGroupService->getByCompanyId($companyId);
         $shifts = collect();
 
-        foreach ($shiftGroups as $shiftGroup) {
+        foreach ($shiftGroups->getData() as $shiftGroup) {
             $startDayOfMonth = 1;
             $endDayOfMonth = date('t', strtotime($month));
             $weeklyEmployees = collect();
@@ -383,18 +419,37 @@ class ShiftService implements IShiftService
                                     }
                                 }
                             }
-                            $shifts->push([
-                                'company_id' => $employee->company_id,
-                                'employee_id' => $employee->id,
-                                'shift_group_id' => $shiftGroup->id,
-                                'created_by' => $userId,
-                                'last_updated_by' => $userId,
-                                'deleted_by' => null,
-                                'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
-                                'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
-                                'created_at' => date('Y-m-d H:i:s'),
-                                'updated_at' => date('Y-m-d H:i:s'),
-                            ]);
+
+                            $saturdayPermit = $this->saturdayPermitService->getByEmployeeIdAndDate($employee->id, $date);
+                            if ($saturdayPermit->isSuccess()) {
+                                if ($saturdayPermit->getData()->status == 'on') {
+                                    $shifts->push([
+                                        'company_id' => $employee->company_id,
+                                        'employee_id' => $employee->id,
+                                        'shift_group_id' => $shiftGroup->id,
+                                        'created_by' => $userId,
+                                        'last_updated_by' => $userId,
+                                        'deleted_by' => null,
+                                        'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
+                                        'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
+                                        'created_at' => date('Y-m-d H:i:s'),
+                                        'updated_at' => date('Y-m-d H:i:s'),
+                                    ]);
+                                }
+                            } else {
+                                $shifts->push([
+                                    'company_id' => $employee->company_id,
+                                    'employee_id' => $employee->id,
+                                    'shift_group_id' => $shiftGroup->id,
+                                    'created_by' => $userId,
+                                    'last_updated_by' => $userId,
+                                    'deleted_by' => null,
+                                    'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
+                                    'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                    'updated_at' => date('Y-m-d H:i:s'),
+                                ]);
+                            }
                         }
                     } else {
                         if ($shiftGroup->set_group_weekly === 1) {
@@ -413,10 +468,16 @@ class ShiftService implements IShiftService
                                 }
                             }
 
+                            $unavailableEmployeeIds = [];
                             $usedShiftGroupEmployees = $this->shiftGroupEmployeeUseListService->getUsedShiftGroupEmployees($shiftGroup->id);
+                            $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $usedShiftGroupEmployees->getData()->pluck('id')->toArray());
+//                            $saturdayPermitEmployeesResponse = $this->saturdayPermitService->getByDate(date('Y-m-d', strtotime('next saturday', strtotime($date))));
+//                            if ($saturdayPermitEmployeesResponse->isSuccess()) {
+//                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $saturdayPermitEmployeesResponse->getData()->pluck('employee_id')->toArray());
+//                            }
 
                             if ($weeklyEmployees->count() < $shiftGroup->per_day) {
-                                $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $usedShiftGroupEmployees->getData()->pluck('id')->toArray())->get();
+                                $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $unavailableEmployeeIds)->get();
                                 $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
 
                                 if ($weeklyEmployees->count() < $shiftGroup->per_day) {
@@ -465,19 +526,38 @@ class ShiftService implements IShiftService
                                             }
                                         }
                                     }
-                                    $this->shiftGroupEmployeeUseListService->setUsedShiftGroupEmployee($shiftGroup->id, $employee->id);
-                                    $shifts->push([
-                                        'company_id' => $employee->company_id,
-                                        'employee_id' => $employee->id,
-                                        'shift_group_id' => $shiftGroup->id,
-                                        'created_by' => $userId,
-                                        'last_updated_by' => $userId,
-                                        'deleted_by' => null,
-                                        'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
-                                        'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
-                                        'created_at' => date('Y-m-d H:i:s'),
-                                        'updated_at' => date('Y-m-d H:i:s'),
-                                    ]);
+                                    $saturdayPermit = $this->saturdayPermitService->getByEmployeeIdAndDate($employee->id, $date);
+                                    if ($saturdayPermit->isSuccess()) {
+                                        if ($saturdayPermit->getData()->status == 'on') {
+                                            $this->shiftGroupEmployeeUseListService->setUsedShiftGroupEmployee($shiftGroup->id, $employee->id);
+                                            $shifts->push([
+                                                'company_id' => $employee->company_id,
+                                                'employee_id' => $employee->id,
+                                                'shift_group_id' => $shiftGroup->id,
+                                                'created_by' => $userId,
+                                                'last_updated_by' => $userId,
+                                                'deleted_by' => null,
+                                                'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
+                                                'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
+                                                'created_at' => date('Y-m-d H:i:s'),
+                                                'updated_at' => date('Y-m-d H:i:s'),
+                                            ]);
+                                        }
+                                    } else {
+                                        $this->shiftGroupEmployeeUseListService->setUsedShiftGroupEmployee($shiftGroup->id, $employee->id);
+                                        $shifts->push([
+                                            'company_id' => $employee->company_id,
+                                            'employee_id' => $employee->id,
+                                            'shift_group_id' => $shiftGroup->id,
+                                            'created_by' => $userId,
+                                            'last_updated_by' => $userId,
+                                            'deleted_by' => null,
+                                            'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
+                                            'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
+                                            'created_at' => date('Y-m-d H:i:s'),
+                                            'updated_at' => date('Y-m-d H:i:s'),
+                                        ]);
+                                    }
                                 }
                             } else {
                                 $weeklyEmployees = collect();
@@ -485,8 +565,14 @@ class ShiftService implements IShiftService
                                 goto checkWeeklyEmployees;
                             }
                         } else {
+                            $unavailableEmployeeIds = [];
                             $usedShiftGroupEmployees = $this->shiftGroupEmployeeUseListService->getUsedShiftGroupEmployees($shiftGroup->id);
-                            $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $usedShiftGroupEmployees->getData()->pluck('id')->toArray())->get();
+                            $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $usedShiftGroupEmployees->getData()->pluck('id')->toArray());
+//                            $saturdayPermitEmployeesResponse = $this->saturdayPermitService->getByDate(date('Y-m-d', strtotime('next saturday', strtotime($date))));
+//                            if ($saturdayPermitEmployeesResponse->isSuccess()) {
+//                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $saturdayPermitEmployeesResponse->getData()->pluck('employee_id')->toArray());
+//                            }
+                            $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $unavailableEmployeeIds)->get();
                             $randomEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
 
                             foreach ($randomEmployees as $employee) {
@@ -514,19 +600,38 @@ class ShiftService implements IShiftService
                                         }
                                     }
                                 }
-                                $this->shiftGroupEmployeeUseListService->setUsedShiftGroupEmployee($shiftGroup->id, $employee->id);
-                                $shifts->push([
-                                    'company_id' => $employee->company_id,
-                                    'employee_id' => $employee->id,
-                                    'shift_group_id' => $shiftGroup->id,
-                                    'created_by' => $userId,
-                                    'last_updated_by' => $userId,
-                                    'deleted_by' => null,
-                                    'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
-                                    'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
-                                    'created_at' => date('Y-m-d H:i:s'),
-                                    'updated_at' => date('Y-m-d H:i:s'),
-                                ]);
+                                $saturdayPermit = $this->saturdayPermitService->getByEmployeeIdAndDate($employee->id, $date);
+                                if (!$saturdayPermit->isSuccess()) {
+                                    if ($saturdayPermit->getData()->status == 'on') {
+                                        $this->shiftGroupEmployeeUseListService->setUsedShiftGroupEmployee($shiftGroup->id, $employee->id);
+                                        $shifts->push([
+                                            'company_id' => $employee->company_id,
+                                            'employee_id' => $employee->id,
+                                            'shift_group_id' => $shiftGroup->id,
+                                            'created_by' => $userId,
+                                            'last_updated_by' => $userId,
+                                            'deleted_by' => null,
+                                            'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
+                                            'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
+                                            'created_at' => date('Y-m-d H:i:s'),
+                                            'updated_at' => date('Y-m-d H:i:s'),
+                                        ]);
+                                    } else {
+                                        $this->shiftGroupEmployeeUseListService->setUsedShiftGroupEmployee($shiftGroup->id, $employee->id);
+                                        $shifts->push([
+                                            'company_id' => $employee->company_id,
+                                            'employee_id' => $employee->id,
+                                            'shift_group_id' => $shiftGroup->id,
+                                            'created_by' => $userId,
+                                            'last_updated_by' => $userId,
+                                            'deleted_by' => null,
+                                            'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
+                                            'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
+                                            'created_at' => date('Y-m-d H:i:s'),
+                                            'updated_at' => date('Y-m-d H:i:s'),
+                                        ]);
+                                    }
+                                }
                             }
                         }
                     }
@@ -534,14 +639,13 @@ class ShiftService implements IShiftService
             }
         }
 
-//        return $shifts;
         Shift::insert($shifts->toArray());
 
         return new ServiceResponse(
             true,
             'Shift robot completed successfully.',
             201,
-            $shifts
+            $shifts->toArray()
         );
     }
 

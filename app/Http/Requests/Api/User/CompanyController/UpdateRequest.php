@@ -26,6 +26,7 @@ class UpdateRequest extends BaseApiRequest
         return [
             'id' => 'required|integer',
             'title' => 'required',
+            'saturdayPermitService' => 'required|integer',
         ];
     }
 }

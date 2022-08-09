@@ -23,6 +23,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('uyum_crm_branch_id')->nullable();
             $table->string('uyum_crm_branch_code')->nullable();
             $table->string('active_year', 4)->nullable();
+            $table->boolean('saturday_permit_reverse')->default(0);
+            $table->boolean('saturday_permit_service')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

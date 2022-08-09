@@ -150,6 +150,7 @@ class CompanyService implements ICompanyService
      * @param int|null $uyumCrmBranchId
      * @param string|null $uyumCrmBranchCode
      * @param string|null $activeYear
+     * @param int $saturdayPermitService
      *
      * @return ServiceResponse
      */
@@ -162,7 +163,8 @@ class CompanyService implements ICompanyService
         ?int    $uyumCrmCompanyId,
         ?int    $uyumCrmBranchId,
         ?string $uyumCrmBranchCode,
-        ?string $activeYear
+        ?string $activeYear,
+        int     $saturdayPermitService
     ): ServiceResponse
     {
         $company = new Company;
@@ -175,6 +177,7 @@ class CompanyService implements ICompanyService
         $company->uyum_crm_branch_id = $uyumCrmBranchId;
         $company->uyum_crm_branch_code = $uyumCrmBranchCode;
         $company->active_year = $activeYear;
+        $company->saturday_permit_service = $saturdayPermitService;
         $company->save();
 
         return new ServiceResponse(
@@ -196,6 +199,7 @@ class CompanyService implements ICompanyService
      * @param int|null $uyumCrmBranchId
      * @param string|null $uyumCrmBranchCode
      * @param string|null $activeYear
+     * @param int $saturdayPermitService
      *
      * @return ServiceResponse
      */
@@ -209,7 +213,8 @@ class CompanyService implements ICompanyService
         ?int    $uyumCrmCompanyId,
         ?int    $uyumCrmBranchId,
         ?string $uyumCrmBranchCode,
-        ?string $activeYear
+        ?string $activeYear,
+        int     $saturdayPermitService
     ): ServiceResponse
     {
         $company = $this->getById($id);
@@ -224,6 +229,7 @@ class CompanyService implements ICompanyService
             $company->getData()->uyum_crm_branch_id = $uyumCrmBranchId;
             $company->getData()->uyum_crm_branch_code = $uyumCrmBranchCode;
             $company->getData()->active_year = $activeYear;
+            $company->getData()->saturday_permit_service = $saturdayPermitService;
             $company->getData()->save();
 
             return new ServiceResponse(

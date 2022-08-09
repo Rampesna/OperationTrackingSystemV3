@@ -44,6 +44,7 @@ use App\Interfaces\Eloquent\IPersonalAccessTokenService;
 use App\Interfaces\Eloquent\IPositionService;
 use App\Interfaces\Eloquent\IProjectService;
 use App\Interfaces\Eloquent\IQueueService;
+use App\Interfaces\Eloquent\ISaturdayPermitService;
 use App\Interfaces\Eloquent\IShiftGroupEmployeeUseListService;
 use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
@@ -112,6 +113,7 @@ use App\Services\Eloquent\PersonalAccessTokenService;
 use App\Services\Eloquent\PositionService;
 use App\Services\Eloquent\ProjectService;
 use App\Services\Eloquent\QueueService;
+use App\Services\Eloquent\SaturdayPermitService;
 use App\Services\Eloquent\ShiftGroupEmployeeUseListService;
 use App\Services\Eloquent\ShiftGroupService;
 use App\Services\Eloquent\ShiftService;
@@ -205,6 +207,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ICentralMissionService::class, CentralMissionService::class);
         $this->app->bind(ICentralMissionTypeService::class, CentralMissionTypeService::class);
         $this->app->bind(ICentralMissionStatusService::class, CentralMissionStatusService::class);
+        $this->app->bind(ISaturdayPermitService::class, SaturdayPermitService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

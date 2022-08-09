@@ -40,6 +40,7 @@ interface ICompanyService extends IEloquentService
      * @param int|null $uyumCrmBranchId
      * @param string|null $uyumCrmBranchCode
      * @param string|null $activeYear
+     * @param int $saturdayPermitService
      *
      * @return ServiceResponse
      */
@@ -52,7 +53,8 @@ interface ICompanyService extends IEloquentService
         ?int    $uyumCrmCompanyId,
         ?int    $uyumCrmBranchId,
         ?string $uyumCrmBranchCode,
-        ?string $activeYear
+        ?string $activeYear,
+        int     $saturdayPermitService
     ): ServiceResponse;
 
     /**
@@ -66,6 +68,7 @@ interface ICompanyService extends IEloquentService
      * @param int|null $uyumCrmBranchId
      * @param string|null $uyumCrmBranchCode
      * @param string|null $activeYear
+     * @param int $saturdayPermitService
      *
      * @return ServiceResponse
      */
@@ -79,6 +82,7 @@ interface ICompanyService extends IEloquentService
         ?int    $uyumCrmCompanyId,
         ?int    $uyumCrmBranchId,
         ?string $uyumCrmBranchCode,
-        ?string $activeYear
+        ?string $activeYear,
+        int     $saturdayPermitService
     ): ServiceResponse;
 }

@@ -28,8 +28,11 @@ return new class extends Migration {
             $table->boolean('leave')->default(0);
             $table->boolean('suspend')->default(0);
             $table->boolean('theme')->default(0);
+            $table->boolean('saturday_permit_order');
+            $table->boolean('saturday_permit_exemption')->default(0);
             $table->string('api_token')->nullable();
             $table->rememberToken();
+            $table->string('device_token')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -112,6 +112,20 @@
                                 </div>
                             </div>
                         </div>
+                        <hr class="text-muted">
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="create_company_saturday_permit_service" class="font-weight-bolder">Cumartesi İzni Servisi</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <select id="create_company_saturday_permit_service" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Cumartesi İzni Servisi">
+                                        <option value="1">Aktif</option>
+                                        <option value="0">Pasif</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>

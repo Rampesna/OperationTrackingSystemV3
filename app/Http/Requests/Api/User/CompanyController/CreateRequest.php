@@ -25,6 +25,7 @@ class CreateRequest extends BaseApiRequest
     {
         return [
             'title' => 'required',
+            'saturdayPermitService' => 'required|integer',
         ];
     }
 }
