@@ -60,4 +60,15 @@ interface IPersonSystemService
         int   $jobCode,
         array $guids
     ): ServiceResponse;
+
+    /**
+     * @param int $guid
+     * @param int $reasonId
+     *
+     * @return ServiceResponse
+     */
+    public function SetPersonAddPenalty(
+        int $guid,
+        int $reasonId
+    ): ServiceResponse;
 }

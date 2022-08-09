@@ -43,6 +43,8 @@ use App\Interfaces\Eloquent\IPermitTypeService;
 use App\Interfaces\Eloquent\IPersonalAccessTokenService;
 use App\Interfaces\Eloquent\IPositionService;
 use App\Interfaces\Eloquent\IProjectService;
+use App\Interfaces\Eloquent\IPurchaseService;
+use App\Interfaces\Eloquent\IPurchaseStatusService;
 use App\Interfaces\Eloquent\IQueueService;
 use App\Interfaces\Eloquent\ISaturdayPermitService;
 use App\Interfaces\Eloquent\IShiftGroupEmployeeUseListService;
@@ -112,6 +114,8 @@ use App\Services\Eloquent\PermitTypeService;
 use App\Services\Eloquent\PersonalAccessTokenService;
 use App\Services\Eloquent\PositionService;
 use App\Services\Eloquent\ProjectService;
+use App\Services\Eloquent\PurchaseService;
+use App\Services\Eloquent\PurchaseStatusService;
 use App\Services\Eloquent\QueueService;
 use App\Services\Eloquent\SaturdayPermitService;
 use App\Services\Eloquent\ShiftGroupEmployeeUseListService;
@@ -208,6 +212,8 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ICentralMissionTypeService::class, CentralMissionTypeService::class);
         $this->app->bind(ICentralMissionStatusService::class, CentralMissionStatusService::class);
         $this->app->bind(ISaturdayPermitService::class, SaturdayPermitService::class);
+        $this->app->bind(IPurchaseService::class, PurchaseService::class);
+        $this->app->bind(IPurchaseStatusService::class, PurchaseStatusService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

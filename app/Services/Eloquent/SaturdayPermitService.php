@@ -5,7 +5,14 @@ namespace App\Services\Eloquent;
 use App\Interfaces\Eloquent\ICompanyService;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\ISaturdayPermitService;
+use App\Interfaces\Eloquent\IShiftGroupService;
+use App\Interfaces\Eloquent\IShiftService;
+use App\Interfaces\OperationApi\IOperationService;
+use App\Interfaces\OperationApi\IPersonSystemService;
+use App\Models\Eloquent\Employee;
 use App\Models\Eloquent\SaturdayPermit;
+use App\Models\Eloquent\Shift;
+use App\Models\Eloquent\ShiftGroup;
 use App\Services\ServiceResponse;
 
 class SaturdayPermitService implements ISaturdayPermitService
@@ -26,7 +33,7 @@ class SaturdayPermitService implements ISaturdayPermitService
      */
     public function __construct(
         ICompanyService  $companyService,
-        IEmployeeService $employeeService
+        IEmployeeService $employeeService,
     )
     {
         $this->companyService = $companyService;
@@ -109,7 +116,6 @@ class SaturdayPermitService implements ISaturdayPermitService
         $startDayOfMonth = 1;
         $endDayOfMonth = date('t', strtotime($month));
         for ($day = $startDayOfMonth; $day <= $endDayOfMonth; $day++) {
-            if ($day == 25) break;
             $date = $month . '-' . sprintf('%02d', $day);
             if (intval(date('w', strtotime($date))) == 6) {
                 $company = $this->companyService->getById($companyId)->getData();
@@ -125,9 +131,7 @@ class SaturdayPermitService implements ISaturdayPermitService
                             $saturdayPermit = new SaturdayPermit();
                             $saturdayPermit->employee_id = $employee->id;
                             $saturdayPermit->date = $date;
-                            // HATALI $saturdayPermit->status = $company->saturday_permit_reverse == 1 ? 'off' : 'on';
-                            // DENENECEK $saturdayPermit->status = $company->saturday_permit_reverse == 1 ? $employee->saturday_permit_order == 1 ? 'on' : 'off' : 'on';
-                            $saturdayPermit->status = $company->saturday_permit_reverse == 1 ? 'off' : 'on';
+                            $saturdayPermit->status = $company->saturday_permit_reverse == $employee->saturday_permit_order ? 'on' : 'off';
                             $saturdayPermit->save();
                         }
                     }
@@ -161,6 +165,45 @@ class SaturdayPermitService implements ISaturdayPermitService
     }
 
     /**
+     * @param array $companyIds
+     * @param string $startDate
+     * @param string $endDate
+     * @param string|null $keyword
+     * @param array|null $jobDepartmentIds
+     */
+    public function getDateBetween(
+        array   $companyIds,
+        string  $startDate,
+        string  $endDate,
+        ?string $keyword = null,
+        ?array  $jobDepartmentIds = [],
+    ): ServiceResponse
+    {
+        $employees = $this->employeeService->getByCompanyIds(
+            0,
+            10000,
+            $companyIds,
+            0,
+            $keyword,
+            $jobDepartmentIds
+        );
+        if ($employees->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Saturday permits',
+                200,
+                SaturdayPermit::with([
+                    'employee'
+                ])->whereIn('employee_id', $employees->getData()['employees']->pluck('id')->toArray())
+                    ->whereBetween('date', [$startDate, $endDate])
+                    ->get()
+            );
+        } else {
+            return $employees;
+        }
+    }
+
+    /**
      * @param int $employeeId
      * @param string $date
      */
@@ -186,4 +229,70 @@ class SaturdayPermitService implements ISaturdayPermitService
             );
         }
     }
+
+    /**
+     * @param int $id
+     * @param int $shiftGroupId
+     * @param int $cancelReasonId
+     * @param int $authUserId
+     */
+    public function cancel(
+        int $id,
+        int $shiftGroupId,
+        int $cancelReasonId,
+        int $authUserId
+    ): ServiceResponse
+    {
+        $saturdayPermit = $this->getById($id);
+        if ($saturdayPermit->isSuccess()) {
+            $employee = Employee::find($saturdayPermit->getData()->employee_id);
+            if ($employee) {
+                $shiftGroup = ShiftGroup::find($shiftGroupId);
+                if ($shiftGroup) {
+                    $saturdayPermit->getData()->status = 'on';
+                    $saturdayPermit->getData()->save();
+
+                    $shift = new Shift;
+                    $shift->company_id = $employee->company_id;
+                    $shift->employee_id = $employee->id;
+                    $shift->shift_group_id = $shiftGroupId;
+                    $shift->created_by = $authUserId;
+                    $shift->last_updated_by = $authUserId;
+                    $shift->start_date = $saturdayPermit->getData()->date . ' ' . $shiftGroup->day6_start_time;
+                    $shift->end_date = $saturdayPermit->getData()->date . ' ' . $shiftGroup->day6_end_time;
+                    $shift->description = $cancelReasonId == 1 ?
+                        'Cumartesi İzni İptalinden Dolayı Oluşturulan Vardiya (Ceza Puanından Dolayı İzin İptali)' :
+                        ($cancelReasonId == 2 ?
+                            'Cumartesi İzni İptalinden Dolayı Oluşturulan Vardiya (Çalışma Günlerinde İzin Kullanımından Dolayı)' :
+                            'Cumartesi İzni İptalinden Dolayı Oluşturulan Vardiya (Belirsiz Nedenli)');
+                    $shift->save();
+
+                    return new ServiceResponse(
+                        true,
+                        'Saturday permit cancelled successfully',
+                        200,
+                        null
+                    );
+                } else {
+                    return $shiftGroup;
+                }
+            } else {
+                return $employee;
+            }
+        } else {
+            return $saturdayPermit;
+        }
+    }
 }
+
+/*
+    'company_id' => $employeeResponse->getData()->company_id,
+    'employee_id' => $shift['employeeId'],
+    'shift_group_id' => $shift['shiftGroupId'],
+    'created_by' => $authUserId,
+    'last_updated_by' => $authUserId,
+    'start_date' => $shift['startDate'],
+    'end_date' => $shift['endDate'],
+    'created_at' => date('Y-m-d H:i:s'),
+    'updated_at' => date('Y-m-d H:i:s')
+ * */

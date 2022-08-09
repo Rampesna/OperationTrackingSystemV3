@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SaturdayPermit extends Model
+class PurchaseStatus extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function employee()
+    public function purchases()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->hasMany(Purchase::class);
     }
 }

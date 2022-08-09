@@ -130,6 +130,12 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\ClosingJobController::class, 'index'])->name('user.web.closingJob.index');
     });
 
+    Route::prefix('purchase')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\PurchaseController::class, 'index'])->name('user.web.purchase.index');
+        Route::get('purchase', [\App\Http\Controllers\Web\User\PurchaseController::class, 'purchase'])->name('user.web.purchase.purchase');
+        Route::get('report', [\App\Http\Controllers\Web\User\PurchaseController::class, 'report'])->name('user.web.purchase.report');
+    });
+
     Route::prefix('market')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\MarketController::class, 'index'])->name('user.web.market.index');
         Route::get('employee', [\App\Http\Controllers\Web\User\MarketController::class, 'employee'])->name('user.web.market.employee');

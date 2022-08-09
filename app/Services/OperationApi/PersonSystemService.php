@@ -162,4 +162,33 @@ class PersonSystemService extends OperationApiService implements IPersonSystemSe
             $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response']
         );
     }
+
+    /**
+     * @param int $guid
+     * @param int $reasonId
+     *
+     * @return ServiceResponse
+     */
+    public function SetPersonAddPenalty(
+        int $guid,
+        int $reasonId
+    ): ServiceResponse
+    {
+        $endpoint = "PersonSystem/SetPersonAddPenalty";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'id' => $guid,
+            'izinTipi' => $reasonId,
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set person add penalty',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']
+        );
+    }
 }

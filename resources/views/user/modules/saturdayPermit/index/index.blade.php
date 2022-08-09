@@ -14,6 +14,31 @@
 
 @section('content')
 
+    @include('user.modules.saturdayPermit.index.modals.cancelSaturdayPermit')
+
+    <div class="row">
+        <div class="col-xl-12 mb-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-6 mb-5">
+                            <div class="form-group">
+                                <input id="keyword" type="text" class="form-control form-control-solid" placeholder="Personel Arayın..." aria-hidden="true" aria-label="Personel Arayın...">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 mb-5">
+                            <div class="form-group">
+                                <select id="jobDepartmentIds" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Departman" aria-label="Departman" disabled multiple></select>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 d-grid mb-5">
+                            <button class="btn btn-primary mt-1" id="FilterButton">Filtrele</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xl-12">
             <div class="card">

@@ -449,6 +449,24 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\CentralMissionStatusController::class, 'getAll'])->name('user.api.centralMissionStatus.getAll');
     });
 
+    Route::prefix('saturdayPermit')->group(function () {
+        Route::get('getDateBetween', [\App\Http\Controllers\Api\User\SaturdayPermitController::class, 'getDateBetween'])->name('user.api.saturdayPermit.getDateBetween');
+        Route::post('cancel', [\App\Http\Controllers\Api\User\SaturdayPermitController::class, 'cancel'])->name('user.api.saturdayPermit.cancel');
+    });
+
+    Route::prefix('purchase')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\PurchaseController::class, 'getAll'])->name('user.api.purchase.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\PurchaseController::class, 'getById'])->name('user.api.purchase.getById');
+        Route::get('getByUserId', [\App\Http\Controllers\Api\User\PurchaseController::class, 'getByUserId'])->name('user.api.purchase.getByUserId');
+        Route::post('create', [\App\Http\Controllers\Api\User\PurchaseController::class, 'create'])->name('user.api.purchase.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\PurchaseController::class, 'update'])->name('user.api.purchase.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\PurchaseController::class, 'delete'])->name('user.api.purchase.delete');
+    });
+
+    Route::prefix('purchaseStatus')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\PurchaseStatusController::class, 'getAll'])->name('user.api.purchaseStatus.getAll');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');
