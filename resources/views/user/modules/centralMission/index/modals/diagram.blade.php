@@ -11,8 +11,9 @@
                     </span>
                 </div>
             </div>
-            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+            <div class="modal-body scroll-y px-10 px-lg-15 pt-20 pb-15">
                 <div class="form fv-plugins-bootstrap5 fv-plugins-framework">
+                    <input type="hidden" id="update_diagram_id">
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <div class="row">
                             <div class="cols-sample-area">
@@ -28,6 +29,10 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Kapat</button>
+                        <button type="button" class="btn btn-success" id="UpdateDiagramButton">Güncelle</button>
                     </div>
                 </div>
             </div>

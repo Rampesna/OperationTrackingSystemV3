@@ -15714,13 +15714,6 @@ body.mobile #edit-wrapper {
     right: 10px;
 }
 
-.header {
-    width: 100%;
-    z-index: 10;
-    height: 58px;
-    background-color: #2D2E2D;
-}
-
 .material .e-split .e-in-wrap #splitbuttonnormal.e-left-btn .e-icon, .material .e-split .e-in-wrap #splitbuttonnormal.e-left-btn .e-icon:before {
     height: 16px;
     width: 16px;
@@ -20724,15 +20717,11 @@ h1.producttitle.e-desktop-text {
     vertical-align: middle;
 }
 
-
-</style>
-
-  <style>
-  .control_section {
-      height: 600px;
-      width: 100%;
-      background-color: transparent;
-  }
+.control_section {
+    height: 600px;
+    width: 100%;
+    background-color: transparent;
+}
 
 .diagram_section {
     width: calc(100% - 355px);

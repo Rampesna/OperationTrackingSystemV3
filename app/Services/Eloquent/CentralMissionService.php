@@ -207,4 +207,31 @@ class CentralMissionService implements ICentralMissionService
             return $centralMission;
         }
     }
+
+    /**
+     * @param int $id
+     * @param string $diagram
+     *
+     * @return ServiceResponse
+     */
+    public function updateDiagram(
+        int    $id,
+        string $diagram,
+    ): ServiceResponse
+    {
+        $centralMission = $this->getById($id);
+        if ($centralMission->isSuccess()) {
+            $centralMission->getData()->diagram = $diagram;
+            $centralMission->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Central mission diagram updated',
+                200,
+                $centralMission->getData()
+            );
+        } else {
+            return $centralMission;
+        }
+    }
 }

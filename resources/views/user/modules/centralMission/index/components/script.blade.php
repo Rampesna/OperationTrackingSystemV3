@@ -597,7 +597,7 @@
             });
             $("#diagram").ejDiagram({
                 width: "100%",
-                height: "1000px",
+                height: "600px",
                 nodes: nodes,
                 nodeCollectionChange: nodeCollectionChange,
                 pageSettings: {
@@ -714,6 +714,7 @@
     var CreateCentralMissionButton = $('#CreateCentralMissionButton');
     var UpdateCentralMissionButton = $('#UpdateCentralMissionButton');
     var DeleteCentralMissionButton = $('#DeleteCentralMissionButton');
+    var UpdateDiagramButton = $('#UpdateDiagramButton');
 
     var createCentralMissionTypeId = $('#create_central_mission_type_id');
     var createCentralMissionStatusId = $('#create_central_mission_status_id');
@@ -847,8 +848,32 @@
     }
 
     function centralMissionDiagram(id) {
-        $('#central_mission_diagram_id').val(id);
-        $('#DiagramModal').modal('show');
+        $('#loader').show();
+        $('#update_diagram_id').val(id);
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.centralMission.getById') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function (response) {
+                var diagram = $("#diagram").ejDiagram("instance");
+                var data = JSON.parse(response.response.diagram);
+                diagram.load(data);
+                $('#diagram_canvas_svg').click();
+                $('#DiagramModal').modal('show');
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görev Verileri Alınırken Serviste Hata Oluştu!');
+                $('#loader').hide();
+            }
+        });
     }
 
     function getCentralMissionTypes() {
@@ -1144,6 +1169,35 @@
                 }
             });
         }
+    });
+
+    UpdateDiagramButton.click(function () {
+        var id = $('#update_diagram_id').val();
+        var diagramSelector = $("#diagram").ejDiagram("instance");
+        var diagramJson = diagramSelector.save();
+        var diagram = JSON.stringify(diagramJson, null, 2);
+        UpdateDiagramButton.attr('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.centralMission.updateDiagram') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+                diagram: diagram
+            },
+            success: function () {
+                toastr.success('Görevlendirme Diyagramı Başarıyla Güncellendi!');
+                UpdateDiagramButton.attr('disabled', false).html('Güncelle');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görevlendirme Diyagramı Güncellenirken Serviste Bir Sorun Oluştu!');
+                UpdateDiagramButton.attr('disabled', false).html('Güncelle');
+            }
+        });
     });
 
     DeleteCentralMissionButton.click(function () {

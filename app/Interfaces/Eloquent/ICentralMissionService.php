@@ -72,4 +72,15 @@ interface ICentralMissionService extends IEloquentService
         ?string $startDate,
         ?string $endDate,
     ): ServiceResponse;
+
+    /**
+     * @param int $id
+     * @param string $diagram
+     *
+     * @return ServiceResponse
+     */
+    public function updateDiagram(
+        int    $id,
+        string $diagram,
+    ): ServiceResponse;
 }

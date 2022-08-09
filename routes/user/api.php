@@ -437,6 +437,7 @@ Route::middleware([
         Route::get('getById', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'getById'])->name('user.api.centralMission.getById');
         Route::post('create', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'create'])->name('user.api.centralMission.create');
         Route::put('update', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'update'])->name('user.api.centralMission.update');
+        Route::put('updateDiagram', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'updateDiagram'])->name('user.api.centralMission.updateDiagram');
         Route::delete('delete', [\App\Http\Controllers\Api\User\CentralMissionController::class, 'delete'])->name('user.api.centralMission.delete');
     });
 

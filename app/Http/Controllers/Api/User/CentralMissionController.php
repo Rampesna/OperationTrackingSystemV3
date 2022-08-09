@@ -7,6 +7,7 @@ use App\Http\Requests\Api\User\CentralMissionController\GetByRelationRequest;
 use App\Http\Requests\Api\User\CentralMissionController\GetByIdRequest;
 use App\Http\Requests\Api\User\CentralMissionController\CreateRequest;
 use App\Http\Requests\Api\User\CentralMissionController\UpdateRequest;
+use App\Http\Requests\Api\User\CentralMissionController\UpdateDiagramRequest;
 use App\Http\Requests\Api\User\CentralMissionController\DeleteRequest;
 use App\Interfaces\Eloquent\ICentralMissionService;
 use App\Traits\Response;
@@ -132,6 +133,29 @@ class CentralMissionController extends Controller
             return $this->error(
                 $updateResponse->getMessage(),
                 $updateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateDiagramRequest $request
+     */
+    public function updateDiagram(UpdateDiagramRequest $request)
+    {
+        $updateDiagramResponse = $this->centralMissionService->updateDiagram(
+            $request->id,
+            $request->diagram,
+        );
+        if ($updateDiagramResponse->isSuccess()) {
+            return $this->success(
+                $updateDiagramResponse->getMessage(),
+                $updateDiagramResponse->getData(),
+                $updateDiagramResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateDiagramResponse->getMessage(),
+                $updateDiagramResponse->getStatusCode()
             );
         }
     }
