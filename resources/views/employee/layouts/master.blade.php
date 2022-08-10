@@ -63,6 +63,7 @@
     var token = 'Bearer {{ auth()->user()->apiToken() }}';
     var toggleDarkTheme = $('#toggleDarkTheme');
     var jqxGridGlobalTheme = 'metro';
+    var baseAssetUrl = '{{ asset('') }}';
 
     @if(auth()->user()->theme() == 1)
         jqxGridGlobalTheme = 'metrodark';

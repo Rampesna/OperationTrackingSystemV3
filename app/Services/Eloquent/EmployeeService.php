@@ -673,7 +673,12 @@ class EmployeeService implements IEmployeeService
                 true,
                 'Employee positions',
                 200,
-                $employee->getData()->positions()->orderBy('start_date', 'desc')->get()
+                $employee->getData()->positions()->with([
+                    'company',
+                    'branch',
+                    'department',
+                    'title'
+                ])->orderBy('start_date', 'desc')->get()
             );
         } else {
             return $employee;
