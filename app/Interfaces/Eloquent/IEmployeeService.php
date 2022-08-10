@@ -239,4 +239,13 @@ interface IEmployeeService extends IEloquentService
     public function getMarketPayments(
         int $employeeId
     ): ServiceResponse;
+
+    /**
+     * @param int $employeeId
+     *
+     * @return ServiceResponse
+     */
+    public function getPositions(
+        int $employeeId
+    ): ServiceResponse;
 }

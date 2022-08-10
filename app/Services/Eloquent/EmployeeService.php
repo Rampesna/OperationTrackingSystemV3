@@ -659,6 +659,28 @@ class EmployeeService implements IEmployeeService
     }
 
     /**
+     * @param int $employeeId
+     *
+     * @return ServiceResponse
+     */
+    public function getPositions(
+        int $employeeId
+    ): ServiceResponse
+    {
+        $employee = $this->getById($employeeId);
+        if ($employee->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Employee positions',
+                200,
+                $employee->getData()->positions()->orderBy('start_date', 'desc')->get()
+            );
+        } else {
+            return $employee;
+        }
+    }
+
+    /**
      * @param int $id
      *
      * @return ServiceResponse

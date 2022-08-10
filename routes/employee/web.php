@@ -18,5 +18,11 @@ Route::middleware([
     Route::prefix('dashboard')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\Employee\DashboardController::class, 'index'])->name('employee.web.dashboard.index');
     });
+    Route::prefix('profile')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\Employee\ProfileController::class, 'index'])->name('employee.web.profile.index');
+    });
+    Route::prefix('performance')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\Employee\PerformanceController::class, 'index'])->name('employee.web.performance.index');
+    });
 
 });

@@ -14,6 +14,7 @@ Route::middleware([
     Route::post('swapTheme', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'swapTheme'])->name('employee.api.swapTheme');
     Route::post('setDeviceToken', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'setDeviceToken'])->name('employee.api.setDeviceToken');
     Route::get('getMarketPayments', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'getMarketPayments'])->name('employee.api.getMarketPayments');
+    Route::get('getPositions', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'getPositions'])->name('employee.api.getPositions');
 
     Route::prefix('shift')->group(function () {
         Route::get('getDateBetweenByEmployeeId', [\App\Http\Controllers\Api\Employee\ShiftController::class, 'getDateBetweenByEmployeeId'])->name('employee.api.shift.getDateBetweenByEmployeeId');

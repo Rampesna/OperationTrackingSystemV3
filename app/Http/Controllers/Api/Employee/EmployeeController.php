@@ -7,6 +7,7 @@ use App\Http\Requests\Api\Employee\EmployeeController\LoginRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetProfileRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SwapThemeRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetMarketPaymentsRequest;
+use App\Http\Requests\Api\Employee\EmployeeController\GetPositionsRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SetDeviceTokenRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Traits\Response;
@@ -138,6 +139,28 @@ class EmployeeController extends Controller
             return $this->error(
                 $employeeMarketPayments->getMessage(),
                 $employeeMarketPayments->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetPositionsRequest $request
+     */
+    public function getPositions(GetPositionsRequest $request)
+    {
+        $getPositionsResponse = $this->employeeService->getPositions(
+            $request->user()->id
+        );
+        if ($getPositionsResponse->isSuccess()) {
+            return $this->success(
+                $getPositionsResponse->getMessage(),
+                $getPositionsResponse->getData(),
+                $getPositionsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getPositionsResponse->getMessage(),
+                $getPositionsResponse->getStatusCode()
             );
         }
     }

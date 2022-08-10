@@ -36,7 +36,7 @@
                         <span class="menu-title">Anasayfa</span>
                     </span>
                 </a>
-                <a href="#" class="menu-item {{ request()->segment(2) == 'profile' ? 'show' : '' }}">
+                <a href="{{ route('employee.web.profile.index') }}" class="menu-item {{ request()->segment(2) == 'profile' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <span class="svg-icon svg-icon-1">
@@ -49,7 +49,7 @@
                         <span class="menu-title">Profilim</span>
                     </span>
                 </a>
-                <a href="#" class="menu-item {{ request()->segment(2) == 'performance' ? 'show' : '' }}">
+                <a href="{{ route('employee.web.performance.index') }}" class="menu-item {{ request()->segment(2) == 'performance' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <span class="svg-icon svg-icon-1">
