@@ -471,15 +471,14 @@ class ShiftService implements IShiftService
                             $unavailableEmployeeIds = [];
                             $usedShiftGroupEmployees = $this->shiftGroupEmployeeUseListService->getUsedShiftGroupEmployees($shiftGroup->id);
                             $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $usedShiftGroupEmployees->getData()->pluck('id')->toArray());
-//                            $saturdayPermitEmployeesResponse = $this->saturdayPermitService->getByDate(date('Y-m-d', strtotime('next saturday', strtotime($date))));
-//                            if ($saturdayPermitEmployeesResponse->isSuccess()) {
-//                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $saturdayPermitEmployeesResponse->getData()->pluck('employee_id')->toArray());
-//                            }
+                            $saturdayPermitEmployeesResponse = $this->saturdayPermitService->getByDate(date('Y-m-d', strtotime('next saturday', strtotime($date))));
+                            if ($saturdayPermitEmployeesResponse->isSuccess()) {
+                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $saturdayPermitEmployeesResponse->getData()->where('status', 'off')->pluck('employee_id')->toArray());
+                            }
 
                             if ($weeklyEmployees->count() < $shiftGroup->per_day) {
                                 $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $unavailableEmployeeIds)->get();
                                 $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
-
                                 if ($weeklyEmployees->count() < $shiftGroup->per_day) {
                                     $this->shiftGroupEmployeeUseListService->setShiftGroupEmployeesNotUsed($shiftGroup->id);
                                     $shiftGroupEmployees = $shiftGroup->employees;
@@ -568,10 +567,10 @@ class ShiftService implements IShiftService
                             $unavailableEmployeeIds = [];
                             $usedShiftGroupEmployees = $this->shiftGroupEmployeeUseListService->getUsedShiftGroupEmployees($shiftGroup->id);
                             $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $usedShiftGroupEmployees->getData()->pluck('id')->toArray());
-//                            $saturdayPermitEmployeesResponse = $this->saturdayPermitService->getByDate(date('Y-m-d', strtotime('next saturday', strtotime($date))));
-//                            if ($saturdayPermitEmployeesResponse->isSuccess()) {
-//                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $saturdayPermitEmployeesResponse->getData()->pluck('employee_id')->toArray());
-//                            }
+                            $saturdayPermitEmployeesResponse = $this->saturdayPermitService->getByDate(date('Y-m-d', strtotime('next saturday', strtotime($date))));
+                            if ($saturdayPermitEmployeesResponse->isSuccess()) {
+                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $saturdayPermitEmployeesResponse->getData()->where('status', 'off')->pluck('employee_id')->toArray());
+                            }
                             $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $unavailableEmployeeIds)->get();
                             $randomEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
 
