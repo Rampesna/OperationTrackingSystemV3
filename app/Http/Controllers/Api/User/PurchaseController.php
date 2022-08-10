@@ -8,6 +8,9 @@ use App\Http\Requests\Api\User\PurchaseController\GetByIdRequest;
 use App\Http\Requests\Api\User\PurchaseController\GetByUserIdRequest;
 use App\Http\Requests\Api\User\PurchaseController\CreateRequest;
 use App\Http\Requests\Api\User\PurchaseController\UpdateRequest;
+use App\Http\Requests\Api\User\PurchaseController\UpdatePurchaserRequest;
+use App\Http\Requests\Api\User\PurchaseController\SendForAcceptRequest;
+use App\Http\Requests\Api\User\PurchaseController\AcceptRequest;
 use App\Http\Requests\Api\User\PurchaseController\DeleteRequest;
 use App\Interfaces\Eloquent\IPurchaseService;
 use App\Traits\Response;
@@ -145,6 +148,75 @@ class PurchaseController extends Controller
             return $this->error(
                 $updateResponse->getMessage(),
                 $updateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdatePurchaserRequest $request
+     */
+    public function updatePurchaser(UpdatePurchaserRequest $request)
+    {
+        $updatePurchaserResponse = $this->purchaseService->updatePurchaser(
+            $request->id,
+            $request->purchaserId
+        );
+        if ($updatePurchaserResponse->isSuccess()) {
+            return $this->success(
+                $updatePurchaserResponse->getMessage(),
+                $updatePurchaserResponse->getData(),
+                $updatePurchaserResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updatePurchaserResponse->getMessage(),
+                $updatePurchaserResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SendForAcceptRequest $request
+     */
+    public function sendForAccept(SendForAcceptRequest $request)
+    {
+        $sendForAcceptResponse = $this->purchaseService->sendForAccept(
+            $request->id,
+            $request->receiptNumber,
+            $request->price
+        );
+        if ($sendForAcceptResponse->isSuccess()) {
+            return $this->success(
+                $sendForAcceptResponse->getMessage(),
+                $sendForAcceptResponse->getData(),
+                $sendForAcceptResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $sendForAcceptResponse->getMessage(),
+                $sendForAcceptResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param AcceptRequest $request
+     */
+    public function accept(AcceptRequest $request)
+    {
+        $acceptResponse = $this->purchaseService->accept(
+            $request->id
+        );
+        if ($acceptResponse->isSuccess()) {
+            return $this->success(
+                $acceptResponse->getMessage(),
+                $acceptResponse->getData(),
+                $acceptResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $acceptResponse->getMessage(),
+                $acceptResponse->getStatusCode()
             );
         }
     }

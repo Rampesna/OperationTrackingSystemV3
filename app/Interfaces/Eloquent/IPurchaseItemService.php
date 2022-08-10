@@ -21,6 +21,18 @@ interface IPurchaseItemService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param array $purchasedItems {
+     * @type int $id
+     * @type float $purchasedQuantity
+     * }
+     *
+     * @return ServiceResponse
+     */
+    public function setPurchasedQuantities(
+        array $purchasedItems
+    ): ServiceResponse;
+
+    /**
      * @param int $purchaseId
      *
      * @return ServiceResponse

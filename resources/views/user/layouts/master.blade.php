@@ -61,6 +61,7 @@
 
 <script>
 
+    var masterAuthId = parseInt(`{{ auth()->id() }}`);
     var token = 'Bearer {{ auth()->user()->apiToken() }}';
     var toggleDarkTheme = $('#toggleDarkTheme');
     var QuickActionsButton = $('#QuickActionsButton');

@@ -460,12 +460,16 @@ Route::middleware([
         Route::get('getByUserId', [\App\Http\Controllers\Api\User\PurchaseController::class, 'getByUserId'])->name('user.api.purchase.getByUserId');
         Route::post('create', [\App\Http\Controllers\Api\User\PurchaseController::class, 'create'])->name('user.api.purchase.create');
         Route::put('update', [\App\Http\Controllers\Api\User\PurchaseController::class, 'update'])->name('user.api.purchase.update');
+        Route::put('updatePurchaser', [\App\Http\Controllers\Api\User\PurchaseController::class, 'updatePurchaser'])->name('user.api.purchase.updatePurchaser');
+        Route::put('sendForAccept', [\App\Http\Controllers\Api\User\PurchaseController::class, 'sendForAccept'])->name('user.api.purchase.sendForAccept');
+        Route::put('accept', [\App\Http\Controllers\Api\User\PurchaseController::class, 'accept'])->name('user.api.purchase.accept');
         Route::delete('delete', [\App\Http\Controllers\Api\User\PurchaseController::class, 'delete'])->name('user.api.purchase.delete');
     });
 
     Route::prefix('purchaseItem')->group(function () {
         Route::get('getByPurchaseId', [\App\Http\Controllers\Api\User\PurchaseItemController::class, 'getByPurchaseId'])->name('user.api.purchaseItem.getByPurchaseId');
         Route::post('setByPurchaseId', [\App\Http\Controllers\Api\User\PurchaseItemController::class, 'setByPurchaseId'])->name('user.api.purchaseItem.setByPurchaseId');
+        Route::post('setPurchasedQuantities', [\App\Http\Controllers\Api\User\PurchaseItemController::class, 'setPurchasedQuantities'])->name('user.api.purchaseItem.setPurchasedQuantities');
     });
 
     Route::prefix('purchaseStatus')->group(function () {

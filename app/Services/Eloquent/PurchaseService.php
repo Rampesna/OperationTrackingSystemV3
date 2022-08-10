@@ -144,6 +144,87 @@ class PurchaseService implements IPurchaseService
     }
 
     /**
+     * @param int $id
+     * @param int $purchaserId
+     *
+     * @return ServiceResponse
+     */
+    public function updatePurchaser(
+        int $id,
+        int $purchaserId
+    ): ServiceResponse
+    {
+        $purchase = $this->getById($id);
+        if ($purchase->isSuccess()) {
+            $purchase->getData()->purchaser_id = $purchaserId;
+            $purchase->getData()->status_id = 2;
+            $purchase->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Purchaser updated',
+                200,
+                $purchase->getData()
+            );
+        } else {
+            return $purchase;
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param string $receiptNumber
+     * @param float $price
+     *
+     * @return ServiceResponse
+     */
+    public function sendForAccept(
+        int    $id,
+        string $receiptNumber,
+        float  $price
+    ): ServiceResponse
+    {
+        $purchase = $this->getById($id);
+        if ($purchase->isSuccess()) {
+            $purchase->getData()->status_id = 3;
+            $purchase->getData()->receipt_number = $receiptNumber;
+            $purchase->getData()->price = $price;
+            $purchase->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Purchase sent for accept',
+                200,
+                $purchase->getData()
+            );
+        } else {
+            return $purchase;
+        }
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function accept(
+        int $id
+    ): ServiceResponse
+    {
+        $purchase = $this->getById($id);
+        if ($purchase->isSuccess()) {
+            $purchase->getData()->status_id = 4;
+            $purchase->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Purchase accepted',
+                200,
+                $purchase->getData()
+            );
+        } else {
+            return $purchase;
+        }
+    }
+
+    /**
      * @param int $userId
      * @param int $pageIndex
      * @param int $pageSize

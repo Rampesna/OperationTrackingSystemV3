@@ -87,7 +87,7 @@ class PurchaseItemService implements IPurchaseItemService
         PurchaseItem::where('purchase_id', $purchaseId)->delete();
         foreach ($items as $item) {
             $purchaseItem = new PurchaseItem;
-            $purchaseItem->purcahse_id = $purchaseId;
+            $purchaseItem->purchase_id = $purchaseId;
             $purchaseItem->name = $item['name'];
             $purchaseItem->requested_quantity = $item['requestedQuantity'];
             $purchaseItem->save();
@@ -98,6 +98,32 @@ class PurchaseItemService implements IPurchaseItemService
             'Purchase items created',
             200,
             PurchaseItem::where('purchase_id', $purchaseId)->get()
+        );
+    }
+
+    /**
+     * @param array $purchasedItems {
+     * @type int $id
+     * @type float $purchasedQuantity
+     * }
+     *
+     * @return ServiceResponse
+     */
+    public function setPurchasedQuantities(
+        array $purchasedItems
+    ): ServiceResponse
+    {
+        foreach ($purchasedItems as $purchasedItem) {
+            $purchaseItem = PurchaseItem::find($purchasedItem['id']);
+            $purchaseItem->purchased_quantity = $purchasedItem['purchasedQuantity'];
+            $purchaseItem->save();
+        }
+
+        return new ServiceResponse(
+            true,
+            'Purchase items updated',
+            200,
+            PurchaseItem::all()
         );
     }
 

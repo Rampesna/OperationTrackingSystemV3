@@ -45,6 +45,39 @@ interface IPurchaseService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $id
+     * @param int $purchaserId
+     *
+     * @return ServiceResponse
+     */
+    public function updatePurchaser(
+        int $id,
+        int $purchaserId
+    ): ServiceResponse;
+
+    /**
+     * @param int $id
+     * @param string $receiptNumber
+     * @param float $price
+     *
+     * @return ServiceResponse
+     */
+    public function sendForAccept(
+        int    $id,
+        string $receiptNumber,
+        float  $price
+    ): ServiceResponse;
+
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function accept(
+        int $id
+    ): ServiceResponse;
+
+    /**
      * @param int $userId
      * @param int $pageIndex
      * @param int $pageSize

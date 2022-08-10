@@ -16,6 +16,10 @@
 
     @include('user.modules.purchase.purchase.modals.createPurchase')
     @include('user.modules.purchase.purchase.modals.updatePurchase')
+    @include('user.modules.purchase.purchase.modals.updatePurchaser')
+    @include('user.modules.purchase.purchase.modals.purchaseItems')
+    @include('user.modules.purchase.purchase.modals.sendForAccept')
+    @include('user.modules.purchase.purchase.modals.accept')
     @include('user.modules.purchase.purchase.modals.deletePurchase')
 
     <div class="row">
