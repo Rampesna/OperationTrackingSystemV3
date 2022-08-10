@@ -323,6 +323,24 @@
             </a>
         </div>
 
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="İnsan Kaynakları">
+            <a href="{{ route('user.web.foodList.index') }}" class="card cursor-pointer h-lg-100">
+                <div class="card-body d-flex justify-content-between align-items-center flex-column">
+                    <div class="m-0">
+                    <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path opacity="0.3" d="M12.3028 2C2.20276 8.5 0.302758 19.4 12.3028 22C24.3028 19.4 22.4028 8.5 12.3028 2Z" fill="black"/>
+                            <path d="M12.3028 22L20.6028 13.7C20.7028 17.5 18.2028 20.7 12.3028 22ZM19.6028 9.7C19.1028 8.7 18.5028 7.7 17.6028 6.7L12.3028 12V17L19.6028 9.7ZM9.40277 4.10001C8.50277 4.90001 7.60277 5.80001 6.90277 6.60001L12.2028 11.9V6.89999L9.40277 4.10001ZM12.3028 2V7L15.2028 4.10001C14.3028 3.40001 13.3028 2.7 12.3028 2ZM4.00278 13.7L12.3028 22V17L5.00278 9.7C4.40278 11.1 4.00278 12.4 4.00278 13.7Z" fill="black"/>
+                        </svg>
+                    </span>
+                    </div>
+                    <div class="d-flex flex-column mt-7">
+                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Yemek Yönetimi</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="İşe Alım Yönetimi">
             <a href="{{ route('user.web.recruiting.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">

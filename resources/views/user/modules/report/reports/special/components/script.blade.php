@@ -6,6 +6,7 @@
 <script src="{{ asset('assets/jqwidgets/jqxmenu.js') }}"></script>
 <script src="{{ asset('assets/jqwidgets/jqxgrid.js') }}"></script>
 <script src="{{ asset('assets/jqwidgets/jqxgrid.selection.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.columnsreorder.js') }}"></script>
 <script src="{{ asset('assets/jqwidgets/jqxgrid.columnsresize.js') }}"></script>
 <script src="{{ asset('assets/jqwidgets/jqxgrid.filter.js') }}"></script>
 <script src="{{ asset('assets/jqwidgets/jqxgrid.sort.js') }}"></script>

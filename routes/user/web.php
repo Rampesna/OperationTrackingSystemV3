@@ -174,6 +174,12 @@ Route::middleware([
         });
     });
 
+    Route::prefix('foodList')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\FoodListController::class, 'index'])->name('user.web.foodList.index');
+        Route::get('foodList', [\App\Http\Controllers\Web\User\FoodListController::class, 'foodList'])->name('user.web.foodList.foodList');
+        Route::get('report', [\App\Http\Controllers\Web\User\FoodListController::class, 'report'])->name('user.web.foodList.report');
+    });
+
     Route::prefix('recruiting')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\RecruitingController::class, 'index'])->name('user.web.recruiting.index');
     });

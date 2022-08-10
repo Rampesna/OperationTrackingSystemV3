@@ -476,6 +476,15 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\PurchaseStatusController::class, 'getAll'])->name('user.api.purchaseStatus.getAll');
     });
 
+    Route::prefix('foodList')->group(function () {
+        Route::get('getDateBetween', [\App\Http\Controllers\Api\User\FoodListController::class, 'getDateBetween'])->name('user.api.foodList.getDateBetween');
+        Route::get('getById', [\App\Http\Controllers\Api\User\FoodListController::class, 'getById'])->name('user.api.foodList.getById');
+        Route::get('report', [\App\Http\Controllers\Api\User\FoodListController::class, 'report'])->name('user.api.foodList.report');
+        Route::post('create', [\App\Http\Controllers\Api\User\FoodListController::class, 'create'])->name('user.api.foodList.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\FoodListController::class, 'update'])->name('user.api.foodList.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\FoodListController::class, 'delete'])->name('user.api.foodList.delete');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

@@ -8,6 +8,7 @@ interface IFoodListCheckService extends IEloquentService
 {
     /**
      * @param int $employeeId
+     * @param array $companyIds
      * @param string $startDate
      * @param string $endDate
      *
@@ -15,8 +16,20 @@ interface IFoodListCheckService extends IEloquentService
      */
     public function getDateBetween(
         int    $employeeId,
+        array  $companyIds,
         string $startDate,
         string $endDate
+    ): ServiceResponse;
+
+    /**
+     * @param int $foodListId
+     * @param int $companyId
+     *
+     * @return ServiceResponse
+     */
+    public function createBatch(
+        int $foodListId,
+        int $companyId
     ): ServiceResponse;
 
     /**

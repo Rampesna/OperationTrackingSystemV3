@@ -29,101 +29,100 @@
     });
 
     var reportDiv = $('#report');
-    var reportRow = $('#reportRow');
+
     var ReportButton = $('#ReportButton');
     var DownloadExcelButton = $('#DownloadExcelButton');
 
-    function getDataScanSummaryList() {
+    ReportButton.click(function () {
+        var companyIds = SelectedCompanies.val();
         var startDate = $('#startDate').val();
         var endDate = $('#endDate').val();
-        var companyIds = [];
-        $.each(SelectedCompanies.val(), function (i, SelectedCompany) {
-            companyIds.push(parseInt(SelectedCompany));
-        });
 
         if (!startDate) {
-            toastr.warning('Başlangıç Tarihi Seçiniz.');
+            toastr.warning('Başlangıç Tarihi Seçmediniz!');
         } else if (!endDate) {
-            toastr.warning('Bitiş Tarihi Seçiniz.');
+            toastr.warning('Bitiş Tarihi Seçmediniz!');
         } else {
-            $('#loader').show();
+            ReportButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
             $.ajax({
                 type: 'get',
-                url: '{{ route('user.api.operationApi.dataScanning.getDataScanSummaryList') }}',
+                url: '{{ route('user.api.foodList.report') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token
                 },
                 data: {
+                    companyIds: companyIds,
                     startDate: startDate,
                     endDate: endDate,
-                    companyIds: companyIds
                 },
                 success: function (response) {
-                    var source = {
-                        localdata: response.response,
+                    dataFields = [
+                        {name: 'employee'}
+                    ];
+                    columns = [
+                        {
+                            text: 'Personel',
+                            dataField: 'employee',
+                            columntype: 'textbox',
+                        }
+                    ];
+                    $.each(response.response.dates, function (i, date) {
+                        dataFields.push(
+                            {name: date}
+                        );
+                        columns.push(
+                            {
+                                text: date,
+                                dataField: date,
+                                columntype: 'numberinput',
+                            }
+                        );
+                    });
+                    var reportSource = {
+                        localdata: response.response.report,
                         datatype: "array",
-                        datafields: [
-                            {name: 'kullaniciAdSoyad', type: 'string'},
-                            {name: 'deger', type: 'string'},
-                        ]
+                        datafields: dataFields
                     };
-                    var dataAdapter = new $.jqx.dataAdapter(source);
+                    var reportDataAdapter = new $.jqx.dataAdapter(reportSource);
                     reportDiv.jqxGrid({
                         width: '100%',
                         height: '500',
-                        source: dataAdapter,
+                        source: reportDataAdapter,
                         columnsresize: true,
                         groupable: true,
                         theme: jqxGridGlobalTheme,
                         filterable: true,
                         showfilterrow: true,
                         localization: getLocalization('tr'),
-                        columns: [
-                            {
-                                text: 'Personel',
-                                dataField: 'kullaniciAdSoyad',
-                                columntype: 'textbox',
-                                width: '30%',
-                            },
-                            {
-                                text: 'Adet',
-                                dataField: 'deger',
-                                columntype: 'textbox',
-                            }
-                        ]
+                        columns: columns
                     });
                     reportDiv.on('contextmenu', function () {
                         return false;
                     });
                     reportDiv.on('rowclick', function (event) {
                         if (event.args.rightclick) {
-                            $("#employeesGrid").jqxGrid('selectrow', event.args.rowindex);
+                            $("#grid").jqxGrid('selectrow', event.args.rowindex);
                             var scrollTop = $(window).scrollTop();
                             var scrollLeft = $(window).scrollLeft();
                             contextMenu.jqxMenu('open', parseInt(event.args.originalEvent.clientX) + 5 + scrollLeft, parseInt(event.args.originalEvent.clientY) + 5 + scrollTop);
                             return false;
                         }
                     });
-                    reportRow.show();
-
-                    $('#loader').hide();
+                    ReportButton.attr('disabled', false).html('Raporla');
+                    DownloadExcelButton.show();
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('Rapor Alınırken Serviste Bir Hata Oluştu.');
-                    $('#loader').hide();
+                    toastr.error('Rapor Alınırken Serviste Bir Sorun Oluştu!');
+                    ReportButton.attr('disabled', false).html('Raporla');
                 }
             });
         }
-    }
-
-    ReportButton.click(function () {
-        getDataScanSummaryList();
     });
 
     DownloadExcelButton.click(function () {
-        $('#report').jqxGrid('exportdata', 'xls', 'Telefon Bulma Özet Raporu');
+        reportDiv.jqxGrid('exportdata', 'xlsx', `${$('#startDate').val()} - ${$('#endDate').val()} Yemek Raporu`);
     });
 
 </script>

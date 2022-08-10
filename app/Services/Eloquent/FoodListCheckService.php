@@ -4,21 +4,13 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IFoodListCheckService;
 use App\Interfaces\Eloquent\IFoodListService;
+use App\Models\Eloquent\Employee;
+use App\Models\Eloquent\FoodList;
 use App\Models\Eloquent\FoodListCheck;
 use App\Services\ServiceResponse;
 
 class FoodListCheckService implements IFoodListCheckService
 {
-    private $foodListService;
-
-    /**
-     * @param IFoodListService $foodListService
-     */
-    public function __construct(IFoodListService $foodListService)
-    {
-        $this->foodListService = $foodListService;
-    }
-
     /**
      * @return ServiceResponse
      */
@@ -86,6 +78,7 @@ class FoodListCheckService implements IFoodListCheckService
 
     /**
      * @param int $employeeId
+     * @param array $companyIds
      * @param string $startDate
      * @param string $endDate
      *
@@ -93,6 +86,7 @@ class FoodListCheckService implements IFoodListCheckService
      */
     public function getDateBetween(
         int    $employeeId,
+        array  $companyIds,
         string $startDate,
         string $endDate
     ): ServiceResponse
@@ -106,11 +100,39 @@ class FoodListCheckService implements IFoodListCheckService
             ])->where('employee_id', $employeeId)
                 ->whereIn(
                     'food_list_id',
-                    $this->foodListService->getDateBetween(
-                        $startDate,
-                        $endDate
-                    )->getData()->pluck('id')->toArray()
+                    FoodList::whereIn('company_id', $companyIds)->whereBetween('date', [$startDate, $endDate])->get()->pluck('id')->toArray()
                 )->get()
+        );
+    }
+
+    /**
+     * @param int $foodListId
+     * @param int $companyId
+     *
+     * @return ServiceResponse
+     */
+    public function createBatch(
+        int $foodListId,
+        int $companyId
+    ): ServiceResponse
+    {
+        $foodListChecksForInsert = [];
+        $employees = Employee::where('company_id', $companyId)->where('leave', 0)->get();
+        foreach ($employees as $employee) {
+            $foodListChecksForInsert[] = [
+                'food_list_id' => $foodListId,
+                'employee_id' => $employee->id,
+                'count' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        return new ServiceResponse(
+            true,
+            'Food list checks created',
+            200,
+            FoodListCheck::insert($foodListChecksForInsert)
         );
     }
 

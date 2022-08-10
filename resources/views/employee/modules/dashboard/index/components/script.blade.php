@@ -508,7 +508,7 @@
                 });
                 calendar.addEventSource({
                     events: $.map(response.response, function (foodListCheck) {
-                        return {
+                        return foodListCheck.food_list ? {
                             _id: foodListCheck.id,
                             id: foodListCheck.id,
                             title: `${foodListCheck.food_list.name}`,
@@ -518,7 +518,7 @@
                             classNames: `bg-${foodListCheck.checked == null ? 'warning' : (foodListCheck.checked === 1 ? 'success' : 'danger')} text-white cursor-pointer ms-1 me-1`,
                             backgroundColor: 'white',
                             food_list_check_id: `${foodListCheck.id}`
-                        };
+                        } : {};
                     }),
                 });
             },
