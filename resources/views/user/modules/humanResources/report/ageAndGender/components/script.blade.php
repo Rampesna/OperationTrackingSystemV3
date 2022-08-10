@@ -49,7 +49,7 @@
             },
             success: function (response) {
                 var data = [];
-                $.each(response.response.employees, function (i, employee) {
+                $.each(response.response, function (i, employee) {
                     data.push({
                         name: employee.name,
                         age: employee.personal_information ? employee.personal_information.birth_date ? _calculateAge(new Date(employee.personal_information.birth_date)) : '' : '',

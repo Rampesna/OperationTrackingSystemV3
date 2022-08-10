@@ -158,6 +158,7 @@ Route::middleware([
             Route::get('permit', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'permit'])->name('user.web.humanResources.report.permit');
             Route::get('overtime', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'overtime'])->name('user.web.humanResources.report.overtime');
             Route::get('payment', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'payment'])->name('user.web.humanResources.report.payment');
+            Route::get('annualPermit', [\App\Http\Controllers\Web\User\HumanResources\ReportController::class, 'annualPermit'])->name('user.web.humanResources.report.annualPermit');
         });
 
         Route::prefix('employee')->group(function () {

@@ -49,7 +49,7 @@
             },
             success: function (response) {
                 var data = [];
-                $.each(response.response.employees, function (i, employee) {
+                $.each(response.response, function (i, employee) {
                     data.push({
                         name: employee.name,
                         educationStatus: employee.personal_information ? (parseInt(employee.personal_information.education_status) === 1 ? 'Mezun' : 'Öğrenci') : '',

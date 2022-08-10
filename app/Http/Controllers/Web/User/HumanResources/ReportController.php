@@ -35,4 +35,9 @@ class ReportController extends Controller
     {
         return view('user.modules.humanResources.report.payment.index');
     }
+
+    public function annualPermit()
+    {
+        return view('user.modules.humanResources.report.annualPermit.index');
+    }
 }
