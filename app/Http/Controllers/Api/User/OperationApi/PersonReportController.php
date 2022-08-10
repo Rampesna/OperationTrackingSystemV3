@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\User\OperationApi;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\OperationApi\PersonReportController\GetPersonAppointmentReportRequest;
+use App\Http\Requests\Api\User\OperationApi\PersonReportController\GetPersonPenaltiesRequest;
 use App\Http\Requests\Api\User\OperationApi\PersonReportController\GetPersonnelAchievementRankingRequest;
 use App\Interfaces\OperationApi\IPersonReportService;
 use App\Traits\Response;
@@ -26,9 +26,9 @@ class PersonReportController extends Controller
     }
 
     /**
-     * @param GetPersonAppointmentReportRequest $request
+     * @param GetPersonPenaltiesRequest $request
      */
-    public function getPersonAppointmentReport(GetPersonAppointmentReportRequest $request)
+    public function getPersonAppointmentReport(GetPersonPenaltiesRequest $request)
     {
         $getPersonAppointmentReportResponse = $this->personReportService->GetPersonAppointmentReport(
             $request->companyIds

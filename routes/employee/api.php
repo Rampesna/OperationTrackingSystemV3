@@ -68,4 +68,12 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\Employee\MarketPaymentController::class, 'create'])->name('employee.api.marketPayment.create');
     });
 
+    Route::prefix('operationApi')->group(function () {
+
+        Route::prefix('personReport')->group(function () {
+            Route::get('getPersonPenalties', [\App\Http\Controllers\Api\Employee\OperationApi\PersonReportController::class, 'getPersonPenalties'])->name('employee.api.operationApi.personReport.getPersonPenalties');
+            Route::get('GetAchievementPointsSingleDetails', [\App\Http\Controllers\Api\Employee\OperationApi\PersonReportController::class, 'GetAchievementPointsSingleDetails'])->name('employee.api.operationApi.personReport.GetAchievementPointsSingleDetails');
+        });
+
+    });
 });
