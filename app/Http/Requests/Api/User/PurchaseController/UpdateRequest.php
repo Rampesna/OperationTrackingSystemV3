@@ -28,8 +28,6 @@ class UpdateRequest extends BaseApiRequest
             'statusId' => 'required|integer',
             'name' => 'required|string',
             'deliveryDate' => 'required|string',
-            'receiptNumber' => 'required|string',
-            'price' => 'required|numeric',
         ];
     }
 }

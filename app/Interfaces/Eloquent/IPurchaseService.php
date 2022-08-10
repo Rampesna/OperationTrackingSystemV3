@@ -11,18 +11,18 @@ interface IPurchaseService extends IEloquentService
      * @param int $statusId
      * @param string $name
      * @param string $deliveryDate
-     * @param string $receiptNumber
-     * @param float $price
+     * @param string|null $receiptNumber
+     * @param float|null $price
      *
      * @return ServiceResponse
      */
     public function create(
-        int    $userId,
-        int    $statusId,
-        string $name,
-        string $deliveryDate,
-        string $receiptNumber,
-        float  $price
+        int     $userId,
+        int     $statusId,
+        string  $name,
+        string  $deliveryDate,
+        ?string $receiptNumber,
+        ?float  $price
     ): ServiceResponse;
 
     /**
@@ -30,18 +30,18 @@ interface IPurchaseService extends IEloquentService
      * @param int $statusId
      * @param string $name
      * @param string $deliveryDate
-     * @param string $receiptNumber
-     * @param float $price
+     * @param string|null $receiptNumber
+     * @param float|null $price
      *
      * @return ServiceResponse
      */
     public function update(
-        int    $id,
-        int    $statusId,
-        string $name,
-        string $deliveryDate,
-        string $receiptNumber,
-        float  $price
+        int     $id,
+        int     $statusId,
+        string  $name,
+        string  $deliveryDate,
+        ?string $receiptNumber,
+        ?float  $price
     ): ServiceResponse;
 
     /**

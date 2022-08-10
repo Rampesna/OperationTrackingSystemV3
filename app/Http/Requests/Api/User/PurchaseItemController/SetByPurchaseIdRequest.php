@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\PurchaseController;
+namespace App\Http\Requests\Api\User\PurchaseItemController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class CreateRequest extends BaseApiRequest
+class SetByPurchaseIdRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class CreateRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'statusId' => 'required|integer',
-            'name' => 'required|string',
-            'deliveryDate' => 'required|string',
+            'purchaseId' => 'required|integer',
+            'items' => 'required|array',
+            'items.*.name' => 'required|string',
+            'items.*.requestedQuantity' => 'required|integer',
         ];
     }
 }

@@ -14,6 +14,10 @@
 
 @section('content')
 
+    @include('user.modules.purchase.purchase.modals.createPurchase')
+    @include('user.modules.purchase.purchase.modals.updatePurchase')
+    @include('user.modules.purchase.purchase.modals.deletePurchase')
+
     <div class="row">
         <div class="col-xl-8 mb-5">
             <div class="card">

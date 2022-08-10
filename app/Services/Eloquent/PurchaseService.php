@@ -75,18 +75,18 @@ class PurchaseService implements IPurchaseService
      * @param int $statusId
      * @param string $name
      * @param string $deliveryDate
-     * @param string $receiptNumber
-     * @param float $price
+     * @param string|null $receiptNumber
+     * @param float|null $price
      *
      * @return ServiceResponse
      */
     public function create(
-        int    $userId,
-        int    $statusId,
-        string $name,
-        string $deliveryDate,
-        string $receiptNumber,
-        float  $price
+        int     $userId,
+        int     $statusId,
+        string  $name,
+        string  $deliveryDate,
+        ?string $receiptNumber,
+        ?float  $price
     ): ServiceResponse
     {
         $purchase = new Purchase();
@@ -110,18 +110,18 @@ class PurchaseService implements IPurchaseService
      * @param int $statusId
      * @param string $name
      * @param string $deliveryDate
-     * @param string $receiptNumber
-     * @param float $price
+     * @param string|null $receiptNumber
+     * @param float|null $price
      *
      * @return ServiceResponse
      */
     public function update(
-        int    $id,
-        int    $statusId,
-        string $name,
-        string $deliveryDate,
-        string $receiptNumber,
-        float  $price
+        int     $id,
+        int     $statusId,
+        string  $name,
+        string  $deliveryDate,
+        ?string $receiptNumber,
+        ?float  $price
     ): ServiceResponse
     {
         $purchase = $this->getById($id);
@@ -164,7 +164,9 @@ class PurchaseService implements IPurchaseService
             'user',
             'status',
             'purchaser'
-        ])->where('user_id', $userId);
+        ])->where(function ($purchases) use ($userId) {
+            $purchases->where('user_id', $userId)->orWhere('purchaser_id', $userId);
+        });
 
         if ($keyword) {
             $purchases = $purchases->where(function ($query) use ($keyword) {

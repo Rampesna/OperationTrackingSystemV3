@@ -463,6 +463,11 @@ Route::middleware([
         Route::delete('delete', [\App\Http\Controllers\Api\User\PurchaseController::class, 'delete'])->name('user.api.purchase.delete');
     });
 
+    Route::prefix('purchaseItem')->group(function () {
+        Route::get('getByPurchaseId', [\App\Http\Controllers\Api\User\PurchaseItemController::class, 'getByPurchaseId'])->name('user.api.purchaseItem.getByPurchaseId');
+        Route::post('setByPurchaseId', [\App\Http\Controllers\Api\User\PurchaseItemController::class, 'setByPurchaseId'])->name('user.api.purchaseItem.setByPurchaseId');
+    });
+
     Route::prefix('purchaseStatus')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\PurchaseStatusController::class, 'getAll'])->name('user.api.purchaseStatus.getAll');
     });
