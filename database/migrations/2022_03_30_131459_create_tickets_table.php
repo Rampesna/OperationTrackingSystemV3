@@ -27,6 +27,8 @@ return new class extends Migration {
             $table->longText('notes')->nullable();
             $table->dateTime('requested_end_date')->nullable();
             $table->dateTime('todo_end_date')->nullable();
+            $table->unsignedBigInteger('task_id')->nullable();
+            $table->unsignedBigInteger('ticket_transaction_status_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

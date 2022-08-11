@@ -12,10 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('permit_types', function (Blueprint $table) {
+        Schema::create('employee_suggestions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->boolean('deduction')->default(false);
+            $table->unsignedBigInteger('employee_id');
+            $table->string('subject');
+            $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +29,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('permit_types');
+        Schema::dropIfExists('employee_suggestions');
     }
 };
