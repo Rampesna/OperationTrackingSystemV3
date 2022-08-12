@@ -24,6 +24,8 @@
 
 <script>
 
+    var UpdateEmployeeButton = $('#UpdateEmployeeButton');
+
     var UpdateEmployeeQueuesRow = $('#UpdateEmployeeQueuesRow');
     var UpdateEmployeeQueuesButton = $('#UpdateEmployeeQueuesButton');
 
@@ -171,6 +173,67 @@
     }
 
     // Update Methods
+
+    function updateEmployee(id) {
+        $('#update_employee_id').val(id);
+        $('#loader').show();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.employee.getById') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function (response) {
+                $('#update_employee_company_id').val(response.response.company_id);
+                $('#update_employee_name').val(response.response.name);
+                $('#update_employee_email').val(response.response.email);
+                $('#update_employee_phone').val(response.response.phone);
+                $('#update_employee_identity').val(response.response.identity);
+                $('#update_employee_santral_code').val(response.response.santral_code);
+                $('#update_employee_saturday_permit_exemption').val(response.response.saturday_permit_exemption).trigger('change');
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('user.api.operationApi.operation.getEmployeeEdit') }}',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token
+                    },
+                    data: {
+                        guid: response.response.guid,
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        $('#update_employee_guid').val(response.response[0].id);
+                        $('#update_employee_ots_status').val(response.response[0].rol).trigger('change');
+                        $('#update_employee_web_crm_user_id').val(response.response[0].uyumCrmUserId);
+                        $('#update_employee_web_crm_username').val(response.response[0].uyumCrmUserName);
+                        $('#update_employee_web_crm_password').val(response.response[0].uyumCrmPassword);
+                        $('#update_employee_progress_crm_username').val(response.response[0].uyumProgressUserName);
+                        $('#update_employee_progress_crm_password').val(response.response[0].uyumProgressUserPassword);
+                        $('#update_employee_team_code').val(response.response[0].takimKodu);
+                        $('#update_employee_group_code').val(response.response[0].grupKodu);
+                        $('#update_employee_call_scan_code').val(response.response[0].cagriTaramaKodu);
+                        $('#UpdateEmployeeModal').modal('show');
+                        $('#loader').hide();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.error('OTS Personel Verileri Alınırken Serviste Bir Hata Oluştu!');
+                        $('#loader').hide();
+                    }
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personel Verileri Alınırken Serviste Bir Hata Oluştu!');
+                $('#loader').hide();
+            }
+        });
+    }
 
     function updateEmployeeQueues(employeeId, employeeName) {
         $('#loader').show();
@@ -475,6 +538,10 @@
                                         </div>
                                         <div class="separator mb-3 opacity-75"></div>
                                          <div class="menu-item px-3">
+                                             <a onclick="updateEmployee(${employee.id})" class="menu-link px-3">Personeli Düzenle</a>
+                                         </div>
+                                         <hr>
+                                         <div class="menu-item px-3">
                                              <a onclick="updateEmployeeQueues(${employee.id}, '${employee.name}')" class="menu-link px-3">Çağrı Kuyrukları</a>
                                          </div>
                                          <div class="menu-item px-3">
@@ -511,7 +578,7 @@
                                         <img src="${avatar}" alt="image">
                                     </div>
                                     <br>
-                                    <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-1">${employee.name}</a>
+                                    <a class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-1 cursor-pointer">${employee.name}</a>
                                     <div class="fs-6 fw-bold text-muted mb-2 text-center" id="employee_${employee.id}_job_department_span">
                                         ${employee.job_department ? employee.job_department.name : ''}
                                     </div>
@@ -1110,6 +1177,136 @@
         setSelectedEmployees();
     });
 
+    UpdateEmployeeButton.click(function () {
+        var id = $('#update_employee_id').val();
+        var guid = $('#update_employee_guid').val();
+        var companyId = $('#update_employee_company_id').val();
+        var name = $('#update_employee_name').val();
+        var email = $('#update_employee_email').val();
+        var phone = $('#update_employee_phone').val();
+        var identity = $('#update_employee_identity').val();
+        var santralCode = $('#update_employee_santral_code').val();
+        var saturdayPermitExemption = $('#update_employee_saturday_permit_exemption').val();
+        var otsStatus = $('#update_employee_ots_status').val();
+        var webCrmUserId = $('#update_employee_web_crm_user_id').val();
+        var webCrmUsername = $('#update_employee_web_crm_username').val();
+        var webCrmUserPassword = $('#update_employee_web_crm_password').val();
+        var progressCrmUsername = $('#update_employee_progress_crm_username').val();
+        var progressCrmPassword = $('#update_employee_progress_crm_password').val();
+        var teamCode = $('#update_employee_team_code').val();
+        var groupCode = $('#update_employee_group_code').val();
+        var callScanCode = $('#update_employee_call_scan_code').val();
+
+        if (!id || !guid || !companyId) {
+            toastr.warning('Personel Seçiminde Bir Sorun Var. Ekranı Yenileyip Tekrar Deneyin.');
+        } else if (!name) {
+            toastr.warning('Personel Adı Boş Olamaz.');
+        } else if (!email) {
+            toastr.warning('Personel E-Posta Boş Olamaz.');
+        } else {
+            $.ajax({
+                type: 'get',
+                url: '{{ route('user.api.employee.getByEmail') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    email: email,
+                },
+                success: function (response) {
+                    if (parseInt(response.response.id) !== parseInt(id)) {
+                        toastr.warning('Bu E-Posta Adresi Kullanılamaz!');
+                    } else {
+                        if (!otsStatus) {
+                            toastr.warning('OTS Durumu Boş Olamaz.');
+                        } else if (!webCrmUserId) {
+                            toastr.warning('Web CRM Kullanıcı ID Boş Olamaz.');
+                        } else if (!webCrmUsername) {
+                            toastr.warning('Web CRM Kullanıcı Adı Boş Olamaz.');
+                        } else if (!webCrmUserPassword) {
+                            toastr.warning('Web CRM Şifresi Boş Olamaz.');
+                        } else if (!progressCrmUsername) {
+                            toastr.warning('Progress CRM Kullanıcı Adı Boş Olamaz.');
+                        } else if (!progressCrmPassword) {
+                            toastr.warning('Progress CRM Şifresi Boş Olamaz.');
+                        } else if (!teamCode) {
+                            toastr.warning('Takım Kodu Boş Olamaz.');
+                        } else if (!groupCode) {
+                            toastr.warning('Grup Kodu Boş Olamaz.');
+                        } else if (!callScanCode) {
+                            toastr.warning('Çağrı Tara Kodu Boş Olamaz.');
+                        } else {
+                            UpdateEmployeeButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+                            $.ajax({
+                                type: 'post',
+                                url: '{{ route('user.api.operationApi.operation.setEmployee') }}',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Authorization': token
+                                },
+                                data: {
+                                    id: guid,
+                                    companyId: companyId,
+                                    name: name,
+                                    email: email,
+                                    santralCode: santralCode,
+                                    role: otsStatus,
+                                    webCrmUserId: webCrmUserId,
+                                    webCrmUsername: webCrmUsername,
+                                    webCrmUserPassword: webCrmUserPassword,
+                                    progressCrmUsername: progressCrmUsername,
+                                    progressCrmPassword: progressCrmPassword,
+                                    teamCode: teamCode,
+                                    groupCode: groupCode,
+                                    callScanCode: callScanCode,
+                                },
+                                success: function (response) {
+                                    $.ajax({
+                                        type: 'put',
+                                        url: '{{ route('user.api.employee.update') }}',
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Authorization': token
+                                        },
+                                        data: {
+                                            id: id,
+                                            name: name,
+                                            email: email,
+                                            phone: phone,
+                                            identity: identity,
+                                            santralCode: santralCode,
+                                            saturdayPermitExemption: saturdayPermitExemption,
+                                        },
+                                        success: function () {
+                                            toastr.success('Personel Başarıyla Güncellendi.');
+                                            UpdateEmployeeButton.prop('disabled', false).html('Güncelle');
+                                            $('#UpdateEmployeeModal').modal('hide');
+                                        },
+                                        error: function (error) {
+                                            console.log(error);
+                                            toastr.error('Personel Güncellenirken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                                            UpdateEmployeeButton.prop('disabled', false).html('Güncelle');
+                                        }
+                                    });
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                    toastr.error('Personel Güncellenirken OTS Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                                    UpdateEmployeeButton.prop('disabled', false).html('Güncelle');
+                                }
+                            });
+                        }
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.warning('E-posta Kontrol Servisinde Bir Hata Var. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                }
+            });
+        }
+    });
+
     UpdateEmployeeQueuesButton.click(function () {
         $('#loader').show();
         var employeeId = $('#update_employee_queues_employee_id').val();
@@ -1491,6 +1688,9 @@
         var webCrmPassword = $('#create_employee_web_crm_password').val();
         var progressCrmUsername = $('#create_employee_progress_crm_username').val();
         var progressCrmPassword = $('#create_employee_progress_crm_password').val();
+        var teamCode = $('#create_employee_team_code').val();
+        var groupCode = $('#create_employee_group_code').val();
+        var callScanCode = $('#create_employee_call_scan_code').val();
 
         var tasks = [];
         var createEmployeeTaskCheckboxes = $('.createEmployeeTaskCheckbox:checked');
@@ -1564,6 +1764,15 @@
                     } else if (!progressCrmPassword) {
                         toastr.warning('Progress CRM Şifresi Boş Olamaz');
                         CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!teamCode) {
+                        toastr.warning('Takım Kodu Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!groupCode) {
+                        toastr.warning('Grup Kodu Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!callScanCode) {
+                        toastr.warning('Çağrı Tarama Kodu Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
                     } else if (!shiftGroupId) {
                         toastr.warning('İlk Vardiya Seçimi Zorunludur.');
                         CreateEmployeeWizardStepper.goTo(6);
@@ -1592,11 +1801,11 @@
                                 progressCrmPassword: progressCrmPassword,
                                 activeJobDescription: ' ',
                                 role: 1,
-                                groupCode: 200,
-                                teamCode: 1,
+                                groupCode: groupCode,
+                                teamCode: teamCode,
                                 teamLead: 0,
                                 teamLeadAssistant: 0,
-                                callScanCode: 200,
+                                callScanCode: callScanCode,
                                 santralCode: santralCode,
                                 tasks: tasks,
                                 workTasks: workTasks,

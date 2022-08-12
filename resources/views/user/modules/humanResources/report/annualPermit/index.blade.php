@@ -24,22 +24,15 @@
                             <div class="input-group input-group-solid flex-nowrap">
                                 <button class="btn btn-icon btn-success" id="SelectAllEmployeesButton"><i class="fa fa-check-circle"></i></button>
                                 <button class="btn btn-icon btn-danger" id="UnSelectAllEmployeesButton"><i class="fa fa-times-circle"></i></button>
-                                <select id="employeeIds" class="form-control form-control-solid selectpicker" title="Personeller" multiple></select>
+                                <select id="employeeIds" class="form-control form-control-solid selectpicker" title="Personeller" data-live-search="true" multiple></select>
                             </div>
                         </div>
                         <div class="col-xl-4 mb-5">
                             <label for="employeeIds">İzin Türleri</label>
                             <select id="typeIds" class="form-control form-control-solid selectpicker" title="İzin Türleri" multiple></select>
                         </div>
-                        <div class="col-xl-2 mb-5">
-                            <label for="startDate">Başlangıç Tarihi</label>
-                            <input id="startDate" type="date" class="form-control form-control-solid">
-                        </div>
-                        <div class="col-xl-2 mb-5">
-                            <label for="endDate">Bitiş Tarihi</label>
-                            <input id="endDate" type="date" class="form-control form-control-solid">
-                        </div>
-                        <div class="col-xl-2 mb-5 d-grid">
+                        <div class="col-xl-8 mb-5 d-grid"></div>
+                        <div class="col-xl-4 mb-5 d-grid">
                             <button class="btn btn-primary mt-5" id="ReportButton">Raporla</button>
                         </div>
                     </div>

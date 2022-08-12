@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\EmployeeController\CreateRequest;
+use App\Http\Requests\Api\User\EmployeeController\UpdateRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithPersonalInformationRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithBalanceRequest;
@@ -271,6 +272,34 @@ class EmployeeController extends Controller
             return $this->error(
                 $createResponse->getMessage(),
                 $createResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateRequest $request
+     */
+    public function update(UpdateRequest $request)
+    {
+        $updateResponse = $this->employeeService->update(
+            $request->id,
+            $request->name,
+            $request->email,
+            $request->phone,
+            $request->identity,
+            $request->santralCode,
+            $request->saturdayPermitExemption
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
             );
         }
     }

@@ -229,7 +229,24 @@ interface IEmployeeService extends IEloquentService
         ?string $password
     ): ServiceResponse;
 
-    public function update(): ServiceResponse;
+    /**
+     * @param int $id
+     * @param string $name
+     * @param string $email
+     * @param string|null $phone
+     * @param string|null $identity
+     * @param string|null $santralCode
+     * @param int $saturdayPermitExemption
+     */
+    public function update(
+        int     $id,
+        string  $name,
+        string  $email,
+        ?string $phone,
+        ?string $identity,
+        ?string $santralCode,
+        int     $saturdayPermitExemption
+    ): ServiceResponse;
 
     /**
      * @param int $employeeId

@@ -122,6 +122,31 @@
                                             <input id="create_employee_progress_crm_password" type="text" class="form-control form-control-solid" placeholder="Progress CRM Şifresi" aria-hidden="true">
                                         </div>
                                     </div>
+                                    <hr class="text-muted">
+                                    <div class="col-xl-4 mb-5">
+                                        <div class="form-group">
+                                            <label for="create_employee_team_code" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                                <span class="required">Takım Kodu</span>
+                                            </label>
+                                            <input id="create_employee_team_code" type="number" class="form-control form-control-solid onlyNumber" placeholder="Takım Kodu" aria-hidden="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 mb-5">
+                                        <div class="form-group">
+                                            <label for="create_employee_group_code" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                                <span class="required">Grup Kodu</span>
+                                            </label>
+                                            <input id="create_employee_group_code" type="number" class="form-control form-control-solid onlyNumber" placeholder="Grup Kodu" aria-hidden="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 mb-5">
+                                        <div class="form-group">
+                                            <label for="create_employee_call_scan_code" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                                <span class="required">Çağrı Tarama Kodu</span>
+                                            </label>
+                                            <input id="create_employee_call_scan_code" type="number" class="form-control form-control-solid onlyNumber" placeholder="Çağrı Tarama Kodu" aria-hidden="true">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div data-kt-stepper-element="content">

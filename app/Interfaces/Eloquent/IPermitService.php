@@ -82,6 +82,17 @@ interface IPermitService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param array $employeeIds
+     * @param array $permitTypeIds
+     *
+     * @return ServiceResponse
+     */
+    public function calculateAnnualPermit(
+        array $employeeIds,
+        array $permitTypeIds
+    ): ServiceResponse;
+
+    /**
      * @param array $companyIds
      * @param int $pageIndex
      * @param int $pageSize

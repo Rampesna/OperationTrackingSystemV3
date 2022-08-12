@@ -630,14 +630,44 @@ class EmployeeService implements IEmployeeService
         );
     }
 
-    public function update(): ServiceResponse
+    /**
+     * @param int $id
+     * @param string $name
+     * @param string $email
+     * @param string|null $phone
+     * @param string|null $identity
+     * @param string|null $santralCode
+     * @param int $saturdayPermitExemption
+     */
+    public function update(
+        int     $id,
+        string  $name,
+        string  $email,
+        ?string $phone,
+        ?string $identity,
+        ?string $santralCode,
+        int     $saturdayPermitExemption
+    ): ServiceResponse
     {
-        return new ServiceResponse(
-            false,
-            'Method not implemented',
-            501,
-            null
-        );
+        $employee = $this->getById($id);
+        if ($employee->isSuccess()) {
+            $employee->getData()->name = $name;
+            $employee->getData()->email = $email;
+            $employee->getData()->phone = $phone;
+            $employee->getData()->identity = $identity;
+            $employee->getData()->santral_code = $santralCode;
+            $employee->getData()->saturday_permit_exemption = $saturdayPermitExemption;
+            $employee->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Employee updated',
+                200,
+                $employee->getData()
+            );
+        } else {
+            return $employee;
+        }
     }
 
     /**

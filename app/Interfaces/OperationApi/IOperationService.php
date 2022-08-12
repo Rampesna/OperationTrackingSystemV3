@@ -218,11 +218,11 @@ interface IOperationService
      * @param int|null $id
      * @param int $companyId
      * @param string $email
-     * @param string $username
-     * @param string $password
+     * @param string|null $username
+     * @param string|null $password
      * @param string $nameSurname
-     * @param int $assignmentAuth
-     * @param int $educationAuth
+     * @param int|null $assignmentAuth
+     * @param int|null $educationAuth
      * @param int $webCrmUserId
      * @param string $webCrmUsername
      * @param string $webCrmPassword
@@ -230,11 +230,11 @@ interface IOperationService
      * @param string $progressCrmPassword
      * @param string|null $activeJobDescription
      * @param int $role
-     * @param int $groupCode
+     * @param int|null $groupCode
      * @param int $teamCode
-     * @param int $followerLeader
-     * @param int $followerLeaderAssistant
-     * @param string $callScanCode
+     * @param int|null $followerLeader
+     * @param int|null $followerLeaderAssistant
+     * @param string|null $callScanCode
      * @param string $santralCode
      * @param array $taskList {}
      * @param array $workTaskList {}
@@ -245,11 +245,11 @@ interface IOperationService
         ?int    $id,
         int     $companyId,
         string  $email,
-        string  $username,
-        string  $password,
+        ?string $username,
+        ?string $password,
         string  $nameSurname,
-        int     $assignmentAuth,
-        int     $educationAuth,
+        ?int    $assignmentAuth,
+        ?int    $educationAuth,
         int     $webCrmUserId,
         string  $webCrmUsername,
         string  $webCrmPassword,
@@ -261,11 +261,11 @@ interface IOperationService
         string  $uyumCrmBranchCode,
         string  $activeYear,
         int     $role,
-        int     $groupCode,
+        ?int    $groupCode,
         int     $teamCode,
-        int     $followerLeader,
-        int     $followerLeaderAssistant,
-        string  $callScanCode,
+        ?int    $followerLeader,
+        ?int    $followerLeaderAssistant,
+        ?string $callScanCode,
         string  $santralCode,
         array   $taskList = [],
         array   $workTaskList = []

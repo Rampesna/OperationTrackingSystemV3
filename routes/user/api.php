@@ -97,6 +97,7 @@ Route::middleware([
         Route::get('getById', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getById'])->name('user.api.employee.getById');
         Route::get('getByEmail', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByEmail'])->name('user.api.employee.getByEmail');
         Route::post('create', [\App\Http\Controllers\Api\User\EmployeeController::class, 'create'])->name('user.api.employee.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\EmployeeController::class, 'update'])->name('user.api.employee.update');
         Route::post('updateJobDepartment', [\App\Http\Controllers\Api\User\EmployeeController::class, 'updateJobDepartment'])->name('user.api.employee.updateJobDepartment');
     });
 
@@ -343,6 +344,7 @@ Route::middleware([
         Route::get('getDateBetweenByEmployeeIdsAndTypeIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getDateBetweenByEmployeeIdsAndTypeIds'])->name('user.api.permit.getDateBetweenByEmployeeIdsAndTypeIds');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.permit.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByDateAndCompanyIds'])->name('user.api.permit.getByDateAndCompanyIds');
+        Route::get('calculateAnnualPermit', [\App\Http\Controllers\Api\User\PermitController::class, 'calculateAnnualPermit'])->name('user.api.permit.calculateAnnualPermit');
         Route::post('create', [\App\Http\Controllers\Api\User\PermitController::class, 'create'])->name('user.api.permit.create');
         Route::put('update', [\App\Http\Controllers\Api\User\PermitController::class, 'update'])->name('user.api.permit.update');
         Route::put('setStatus', [\App\Http\Controllers\Api\User\PermitController::class, 'setStatus'])->name('user.api.permit.setStatus');
@@ -491,6 +493,7 @@ Route::middleware([
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');
+            Route::get('getEmployeeEdit', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getEmployeeEdit'])->name('user.api.operationApi.operation.getEmployeeEdit');
             Route::get('getEmployeeTasks', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getEmployeeTasks'])->name('user.api.operationApi.operation.getEmployeeTasks');
             Route::get('getEmployeeTasksEdit', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getEmployeeTasksEdit'])->name('user.api.operationApi.operation.getEmployeeTasksEdit');
             Route::post('setEmployeeTasksInsert', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'setEmployeeTasksInsert'])->name('user.api.operationApi.operation.setEmployeeTasksInsert');

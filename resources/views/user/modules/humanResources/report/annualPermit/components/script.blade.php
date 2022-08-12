@@ -91,7 +91,70 @@
     }
 
     function report() {
-
+        var employeeIds = employeeIdsSelector.val();
+        var typeIds = typeIdsSelector.val();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.permit.calculateAnnualPermit') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                employeeIds: employeeIds,
+                permitTypeIds: typeIds,
+            },
+            success: function (response) {
+                var source = {
+                    localdata: response.response,
+                    datatype: "array",
+                    datafields: [
+                        {name: 'name', type: 'string'},
+                        {name: 'date', type: 'string'},
+                    ]
+                };
+                var dataAdapter = new $.jqx.dataAdapter(source);
+                permitReportDiv.jqxGrid({
+                    width: '100%',
+                    height: '500',
+                    source: dataAdapter,
+                    columnsresize: true,
+                    groupable: true,
+                    theme: jqxGridGlobalTheme,
+                    filterable: true,
+                    showfilterrow: true,
+                    localization: getLocalization('tr'),
+                    columns: [
+                        {
+                            text: 'Personel',
+                            dataField: 'name',
+                            columntype: 'textbox',
+                        },
+                        {
+                            text: 'Hakediş Tarihi',
+                            dataField: 'date',
+                            columntype: 'textbox',
+                        }
+                    ]
+                });
+                permitReportDiv.on('contextmenu', function () {
+                    return false;
+                });
+                permitReportDiv.on('rowclick', function (event) {
+                    if (event.args.rightclick) {
+                        $("#employeesGrid").jqxGrid('selectrow', event.args.rowindex);
+                        var scrollTop = $(window).scrollTop();
+                        var scrollLeft = $(window).scrollLeft();
+                        contextMenu.jqxMenu('open', parseInt(event.args.originalEvent.clientX) + 5 + scrollLeft, parseInt(event.args.originalEvent.clientY) + 5 + scrollTop);
+                        return false;
+                    }
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Yıllık İzin Hakedişi Hesaplanırken Serviste Bir Hata Oluştu.');
+            }
+        });
     }
 
     getEmployeesByCompanyIds();

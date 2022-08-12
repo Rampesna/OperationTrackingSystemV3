@@ -10,6 +10,7 @@ use App\Http\Requests\Api\User\PermitController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\PermitController\GetDateBetweenByEmployeeIdsAndTypeIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByDateAndCompanyIdsRequest;
+use App\Http\Requests\Api\User\PermitController\CalculateAnnualPermitRequest;
 use App\Http\Requests\Api\User\PermitController\CreateRequest;
 use App\Http\Requests\Api\User\PermitController\UpdateRequest;
 use App\Http\Requests\Api\User\PermitController\SetStatusRequest;
@@ -198,6 +199,29 @@ class PermitController extends Controller
             return $this->error(
                 $getByDateResponse->getMessage(),
                 $getByDateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param CalculateAnnualPermitRequest $request
+     */
+    public function calculateAnnualPermit(CalculateAnnualPermitRequest $request)
+    {
+        $calculateAnnualPermitResponse = $this->permitService->calculateAnnualPermit(
+            $request->employeeIds,
+            $request->permitTypeIds
+        );
+        if ($calculateAnnualPermitResponse->isSuccess()) {
+            return $this->success(
+                $calculateAnnualPermitResponse->getMessage(),
+                $calculateAnnualPermitResponse->getData(),
+                $calculateAnnualPermitResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $calculateAnnualPermitResponse->getMessage(),
+                $calculateAnnualPermitResponse->getStatusCode()
             );
         }
     }

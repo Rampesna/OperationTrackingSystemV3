@@ -11,6 +11,7 @@ use App\Http\Requests\Api\User\OperationApi\OperationController\GetEmployeeTasks
 use App\Http\Requests\Api\User\OperationApi\OperationController\GetEmployeeWorkTasksEditRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\GetEmployeeWorkTasksRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\GetUserListRequest;
+use App\Http\Requests\Api\User\OperationApi\OperationController\GetEmployeeEditRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeGroupTasksInsertRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeTasksInsertRequest;
@@ -65,6 +66,26 @@ class OperationController extends Controller
             return $this->error(
                 $getUserListResponse->getMessage(),
                 $getUserListResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetEmployeeEditRequest $request
+     */
+    public function getEmployeeEdit(GetEmployeeEditRequest $request)
+    {
+        $getEmployeeEditResponse = $this->operationService->GetEmployeeEdit($request->guid);
+        if ($getEmployeeEditResponse->isSuccess()) {
+            return $this->success(
+                $getEmployeeEditResponse->getMessage(),
+                $getEmployeeEditResponse->getData(),
+                $getEmployeeEditResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getEmployeeEditResponse->getMessage(),
+                $getEmployeeEditResponse->getStatusCode()
             );
         }
     }

@@ -22,6 +22,7 @@
     @include('user.modules.employee.index.modals.setEmployeeOtsLockType')
     @include('user.modules.employee.index.modals.setEmployeeWorkToDoType')
 
+    @include('user.modules.employee.index.modals.updateEmployee')
     @include('user.modules.employee.index.modals.updateEmployeeQueues')
     @include('user.modules.employee.index.modals.updateEmployeeCompetences')
     @include('user.modules.employee.index.modals.updateEmployeeTasks')
