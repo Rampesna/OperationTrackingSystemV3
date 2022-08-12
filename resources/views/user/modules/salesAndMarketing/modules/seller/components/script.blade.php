@@ -169,7 +169,7 @@
                     var rowindex = sellersDiv.jqxGrid('getselectedrowindex');
                     $('#selected_row_index').val(rowindex);
                     var dataRecord = sellersDiv.jqxGrid('getrowdata', rowindex);
-                    $('#selected_row_id').val(dataRecord.id);
+                    $('#selected_row_id').val(dataRecord ? dataRecord.id : null);
                     return false;
                 });
 
@@ -274,7 +274,7 @@
     AddSellerButton.click(function () {
         var code = createSellerCodeInput.val();
         if (!code) {
-            toastr.warning('Yeni Satıcı Kodu Boş Olamaz');
+            toastr.warning('Satıcı Kodu Boş Olamaz');
         } else {
             createSellersRow.append(`
             <div class="col-xl-12 mb-5">

@@ -215,7 +215,7 @@ interface IOperationService
     public function GetEmployeeGroupTasks(): ServiceResponse;
 
     /**
-     * @param int $id
+     * @param int|null $id
      * @param int $companyId
      * @param string $email
      * @param string $username
@@ -228,7 +228,7 @@ interface IOperationService
      * @param string $webCrmPassword
      * @param string $progressCrmUsername
      * @param string $progressCrmPassword
-     * @param string $activeJobDescription
+     * @param string|null $activeJobDescription
      * @param int $role
      * @param int $groupCode
      * @param int $teamCode
@@ -242,29 +242,33 @@ interface IOperationService
      * @return ServiceResponse
      */
     public function SetEmployee(
-        int    $id,
-        int    $companyId,
-        string $email,
-        string $username,
-        string $password,
-        string $nameSurname,
-        int    $assignmentAuth,
-        int    $educationAuth,
-        int    $webCrmUserId,
-        string $webCrmUsername,
-        string $webCrmPassword,
-        string $progressCrmUsername,
-        string $progressCrmPassword,
-        string $activeJobDescription,
-        int    $role,
-        int    $groupCode,
-        int    $teamCode,
-        int    $followerLeader,
-        int    $followerLeaderAssistant,
-        string $callScanCode,
-        string $santralCode,
-        array  $taskList = [],
-        array  $workTaskList = []
+        ?int    $id,
+        int     $companyId,
+        string  $email,
+        string  $username,
+        string  $password,
+        string  $nameSurname,
+        int     $assignmentAuth,
+        int     $educationAuth,
+        int     $webCrmUserId,
+        string  $webCrmUsername,
+        string  $webCrmPassword,
+        string  $progressCrmUsername,
+        string  $progressCrmPassword,
+        ?string $activeJobDescription,
+        int     $uyumCrmCompanyId,
+        int     $uyumCrmBranchId,
+        string  $uyumCrmBranchCode,
+        string  $activeYear,
+        int     $role,
+        int     $groupCode,
+        int     $teamCode,
+        int     $followerLeader,
+        int     $followerLeaderAssistant,
+        string  $callScanCode,
+        string  $santralCode,
+        array   $taskList = [],
+        array   $workTaskList = []
     ): ServiceResponse;
 
     /**

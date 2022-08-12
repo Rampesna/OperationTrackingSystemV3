@@ -616,6 +616,10 @@ class EmployeeService implements IEmployeeService
         $employee->identity = $identity;
         $employee->santral_code = $santralCode;
         $employee->password = bcrypt($password);
+        $employee->saturday_permit_order =
+            $employeesByJobDepartment->where('saturday_permit_order', 1)->count() >=
+            $employeesByJobDepartment->where('saturday_permit_order', 0)->count()
+                ? 1 : 0;
         $employee->save();
 
         return new ServiceResponse(

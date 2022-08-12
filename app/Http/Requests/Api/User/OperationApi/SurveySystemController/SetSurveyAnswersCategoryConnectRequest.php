@@ -24,7 +24,7 @@ class SetSurveyAnswersCategoryConnectRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'categories' => 'required|array',
+            //
         ];
     }
 }

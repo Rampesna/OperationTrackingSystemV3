@@ -150,7 +150,7 @@
                 todayPermittedEmployeesRow.empty();
                 $.each(response.response, function (i, permit) {
                     todayPermittedEmployeesRow.append(`
-                    <div class="row">
+                    <div class="row mb-5">
                         <div class="col-xl-1 mt-3">
                             <span class="svg-icon svg-icon-primary svg-icon-2hx">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

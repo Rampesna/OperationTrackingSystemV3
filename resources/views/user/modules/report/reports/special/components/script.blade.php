@@ -103,66 +103,71 @@
                     var dataFields = [];
                     var columns = [];
 
-                    $.each(response.response[0], function (key) {
-                        dataFields.push({
-                            name: `${key}`,
-                            type: 'string'
+                    if (response.response) {
+                        $.each(response.response[0], function (key) {
+                            dataFields.push({
+                                name: `${key}`,
+                                type: 'string'
+                            });
+
+                            columns.push({
+                                text: `${key}`,
+                                dataField: `${key}`,
+                                columntype: 'textbox'
+                            });
                         });
 
-                        columns.push({
-                            text: `${key}`,
-                            dataField: `${key}`,
-                            columntype: 'textbox'
+                        var source = {
+                            localdata: response.response,
+                            datatype: "array",
+                            datafields: dataFields
+                        };
+                        var dataAdapter = new $.jqx.dataAdapter(source);
+                        reportDiv.jqxGrid({
+                            width: '100%',
+                            height: '500',
+                            source: dataAdapter,
+                            columnsresize: true,
+                            groupable: true,
+                            theme: jqxGridGlobalTheme,
+                            filterable: true,
+                            showfilterrow: true,
+                            pageable: true,
+                            sortable: true,
+                            pagesizeoptions: ['10', '20', '50', '1000'],
+                            localization: getLocalization('tr'),
+                            columns: columns,
                         });
-                    });
+                        reportDiv.on('contextmenu', function (e) {
+                            var top = e.pageY - 10;
+                            var left = e.pageX - 10;
 
-                    var source = {
-                        localdata: response.response,
-                        datatype: "array",
-                        datafields: dataFields
-                    };
-                    var dataAdapter = new $.jqx.dataAdapter(source);
-                    reportDiv.jqxGrid({
-                        width: '100%',
-                        height: '500',
-                        source: dataAdapter,
-                        columnsresize: true,
-                        groupable: true,
-                        theme: jqxGridGlobalTheme,
-                        filterable: true,
-                        showfilterrow: true,
-                        pageable: true,
-                        sortable: true,
-                        pagesizeoptions: ['10', '20', '50', '1000'],
-                        localization: getLocalization('tr'),
-                        columns: columns,
-                    });
-                    reportDiv.on('contextmenu', function (e) {
-                        var top = e.pageY - 10;
-                        var left = e.pageX - 10;
+                            $("#context-menu").css({
+                                display: "block",
+                                top: top,
+                                left: left
+                            });
 
-                        $("#context-menu").css({
-                            display: "block",
-                            top: top,
-                            left: left
-                        });
-
-                        return false;
-                    });
-                    reportDiv.on('rowclick', function (event) {
-                        if (event.args.rightclick) {
-                            reportDiv.jqxGrid('selectrow', event.args.rowindex);
-                            var rowindex = reportDiv.jqxGrid('getselectedrowindex');
-                            $('#selected_row_index').val(rowindex);
-                            var dataRecord = reportDiv.jqxGrid('getrowdata', rowindex);
-                            $('#id_edit').val(dataRecord.id);
-                            $('#deleting').html(dataRecord.adi);
                             return false;
-                        } else {
-                            $("#context-menu").hide();
-                        }
-                    });
-                    reportDiv.jqxGrid('sortby', 'id', 'desc');
+                        });
+                        reportDiv.on('rowclick', function (event) {
+                            if (event.args.rightclick) {
+                                reportDiv.jqxGrid('selectrow', event.args.rowindex);
+                                var rowindex = reportDiv.jqxGrid('getselectedrowindex');
+                                $('#selected_row_index').val(rowindex);
+                                var dataRecord = reportDiv.jqxGrid('getrowdata', rowindex);
+                                $('#id_edit').val(dataRecord.id);
+                                $('#deleting').html(dataRecord.adi);
+                                return false;
+                            } else {
+                                $("#context-menu").hide();
+                            }
+                        });
+                        reportDiv.jqxGrid('sortby', 'id', 'desc');
+                    } else {
+                        reportDiv.jqxGrid('clear');
+                        toastr.warning('Rapor Sonuçları Boş!');
+                    }
 
                     $('#loader').hide();
                 },

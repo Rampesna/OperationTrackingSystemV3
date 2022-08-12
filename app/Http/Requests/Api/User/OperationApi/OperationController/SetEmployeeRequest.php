@@ -32,11 +32,10 @@ class SetEmployeeRequest extends BaseApiRequest
             'assignment' => 'required',
             'education' => 'required',
             'webCrmUserId' => 'required',
-            'webCrmUserName' => 'required',
+            'webCrmUsername' => 'required',
             'webCrmUserPassword' => 'required',
             'progressCrmUsername' => 'required',
             'progressCrmPassword' => 'required',
-            'activeJobDescription' => 'required',
             'role' => 'required',
             'groupCode' => 'required',
             'teamCode' => 'required',
@@ -44,8 +43,6 @@ class SetEmployeeRequest extends BaseApiRequest
             'teamLeadAssistant' => 'required',
             'callScanCode' => 'required',
             'santralCode' => 'required',
-            'tasks' => 'required',
-            'workTasks' => 'required',
         ];
     }
 }

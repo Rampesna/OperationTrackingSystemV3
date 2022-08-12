@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\OperationApi\SurveySystemController;
+namespace App\Http\Requests\Api\User\ShiftController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class SetSurveyAnswersProductConnectRequest extends BaseApiRequest
+class CreateEmployeeFirstShiftsRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class SetSurveyAnswersProductConnectRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            //
+            'employeeId' => 'required|integer',
+            'shiftGroupId' => 'required|integer',
+            'month' => 'required',
         ];
     }
 }

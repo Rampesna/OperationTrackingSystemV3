@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Interfaces\Eloquent\ISaturdayPermitService;
 use App\Http\Requests\Api\User\SaturdayPermitController\GetDateBetweenRequest;
+use App\Http\Requests\Api\User\SaturdayPermitController\RobotRequest;
 use App\Http\Requests\Api\User\SaturdayPermitController\CancelRequest;
 use App\Traits\Response;
 use Illuminate\Http\Request;
@@ -48,6 +49,29 @@ class SaturdayPermitController extends Controller
             return $this->error(
                 $getDateBetweenResponse->getMessage(),
                 $getDateBetweenResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param RobotRequest $request
+     */
+    public function robot(RobotRequest $request)
+    {
+        $robotResponse = $this->saturdayPermitService->robot(
+            $request->month,
+            $request->companyId
+        );
+        if ($robotResponse->isSuccess()) {
+            return $this->success(
+                $robotResponse->getMessage(),
+                $robotResponse->getData(),
+                $robotResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $robotResponse->getMessage(),
+                $robotResponse->getStatusCode()
             );
         }
     }

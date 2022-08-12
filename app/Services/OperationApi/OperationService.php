@@ -539,7 +539,7 @@ class OperationService extends OperationApiService implements IOperationService
     }
 
     /**
-     * @param int $id
+     * @param int|null $id
      * @param int $companyId
      * @param string $email
      * @param string $username
@@ -552,7 +552,7 @@ class OperationService extends OperationApiService implements IOperationService
      * @param string $webCrmPassword
      * @param string $progressCrmUsername
      * @param string $progressCrmPassword
-     * @param string $activeJobDescription
+     * @param string|null $activeJobDescription
      * @param int $role
      * @param int $groupCode
      * @param int $teamCode
@@ -566,29 +566,33 @@ class OperationService extends OperationApiService implements IOperationService
      * @return ServiceResponse
      */
     public function SetEmployee(
-        int    $id,
-        int    $companyId,
-        string $email,
-        string $username,
-        string $password,
-        string $nameSurname,
-        int    $assignmentAuth,
-        int    $educationAuth,
-        int    $webCrmUserId,
-        string $webCrmUsername,
-        string $webCrmPassword,
-        string $progressCrmUsername,
-        string $progressCrmPassword,
-        string $activeJobDescription,
-        int    $role,
-        int    $groupCode,
-        int    $teamCode,
-        int    $followerLeader,
-        int    $followerLeaderAssistant,
-        string $callScanCode,
-        string $santralCode,
-        array  $taskList = [],
-        array  $workTaskList = []
+        ?int    $id,
+        int     $companyId,
+        string  $email,
+        string  $username,
+        string  $password,
+        string  $nameSurname,
+        int     $assignmentAuth,
+        int     $educationAuth,
+        int     $webCrmUserId,
+        string  $webCrmUsername,
+        string  $webCrmPassword,
+        string  $progressCrmUsername,
+        string  $progressCrmPassword,
+        ?string $activeJobDescription,
+        int     $uyumCrmCompanyId,
+        int     $uyumCrmBranchId,
+        string  $uyumCrmBranchCode,
+        string  $activeYear,
+        int     $role,
+        int     $groupCode,
+        int     $teamCode,
+        int     $followerLeader,
+        int     $followerLeaderAssistant,
+        string  $callScanCode,
+        string  $santralCode,
+        array   $taskList = [],
+        array   $workTaskList = []
     ): ServiceResponse
     {
         $endpoint = "Operation/SetEmployee";
@@ -609,7 +613,11 @@ class OperationService extends OperationApiService implements IOperationService
             'uyumCrmPassword' => $webCrmPassword,
             'uyumProgressUserName' => $progressCrmUsername,
             'uyumProgressUserPassword' => $progressCrmPassword,
-            'aktifGorevTanimi' => $activeJobDescription,
+            'aktifGorevTanimi' => $activeJobDescription ?? '',
+            "uyumCrmCoId" => $uyumCrmCompanyId,
+            "uyumCrmBranchId" => $uyumCrmBranchId,
+            "uyumCrmBranchCode" => $uyumCrmBranchCode,
+            "aktifDonemYili" => $activeYear,
             'rol' => $role,
             'grupKodu' => $groupCode,
             'takimKodu' => $teamCode,
@@ -626,7 +634,9 @@ class OperationService extends OperationApiService implements IOperationService
             true,
             'Set employee',
             200,
-            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']
+            [
+                'guid' => $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']
+            ]
         );
     }
 

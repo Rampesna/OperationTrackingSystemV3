@@ -9,6 +9,7 @@ use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
 use App\Models\Eloquent\Shift;
 use App\Interfaces\Eloquent\IEmployeeService;
+use App\Services\OperationApi\OperationService;
 use App\Services\ServiceResponse;
 use Illuminate\Support\Carbon;
 
@@ -320,6 +321,131 @@ class ShiftService implements IShiftService
     }
 
     /**
+     * @param int $authUserId
+     * @param int $employeeId
+     * @param int $shiftGroupId
+     * @param string $month
+     */
+    public function createEmployeeFirstShifts(
+        int    $authUserId,
+        int    $employeeId,
+        int    $shiftGroupId,
+        string $month,
+    ): ServiceResponse
+    {
+        $employee = $this->employeeService->getById($employeeId);
+        if ($employee->isSuccess()) {
+            $shiftGroup = $this->shiftGroupService->getById($shiftGroupId);
+            if ($shiftGroup->isSuccess()) {
+                $company = $this->companyService->getById($employee->getData()->company_id);
+                if ($company->isSuccess()) {
+                    $startDayOfMonth = intval(date('d'));
+                    $endDayOfMonth = intval(date('t', strtotime($month)));
+                    $shifts = collect();
+                    for ($day = $startDayOfMonth; $day <= $endDayOfMonth; $day++) {
+                        $date = $month . '-' . sprintf('%02d', $day);
+                        $dayControlVariable = 'day' . date('w', strtotime($date));
+                        $dayShiftGroupStartTimeVariable = $dayControlVariable . '_start_time';
+                        $dayShiftGroupEndTimeVariable = $dayControlVariable . '_end_time';
+
+                        if ($shiftGroup->getData()->$dayControlVariable === 1) {
+                            if ($dayControlVariable == 'day6') {
+                                $saturdayPermit = $this->saturdayPermitService->getByEmployeeIdAndDate($employeeId, $date);
+                                if ($saturdayPermit->isSuccess()) {
+                                    if ($saturdayPermit->getData()->status == 'on') {
+                                        $shifts->push([
+                                            'company_id' => $company->getData()->id,
+                                            'employee_id' => $employee->getData()->id,
+                                            'shift_group_id' => $shiftGroup->getData()->id,
+                                            'created_by' => $authUserId,
+                                            'last_updated_by' => $authUserId,
+                                            'start_date' => $date . ' ' . $shiftGroup->getData()->$dayShiftGroupStartTimeVariable,
+                                            'end_date' => $date . ' ' . $shiftGroup->getData()->$dayShiftGroupEndTimeVariable,
+                                            'created_at' => date('Y-m-d H:i:s'),
+                                            'updated_at' => date('Y-m-d H:i:s')
+                                        ]);
+                                    }
+                                } else {
+                                    $shifts->push([
+                                        'company_id' => $company->getData()->id,
+                                        'employee_id' => $employee->getData()->id,
+                                        'shift_group_id' => $shiftGroup->getData()->id,
+                                        'created_by' => $authUserId,
+                                        'last_updated_by' => $authUserId,
+                                        'start_date' => $date . ' ' . $shiftGroup->getData()->$dayShiftGroupStartTimeVariable,
+                                        'end_date' => $date . ' ' . $shiftGroup->getData()->$dayShiftGroupEndTimeVariable,
+                                        'created_at' => date('Y-m-d H:i:s'),
+                                        'updated_at' => date('Y-m-d H:i:s')
+                                    ]);
+                                }
+                            } else {
+                                $shifts->push([
+                                    'company_id' => $company->getData()->id,
+                                    'employee_id' => $employee->getData()->id,
+                                    'shift_group_id' => $shiftGroup->getData()->id,
+                                    'created_by' => $authUserId,
+                                    'last_updated_by' => $authUserId,
+                                    'start_date' => $date . ' ' . $shiftGroup->getData()->$dayShiftGroupStartTimeVariable,
+                                    'end_date' => $date . ' ' . $shiftGroup->getData()->$dayShiftGroupEndTimeVariable,
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                    'updated_at' => date('Y-m-d H:i:s')
+                                ]);
+                            }
+                        }
+                    }
+
+                    Shift::insert($shifts->toArray());
+                    $getEmployeeShifts = $this->getByEmployeeId(
+                        $employeeId,
+                        date('Y-m-01', strtotime($month)),
+                        date('Y-m-t 23:59:59', strtotime($month))
+                    );
+                    $setStaffParameters = [];
+                    foreach ($getEmployeeShifts->getData() as $shift) {
+                        $date = date('Y-m-d', strtotime($shift->start_date));
+                        $dayControlVariable = 'day' . date('w', strtotime($date));
+                        $shiftShiftGroup = $this->shiftGroupService->getById($shift->shift_group_id)->getData();
+                        $setStaffParameters[] = [
+                            'vardiyaId' => $shift->id,
+                            'kullanicilarId' => $employee->getData()->guid,
+                            'tarih' => $date,
+                            'yemekBaslangicSaati' => $date . ' ' . $shiftShiftGroup->food_break_start,
+                            'yemekBitisSaati' => $date . ' ' . $shiftShiftGroup->food_break_end,
+                            'yemekMolasindaIhtiyacMolasi' => $shiftShiftGroup->get_break_while_food_time,
+                            'yemekMolasiDisindaYemekMolasi' => $shiftShiftGroup->get_food_break_without_food_time,
+                            'birMolaHakkiDakikasi' => $shiftShiftGroup->single_break_duration,
+                            'vardiyaBasiIlkMolaHakkiDakikasi' => $shiftShiftGroup->get_first_break_after_shift_start,
+                            'vardiyaSonuMolaYasagiDakikasi' => $shiftShiftGroup->get_last_break_before_shift_end,
+                            'sonMoladanSonraMolaMusadesiDakikasi' => $shiftShiftGroup->get_break_after_last_break,
+                            'gunlukYemekMolasiHakkiSayisi' => $shiftShiftGroup->daily_food_break_amount,
+                            'gunlukToplamMolaDakikasi' => $dayControlVariable == 'day5' ? $shiftShiftGroup->daily_break_duration + $shiftShiftGroup->friday_additional_break_duration : $shiftShiftGroup->daily_break_duration,
+                            'gunlukYemekMolasiDakikasi' => $shiftShiftGroup->daily_food_break_duration,
+                            'gunlukIhtiyacMolasiDakikasi' => $dayControlVariable == 'day5' ? $shiftShiftGroup->daily_break_break_duration + $shiftShiftGroup->friday_additional_break_duration : $shiftShiftGroup->daily_break_break_duration,
+                            'anlikYemekMolasiDakikasi' => $shiftShiftGroup->momentary_food_break_duration,
+                            'anlikIhtiyacMolasiDakikasi' => $shiftShiftGroup->momentary_break_break_duration,
+                            'molaKullanimKisitlamasiVarMi' => $shiftShiftGroup->suspend_break_using,
+                        ];
+                    }
+                    $operationService = new OperationService;
+                    $operationService->SetStaffParameter($setStaffParameters);
+                    return new ServiceResponse(
+                        true,
+                        'Personele Ait İlk Vardiyalar Oluşturuldu ve OTS Sistemine Aktarıldı.',
+                        200,
+                        null
+                    );
+                } else {
+                    return $company;
+                }
+            } else {
+                return $shiftGroup;
+            }
+        } else {
+            return $employee;
+        }
+    }
+
+    /**
      * @param int $id
      * @param int $shiftGroupId
      * @param string $startDate
@@ -350,6 +476,40 @@ class ShiftService implements IShiftService
         } else {
             return $shift;
         }
+    }
+
+    /**
+     * @param array $employeeIds
+     * @param int $authUserId
+     * @param string $date
+     * @param string $startTime
+     * @param string $endTime
+     *
+     * @return ServiceResponse
+     */
+    public function updateBatch(
+        array  $employeeIds,
+        int    $authUserId,
+        string $date,
+        string $startTime,
+        string $endTime
+    ): ServiceResponse
+    {
+        return new ServiceResponse(
+            true,
+            'Shifts updated',
+            200,
+            Shift::whereIn('employee_id', $employeeIds)->whereBetween(
+                'start_date', [
+                    $date . ' 00:00:00',
+                    $date . ' 23:59:59'
+                ]
+            )->update([
+                'last_updated_by' => $authUserId,
+                'start_date' => $date . ' ' . $startTime,
+                'end_date' => $date . ' ' . $endTime,
+            ])
+        );
     }
 
     /**

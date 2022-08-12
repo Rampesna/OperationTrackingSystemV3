@@ -108,14 +108,15 @@
                     companyIds: companyIds,
                 },
                 success: function (response) {
+                    $('#loader').hide();
+                    if (response.response) {
+                        var unReachableCustomers = response.response.find(function (data) {
+                            return parseInt(data.pazarlamaDurumKodu) === 1;
+                        }).aranandatA1;
 
-                    var unReachableCustomers = response.response.find(function (data) {
-                        return parseInt(data.pazarlamaDurumKodu) === 1;
-                    }).aranandatA1;
-
-                    reportCards.html('');
-                    reportsRow.html('');
-                    reportCards.append(`
+                        reportCards.html('');
+                        reportsRow.html('');
+                        reportCards.append(`
                     <div class="col-xl-3 mb-5">
                         <div class="card">
                             <div class="card-body d-flex justify-content-between align-items-start flex-column py-0">
@@ -174,8 +175,8 @@
                     </div>
                     `);
 
-                    $.each(response.response, function (i, reportData) {
-                        reportsRow.append(`
+                        $.each(response.response, function (i, reportData) {
+                            reportsRow.append(`
                         <div class="col-xl-2 mb-3">
                             <div class="card cursor-pointer statusSelector" data-id="${reportData.pazarlamaDurumKodu}">
                                 <div class="card-body">
@@ -185,11 +186,13 @@
                             </div>
                         </div>
                         `);
-                    });
+                        });
 
-                    reportsSection.show();
-
-                    $('#loader').hide();
+                        reportsSection.show();
+                    } else {
+                        reportsSection.hide();
+                        toastr.warning('Hiç Kayıt Bulunamadı!');
+                    }
                 },
                 error: function (error) {
                     console.log(error);

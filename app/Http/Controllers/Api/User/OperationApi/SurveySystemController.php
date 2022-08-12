@@ -470,7 +470,7 @@ class SurveySystemController extends Controller
             $request->questionId,
             $request->answer,
             $request->order,
-            $request->columns
+            $request->columns ?? ''
         );
         if ($setSurveyAnswersResponse->isSuccess()) {
             return $this->success(
@@ -492,7 +492,7 @@ class SurveySystemController extends Controller
     public function setSurveyAnswersCategoryConnect(SetSurveyAnswersCategoryConnectRequest $request)
     {
         $setSurveyAnswersCategoryConnectResponse = $this->surveySystemService->SetSurveyAnswersCategoryConnect(
-            $request->categories
+            $request->categories ?? []
         );
         if ($setSurveyAnswersCategoryConnectResponse->isSuccess()) {
             return $this->success(
@@ -514,7 +514,7 @@ class SurveySystemController extends Controller
     public function setSurveyAnswersConnect(SetSurveyAnswersConnectRequest $request)
     {
         $setSurveyAnswersConnectResponse = $this->surveySystemService->SetSurveyAnswersConnect(
-            $request->questions
+            $request->questions ?? []
         );
         if ($setSurveyAnswersConnectResponse->isSuccess()) {
             return $this->success(
@@ -536,7 +536,7 @@ class SurveySystemController extends Controller
     public function setSurveyAnswersProductConnect(SetSurveyAnswersProductConnectRequest $request)
     {
         $setSurveyAnswersProductConnectResponse = $this->surveySystemService->SetSurveyAnswersProductConnect(
-            $request->products
+            $request->products ?? []
         );
         if ($setSurveyAnswersProductConnectResponse->isSuccess()) {
             return $this->success(

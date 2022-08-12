@@ -1483,7 +1483,7 @@
         var email = $('#create_employee_email').val();
         var phone = null;
         var jobDepartmentId = createEmployeeJobDepartmentId.val();
-        // var username = email.split('@')[0];
+        var username = email.split('@')[0];
         var santralCode = $('#create_employee_santral_code').val();
         var password = '123456';
         var webCrmUserId = $('#create_employee_web_crm_user_id').val();
@@ -1571,62 +1571,153 @@
                         $('#loader').show();
                         $.ajax({
                             type: 'post',
-                            url: '{{ route('user.api.employee.create') }}',
+                            url: '{{ route('user.api.operationApi.operation.setEmployee') }}',
                             headers: {
                                 'Accept': 'application/json',
                                 'Authorization': token
                             },
                             data: {
-                                guid: guid,
+                                id: null,
                                 companyId: companyId,
-                                roleId: roleId,
-                                jobDepartmentId: jobDepartmentId,
-                                name: name,
                                 email: email,
-                                phone: phone,
-                                santralCode: santralCode,
+                                username: username,
                                 password: password,
+                                name: name,
+                                assignment: 0,
+                                education: 0,
+                                webCrmUserId: webCrmUserId,
+                                webCrmUserPassword: webCrmPassword,
+                                webCrmUsername: webCrmUsername,
+                                progressCrmUsername: progressCrmUsername,
+                                progressCrmPassword: progressCrmPassword,
+                                activeJobDescription: ' ',
+                                role: 1,
+                                groupCode: 200,
+                                teamCode: 1,
+                                teamLead: 0,
+                                teamLeadAssistant: 0,
+                                callScanCode: 200,
+                                santralCode: santralCode,
+                                tasks: tasks,
+                                workTasks: workTasks,
                             },
                             success: function (response) {
-                                var employee = response.response;
                                 $.ajax({
                                     type: 'post',
-                                    url: '{{ route('user.api.employeeShiftGroup.setEmployeeShiftGroups') }}',
+                                    url: '{{ route('user.api.employee.create') }}',
                                     headers: {
                                         'Accept': 'application/json',
                                         'Authorization': token
                                     },
                                     data: {
-                                        employeeId: employee.id,
-                                        shiftGroupIds: shiftGroupIds,
+                                        guid: response.response.guid,
+                                        companyId: companyId,
+                                        roleId: roleId,
+                                        jobDepartmentId: jobDepartmentId,
+                                        name: name,
+                                        email: email,
+                                        phone: phone,
+                                        santralCode: santralCode,
+                                        password: password,
                                     },
-                                    success: function () {
-                                        $('#CreateEmployeeModal').modal('hide');
-                                        getEmployees();
-                                        toastr.success('Personel Başarıyla Oluşturuldu.');
+                                    success: function (response) {
+                                        var employee = response.response;
+                                        $.ajax({
+                                            type: 'post',
+                                            url: '{{ route('user.api.saturdayPermit.robot') }}',
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Authorization': token
+                                            },
+                                            data: {
+                                                month: reformatDatetimeTo_YYYY_MM(new Date()),
+                                                companyId: companyId,
+                                            },
+                                            success: function () {
+                                                $.ajax({
+                                                    type: 'post',
+                                                    url: '{{ route('user.api.shift.createEmployeeFirstShifts') }}',
+                                                    headers: {
+                                                        'Accept': 'application/json',
+                                                        'Authorization': token
+                                                    },
+                                                    data: {
+                                                        employeeId: employee.id,
+                                                        shiftGroupId: shiftGroupId,
+                                                        month: reformatDatetimeTo_YYYY_MM(new Date()),
+                                                    },
+                                                    error: function (error) {
+                                                        console.log(error);
+                                                        toastr.error('Personele Ait İlk Vardiyalar Oluşturulurken Serviste Bir Sorun Oluştu!');
+                                                    }
+                                                });
+                                            },
+                                            error: function (error) {
+                                                console.log(error);
+                                                toastr.error('Cumartesi İzin Servisi Hatalı Çalıştı ve Personele Ait İlk Vardiyalar Oluşturulamadı!');
+                                            }
+                                        });
+                                        $.ajax({
+                                            type: 'post',
+                                            url: '{{ route('user.api.operationApi.operation.setEmployeeGroupTasksInsert') }}',
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Authorization': token
+                                            },
+                                            data: {
+                                                guid: employee.guid,
+                                                groupTasks: groupTasks,
+                                            },
+                                            error: function (error) {
+                                                console.log(error);
+                                                toastr.error('Personel Grup Görevleri Atamaları Yapılırken Serviste Bir Sorun Oluştu! Lütfen Yazılım Ekibiyle iletişime geçin.');
+                                            }
+                                        });
+                                        $.ajax({
+                                            type: 'post',
+                                            url: '{{ route('user.api.employeeShiftGroup.setEmployeeShiftGroups') }}',
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Authorization': token
+                                            },
+                                            data: {
+                                                employeeId: employee.id,
+                                                shiftGroupIds: shiftGroupIds,
+                                            },
+                                            success: function () {
+                                                $('#CreateEmployeeModal').modal('hide');
+                                                getEmployees();
+                                                toastr.success('Personel Başarıyla Oluşturuldu.');
+                                            },
+                                            error: function (error) {
+                                                console.log(error);
+                                                $('#loader').hide();
+                                                toastr.error('Personel Vardiya Grubu Atalamarı Yapılırken Serviste Hata Oluştu.');
+                                            }
+                                        });
                                     },
                                     error: function (error) {
-                                        console.log(error);
                                         $('#loader').hide();
-                                        toastr.error('Personel Vardiya Grubu Atalamarı Yapılırken Serviste Hata Oluştu.');
+                                        console.log(error);
+                                        if (error.status === 422) {
+                                            var errors = error.responseJSON.response;
+                                            $.each(errors, function (key, value) {
+                                                if (key === 'email') {
+                                                    if (value[0] === 'The email has already been taken.') {
+                                                        toastr.error('Bu E-posta Adresi Zaten Kayıtlı.');
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            toastr.error('Personel Oluşturulurken Serviste Bir Sorun Oluştu. Lütfen Geliştirici Ekibiyle İletişime Geçin.');
+                                        }
                                     }
                                 });
                             },
                             error: function (error) {
-                                $('#loader').hide();
                                 console.log(error);
-                                if (error.status === 422) {
-                                    var errors = error.responseJSON.response;
-                                    $.each(errors, function (key, value) {
-                                        if (key === 'email') {
-                                            if (value[0] === 'The email has already been taken.') {
-                                                toastr.error('Bu E-posta Adresi Zaten Kayıtlı.');
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    toastr.error('Personel Oluşturulurken Serviste Bir Sorun Oluştu. Lütfen Geliştirici Ekibiyle İletişime Geçin.');
-                                }
+                                toastr.error('Personel OTS Sisteminde Oluşturulurken Serviste Bir Sorun Oluştu! Lütfen Yazılım Ekibi ile iletişime geçin.');
+                                $('#loader').hide();
                             }
                         });
                     }

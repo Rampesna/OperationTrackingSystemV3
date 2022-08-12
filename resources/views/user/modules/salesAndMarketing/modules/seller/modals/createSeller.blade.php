@@ -35,7 +35,7 @@
                         <div class="row mb-5">
                             <div class="col-xl-12">
                                 <div class="input-group">
-                                    <input type="text" id="create_seller_code" class="form-control form-control-solid" placeholder="Yeni Satıcı Kodu" aria-label="Yeni Satıcı Kodu">
+                                    <input type="text" id="create_seller_code" class="form-control form-control-solid" placeholder="Satıcı Kodu" aria-label="Satıcı Kodu">
                                     <button class="btn btn-success btn-icon" id="AddSellerButton">
                                         <i class="fa fa-plus-circle"></i>
                                     </button>

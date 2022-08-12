@@ -637,13 +637,16 @@
                 success: function (response) {
                     var newAnswerId = parseInt(response.response);
                     var categories = [];
-                    var categoriesArray = JSON.parse($('#create_answer_categories').val());
-                    $.each(categoriesArray, function (i, category) {
-                        categories.push({
-                            kategori: category.value,
-                            anketCevaplarId: newAnswerId,
+                    var categoriesString = $('#create_answer_categories').val();
+                    if (categoriesString) {
+                        var categoriesArray = JSON.parse(categoriesString);
+                        $.each(categoriesArray, function (i, category) {
+                            categories.push({
+                                kategori: category.value,
+                                anketCevaplarId: newAnswerId,
+                            });
                         });
-                    });
+                    }
                     $.ajax({
                         async: false,
                         type: 'post',
@@ -782,13 +785,16 @@
                 },
                 success: function () {
                     var categories = [];
-                    var categoriesArray = JSON.parse($('#update_answer_categories').val());
-                    $.each(categoriesArray, function (i, category) {
-                        categories.push({
-                            kategori: category.value,
-                            anketCevaplarId: parseInt(answerId),
+                    var categoriesString = $('#update_answer_categories').val();
+                    if (categoriesString) {
+                        var categoriesArray = JSON.parse(categoriesString);
+                        $.each(categoriesArray, function (i, category) {
+                            categories.push({
+                                kategori: category.value,
+                                anketCevaplarId: parseInt(answerId),
+                            });
                         });
-                    });
+                    }
                     $.ajax({
                         async: false,
                         type: 'post',

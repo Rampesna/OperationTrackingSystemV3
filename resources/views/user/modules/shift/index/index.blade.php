@@ -21,6 +21,7 @@
     @include('user.modules.shift.index.modals.show')
     @include('user.modules.shift.index.modals.createShift')
     @include('user.modules.shift.index.modals.updateShift')
+    @include('user.modules.shift.index.modals.updateShiftBatch')
     @include('user.modules.shift.index.modals.deleteShift')
 
     <div class="row">

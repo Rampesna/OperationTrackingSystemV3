@@ -63,7 +63,7 @@ class EmployeeQueueController extends Controller
      */
     public function setEmployeeQueues(SetEmployeeQueuesRequest $request)
     {
-        $setEmployeeQueuesResponse = $this->employeeService->setEmployeeQueues($request->employeeId, $request->queueIds);
+        $setEmployeeQueuesResponse = $this->employeeService->setEmployeeQueues($request->employeeId, $request->queueIds ?? []);
         if ($setEmployeeQueuesResponse->isSuccess()) {
             return $this->success(
                 $setEmployeeQueuesResponse->getMessage(),

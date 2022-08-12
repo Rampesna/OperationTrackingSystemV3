@@ -18,6 +18,7 @@ use App\Http\Requests\Api\User\OperationApi\OperationController\SetEmployeeWorkT
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetStaffParameterRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\GetStaffParameterEditRequest;
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetStaffParameterDeleteRequest;
+use App\Interfaces\Eloquent\ICompanyService;
 use App\Interfaces\OperationApi\IOperationService;
 use App\Traits\Response;
 
@@ -31,11 +32,21 @@ class OperationController extends Controller
     private $operationService;
 
     /**
-     * @param IOperationService $operationService
+     * @var $companyService
      */
-    public function __construct(IOperationService $operationService)
+    private $companyService;
+
+    /**
+     * @param IOperationService $operationService
+     * @param ICompanyService $companyService
+     */
+    public function __construct(
+        IOperationService $operationService,
+        ICompanyService   $companyService
+    )
     {
         $this->operationService = $operationService;
+        $this->companyService = $companyService;
     }
 
     /**
@@ -103,7 +114,7 @@ class OperationController extends Controller
      */
     public function setEmployeeTasksInsert(SetEmployeeTasksInsertRequest $request)
     {
-        $setEmployeeTasksInsertResponse = $this->operationService->SetEmployeeTasksInsert($request->guid, $request->tasks);
+        $setEmployeeTasksInsertResponse = $this->operationService->SetEmployeeTasksInsert($request->guid, $request->tasks ?? []);
         if ($setEmployeeTasksInsertResponse->isSuccess()) {
             return $this->success(
                 $setEmployeeTasksInsertResponse->getMessage(),
@@ -163,7 +174,7 @@ class OperationController extends Controller
      */
     public function setEmployeeWorkTasksInsert(SetEmployeeWorkTasksInsertRequest $request)
     {
-        $setEmployeeWorkTasksInsertResponse = $this->operationService->SetEmployeeWorkTasksInsert($request->guid, $request->workTasks);
+        $setEmployeeWorkTasksInsertResponse = $this->operationService->SetEmployeeWorkTasksInsert($request->guid, $request->workTasks ?? []);
         if ($setEmployeeWorkTasksInsertResponse->isSuccess()) {
             return $this->success(
                 $setEmployeeWorkTasksInsertResponse->getMessage(),
@@ -243,41 +254,53 @@ class OperationController extends Controller
      */
     public function setEmployee(SetEmployeeRequest $request)
     {
-        $setEmployeeResponse = $this->operationService->SetEmployee(
-            $request->id,
-            $request->companyId,
-            $request->email,
-            $request->username,
-            $request->password,
-            $request->name,
-            $request->assignment,
-            $request->education,
-            $request->webCrmUserId,
-            $request->webCrmUserName,
-            $request->webCrmUserPassword,
-            $request->progressCrmUsername,
-            $request->progressCrmPassword,
-            $request->activeJobDescription,
-            $request->role,
-            $request->groupCode,
-            $request->teamCode,
-            $request->teamLead,
-            $request->teamLeadAssistant,
-            $request->callScanCode,
-            $request->santralCode,
-            $request->tasks,
-            $request->workTasks
-        );
-        if ($setEmployeeResponse->isSuccess()) {
-            return $this->success(
-                $setEmployeeResponse->getMessage(),
-                $setEmployeeResponse->getData(),
-                $setEmployeeResponse->getStatusCode()
+        $companyResponse = $this->companyService->getById($request->companyId);
+        if ($companyResponse->isSuccess()) {
+            $setEmployeeResponse = $this->operationService->SetEmployee(
+                $request->id,
+                $request->companyId,
+                $request->email,
+                $request->username,
+                $request->password,
+                $request->name,
+                $request->assignment,
+                $request->education,
+                $request->webCrmUserId,
+                $request->webCrmUsername,
+                $request->webCrmUserPassword,
+                $request->progressCrmUsername,
+                $request->progressCrmPassword,
+                $request->activeJobDescription,
+                $companyResponse->getData()->uyum_crm_company_id,
+                $companyResponse->getData()->uyum_crm_branch_id,
+                $companyResponse->getData()->uyum_crm_branch_code,
+                $companyResponse->getData()->active_year,
+                $request->role,
+                $request->groupCode,
+                $request->teamCode,
+                $request->teamLead,
+                $request->teamLeadAssistant,
+                $request->callScanCode,
+                $request->santralCode,
+                $request->tasks ?? [],
+                $request->workTasks ?? []
             );
+            if ($setEmployeeResponse->isSuccess()) {
+                return $this->success(
+                    $setEmployeeResponse->getMessage(),
+                    $setEmployeeResponse->getData(),
+                    $setEmployeeResponse->getStatusCode()
+                );
+            } else {
+                return $this->error(
+                    $setEmployeeResponse->getMessage(),
+                    $setEmployeeResponse->getStatusCode()
+                );
+            }
         } else {
             return $this->error(
-                $setEmployeeResponse->getMessage(),
-                $setEmployeeResponse->getStatusCode()
+                $companyResponse->getMessage(),
+                $companyResponse->getStatusCode()
             );
         }
     }

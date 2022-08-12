@@ -25,7 +25,7 @@ class SetEmployeeQueuesRequest extends BaseApiRequest
     {
         return [
             'employeeId' => 'required',
-            'queueIds' => 'required|array',
+//            'queueIds' => 'required|array',
         ];
     }
 }

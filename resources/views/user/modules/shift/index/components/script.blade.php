@@ -15,12 +15,14 @@
     var createShiftShiftGroupId = $('#create_shift_shift_group_id');
     var updateShiftShiftGroupId = $('#update_shift_shift_group_id');
     var createShiftEmployees = $('#create_shift_employees');
+    var updateShiftBatchEmployeeIds = $('#update_shift_batch_employee_ids');
 
     var FilterButton = $('#FilterButton');
     var RobotButton = $('#RobotButton');
     var SetStaffParameterButton = $('#SetStaffParameterButton');
     var CreateShiftButton = $('#CreateShiftButton');
     var UpdateShiftButton = $('#UpdateShiftButton');
+    var UpdateShiftBatchButton = $('#UpdateShiftBatchButton');
     var DeleteShiftButton = $('#DeleteShiftButton');
     var DeleteMultipleButton = $('#DeleteMultipleButton');
 
@@ -107,11 +109,14 @@
             },
             success: function (response) {
                 createShiftEmployees.empty();
+                updateShiftBatchEmployeeIds.empty();
                 $.each(response.response.employees, function (i, employee) {
                     createShiftEmployees.append(`
                     <option value="${employee.id}" data-guid="${employee.guid}">${employee.name}</option>
                     `);
+                    updateShiftBatchEmployeeIds.append(`<option value="${employee.id}">${employee.name}</option>`);
                 });
+                updateShiftBatchEmployeeIds.trigger('change');
             },
             error: function (error) {
                 console.log(error);
@@ -162,6 +167,15 @@
         setStaffParameterCompanyIds.val([]);
         $('#set_staff_parameter_month').val('');
         $('#SetStaffParameterModal').modal('show');
+    }
+
+    function updateShiftBatch() {
+        $('#TransactionsModal').modal('hide');
+        updateShiftBatchEmployeeIds.val([]).trigger('change');
+        $('#update_shift_batch_date').val('');
+        $('#update_shift_batch_start_time').val('');
+        $('#update_shift_batch_end_time').val('');
+        $('#UpdateShiftBatchModal').modal('show');
     }
 
     function deleteMultiple() {
@@ -889,6 +903,50 @@
                     console.log(error);
                     toastr.error('Vardiya Güncellenirken Serviste Bir Hata Oluştu!');
                     $('#loader').hide();
+                }
+            });
+        }
+    });
+
+    UpdateShiftBatchButton.click(function () {
+        var employeeIds = updateShiftBatchEmployeeIds.val();
+        var date = $('#update_shift_batch_date').val();
+        var startTime = $('#update_shift_batch_start_time').val();
+        var endTime = $('#update_shift_batch_end_time').val();
+
+        if (employeeIds.length === 0) {
+            toastr.warning('Hiç Personel Seçmediniz!');
+        } else if (!date) {
+            toastr.warning('Vardiya Tarihi Seçmediniz!');
+        } else if (!startTime) {
+            toastr.warning('Vardiya Başlangıç Saati Seçmediniz!');
+        } else if (!endTime) {
+            toastr.warning('Vardiya Bitiş Saati Seçmediniz!');
+        } else {
+            UpdateShiftBatchButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.shift.updateBatch') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    employeeIds: employeeIds,
+                    date: date,
+                    startTime: startTime,
+                    endTime: endTime,
+                },
+                success: function () {
+                    toastr.success('Vardiya Başarıyla Güncellendi!');
+                    calendar.refetchEvents();
+                    $('#UpdateShiftBatchModal').modal('hide');
+                    UpdateShiftBatchButton.attr('disabled', false).html('Güncelle');
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Vardiyalar Güncellenirken Serviste Bir Sorun Oluştu. Lütfen Yazılım Ekibiyle İrtibata Geçin!');
+                    UpdateShiftBatchButton.attr('disabled', false).html('Güncelle');
                 }
             });
         }

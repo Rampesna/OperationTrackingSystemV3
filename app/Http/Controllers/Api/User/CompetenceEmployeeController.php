@@ -63,7 +63,7 @@ class CompetenceEmployeeController extends Controller
      */
     public function setEmployeeCompetences(SetEmployeeCompetencesRequest $request)
     {
-        $setEmployeeCompetencesResponse = $this->employeeService->setEmployeeCompetences($request->employeeId, $request->competenceIds);
+        $setEmployeeCompetencesResponse = $this->employeeService->setEmployeeCompetences($request->employeeId, $request->competenceIds ?? []);
         if ($setEmployeeCompetencesResponse->isSuccess()) {
             return $this->success(
                 $setEmployeeCompetencesResponse->getMessage(),

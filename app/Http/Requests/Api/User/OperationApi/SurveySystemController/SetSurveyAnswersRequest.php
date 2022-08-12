@@ -28,7 +28,7 @@ class SetSurveyAnswersRequest extends BaseApiRequest
             'questionId' => 'required|integer',
             'answer' => 'required|string',
             'order' => 'required|integer',
-            'columns' => 'required|string',
+//            'columns' => 'required|string',
         ];
     }
 }

@@ -278,7 +278,9 @@ Route::middleware([
         Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByEmployeeId'])->name('user.api.shift.getByEmployeeId');
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\ShiftController::class, 'getByCompanyIds'])->name('user.api.shift.getByCompanyIds');
         Route::post('createBatch', [\App\Http\Controllers\Api\User\ShiftController::class, 'createBatch'])->name('user.api.shift.createBatch');
+        Route::post('createEmployeeFirstShifts', [\App\Http\Controllers\Api\User\ShiftController::class, 'createEmployeeFirstShifts'])->name('user.api.shift.createEmployeeFirstShifts');
         Route::put('update', [\App\Http\Controllers\Api\User\ShiftController::class, 'update'])->name('user.api.shift.update');
+        Route::put('updateBatch', [\App\Http\Controllers\Api\User\ShiftController::class, 'updateBatch'])->name('user.api.shift.updateBatch');
         Route::post('robot', [\App\Http\Controllers\Api\User\ShiftController::class, 'robot'])->name('user.api.shift.robot');
         Route::delete('delete', [\App\Http\Controllers\Api\User\ShiftController::class, 'delete'])->name('user.api.shift.delete');
         Route::delete('deleteByIds', [\App\Http\Controllers\Api\User\ShiftController::class, 'deleteByIds'])->name('user.api.shift.deleteByIds');
@@ -451,6 +453,7 @@ Route::middleware([
 
     Route::prefix('saturdayPermit')->group(function () {
         Route::get('getDateBetween', [\App\Http\Controllers\Api\User\SaturdayPermitController::class, 'getDateBetween'])->name('user.api.saturdayPermit.getDateBetween');
+        Route::post('robot', [\App\Http\Controllers\Api\User\SaturdayPermitController::class, 'robot'])->name('user.api.saturdayPermit.robot');
         Route::post('cancel', [\App\Http\Controllers\Api\User\SaturdayPermitController::class, 'cancel'])->name('user.api.saturdayPermit.cancel');
     });
 

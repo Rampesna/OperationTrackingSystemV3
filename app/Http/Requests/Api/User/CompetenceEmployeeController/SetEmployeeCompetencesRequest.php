@@ -25,7 +25,7 @@ class SetEmployeeCompetencesRequest extends BaseApiRequest
     {
         return [
             'employeeId' => 'required',
-            'competenceIds' => 'required|array',
+//            'competenceIds' => 'required|array',
         ];
     }
 }

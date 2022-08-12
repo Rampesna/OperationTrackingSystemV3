@@ -86,6 +86,19 @@ interface IShiftService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $authUserId
+     * @param int $employeeId
+     * @param int $shiftGroupId
+     * @param string $month
+     */
+    public function createEmployeeFirstShifts(
+        int    $authUserId,
+        int    $employeeId,
+        int    $shiftGroupId,
+        string $month,
+    ): ServiceResponse;
+
+    /**
      * @param int $id
      * @param int $shiftGroupId
      * @param string $startDate
@@ -98,6 +111,23 @@ interface IShiftService extends IEloquentService
         int    $shiftGroupId,
         string $startDate,
         string $endDate
+    ): ServiceResponse;
+
+    /**
+     * @param array $employeeIds
+     * @param int $authUserId
+     * @param string $date
+     * @param string $startTime
+     * @param string $endTime
+     *
+     * @return ServiceResponse
+     */
+    public function updateBatch(
+        array  $employeeIds,
+        int    $authUserId,
+        string $date,
+        string $startTime,
+        string $endTime
     ): ServiceResponse;
 
     /**

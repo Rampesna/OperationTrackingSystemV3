@@ -9,7 +9,9 @@ use App\Http\Requests\Api\User\ShiftController\GetByCompanyIdRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\ShiftController\CreateBatchRequest;
+use App\Http\Requests\Api\User\ShiftController\CreateEmployeeFirstShiftsRequest;
 use App\Http\Requests\Api\User\ShiftController\UpdateRequest;
+use App\Http\Requests\Api\User\ShiftController\UpdateBatchRequest;
 use App\Http\Requests\Api\User\ShiftController\RobotRequest;
 use App\Http\Requests\Api\User\ShiftController\DeleteRequest;
 use App\Http\Requests\Api\User\ShiftController\DeleteByIdsRequest;
@@ -176,6 +178,31 @@ class ShiftController extends Controller
     }
 
     /**
+     * @param CreateEmployeeFirstShiftsRequest $request
+     */
+    public function createEmployeeFirstShifts(CreateEmployeeFirstShiftsRequest $request)
+    {
+        $createBatchResponse = $this->shiftService->createEmployeeFirstShifts(
+            $request->user()->id,
+            $request->employeeId,
+            $request->shiftGroupId,
+            $request->month
+        );
+        if ($createBatchResponse->isSuccess()) {
+            return $this->success(
+                $createBatchResponse->getMessage(),
+                $createBatchResponse->getData(),
+                $createBatchResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createBatchResponse->getMessage(),
+                $createBatchResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
      * @param UpdateRequest $request
      */
     public function update(UpdateRequest $request)
@@ -196,6 +223,32 @@ class ShiftController extends Controller
             return $this->error(
                 $updateResponse->getMessage(),
                 $updateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateBatchRequest $request
+     */
+    public function updateBatch(UpdateBatchRequest $request)
+    {
+        $updateBatchResponse = $this->shiftService->updateBatch(
+            $request->employeeIds,
+            $request->user()->id,
+            $request->date,
+            $request->startTime,
+            $request->endTime
+        );
+        if ($updateBatchResponse->isSuccess()) {
+            return $this->success(
+                $updateBatchResponse->getMessage(),
+                $updateBatchResponse->getData(),
+                $updateBatchResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateBatchResponse->getMessage(),
+                $updateBatchResponse->getStatusCode()
             );
         }
     }

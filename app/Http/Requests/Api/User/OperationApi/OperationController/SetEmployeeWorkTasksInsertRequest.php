@@ -25,7 +25,7 @@ class SetEmployeeWorkTasksInsertRequest extends BaseApiRequest
     {
         return [
             'guid' => 'required',
-            'workTasks' => 'array',
+//            'workTasks' => 'array',
         ];
     }
 }

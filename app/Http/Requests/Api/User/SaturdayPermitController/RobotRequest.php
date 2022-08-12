@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\OperationApi\SurveySystemController;
+namespace App\Http\Requests\Api\User\SaturdayPermitController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class SetSurveyAnswersProductConnectRequest extends BaseApiRequest
+class RobotRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class SetSurveyAnswersProductConnectRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            //
+            'month' => 'required',
+            'companyId' => 'required|integer',
         ];
     }
 }

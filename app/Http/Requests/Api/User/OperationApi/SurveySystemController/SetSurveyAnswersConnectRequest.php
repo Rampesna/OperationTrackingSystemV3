@@ -24,7 +24,7 @@ class SetSurveyAnswersConnectRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'questions' => 'required|array',
+            //
         ];
     }
 }
