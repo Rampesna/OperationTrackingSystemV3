@@ -97,7 +97,7 @@ class UserRoleService implements IUserRoleService
                 true,
                 'User role permissions',
                 200,
-                $userRole->getData()->permissions
+                $userRole->getData()->userPermissions
             );
         } else {
             return $userRole;

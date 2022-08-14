@@ -16,6 +16,12 @@
 
     @include('user.modules.project.layouts.overview')
 
+    @include('user.modules.project.file.modals.show')
+
+    <input type="file" id="fileSelector" style="display: none">
+
+    <div class="row" id="filesRow"></div>
+
 @endsection
 
 @section('customStyles')

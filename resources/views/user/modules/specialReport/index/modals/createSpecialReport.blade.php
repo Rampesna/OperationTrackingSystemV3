@@ -18,7 +18,36 @@
                         <h1 class="mb-3">Özel Rapor Oluştur</h1>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="create_special_report_company_id" class="font-weight-bolder">Firma Seçimi</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <select id="create_special_report_company_id" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Firma Seçimi"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="create_special_report_name" class="font-weight-bolder">Rapor Adı</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <input id="create_special_report_name" type="text" class="form-control form-control-solid" placeholder="Rapor Adı">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="create_special_report_query" class="font-weight-bolder">SQL Sorgu</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <textarea id="create_special_report_query" class="form-control form-control-solid" rows="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>

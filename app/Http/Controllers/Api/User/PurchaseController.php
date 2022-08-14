@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\PurchaseController\GetAllRequest;
+use App\Http\Requests\Api\User\PurchaseController\GetAllPaginateRequest;
 use App\Http\Requests\Api\User\PurchaseController\GetByIdRequest;
 use App\Http\Requests\Api\User\PurchaseController\GetByUserIdRequest;
 use App\Http\Requests\Api\User\PurchaseController\CreateRequest;
@@ -48,6 +49,31 @@ class PurchaseController extends Controller
             return $this->error(
                 $getAllResponse->getMessage(),
                 $getAllResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetAllPaginateRequest $request
+     */
+    public function getAllPaginate(GetAllPaginateRequest $request)
+    {
+        $getAllPaginateResponse = $this->purchaseService->getAllPaginate(
+            $request->pageIndex,
+            $request->pageSize,
+            $request->statusId,
+            $request->keyword
+        );
+        if ($getAllPaginateResponse->isSuccess()) {
+            return $this->success(
+                $getAllPaginateResponse->getMessage(),
+                $getAllPaginateResponse->getData(),
+                $getAllPaginateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllPaginateResponse->getMessage(),
+                $getAllPaginateResponse->getStatusCode()
             );
         }
     }

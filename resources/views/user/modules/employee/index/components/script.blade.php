@@ -24,6 +24,16 @@
 
 <script>
 
+    var updateEmployeePermission = `{{ checkUserPermission(19, $userPermissions) ? 'true' : 'false' }}`;
+    var updateEmployeeQueuesPermission = `{{ checkUserPermission(20, $userPermissions) ? 'true' : 'false' }}`;
+    var updateEmployeeCompetencesPermission = `{{ checkUserPermission(21, $userPermissions) ? 'true' : 'false' }}`;
+    var updateEmployeeTasksPermission = `{{ checkUserPermission(22, $userPermissions) ? 'true' : 'false' }}`;
+    var updateEmployeeWorkTasksPermission = `{{ checkUserPermission(23, $userPermissions) ? 'true' : 'false' }}`;
+    var updateEmployeeGroupsPermission = `{{ checkUserPermission(24, $userPermissions) ? 'true' : 'false' }}`;
+    var updateEmployeeJobDepartmentPermission = `{{ checkUserPermission(25, $userPermissions) ? 'true' : 'false' }}`;
+
+    /////////////////////////////////////////////////////////////////////////////////
+
     var UpdateEmployeeButton = $('#UpdateEmployeeButton');
 
     var UpdateEmployeeQueuesRow = $('#UpdateEmployeeQueuesRow');
@@ -442,6 +452,7 @@
                 leave: 0
             },
             success: function (response) {
+
                 var employees = response.response.employees;
                 var operationEmployees = [];
 
@@ -537,28 +548,42 @@
                                             <div class="menu-content fs-6 text-dark fw-bolder px-3 py-4">Düzenle</div>
                                         </div>
                                         <div class="separator mb-3 opacity-75"></div>
+                                         ${updateEmployeePermission === 'true' ? `
                                          <div class="menu-item px-3">
                                              <a onclick="updateEmployee(${employee.id})" class="menu-link px-3">Personeli Düzenle</a>
                                          </div>
                                          <hr>
+                                         ` : ``}
+                                         ${updateEmployeeQueuesPermission === 'true' ? `
                                          <div class="menu-item px-3">
                                              <a onclick="updateEmployeeQueues(${employee.id}, '${employee.name}')" class="menu-link px-3">Çağrı Kuyrukları</a>
                                          </div>
+                                         ` : ``}
+                                         ${updateEmployeeCompetencesPermission === 'true' ? `
                                          <div class="menu-item px-3">
                                              <a onclick="updateEmployeeCompetences(${employee.id}, '${employee.name}')" class="menu-link px-3">Yetkinlikler</a>
                                          </div>
+                                         ` : ``}
+                                         ${updateEmployeeTasksPermission === 'true' ? `
                                          <div class="menu-item px-3">
                                              <a onclick="updateEmployeeTasks(${employee.guid}, '${employee.name}')" class="menu-link px-3">Kuyruk Görevleri</a>
                                          </div>
+                                         ` : ``}
+                                         ${updateEmployeeWorkTasksPermission === 'true' ? `
                                          <div class="menu-item px-3">
                                              <a onclick="updateEmployeeWorkTasks(${employee.guid}, '${employee.name}')" class="menu-link px-3">İş Görevleri</a>
                                          </div>
+                                         ` : ``}
+                                         ${updateEmployeeGroupsPermission === 'true' ? `
                                          <div class="menu-item px-3">
                                              <a onclick="updateEmployeeGroupTasks(${employee.guid}, '${employee.name}')" class="menu-link px-3">Gruplar</a>
                                          </div>
+                                         ` : ``}
+                                         ${updateEmployeeJobDepartmentPermission === 'true' ? `
                                          <div class="menu-item px-3 pb-3">
                                              <a onclick="updateEmployeeJobDepartment(${employee.id}, '${employee.name}')" class="menu-link px-3">Departman</a>
                                          </div>
+                                         ` : ``}
                                       </ul>
                                 </div>
                                 <div class="card-toolbar">

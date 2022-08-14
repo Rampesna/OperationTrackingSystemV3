@@ -91,18 +91,36 @@ class ProjectService implements IProjectService
 
     /**
      * @param array $projectIds
+     * @param array|null $statusIds
+     * @param string|null $keyword
      *
      * @return ServiceResponse
      */
     public function getByProjectIds(
-        array $projectIds
+        array   $projectIds,
+        ?array  $statusIds = [],
+        ?string $keyword = null
     ): ServiceResponse
     {
+        $projects = Project::with([
+            'status'
+        ])->whereIn('id', $projectIds);
+
+        if ($statusIds && count($statusIds) > 0) {
+            $projects->whereIn('status_id', $statusIds);
+        }
+
+        if ($keyword) {
+            $projects = $projects->where(function ($query) use ($keyword) {
+                $query->where('name', 'like', '%' . $keyword . '%');
+            });
+        }
+
         return new ServiceResponse(
             true,
             'Projects',
             200,
-            Project::whereIn('id', $projectIds)->get()
+            $projects->get()
         );
     }
 
@@ -160,6 +178,53 @@ class ProjectService implements IProjectService
     }
 
     /**
+     * @param int $projectId
+     *
+     * @return ServiceResponse
+     */
+    public function getUsersByProjectId(
+        int $projectId
+    ): ServiceResponse
+    {
+        $project = $this->getById($projectId);
+        if ($project->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Users',
+                200,
+                $project->getData()->users
+            );
+        } else {
+            return $project;
+        }
+    }
+
+    /**
+     * @param int $projectId
+     * @param array $userIds
+     *
+     * @return ServiceResponse
+     */
+    public function setUsersByProjectId(
+        int   $projectId,
+        array $userIds
+    ): ServiceResponse
+    {
+        $project = $this->getById($projectId);
+        if ($project->isSuccess()) {
+            $project->getData()->users()->sync($userIds);
+            return new ServiceResponse(
+                true,
+                'Users',
+                200,
+                $project->getData()->users
+            );
+        } else {
+            return $project;
+        }
+    }
+
+    /**
      * @param array $projectIds
      *
      * @return ServiceResponse
@@ -183,5 +248,85 @@ class ProjectService implements IProjectService
             200,
             $subtasks
         );
+    }
+
+    /**
+     * @param int $companyId
+     * @param string $name
+     * @param string|null $code
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param string|null $description
+     *
+     * @return ServiceResponse
+     */
+    public function create(
+        int     $companyId,
+        string  $name,
+        ?string $code = null,
+        ?string $startDate = null,
+        ?string $endDate = null,
+        ?string $description = null
+    ): ServiceResponse
+    {
+        $project = new Project;
+        $project->company_id = $companyId;
+        $project->status_id = 1;
+        $project->name = $name;
+        $project->code = $code;
+        $project->start_date = $startDate;
+        $project->end_date = $endDate;
+        $project->description = $description;
+        $project->save();
+        return new ServiceResponse(
+            true,
+            'Project created',
+            201,
+            $project
+        );
+    }
+
+    /**
+     * @param int $id
+     * @param int $companyId
+     * @param int $statusId
+     * @param string $name
+     * @param string|null $code
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param string|null $description
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int     $id,
+        int     $companyId,
+        int     $statusId,
+        string  $name,
+        ?string $code = null,
+        ?string $startDate = null,
+        ?string $endDate = null,
+        ?string $description = null
+    ): ServiceResponse
+    {
+        $project = $this->getById($id);
+        if ($project->isSuccess()) {
+            $project->getData()->company_id = $companyId;
+            $project->getData()->status_id = $statusId;
+            $project->getData()->name = $name;
+            $project->getData()->code = $code;
+            $project->getData()->start_date = $startDate;
+            $project->getData()->end_date = $endDate;
+            $project->getData()->description = $description;
+            $project->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Project updated',
+                200,
+                $project->getData()
+            );
+        } else {
+            return $project;
+        }
     }
 }

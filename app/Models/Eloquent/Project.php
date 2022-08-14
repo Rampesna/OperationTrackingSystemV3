@@ -65,14 +65,9 @@ class Project extends Model
         return $this->morphMany(Note::class, 'relation');
     }
 
-    public function employees()
-    {
-        return $this->morphedByMany(Employee::class, 'connection', 'project_connections', 'project_id', 'connection_id');
-    }
-
     public function users()
     {
-        return $this->morphedByMany(User::class, 'connection', 'project_connections', 'project_id', 'connection_id');
+        return $this->belongsToMany(User::class);
     }
 
     public function tickets()

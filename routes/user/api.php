@@ -302,6 +302,15 @@ Route::middleware([
         Route::get('getById', [\App\Http\Controllers\Api\User\ProjectController::class, 'getById'])->name('user.api.project.getById');
         Route::get('getSubtasksByProjectId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getSubtasksByProjectId'])->name('user.api.project.getSubtasksByProjectId');
         Route::get('getBoardsByProjectId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getBoardsByProjectId'])->name('user.api.project.getBoardsByProjectId');
+        Route::get('getUsersByProjectId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getUsersByProjectId'])->name('user.api.project.getUsersByProjectId');
+        Route::post('setUsersByProjectId', [\App\Http\Controllers\Api\User\ProjectController::class, 'setUsersByProjectId'])->name('user.api.project.setUsersByProjectId');
+        Route::post('create', [\App\Http\Controllers\Api\User\ProjectController::class, 'create'])->name('user.api.project.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\ProjectController::class, 'update'])->name('user.api.project.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\ProjectController::class, 'delete'])->name('user.api.project.delete');
+    });
+
+    Route::prefix('projectStatus')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\ProjectStatusController::class, 'getAll'])->name('user.api.projectStatus.getAll');
     });
 
     Route::prefix('task')->group(function () {
@@ -461,6 +470,7 @@ Route::middleware([
 
     Route::prefix('purchase')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\PurchaseController::class, 'getAll'])->name('user.api.purchase.getAll');
+        Route::get('getAllPaginate', [\App\Http\Controllers\Api\User\PurchaseController::class, 'getAllPaginate'])->name('user.api.purchase.getAllPaginate');
         Route::get('getById', [\App\Http\Controllers\Api\User\PurchaseController::class, 'getById'])->name('user.api.purchase.getById');
         Route::get('getByUserId', [\App\Http\Controllers\Api\User\PurchaseController::class, 'getByUserId'])->name('user.api.purchase.getByUserId');
         Route::post('create', [\App\Http\Controllers\Api\User\PurchaseController::class, 'create'])->name('user.api.purchase.create');

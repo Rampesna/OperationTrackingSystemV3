@@ -22,6 +22,53 @@ class PurchaseService implements IPurchaseService
     }
 
     /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param int|null $statusId
+     * @param string|null $keyword
+     *
+     * @return ServiceResponse
+     */
+    public function getAllPaginate(
+        int     $pageIndex,
+        int     $pageSize,
+        ?int    $statusId,
+        ?string $keyword = null
+    ): ServiceResponse
+    {
+        $purchases = Purchase::with([
+            'user',
+            'status',
+            'purchaser'
+        ]);
+
+        if ($keyword) {
+            $purchases = $purchases->where(function ($query) use ($keyword) {
+                $query->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('receipt_number', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        if ($statusId) {
+            $purchases = $purchases->where('status_id', $statusId);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Purchases',
+            200,
+            [
+                'totalCount' => $purchases->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'purchases' => $purchases->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
+        );
+    }
+
+    /**
      * @param int $id
      *
      * @return ServiceResponse

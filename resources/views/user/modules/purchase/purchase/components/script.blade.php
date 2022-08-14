@@ -280,10 +280,11 @@
         var pageSize = pageSizeSelector.val();
         var keyword = keywordFilter.val();
         var statusId = statusIdFilter.val();
+        var url = `{{ checkUserPermission(100, $userPermissions) ? route('user.api.purchase.getAllPaginate') : route('user.api.purchase.getByUserId') }}`;
 
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.purchase.getByUserId') }}',
+            url: url,
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -296,6 +297,11 @@
             },
             success: function (response) {
                 purchases.empty();
+
+                var updatePurchaserPermission = `{{ checkUserPermission(101, $userPermissions) ? 'true' : 'false' }}`;
+                var acceptPurchasePermission = `{{ checkUserPermission(101, $userPermissions) ? 'true' : 'false' }}`;
+                var deletePurchasePermission = `{{ checkUserPermission(103, $userPermissions) ? 'true' : 'false' }}`;
+
                 $.each(response.response.purchases, function (i, purchase) {
                     purchases.append(`
                     <tr>
@@ -308,19 +314,19 @@
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="getPurchaseItems(${purchase.id})" title="Ürün Listesi"><i class="fas fa-clipboard-list me-2 text-dark"></i> <span class="text-dark">Ürün Listesi</span></a>
                                     ${parseInt(purchase.status_id) === 1 ? `
                                         <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updatePurchase(${purchase.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
-                                        <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updatePurchaser(${purchase.id})" title="Satın Alıcıyı Seç"><i class="fas fa-user me-2 text-info"></i> <span class="text-dark">Satın Alıcıyı Seç</span></a>
+                                        ${updatePurchaserPermission === 'true' ? `<a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updatePurchaser(${purchase.id})" title="Satın Alıcıyı Seç"><i class="fas fa-user me-2 text-info"></i> <span class="text-dark">Satın Alıcıyı Seç</span></a>` : ``}
                                     ` : `
                                     ${parseInt(purchase.status_id) === 2 && parseInt(purchase.purchaser_id) === masterAuthId ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="sendForAccept(${purchase.id})" title="Onaya Gönder"><i class="fa fa-check-circle me-2 text-success"></i> <span class="text-dark">Onaya Gönder</span></a>
                                     ` : `
                                     ${parseInt(purchase.status_id) === 3 ? `
-                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="accept(${purchase.id})" title="Onayla"><i class="fa fa-check-circle me-2 text-success"></i> <span class="text-dark">Onayla</span></a>
+                                    ${acceptPurchasePermission === 'true' ? `<a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="accept(${purchase.id})" title="Onayla"><i class="fa fa-check-circle me-2 text-success"></i> <span class="text-dark">Onayla</span></a>` : ``}
                                     ` : ``}
                                     `}
                                     `}
                                     ${parseInt(purchase.user_id) === masterAuthId ? `
                                     <hr class="text-muted">
-                                    <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deletePurchase(${purchase.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                    ${deletePurchasePermission === 'true' ? `<a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deletePurchase(${purchase.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>` : ``}
                                     ` : ``}
                                 </div>
                             </div>

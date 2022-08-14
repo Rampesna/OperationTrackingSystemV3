@@ -18,6 +18,7 @@
                         <h1 class="mb-3">Özel Rapor Sil</h1>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                        <input type="hidden" id="delete_special_report_id">
                         <p class="text-center">
                             Bu özel raporu silmek istediğinize emin misiniz?
                         </p>

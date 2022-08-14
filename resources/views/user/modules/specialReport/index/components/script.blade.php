@@ -9,21 +9,23 @@
 
     var keywordFilter = $('#keyword');
 
-    var createSpecialReportCompanyId = $('#create_shift_group_company_id');
-    var updateSpecialReportCompanyId = $('#update_shift_group_company_id');
+    var createSpecialReportCompanyId = $('#create_special_report_company_id');
+    var updateSpecialReportCompanyId = $('#update_special_report_company_id');
 
     var CreateSpecialReportButton = $('#CreateSpecialReportButton');
     var UpdateSpecialReportButton = $('#UpdateSpecialReportButton');
     var DeleteSpecialReportButton = $('#DeleteSpecialReportButton');
 
     function createSpecialReport() {
-
+        createSpecialReportCompanyId.val('').trigger('change');
+        $('#create_special_report_name').val('');
+        $('#create_special_report_query').val('');
         $('#CreateSpecialReportModal').modal('show');
     }
 
     function updateSpecialReport(id) {
         $('#loader').show();
-        $('#update_shift_group_id').val(id);
+        $('#update_special_report_id').val(id);
         $.ajax({
             type: 'get',
             url: '{{ route('user.api.specialReport.getById') }}',
@@ -34,7 +36,10 @@
             data: {
                 id: id,
             },
-            success: function () {
+            success: function (response) {
+                updateSpecialReportCompanyId.val(response.response.company_id).trigger('change');
+                $('#update_special_report_name').val(response.response.name);
+                $('#update_special_report_query').val(response.response.query);
                 $('#UpdateSpecialReportModal').modal('show');
                 $('#loader').hide();
             },
@@ -47,7 +52,7 @@
     }
 
     function deleteSpecialReport(id) {
-        $('#delete_shift_group_id').val(id);
+        $('#delete_special_report_id').val(id);
         $('#DeleteSpecialReportModal').modal('show');
     }
 
@@ -147,16 +152,6 @@
     getCompanies();
     getSpecialReports();
 
-    SelectedCompanies.change(function () {
-        getSpecialReports();
-    });
-
-    keywordFilter.on('keypress', function (e) {
-        if (e.which === 13) {
-            changePage(1);
-        }
-    });
-
     function changePage(newPage) {
         if (newPage === 1) {
             pageDownButton.attr('disabled', true);
@@ -168,14 +163,41 @@
         getSpecialReports();
     }
 
+    SelectedCompanies.change(function () {
+        getSpecialReports();
+    });
+
+    keywordFilter.on('keypress', function (e) {
+        if (e.which === 13) {
+            changePage(1);
+        }
+    });
+
+    pageUpButton.click(function () {
+        changePage(parseInt(page.html()) + 1);
+    });
+
+    pageDownButton.click(function () {
+        changePage(parseInt(page.html()) - 1);
+    });
+
+    pageSizeSelector.change(function () {
+        changePage(1);
+    });
+
     CreateSpecialReportButton.click(function () {
         var companyId = createSpecialReportCompanyId.val();
+        var name = $('#create_special_report_name').val();
+        var query = $('#create_special_report_query').val();
 
         if (!companyId) {
             toastr.warning('Firma Seçilmedi');
-            CreateSpecialReportWizardStepper.goTo(1);
+        } else if (!name) {
+            toastr.warning('Özel Rapor Adı Girilmedi!');
+        } else if (!query) {
+            toastr.warning('SQL Sorgusu Girilmedi!');
         } else {
-            $('#loader').show();
+            CreateSpecialReportButton.attr('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
             $.ajax({
                 type: 'post',
                 url: '{{ route('user.api.specialReport.create') }}',
@@ -185,32 +207,38 @@
                 },
                 data: {
                     companyId: companyId,
-
+                    name: name,
+                    query: query,
                 },
                 success: function () {
                     changePage(1);
                     toastr.success('Özel Rapor Başarıyla Oluşturuldu');
                     $('#CreateSpecialReportModal').modal('hide');
-                    $('#loader').hide();
+                    CreateSpecialReportButton.attr('disabled', false).html('Oluştur');
                 },
                 error: function (error) {
                     console.log(error);
                     toastr.error('Özel Rapor Oluşturulurken Serviste Bir Hata Oluştu');
-                    $('#loader').hide();
+                    CreateSpecialReportButton.attr('disabled', false).html('Oluştur');
                 }
             });
         }
     });
 
     UpdateSpecialReportButton.click(function () {
-        var id = $('#update_shift_group_id').val();
+        var id = $('#update_special_report_id').val();
         var companyId = updateSpecialReportCompanyId.val();
+        var name = $('#update_special_report_name').val();
+        var query = $('#update_special_report_query').val();
 
         if (!companyId) {
             toastr.warning('Firma Seçilmedi');
-            UpdateSpecialReportWizardStepper.goTo(1);
+        } else if (!name) {
+            toastr.warning('Özel Rapor Adı Girilmedi!');
+        } else if (!query) {
+            toastr.warning('SQL Sorgusu Girilmedi!');
         } else {
-            $('#loader').show();
+            UpdateSpecialReportButton.attr('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
             $.ajax({
                 type: 'put',
                 url: '{{ route('user.api.specialReport.update') }}',
@@ -221,25 +249,27 @@
                 data: {
                     id: id,
                     companyId: companyId,
+                    name: name,
+                    query: query,
                 },
                 success: function () {
-                    changePage(1);
+                    changePage(parseInt(page.html()));
                     toastr.success('Özel Rapor Başarıyla Güncellendi');
-                    $('#UpdateSpecialReportModal').modal('hide');
-                    $('#loader').hide();
+                    $('#CreateSpecialReportModal').modal('hide');
+                    UpdateSpecialReportButton.attr('disabled', false).html('Güncelle');
                 },
                 error: function (error) {
                     console.log(error);
                     toastr.error('Özel Rapor Güncellenirken Serviste Bir Hata Oluştu');
-                    $('#loader').hide();
+                    UpdateSpecialReportButton.attr('disabled', false).html('Güncelle');
                 }
             });
         }
     });
 
     DeleteSpecialReportButton.click(function () {
-        $('#loader').show();
-        var id = $('#delete_shift_group_id').val();
+        DeleteSpecialReportButton.attr('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+        var id = $('#delete_special_report_id').val();
         $.ajax({
             type: 'delete',
             url: '{{ route('user.api.specialReport.delete') }}',
@@ -254,26 +284,14 @@
                 changePage(1);
                 $('#DeleteSpecialReportModal').modal('hide');
                 toastr.success('Özel Rapor Başarıyla Silindi.');
-                $('#loader').hide();
+                DeleteSpecialReportButton.attr('disabled', false).html('Sil');
             },
             error: function (error) {
                 console.log(error);
                 toastr.error('Özel Rapor Silinirken Serviste Bir Sorun Oluştu.');
-                $('#loader').hide();
+                DeleteSpecialReportButton.attr('disabled', false).html('Sil');
             }
         });
-    });
-
-    pageUpButton.click(function () {
-        changePage(parseInt(page.html()) + 1);
-    });
-
-    pageDownButton.click(function () {
-        changePage(parseInt(page.html()) - 1);
-    });
-
-    pageSizeSelector.change(function () {
-        changePage(1);
     });
 
 </script>

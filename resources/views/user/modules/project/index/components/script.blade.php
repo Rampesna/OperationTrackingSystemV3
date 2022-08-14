@@ -1,9 +1,115 @@
 <script>
 
     var projectsRow = $('#projects');
+    var keywordFilter = $('#keyword');
+    var statusIdsFilter = $('#statusIds');
+
+    var FilterButton = $('#FilterButton');
+    var ClearFilterButton = $('#ClearFilterButton');
+
+    var CreateProjectButton = $('#CreateProjectButton');
+
+    var createProjectCompanyId = $('#create_project_company_id');
+    var createProjectUserIds = $('#create_project_user_ids');
+
+    function createProject() {
+        createProjectCompanyId.val('').trigger('change');
+        createProjectUserIds.val([]).trigger('change');
+        $('#create_project_name').val('');
+        $('#create_project_code').val('');
+        $('#create_project_start_date').val('');
+        $('#create_project_end_date').val('');
+        $('#create_project_description').val('');
+        $('#CreateProjectModal').modal('show');
+    }
+
+    function getCompanies() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.getCompanies') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                createProjectCompanyId.empty();
+                $.each(response.response, function (i, company) {
+                    createProjectCompanyId.append($('<option>', {
+                        value: company.id,
+                        text: company.title
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Firma Listesi Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
+    function getUsers() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.user.getAll') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                createProjectUserIds.empty();
+                $.each(response.response, function (i, user) {
+                    createProjectUserIds.append($('<option>', {
+                        value: user.id,
+                        text: user.name
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Kullanıcı Listesi Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
+    function getProjectStatuses() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.projectStatus.getAll') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                statusIdsFilter.empty();
+                $.each(response.response, function (i, projectStatus) {
+                    statusIdsFilter.append(
+                        $('<option>', {
+                            value: projectStatus.id,
+                            text: projectStatus.name
+                        })
+                    );
+                });
+                statusIdsFilter.trigger('change');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Proje Durumları Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
+    getCompanies();
+    getUsers();
+    getProjectStatuses();
 
     function getProjects() {
         $('#loader').show();
+        var keyword = keywordFilter.val();
+        var statusIds = statusIdsFilter.val();
+
         $.ajax({
             type: 'get',
             url: '{{ route('user.api.project.getByUserId') }}',
@@ -11,7 +117,10 @@
                 'Accept': 'application/json',
                 'Authorization': token
             },
-            data: {},
+            data: {
+                keyword: keyword,
+                statusIds: statusIds,
+            },
             success: function (response) {
                 var imageUrl = '{{ asset('assets/media/svg/brand-logos/xing-icon.svg') }}';
                 projectsRow.empty();
@@ -56,5 +165,84 @@
     }
 
     getProjects();
+
+    FilterButton.click(function () {
+        getProjects();
+    });
+
+    ClearFilterButton.click(function () {
+        keywordFilter.val('');
+        statusIdsFilter.val([]).trigger('change');
+        getProjects();
+    });
+
+    keywordFilter.on('keypress', function (e) {
+        if (e.which === 13) {
+            getProjects();
+        }
+    });
+
+    CreateProjectButton.click(function () {
+        var companyId = createProjectCompanyId.val();
+        var name = $('#create_project_name').val();
+        var code = $('#create_project_code').val();
+        var startDate = $('#create_project_start_date').val();
+        var endDate = $('#create_project_end_date').val();
+        var description = $('#create_project_description').val();
+
+        if (!companyId) {
+            toastr.warning('Firma Seçimi Yapılmamış!');
+        } else if (!name) {
+            toastr.warning('Proje Adı Girilmemiş!');
+        } else {
+            CreateProjectButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            $.ajax({
+                type: 'post',
+                url: '{{ route('user.api.project.create') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    companyId: companyId,
+                    name: name,
+                    code: code,
+                    startDate: startDate,
+                    endDate: endDate,
+                    description: description,
+                },
+                success: function (response) {
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ route('user.api.project.setUsersByProjectId') }}',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': token
+                        },
+                        data: {
+                            projectId: response.response.id,
+                            userIds: createProjectUserIds.val()
+                        },
+                        success: function () {
+                            toastr.success('Proje Başarıyla Oluşturuldu!');
+                            $('#CreateProjectModal').modal('hide');
+                            getProjects();
+                            CreateProjectButton.prop('disabled', false).html('Oluştur');
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            toastr.error('Proje Oluşturuldu Ancak Kullanıcılar Bağlanırken Serviste Bir Sorun Oluştu!');
+                            CreateProjectButton.prop('disabled', false).html('Oluştur');
+                        }
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Proje Oluşturulurken Serviste Bir Sorun Oluştu!');
+                    CreateProjectButton.prop('disabled', false).html('Oluştur');
+                }
+            });
+        }
+    });
 
 </script>

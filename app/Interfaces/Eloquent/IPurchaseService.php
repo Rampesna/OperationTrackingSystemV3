@@ -7,6 +7,21 @@ use App\Services\ServiceResponse;
 interface IPurchaseService extends IEloquentService
 {
     /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param int|null $statusId
+     * @param string|null $keyword
+     *
+     * @return ServiceResponse
+     */
+    public function getAllPaginate(
+        int     $pageIndex,
+        int     $pageSize,
+        ?int    $statusId,
+        ?string $keyword = null
+    ): ServiceResponse;
+
+    /**
      * @param int $userId
      * @param int $statusId
      * @param string $name

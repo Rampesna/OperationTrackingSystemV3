@@ -36,6 +36,8 @@
                         <span class="menu-title">Anasayfa</span>
                     </span>
                 </a>
+
+                @if(checkUserPermission(1, $userPermissions))
                 <a href="{{ route('user.web.employee.index') }}" class="menu-item {{ request()->segment(2) == 'employee' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -51,6 +53,9 @@
                         <span class="menu-title">Personeller</span>
                     </span>
                 </a>
+                @endif
+
+                @if(checkUserPermission(2, $userPermissions))
                 <a href="{{ route('user.web.report.index') }}" class="menu-item {{ request()->segment(2) == 'report' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -65,6 +70,9 @@
                         <span class="menu-title">Raporlar</span>
                     </span>
                 </a>
+                @endif
+
+                @if(checkUserPermission(3, $userPermissions))
                 <a href="{{ route('user.web.otsJob.index') }}" class="menu-item {{ request()->segment(2) == 'otsJob' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -78,6 +86,9 @@
                         <span class="menu-title">OTS İşler</span>
                     </span>
                 </a>
+                @endif
+
+                @if(checkUserPermission(4, $userPermissions))
                 <a href="{{ route('user.web.santralMonitoring.index') }}" class="menu-item {{ request()->segment(2) == 'santralMonitoring' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -92,6 +103,9 @@
                         <span class="menu-title">Santral Takibi</span>
                     </span>
                 </a>
+                @endif
+
+                @if(checkUserPermission(5, $userPermissions))
                 <a href="{{ route('user.web.salesAndMarketing.index') }}" class="menu-item {{ request()->segment(2) == 'salesAndMarketing' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -105,6 +119,9 @@
                         <span class="menu-title">Satış Pazarlama</span>
                     </span>
                 </a>
+                @endif
+
+                @if(checkUserPermission(6, $userPermissions))
                 <a href="{{ route('user.web.academy.index') }}" class="menu-item {{ request()->segment(2) == 'academy' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -118,6 +135,8 @@
                         <span class="menu-title">Akademi</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(7, $userPermissions))
                 <a href="{{ route('user.web.shift.index') }}" class="menu-item {{ request()->segment(2) == 'shift' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -131,6 +150,8 @@
                         <span class="menu-title">Vardiya</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(8, $userPermissions))
                 <a href="{{ route('user.web.saturdayPermit.index') }}" class="menu-item {{ request()->segment(2) == 'saturdayPermit' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -145,6 +166,8 @@
                         <span class="menu-title">Cumartesi İzinleri</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(9, $userPermissions))
                 <a href="{{ route('user.web.specialReport.index') }}" class="menu-item {{ request()->segment(2) == 'specialReport' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -158,6 +181,8 @@
                         <span class="menu-title">Özel Raporlar</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(10, $userPermissions))
                 <a href="{{ route('user.web.meeting.index') }}" class="menu-item {{ request()->segment(2) == 'meeting' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -171,6 +196,7 @@
                         <span class="menu-title">Toplantı</span>
                     </span>
                 </a>
+                @endif
 {{--                <a href="{{ route('user.web.performance.index') }}" class="menu-item {{ request()->segment(2) == 'performance' ? 'show' : '' }}">--}}
 {{--                    <span class="menu-link">--}}
 {{--                        <span class="menu-icon">--}}
@@ -210,6 +236,8 @@
 {{--                        <span class="menu-title">Kapanış İşleri</span>--}}
 {{--                    </span>--}}
 {{--                </a>--}}
+
+                @if(checkUserPermission(11, $userPermissions))
                 <a href="{{ route('user.web.market.index') }}" class="menu-item {{ request()->segment(2) == 'market' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -225,6 +253,8 @@
                         <span class="menu-title">Market Yönetimi</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(12, $userPermissions))
                 <a href="{{ route('user.web.purchase.index') }}" class="menu-item {{ request()->segment(2) == 'purchase' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -239,6 +269,8 @@
                         <span class="menu-title">Satın Alımlar</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(13, $userPermissions))
                 <a href="{{ route('user.web.humanResources.index') }}" class="menu-item {{ request()->segment(2) == 'humanResources' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -254,6 +286,8 @@
                         <span class="menu-title">İnsan Kaynakları</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(14, $userPermissions))
                 <a href="{{ route('user.web.foodList.index') }}" class="menu-item {{ request()->segment(2) == 'foodList' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -267,6 +301,8 @@
                         <span class="menu-title">Yemek Yönetimi</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(175, $userPermissions))
                 <a href="{{ route('user.web.recruiting.index') }}" class="menu-item {{ request()->segment(2) == 'recruiting' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -281,6 +317,8 @@
                         <span class="menu-title">İşe Alım Yönetimi</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(15, $userPermissions))
                 <a href="{{ route('user.web.project.index') }}" class="menu-item {{ request()->segment(2) == 'project' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -294,6 +332,8 @@
                         <span class="menu-title">Projeler</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(16, $userPermissions))
                 <a href="{{ route('user.web.inventory.index') }}" class="menu-item {{ request()->segment(2) == 'inventory' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -308,7 +348,9 @@
                         <span class="menu-title">Envanter</span>
                     </span>
                 </a>
-                <a href="{{ route('user.web.centralMission.index') }}" class="menu-item {{ request()->segment(2) == 'assignment' ? 'show' : '' }}">
+                @endif
+                @if(checkUserPermission(17, $userPermissions))
+                <a href="{{ route('user.web.centralMission.index') }}" class="menu-item {{ request()->segment(2) == 'centralMission' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <span class="svg-icon svg-icon-1">
@@ -321,6 +363,8 @@
                         <span class="menu-title">Merkezi Görev Sistemi</span>
                     </span>
                 </a>
+                @endif
+                @if(checkUserPermission(18, $userPermissions))
                 <a href="{{ route('user.web.ticket.index') }}" class="menu-item {{ request()->segment(2) == 'ticket' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -334,6 +378,7 @@
                         <span class="menu-title">Destek Talepleri</span>
                     </span>
                 </a>
+                @endif
 {{--                <a href="{{ route('user.web.screenMonitoring.index') }}" class="menu-item {{ request()->segment(2) == 'screenMonitoring' ? 'show' : '' }}">--}}
 {{--                    <span class="menu-link">--}}
 {{--                        <span class="menu-icon">--}}
@@ -353,12 +398,14 @@
     </div>
 
     <div class="aside-footer flex-column-auto pt-5 pb-7 px-5" id="kt_aside_footer">
+        @if(checkUserPermission(166, $userPermissions))
         <div class="btn-group d-grid dropup">
             <button class="btn btn-custom btn-primary" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-cog"></i>
                 <span class="btn-label">Ayarlar</span>
             </button>
             <div class="dropdown-menu w-100">
+                @if(checkUserPermission(167, $userPermissions))
                 <a href="{{ route('user.web.company.index') }}" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="Firma Yönetimi">
                     <span class="svg-icon svg-icon-muted svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -369,6 +416,8 @@
                     <span class="text-dark ms-2">Firma Yönetimi</span>
                 </a>
                 <hr class="text-muted">
+                @endif
+                @if(checkUserPermission(168, $userPermissions))
                 <a href="{{ route('user.web.queue.index') }}" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="Santral Kuyrukları">
                     <span class="svg-icon svg-icon-muted svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="none">
@@ -378,6 +427,8 @@
                     </span>
                     <span class="text-dark ms-2">Santral Kuyrukları</span>
                 </a>
+                @endif
+                @if(checkUserPermission(169, $userPermissions))
                 <a href="{{ route('user.web.competence.index') }}" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="Yetkinlikler">
                     <span class="svg-icon svg-icon-muted svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -387,6 +438,8 @@
                     </span>
                     <span class="text-dark ms-2">Yetkinlikler</span>
                 </a>
+                @endif
+                @if(checkUserPermission(170, $userPermissions))
                 <a href="{{ route('user.web.jobDepartment.index') }}" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="İş Departmanları">
                     <span class="svg-icon svg-icon-muted svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -396,6 +449,8 @@
                     </span>
                     <span class="text-dark ms-2">İş Departmanları</span>
                 </a>
+                @endif
+                @if(checkUserPermission(171, $userPermissions))
                 <a href="{{ route('user.web.jobDepartmentType.index') }}" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="İş Departmanı Türleri">
                     <span class="svg-icon svg-icon-muted svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -405,6 +460,8 @@
                     </span>
                     <span class="text-dark ms-2">İş Departmanı Türleri</span>
                 </a>
+                @endif
+                @if(checkUserPermission(172, $userPermissions))
                 <a href="{{ route('user.web.shiftGroup.index') }}" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="Vardiya Grupları">
                     <span class="svg-icon svg-icon-muted svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -417,6 +474,8 @@
                     <span class="text-dark ms-2">Vardiya Grupları</span>
                 </a>
                 <hr class="text-muted">
+                @endif
+                @if(checkUserPermission(173, $userPermissions))
                 <a href="{{ route('user.web.user.index') }}" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="Kullanıcılar">
                     <span class="svg-icon svg-icon-muted svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -428,6 +487,8 @@
                     </span>
                     <span class="text-dark ms-2">Kullanıcılar</span>
                 </a>
+                @endif
+                @if(checkUserPermission(174, $userPermissions))
                 <a href="{{ route('user.web.userRole.index') }}" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="Rol Yönetimi">
                     <span class="svg-icon svg-icon-muted svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -437,8 +498,10 @@
                     </span>
                     <span class="text-dark ms-2">Rol Yönetimi</span>
                 </a>
+                @endif
             </div>
         </div>
+        @endif
     </div>
 
 </div>

@@ -8,6 +8,11 @@ use App\Http\Requests\Api\User\ProjectController\GetByUserIdRequest;
 use App\Http\Requests\Api\User\ProjectController\GetByIdRequest;
 use App\Http\Requests\Api\User\ProjectController\GetSubtasksByProjectIdRequest;
 use App\Http\Requests\Api\User\ProjectController\GetBoardsByProjectIdRequest;
+use App\Http\Requests\Api\User\ProjectController\GetUsersByProjectIdRequest;
+use App\Http\Requests\Api\User\ProjectController\SetUsersByProjectIdRequest;
+use App\Http\Requests\Api\User\ProjectController\CreateRequest;
+use App\Http\Requests\Api\User\ProjectController\UpdateRequest;
+use App\Http\Requests\Api\User\ProjectController\DeleteRequest;
 use App\Traits\Response;
 
 class ProjectController extends Controller
@@ -33,7 +38,9 @@ class ProjectController extends Controller
     public function getByUserId(GetByUserIdRequest $request)
     {
         $getByUserIdResponse = $this->projectService->getByProjectIds(
-            $request->user()->projects()->pluck('id')->toArray()
+            $request->user()->projects()->pluck('id')->toArray(),
+            $request->statusIds,
+            $request->keyword
         );
         if ($getByUserIdResponse->isSuccess()) {
             return $this->success(
@@ -126,6 +133,129 @@ class ProjectController extends Controller
             return $this->error(
                 $getBoardsByProjectIdResponse->getMessage(),
                 $getBoardsByProjectIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetUsersByProjectIdRequest $request
+     */
+    public function getUsersByProjectId(GetUsersByProjectIdRequest $request)
+    {
+        $getUsersByProjectIdResponse = $this->projectService->getUsersByProjectId(
+            $request->projectId
+        );
+        if ($getUsersByProjectIdResponse->isSuccess()) {
+            return $this->success(
+                $getUsersByProjectIdResponse->getMessage(),
+                $getUsersByProjectIdResponse->getData(),
+                $getUsersByProjectIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getUsersByProjectIdResponse->getMessage(),
+                $getUsersByProjectIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetUsersByProjectIdRequest $request
+     */
+    public function setUsersByProjectId(SetUsersByProjectIdRequest $request)
+    {
+        $setUsersByProjectIdResponse = $this->projectService->setUsersByProjectId(
+            $request->projectId,
+            $request->userIds
+        );
+        if ($setUsersByProjectIdResponse->isSuccess()) {
+            return $this->success(
+                $setUsersByProjectIdResponse->getMessage(),
+                $setUsersByProjectIdResponse->getData(),
+                $setUsersByProjectIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setUsersByProjectIdResponse->getMessage(),
+                $setUsersByProjectIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param CreateRequest $request
+     */
+    public function create(CreateRequest $request)
+    {
+        $createResponse = $this->projectService->create(
+            $request->companyId,
+            $request->name,
+            $request->code,
+            $request->startDate,
+            $request->endDate,
+            $request->description
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateRequest $request
+     */
+    public function update(UpdateRequest $request)
+    {
+        $updateResponse = $this->projectService->update(
+            $request->id,
+            $request->companyId,
+            $request->statusId,
+            $request->name,
+            $request->code,
+            $request->startDate,
+            $request->endDate,
+            $request->description
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param DeleteRequest $request
+     */
+    public function delete(DeleteRequest $request)
+    {
+        $deleteResponse = $this->projectService->delete(
+            $request->id
+        );
+        if ($deleteResponse->isSuccess()) {
+            return $this->success(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getData(),
+                $deleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $deleteResponse->getMessage(),
+                $deleteResponse->getStatusCode()
             );
         }
     }

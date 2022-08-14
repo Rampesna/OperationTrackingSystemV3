@@ -24,6 +24,7 @@
 
     <div class="row">
 
+        @if(checkUserPermission(1, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Personeller">
             <a href="{{ route('user.web.employee.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -43,7 +44,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(2, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Raporlar">
             <a href="{{ route('user.web.report.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -62,7 +65,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(3, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="OTS İşler">
             <a href="{{ route('user.web.otsJob.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -80,7 +85,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(4, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Santral Takibi">
             <a href="{{ route('user.web.santralMonitoring.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -99,7 +106,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(5, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Satış/Pazarlama">
             <a href="{{ route('user.web.salesAndMarketing.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -117,7 +126,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(6, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Akademi">
             <a href="{{ route('user.web.academy.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -135,7 +146,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(7, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Vardiya">
             <a href="{{ route('user.web.shift.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -153,7 +166,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(8, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Cumartesi İzni">
             <a href="{{ route('user.web.saturdayPermit.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -172,7 +187,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(9, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Özel Raporlar">
             <a href="{{ route('user.web.specialReport.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -190,7 +207,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(10, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Toplantı">
             <a href="{{ route('user.web.meeting.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -208,6 +227,7 @@
                 </div>
             </a>
         </div>
+        @endif
 
 {{--        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Performans">--}}
 {{--            <a href="{{ route('user.web.performance.index') }}" class="card cursor-pointer h-lg-100">--}}
@@ -263,6 +283,7 @@
 {{--            </a>--}}
 {{--        </div>--}}
 
+        @if(checkUserPermission(11, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Market">
             <a href="{{ route('user.web.market.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -282,7 +303,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(12, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Market">
             <a href="{{ route('user.web.purchase.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -301,7 +324,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(13, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="İnsan Kaynakları">
             <a href="{{ route('user.web.humanResources.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -321,7 +346,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(14, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="İnsan Kaynakları">
             <a href="{{ route('user.web.foodList.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -339,7 +366,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(175, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="İşe Alım Yönetimi">
             <a href="{{ route('user.web.recruiting.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -358,7 +387,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(15, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Projeler">
             <a href="{{ route('user.web.project.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -376,7 +407,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(16, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Envanter">
             <a href="{{ route('user.web.inventory.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -394,7 +427,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(17, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Görevlendirmeler">
             <a href="{{ route('user.web.centralMission.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -412,7 +447,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if(checkUserPermission(18, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Destek Talepleri">
             <a href="{{ route('user.web.ticket.index') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -430,6 +467,7 @@
                 </div>
             </a>
         </div>
+        @endif
 
 {{--        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Ekran Takibi">--}}
 {{--            <a href="{{ route('user.web.screenMonitoring.index') }}" class="card cursor-pointer h-lg-100">--}}

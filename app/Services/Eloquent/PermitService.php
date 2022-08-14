@@ -304,29 +304,31 @@ class PermitService implements IPermitService
         $response = [];
         foreach ($employeeIds as $employeeId) {
             $position = Position::orderBy('start_date', 'desc')->where('employee_id', $employeeId)->where('end_date', null)->first();
-            $today = date('Y-m-d');
+            if ($position) {
+                $today = date('Y-m-d');
 
-            $calculateStartDate = $position->start_date;
-            while (date('Y-m-d', strtotime($calculateStartDate . ' +1 year')) < $today) {
-                $calculateStartDate = date('Y-m-d', strtotime($calculateStartDate . ' +1 year'));
+                $calculateStartDate = $position->start_date;
+                while (date('Y-m-d', strtotime($calculateStartDate . ' +1 year')) < $today) {
+                    $calculateStartDate = date('Y-m-d', strtotime($calculateStartDate . ' +1 year'));
+                }
+
+                $calculateEndDate = date('Y-m-d', strtotime($calculateStartDate . ' +1 year'));
+
+                $permits = Permit::where('employee_id', $employeeId)->whereIn('type_id', $permitTypeIds)->whereBetween('start_date', [
+                    $calculateStartDate . ' 00:00:00',
+                    $calculateEndDate . ' 23:59:59'
+                ]);
+
+                $totalDurationOfMinutes = 0;
+                foreach ($permits as $permit) {
+                    $totalDurationOfMinutes += calculateMinutes($permit->start_date, $permit->end_date);
+                }
+
+                $response[] = [
+                    'name' => Employee::find($employeeId)->name,
+                    'date' => date('Y-m-d', strtotime($calculateEndDate . ' +' . (intval($totalDurationOfMinutes / 480) + 1) . ' day')),
+                ];
             }
-
-            $calculateEndDate = date('Y-m-d', strtotime($calculateStartDate . ' +1 year'));
-
-            $permits = Permit::where('employee_id', $employeeId)->whereIn('type_id', $permitTypeIds)->whereBetween('start_date', [
-                $calculateStartDate . ' 00:00:00',
-                $calculateEndDate . ' 23:59:59'
-            ]);
-
-            $totalDurationOfMinutes = 0;
-            foreach ($permits as $permit) {
-                $totalDurationOfMinutes += calculateMinutes($permit->start_date, $permit->end_date);
-            }
-
-            $response[] = [
-                'name' => Employee::find($employeeId)->name,
-                'date' => date('Y-m-d', strtotime($calculateEndDate . ' +' . (intval($totalDurationOfMinutes / 480) + 1) . ' day')),
-            ];
         }
 
         return new ServiceResponse(

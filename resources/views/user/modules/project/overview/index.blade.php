@@ -16,6 +16,8 @@
 
     @include('user.modules.project.layouts.overview')
 
+    @include('user.modules.project.overview.modals.updateProject')
+
     <input type="hidden" id="board_id">
     <input type="hidden" id="task_id">
     <input type="file" style="display: none" id="taskFile">

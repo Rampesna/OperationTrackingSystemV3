@@ -62,3 +62,10 @@ if (!function_exists('getDurationForHuman')) {
             ($durationOfPermitMinutes != 0 ? ' ' . $durationOfPermitMinutes . ' Dakika' : '');
     }
 }
+
+if (!function_exists('checkUserPermission')) {
+    function checkUserPermission($userPermissionId, $authUserPermissions)
+    {
+        return in_array($userPermissionId, $authUserPermissions);
+    }
+}

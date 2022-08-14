@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Eloquent\JobDepartment;
 use App\Models\Eloquent\SaturdayPermit;
 use App\Models\Eloquent\Ticket;
+use App\Models\Eloquent\User;
 use App\Services\AwsS3\StorageService;
 use Aws\S3\S3Client;
 use App\Models\Eloquent\Device;
@@ -41,16 +42,7 @@ class HomeController extends Controller
 
     public function test(Request $request)
     {
-        $jobDepartments = JobDepartment::all();
-        foreach ($jobDepartments as $jobDepartment) {
-            $status = 1;
-            $employees = $jobDepartment->employees()->get()->shuffle();
-            foreach ($employees as $employee) {
-                $employee->saturday_permit_order = $status;
-                $employee->save();
-                $status = $status == 1 ? 0 : 1;
-            }
-        }
+        return 'No Way';
     }
 
     public function test2(Request $request)
