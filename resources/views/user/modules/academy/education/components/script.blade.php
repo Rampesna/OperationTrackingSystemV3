@@ -1,5 +1,9 @@
 <script>
 
+    var updateEducationPermission = `{{ checkUserPermission(74, $userPermissions) ? 'true' : 'false' }}`;
+    var updateEducationLessonsPermission = `{{ checkUserPermission(75, $userPermissions) ? 'true' : 'false' }}`;
+    var deleteEducationPermission = `{{ checkUserPermission(76, $userPermissions) ? 'true' : 'false' }}`;
+
     var academyEducations = $('#academyEducations');
     var academyEducationLessonsRow = $('#academyEducationLessonsRow');
 
@@ -179,10 +183,16 @@
                                     <i class="fas fa-th"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${academyEducation.id}_Dropdown" style="width: 175px">
+                                    ${updateEducationLessonsPermission === 'true' ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="getAcademyEducationLessons(${academyEducation.id})" title="Dersleri Düzenle"><i class="fas fa-book me-2 text-info"></i> <span class="text-dark">Dersleri Düzenle</span></a>
+                                    ` : ``}
+                                    ${updateEducationPermission === 'true' ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateAcademyEducation(${academyEducation.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    ` : ``}
+                                    ${deleteEducationPermission === 'true' ? `
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteAcademyEducation(${academyEducation.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                    ` : ``}
                                 </div>
                             </div>
                         </td>

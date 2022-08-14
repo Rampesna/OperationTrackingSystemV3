@@ -6,6 +6,8 @@
             </div>
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <div class="row mb-5">
+
+                    @if(checkUserPermission(90, $userPermissions))
                     <div class="col-xl-12 mb-5">
                         <div onclick="createMeeting()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -21,6 +23,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col-xl-12">

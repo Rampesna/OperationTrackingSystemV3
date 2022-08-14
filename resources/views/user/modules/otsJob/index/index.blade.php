@@ -23,6 +23,7 @@
 
     <div class="row">
 
+        @if(checkUserPermission(37, $userPermissions))
         <a onclick="setJobsExcel()" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -40,7 +41,8 @@
                 </div>
             </div>
         </a>
-
+        @endif
+        @if(checkUserPermission(38, $userPermissions))
         <a onclick="setDataScanning()" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -61,7 +63,8 @@
                 </div>
             </div>
         </a>
-
+        @endif
+        @if(checkUserPermission(39, $userPermissions))
         <a onclick="setCallDataScanning()" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -81,7 +84,8 @@
                 </div>
             </div>
         </a>
-
+        @endif
+        @if(checkUserPermission(40, $userPermissions))
         <a onclick="setJobsClosedExcel()" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -99,7 +103,8 @@
                 </div>
             </div>
         </a>
-
+        @endif
+        @if(checkUserPermission(41, $userPermissions))
         <a onclick="setJobSuspend()" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -117,7 +122,8 @@
                 </div>
             </div>
         </a>
-
+        @endif
+        @if(checkUserPermission(42, $userPermissions))
         <a onclick="setJobCaseWorkDelete()" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -135,6 +141,7 @@
                 </div>
             </div>
         </a>
+        @endif
 
     </div>
 

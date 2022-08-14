@@ -3,6 +3,8 @@
 
 <script>
 
+    var cancelPermission = `{{ checkUserPermission(86, $userPermissions) ? 'true' : 'false' }}`;
+
     $(document).ready(function () {
         $('#loader').hide();
     });
@@ -114,10 +116,12 @@
 
         eventClick: function (info) {
             if (info.event._def.extendedProps.status === 'off') {
-                $('#cancel_saturday_permit_id').val(info.event._def.extendedProps._id);
-                cancelSaturdayPermitShiftGroupId.val('').trigger('change');
-                cancelSaturdayPermitReasonId.val('').trigger('change');
-                $('#CancelSaturdayPermitModal').modal('show');
+                if (cancelPermission === 'true') {
+                    $('#cancel_saturday_permit_id').val(info.event._def.extendedProps._id);
+                    cancelSaturdayPermitShiftGroupId.val('').trigger('change');
+                    cancelSaturdayPermitReasonId.val('').trigger('change');
+                    $('#CancelSaturdayPermitModal').modal('show');
+                }
             }
         },
 

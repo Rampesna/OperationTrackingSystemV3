@@ -16,6 +16,7 @@
 
     <div class="row">
 
+        @if(checkUserPermission(26, $userPermissions))
         <a href="{{ route('user.web.report.dataScanning.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -33,6 +34,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(27, $userPermissions))
         <a href="{{ route('user.web.report.special.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -50,6 +53,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(28, $userPermissions))
         <a href="{{ route('user.web.report.job.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -68,6 +73,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(29, $userPermissions))
         <a href="{{ route('user.web.report.employee.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -85,6 +92,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(30, $userPermissions))
         <a href="#" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -102,6 +111,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(31, $userPermissions))
         <a href="#" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -119,6 +130,7 @@
                 </div>
             </div>
         </a>
+        @endif
 
     </div>
 

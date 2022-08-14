@@ -6,6 +6,8 @@
             </div>
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <div class="row mb-5">
+
+                    @if(checkUserPermission(49, $userPermissions))
                     <div class="col-xl-4 mb-5">
                         <div onclick="createSurvey()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -21,6 +23,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(50, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div onclick="updateSurvey()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -36,6 +40,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(51, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div onclick="connectSubSurvey()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -51,6 +57,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(52, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div onclick="surveyQuestions()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -66,6 +74,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(53, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div onclick="surveyExamine()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -81,6 +91,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(54, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -96,6 +108,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(55, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div onclick="surveyReportGeneral()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -112,6 +126,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(56, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div onclick="surveyReportDetail()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -127,6 +143,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(57, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div onclick="surveyReportEmployee()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -144,6 +162,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(58, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -159,6 +179,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(59, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
                         <div onclick="deleteSurvey()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -175,6 +197,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+
                 </div>
                 <div class="row">
                     <div class="col-xl-12">

@@ -3,6 +3,8 @@
 
 <script>
 
+    var createShiftPermission = `{{ checkUserPermission(83, $userPermissions) ? 'true' : 'false' }}`;
+
     var allShiftGroups = [];
 
     var keywordFilter = $('#keyword');
@@ -294,8 +296,10 @@
         navLinks: true,
 
         dateClick: function (info) {
-            $('#create_shift_clicked_date').val(info.dateStr);
-            createShift();
+            if (createShiftPermission === 'true') {
+                $('#create_shift_clicked_date').val(info.dateStr);
+                createShift();
+            }
         },
 
         eventClick: function (info) {

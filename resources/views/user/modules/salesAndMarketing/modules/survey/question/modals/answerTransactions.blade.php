@@ -6,6 +6,8 @@
             </div>
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <div class="row mb-5">
+
+                    @if(checkUserPermission(63, $userPermissions))
                     <div class="col-xl-4 mb-5">
                         <div onclick="createAnswer()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -21,6 +23,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(64, $userPermissions))
                     <div class="col-xl-4 mb-5 selectedAnswerTransaction">
                         <div onclick="updateAnswer()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -36,6 +40,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(65, $userPermissions))
                     <div class="col-xl-4 mb-5 selectedAnswerTransaction">
                         <div onclick="deleteAnswer()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -52,6 +58,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+
                 </div>
                 <div class="row">
                     <div class="col-xl-12">

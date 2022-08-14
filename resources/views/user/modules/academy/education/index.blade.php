@@ -35,9 +35,11 @@
                 </div>
             </div>
         </div>
+        @if(checkUserPermission(73, $userPermissions))
         <div class="col-xl-4 d-grid mb-5 text-end">
             <button class="btn btn-primary" onclick="createAcademyEducation()">Eğitim Oluştur</button>
         </div>
+        @endif
     </div>
     <br>
     <div class="row">

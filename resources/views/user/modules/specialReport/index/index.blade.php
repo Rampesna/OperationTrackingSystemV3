@@ -35,7 +35,9 @@
             </div>
         </div>
         <div class="col-xl-4 d-grid mb-5 text-end">
-            <button class="btn btn-primary" onclick="createSpecialReport()">Yeni Rapor</button>
+            @if(checkUserPermission(87, $userPermissions))
+                <button class="btn btn-primary" onclick="createSpecialReport()">Yeni Rapor</button>
+            @endif
         </div>
     </div>
     <br>

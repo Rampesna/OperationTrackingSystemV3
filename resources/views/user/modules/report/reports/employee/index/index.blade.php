@@ -16,6 +16,7 @@
 
     <div class="row">
 
+        @if(checkUserPermission(36, $userPermissions))
         <a href="{{ route('user.web.report.employee.jobDepartment.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -33,6 +34,7 @@
                 </div>
             </div>
         </a>
+        @endif
 
     </div>
 

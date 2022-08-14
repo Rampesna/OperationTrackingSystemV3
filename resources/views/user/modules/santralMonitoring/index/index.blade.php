@@ -19,6 +19,7 @@
 
     <div class="row">
 
+        @if(checkUserPermission(43, $userPermissions))
         <a href="{{ route('user.web.santralMonitoring.monitor.job') }}" target="_blank" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -37,6 +38,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(44, $userPermissions))
         <a onclick="employeeMonitoringSettings()" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -56,6 +59,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(45, $userPermissions))
         <a onclick="achievementMonitoringSettings()" target="_blank" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -73,6 +78,7 @@
                 </div>
             </div>
         </a>
+        @endif
 
     </div>
 

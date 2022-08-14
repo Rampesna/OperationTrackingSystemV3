@@ -15,6 +15,8 @@
 @section('content')
 
     <div class="row">
+
+        @if(checkUserPermission(46, $userPermissions))
         <a href="{{ route('user.web.salesAndMarketing.modules.survey.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -35,6 +37,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(47, $userPermissions))
         <a href="{{ route('user.web.salesAndMarketing.modules.seller.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -54,6 +58,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(48, $userPermissions))
         <a href="{{ route('user.web.salesAndMarketing.modules.product.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -77,6 +83,8 @@
                 </div>
             </div>
         </a>
+        @endif
+
     </div>
 
 @endsection

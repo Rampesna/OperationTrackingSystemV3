@@ -11,6 +11,7 @@
 
                     </div>
                     <div class="col-xl-8">
+                        @if(checkUserPermission(93, $userPermissions))
                         <a onclick="createMarketPayment()" class="card py-0 cursor-pointer">
                             <div class="card-body">
                                 <span class="menu-icon">
@@ -24,6 +25,7 @@
                                 <span class="text-dark ms-5">Bakiye Yükle</span>
                             </div>
                         </a>
+                        @endif
                     </div>
                     <div class="col-xl-2">
 

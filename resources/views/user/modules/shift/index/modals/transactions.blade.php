@@ -6,6 +6,7 @@
             </div>
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <div class="row mb-5">
+                    @if(checkUserPermission(79, $userPermissions))
                     <div class="col-xl-6 mb-5">
                         <div onclick="robot()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -24,6 +25,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(80, $userPermissions))
                     <div class="col-xl-6 mb-5">
                         <div onclick="setStaffParameter()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -39,6 +42,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(81, $userPermissions))
                     <div class="col-xl-6 mb-5">
                         <div onclick="updateShiftBatch()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -54,6 +59,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(checkUserPermission(82, $userPermissions))
                     <div class="col-xl-6 mb-5">
                         <div onclick="deleteMultiple()" class="card py-0 cursor-pointer">
                             <div class="card-body">
@@ -70,6 +77,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+
                 </div>
                 <div class="row">
                     <div class="col-xl-12">

@@ -15,6 +15,8 @@
 @section('content')
 
     <div class="row">
+
+        @if(checkUserPermission(91, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Destek Talepleri">
             <a href="{{ route('user.web.market.employee') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -32,6 +34,8 @@
                 </div>
             </a>
         </div>
+        @endif
+        @if(checkUserPermission(92, $userPermissions))
         <div class="col-xl-2 col-6 mb-5 application" data-app-name="Destek Talepleri">
             <a href="{{ route('user.web.market.market') }}" class="card cursor-pointer h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -55,6 +59,8 @@
                 </div>
             </a>
         </div>
+        @endif
+
     </div>
 
 @endsection

@@ -1,5 +1,9 @@
 <script>
 
+    var updatePermission = `{{ checkUserPermission(95, $userPermissions) ? 'true' : 'false' }}`;
+    var setPaymentPermission = `{{ checkUserPermission(96, $userPermissions) ? 'true' : 'false' }}`;
+    var deletePermission = `{{ checkUserPermission(97, $userPermissions) ? 'true' : 'false' }}`;
+
     $(document).ready(function () {
         $('#loader').hide();
     });
@@ -98,10 +102,16 @@
                                     <i class="fas fa-th"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${market.id}_Dropdown" style="width: 175px">
+                                    ${updatePermission === 'true' ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateMarket(${market.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    ` : ``}
+                                    ${setPaymentPermission === 'true' ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="createMarketPayment(${market.id})" title="Ödeme Yap"><i class="fas fa-credit-card me-2 text-info"></i> <span class="text-dark">Ödeme Yap</span></a>
+                                    ` : ``}
+                                    ${deletePermission === 'true' ? `
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteMarket(${market.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                    ` : ``}
                                 </div>
                             </div>
                         </td>

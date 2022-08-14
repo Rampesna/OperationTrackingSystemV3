@@ -16,6 +16,7 @@
 
     <div class="row">
 
+        @if(checkUserPermission(32, $userPermissions))
         <a href="{{ route('user.web.report.job.callFind.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -33,6 +34,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(33, $userPermissions))
         <a href="{{ route('user.web.report.job.callFindDetail.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -50,6 +53,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(34, $userPermissions))
         <a href="{{ route('user.web.report.job.appointment.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -67,6 +72,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(35, $userPermissions))
         <a href="{{ route('user.web.report.job.leavedEmployeeWorkStatus.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -84,6 +91,7 @@
                 </div>
             </div>
         </a>
+        @endif
 
     </div>
 

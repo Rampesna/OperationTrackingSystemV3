@@ -32,8 +32,12 @@
                         <hr class="text-muted">
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn btn-primary me-3" onclick="updateShift()">Düzenle</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteShift()">Sil</button>
+                        @if(checkUserPermission(84, $userPermissions))
+                            <button type="button" class="btn btn-primary me-3" onclick="updateShift()">Düzenle</button>
+                        @endif
+                        @if(checkUserPermission(85, $userPermissions))
+                                <button type="button" class="btn btn-danger" onclick="deleteShift()">Sil</button>
+                        @endif
                     </div>
                 </div>
             </div>
