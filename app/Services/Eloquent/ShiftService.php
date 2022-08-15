@@ -235,6 +235,30 @@ class ShiftService implements IShiftService
     }
 
     /**
+     * @param int $employeeId
+     * @param string $date
+     *
+     * @return ServiceResponse
+     */
+    public function getByDateAndEmployeeId(
+        int    $employeeId,
+        string $date
+    ): ServiceResponse
+    {
+        $shift = Shift::where('employee_id', $employeeId)->whereBetween('start_date', [
+            date('Y-m-d 00:00:00', strtotime($date)),
+            date('Y-m-d 23:59:59', strtotime($date))
+        ])->first();
+
+        return new ServiceResponse(
+            true,
+            'Shift',
+            200,
+            $shift
+        );
+    }
+
+    /**
      * @param array $companyIds
      * @param string $startDate
      * @param string $endDate

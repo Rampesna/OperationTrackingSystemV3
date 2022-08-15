@@ -40,9 +40,13 @@
                         </div>
                     </div>
                     <div class="text-center">
+                        @if(checkUserPermission(140, $userPermissions))
                         <button type="button" class="btn btn-danger me-3" id="DeleteFoodListButton">Sil</button>
+                        @endif
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Kapat</button>
+                        @if(checkUserPermission(139, $userPermissions))
                         <button type="button" class="btn btn-success" id="UpdateFoodListButton">Güncelle</button>
+                        @endif
                     </div>
                 </div>
             </div>

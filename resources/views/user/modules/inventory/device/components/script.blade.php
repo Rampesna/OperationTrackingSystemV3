@@ -1,5 +1,8 @@
 <script>
 
+    var updatePermission = `{{ checkUserPermission(153, $userPermissions) ? 'true' : 'false' }}`;
+    var deletePermission = `{{ checkUserPermission(154, $userPermissions) ? 'true' : 'false' }}`;
+
     var devices = $('#devices');
 
     var page = $('#page');
@@ -257,9 +260,13 @@
                                     <i class="fas fa-th"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${device.id}_Dropdown" style="width: 175px">
+                                    ${updatePermission === 'true' ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateDevice(${device.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    ` : ``}
+                                    ${deletePermission === 'true' ? `
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteDevice(${device.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                    ` : ``}
                                 </div>
                             </div>
                         </td>

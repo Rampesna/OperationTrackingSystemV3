@@ -1,5 +1,9 @@
 <script>
 
+    var updatePurchaserPermission = `{{ checkUserPermission(101, $userPermissions) ? 'true' : 'false' }}`;
+    var acceptPurchasePermission = `{{ checkUserPermission(102, $userPermissions) ? 'true' : 'false' }}`;
+    var deletePurchasePermission = `{{ checkUserPermission(103, $userPermissions) ? 'true' : 'false' }}`;
+
     $(document).ready(function () {
         $('#loader').hide();
     });
@@ -297,11 +301,6 @@
             },
             success: function (response) {
                 purchases.empty();
-
-                var updatePurchaserPermission = `{{ checkUserPermission(101, $userPermissions) ? 'true' : 'false' }}`;
-                var acceptPurchasePermission = `{{ checkUserPermission(101, $userPermissions) ? 'true' : 'false' }}`;
-                var deletePurchasePermission = `{{ checkUserPermission(103, $userPermissions) ? 'true' : 'false' }}`;
-
                 $.each(response.response.purchases, function (i, purchase) {
                     purchases.append(`
                     <tr>

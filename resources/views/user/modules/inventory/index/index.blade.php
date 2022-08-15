@@ -16,6 +16,7 @@
 
     <div class="row">
 
+        @if(checkUserPermission(149, $userPermissions))
         <a href="{{ route('user.web.inventory.employee') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -33,6 +34,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(150, $userPermissions))
         <a href="{{ route('user.web.inventory.device') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -51,6 +54,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(151, $userPermissions))
         <a href="{{ route('user.web.inventory.package') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -68,6 +73,7 @@
                 </div>
             </div>
         </a>
+        @endif
 
     </div>
 

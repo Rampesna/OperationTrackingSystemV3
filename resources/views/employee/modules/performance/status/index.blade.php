@@ -21,34 +21,46 @@
                     <div class="row text-center">
                         <a class="col border-right pb-4 pt-4 text-dark-75 cursor-pointer" id="penaltyCard">
                             <i class="fa fa-info-circle fa-2x text-danger"></i><br>
-                            <label class="mb-0 mr-5 mt-2 font-weight-bold cursor-pointer">Toplam Ceza Puanı</label>
-                            <h4 class="font-30 font-weight-bold text-col-blue" style="font-size: 30px" id="totalPenaltySpan">--</h4>
+                            <label class="mb-0 mr-5 mt-2 fw-bold cursor-pointer">Toplam Ceza Puanı</label>
+                            <h4 class="font-30 fw-bold mt-4" style="font-size: 26px" id="totalPenaltySpan">
+                                <i class="fa fa-sm fa-spinner fa-spin"></i>
+                            </h4>
                         </a>
-                        <a class="col border-right pb-4 pt-4 text-dark-75 cursor-pointer" id="successCard">
+                        <a class="col border-right pb-4 pt-4 text-dark-75" id="successCard">
                             <i class="fa fa-check-circle fa-2x text-success"></i><br>
-                            <label class="mb-0 mr-5 mt-2 font-weight-bold cursor-pointer">Toplam Kazanılan Başarı Puanı</label>
-                            <h4 class="font-30 font-weight-bold text-col-blue" style="font-size: 30px" id="totalSuccessSpan">--</h4>
+                            <label class="mb-0 mr-5 mt-2 fw-bold">Toplam Kazanılan Başarı Puanı</label>
+                            <h4 class="font-30 fw-bold mt-4" style="font-size: 26px" id="totalSuccessSpan">
+                                <i class="fa fa-sm fa-spinner fa-spin"></i>
+                            </h4>
                         </a>
-                        <a class="col border-right pb-4 pt-4 text-dark-75 cursor-pointer">
+                        <a class="col border-right pb-4 pt-4 text-dark-75">
                             <i class="fas fa-sort-amount-down fa-2x text-primary"></i><br>
-                            <label class="mb-0 mr-5 mt-2 font-weight-bold cursor-pointer">Şuanki Başarı Sıranız</label>
-                            <h4 class="font-30 font-weight-bold text-col-blue" style="font-size: 30px" id="nowSort">--</h4>
+                            <label class="mb-0 mr-5 mt-2 fw-bold">Şuanki Başarı Sıranız</label>
+                            <h4 class="font-30 fw-bold mt-4" style="font-size: 26px" id="nowSort">
+                                <i class="fa fa-sm fa-spinner fa-spin"></i>
+                            </h4>
                         </a>
-                        <a class="col border-right pb-4 pt-4 text-dark-75 cursor-pointer" id="nowCard">
+                        <a class="col border-right pb-4 pt-4 text-dark-75" id="nowCard">
                             <i class="far fa-star fa-2x text-primary"></i><br>
-                            <label class="mb-0 mr-5 mt-2 font-weight-bold cursor-pointer">Yapılan İş Puanınız</label>
-                            <h4 class="font-30 font-weight-bold text-col-blue" style="font-size: 30px" id="nowPoint">--</h4>
+                            <label class="mb-0 mr-5 mt-2 fw-bold">Yapılan İş Puanınız</label>
+                            <h4 class="font-30 fw-bold mt-4" style="font-size: 26px" id="nowPoint">
+                                <i class="fa fa-sm fa-spinner fa-spin"></i>
+                            </h4>
                         </a>
-                        <a class="col pb-4 pt-4 text-dark-75 cursor-pointer">
+                        <a class="col pb-4 pt-4 text-dark-75">
                             <i class="fa fa-plane fa-2x text-info"></i><br>
-                            <label class="mb-0 mr-5 mt-2 font-weight-bold cursor-pointer">Haftasonu İzni Aday Durumu</label>
-                            <h4 class="font-30 font-weight-bold text-col-blue" style="font-size: 30px" id="saturdayPermitStatusSpan">--</h4>
+                            <label class="mb-0 mr-5 mt-2 fw-bold">Gelecek Cumartesi Durumu</label>
+                            <h4 class="font-30 fw-bold mt-4" style="font-size: 26px" id="saturdayPermitStatusSpan">
+                                <i class="fa fa-sm fa-spinner fa-spin"></i>
+                            </h4>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <hr class="text-muted">
+    <div id="report"></div>
 
 @endsection
 

@@ -1,5 +1,9 @@
 <script>
 
+    var updatePermission = `{{ checkUserPermission(163, $userPermissions) ? 'true' : 'false' }}`;
+    var deletePermission = `{{ checkUserPermission(164, $userPermissions) ? 'true' : 'false' }}`;
+    var messagePermission = `{{ checkUserPermission(165, $userPermissions) ? 'true' : 'false' }}`;
+
     $(document).ready(function () {
         $('#loader').hide();
     });
@@ -286,10 +290,16 @@
                                     <i class="fas fa-th"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${ticket.id}_Dropdown" style="width: 175px">
+                                    ${updatePermission === 'true' ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateTicket(${ticket.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    ` : ``}
+                                    ${messagePermission === 'true' ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="getTicketMessages(${ticket.id})" title="Mesajlar"><i class="fas fa-envelope me-2 text-info"></i> <span class="text-dark">Mesajlar</span></a>
+                                    ` : ``}
+                                    ${deletePermission === 'true' ? `
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteTicket(${ticket.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                    ` : ``}
                                 </div>
                             </div>
                         </td>

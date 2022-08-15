@@ -60,6 +60,8 @@
 
 <script>
 
+    var authEmployeeId = parseInt(`{{ auth()->id() }}`);
+    var authEmployeeGuid = parseInt(`{{ auth()->user()->guid() }}`);
     var token = 'Bearer {{ auth()->user()->apiToken() }}';
     var toggleDarkTheme = $('#toggleDarkTheme');
     var jqxGridGlobalTheme = 'metro';

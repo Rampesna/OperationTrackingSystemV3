@@ -30,7 +30,9 @@
                                         <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">İşlemler</div>
                                     </div>
                                     <div class="menu-item px-3">
+                                        @if(checkUserPermission(143, $userPermissions))
                                         <a onclick="updateProject()" class="menu-link px-3 cursor-pointer">Projeyi Düzenle</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -61,24 +63,38 @@
         </div>
         <div class="separator"></div>
         <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder">
+
+            @if(checkUserPermission(142, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'overview' ? 'active' : '' }}" href="{{ route('user.web.project.overview', ['id' => $id]) }}">Önizleme</a>
             </li>
+            @endif
+            @if(checkUserPermission(144, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'task' ? 'active' : '' }}" href="{{ route('user.web.project.task', ['id' => $id]) }}">Görevler</a>
             </li>
+            @endif
+            @if(checkUserPermission(145, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'managementTask' ? 'active' : '' }}" href="{{ route('user.web.project.managementTask', ['id' => $id]) }}">Yönetim İşleri</a>
             </li>
+            @endif
+            @if(checkUserPermission(146, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'note' ? 'active' : '' }}" href="{{ route('user.web.project.note', ['id' => $id]) }}">Notlar</a>
             </li>
+            @endif
+            @if(checkUserPermission(147, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'file' ? 'active' : '' }}" href="{{ route('user.web.project.file', ['id' => $id]) }}">Dosyalar</a>
             </li>
+            @endif
+            @if(checkUserPermission(148, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'ticket' ? 'active' : '' }}" href="{{ route('user.web.project.ticket', ['id' => $id]) }}">Destek Talepleri</a>
             </li>
+            @endif
+
         </ul>
     </div>
 </div>

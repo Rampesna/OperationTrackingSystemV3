@@ -62,7 +62,9 @@
         <div class="col-xl-4 mb-5 text-end">
             <div class="row">
                 <div class="col-xl-12 d-grid">
+                    @if(checkUserPermission(152, $userPermissions))
                     <button class="btn btn-primary" onclick="createDevice()">Yeni Cihaz Oluştur</button>
+                    @endif
                 </div>
             </div>
         </div>

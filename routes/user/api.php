@@ -500,6 +500,11 @@ Route::middleware([
         Route::delete('delete', [\App\Http\Controllers\Api\User\FoodListController::class, 'delete'])->name('user.api.foodList.delete');
     });
 
+    Route::prefix('employeeSuggestion')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Api\User\EmployeeSuggestionController::class, 'index'])->name('user.api.employeeSuggestion.index');
+        Route::get('getById', [\App\Http\Controllers\Api\User\EmployeeSuggestionController::class, 'getById'])->name('user.api.employeeSuggestion.getById');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

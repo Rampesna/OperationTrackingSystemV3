@@ -32,6 +32,11 @@ class Employee extends Authenticatable
         return $this->email;
     }
 
+    public function guid()
+    {
+        return $this->guid;
+    }
+
     public function personalInformation()
     {
         return $this->hasOne(EmployeePersonalInformation::class, 'employee_id', 'id');

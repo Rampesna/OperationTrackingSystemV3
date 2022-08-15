@@ -1,5 +1,8 @@
 <script>
 
+    var updatePermission = `{{ checkUserPermission(156, $userPermissions) ? 'true' : 'false' }}`;
+    var deletePermission = `{{ checkUserPermission(157, $userPermissions) ? 'true' : 'false' }}`;
+
     var allDevices = [];
 
     var devicePackages = $('#devicePackages');
@@ -223,11 +226,15 @@
                                     <i class="fas fa-th"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${devicePackage.id}_Dropdown" style="width: 250px">
+                                    ${updatePermission === 'true' ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateDevicePackage(${devicePackage.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateDevicePackageDevices(${devicePackage.id})" title="Cihaz Listesi"><i class="fas fa-desktop me-2 text-info"></i> <span class="text-dark">Cihaz Listesi</span></a>
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateDevicePackageEmployee(${devicePackage.id})" title="Cihazları Personele Ata"><i class="fas fa-user-alt me-2 text-dark"></i> <span class="text-dark">Cihazları Personele Ata</span></a>
+                                    ` : ``}
+                                    ${deletePermission === 'true' ? `
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteDevicePackage(${devicePackage.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                    ` : ``}
                                 </div>
                             </div>
                         </td>

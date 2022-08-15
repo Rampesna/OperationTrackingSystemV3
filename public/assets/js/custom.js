@@ -136,6 +136,22 @@ toastr.options = {
     "hideMethod": "fadeOut"
 };
 
+function getNextSaturday(date = new Date()) {
+    const dateCopy = new Date(date.getTime());
+
+    if (parseInt(dateCopy.getDay()) === 6) {
+        return reformatDatetimeTo_YYYY_MM_DD(dateCopy);
+    } else {
+        return reformatDatetimeTo_YYYY_MM_DD(
+            new Date(
+                dateCopy.setDate(
+                    dateCopy.getDate() + ((7 - dateCopy.getDay() + 6) % 7 || 6),
+                ),
+            )
+        );
+    }
+}
+
 function reformatDateForCalendar(date) {
     var formattedDate = new Date(date);
     return formattedDate.getFullYear() + '-' +

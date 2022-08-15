@@ -3,6 +3,8 @@
 
 <script>
 
+    var createPermission = `{{ checkUserPermission(138, $userPermissions) ? 'true' : 'false' }}`;
+
     $(document).ready(function () {
         $('#loader').hide();
     });
@@ -42,11 +44,13 @@
         navLinks: true,
 
         dateClick: function (info) {
-            createFoodListCompanyId.val('');
-            $('#create_food_list_name').val('');
-            $('#create_food_list_description').val('');
-            $('#create_food_list_date').val(info.dateStr);
-            $('#CreateFoodListModal').modal('show');
+            if (createPermission === 'true') {
+                createFoodListCompanyId.val('');
+                $('#create_food_list_name').val('');
+                $('#create_food_list_description').val('');
+                $('#create_food_list_date').val(info.dateStr);
+                $('#CreateFoodListModal').modal('show');
+            }
         },
 
         eventClick: function (info) {

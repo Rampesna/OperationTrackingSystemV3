@@ -18,6 +18,7 @@ Route::middleware([
 
     Route::prefix('shift')->group(function () {
         Route::get('getDateBetweenByEmployeeId', [\App\Http\Controllers\Api\Employee\ShiftController::class, 'getDateBetweenByEmployeeId'])->name('employee.api.shift.getDateBetweenByEmployeeId');
+        Route::get('getByDateAndEmployeeId', [\App\Http\Controllers\Api\Employee\ShiftController::class, 'getByDateAndEmployeeId'])->name('employee.api.shift.getByDateAndEmployeeId');
         Route::get('getById', [\App\Http\Controllers\Api\Employee\ShiftController::class, 'getById'])->name('employee.api.shift.getById');
     });
 
@@ -40,6 +41,14 @@ Route::middleware([
         Route::get('getById', [\App\Http\Controllers\Api\Employee\PaymentController::class, 'getById'])->name('employee.api.payment.getById');
         Route::post('create', [\App\Http\Controllers\Api\Employee\PaymentController::class, 'create'])->name('employee.api.payment.create');
         Route::put('update', [\App\Http\Controllers\Api\Employee\PaymentController::class, 'update'])->name('employee.api.payment.update');
+    });
+
+    Route::prefix('employeeSuggestion')->group(function () {
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\Employee\EmployeeSuggestionController::class, 'getByEmployeeId'])->name('employee.api.employeeSuggestion.getByEmployeeId');
+        Route::get('getById', [\App\Http\Controllers\Api\Employee\EmployeeSuggestionController::class, 'getById'])->name('employee.api.employeeSuggestion.getById');
+        Route::post('create', [\App\Http\Controllers\Api\Employee\EmployeeSuggestionController::class, 'create'])->name('employee.api.employeeSuggestion.create');
+        Route::put('update', [\App\Http\Controllers\Api\Employee\EmployeeSuggestionController::class, 'update'])->name('employee.api.employeeSuggestion.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\Employee\EmployeeSuggestionController::class, 'delete'])->name('employee.api.employeeSuggestion.delete');
     });
 
     Route::prefix('permitType')->group(function () {
@@ -72,7 +81,9 @@ Route::middleware([
 
         Route::prefix('personReport')->group(function () {
             Route::get('getPersonPenalties', [\App\Http\Controllers\Api\Employee\OperationApi\PersonReportController::class, 'getPersonPenalties'])->name('employee.api.operationApi.personReport.getPersonPenalties');
-            Route::get('GetAchievementPointsSingleDetails', [\App\Http\Controllers\Api\Employee\OperationApi\PersonReportController::class, 'GetAchievementPointsSingleDetails'])->name('employee.api.operationApi.personReport.GetAchievementPointsSingleDetails');
+            Route::get('getAchievementPointsSingleDetails', [\App\Http\Controllers\Api\Employee\OperationApi\PersonReportController::class, 'getAchievementPointsSingleDetails'])->name('employee.api.operationApi.personReport.getAchievementPointsSingleDetails');
+            Route::get('getPersonPenaltiesDetails', [\App\Http\Controllers\Api\Employee\OperationApi\PersonReportController::class, 'getPersonPenaltiesDetails'])->name('employee.api.operationApi.personReport.getPersonPenaltiesDetails');
+            Route::get('getPersonnelAchievementRanking', [\App\Http\Controllers\Api\Employee\OperationApi\PersonReportController::class, 'getPersonnelAchievementRanking'])->name('employee.api.operationApi.personReport.getPersonnelAchievementRanking');
         });
 
     });

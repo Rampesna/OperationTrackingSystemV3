@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\ShiftController\GetDateBetweenByEmployeeIdRequest;
+use App\Http\Requests\Api\Employee\ShiftController\GetByDateAndEmployeeIdRequest;
 use App\Http\Requests\Api\Employee\ShiftController\GetByIdRequest;
 use App\Interfaces\Eloquent\IShiftService;
 use App\Traits\Response;
@@ -45,6 +46,29 @@ class ShiftController extends Controller
             return $this->error(
                 $getDateBetweenByEmployeeIdResponse->getMessage(),
                 $getDateBetweenByEmployeeIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByDateAndEmployeeIdRequest $request
+     */
+    public function getByDateAndEmployeeId(GetByDateAndEmployeeIdRequest $request)
+    {
+        $getByDateResponse = $this->shiftService->getByDateAndEmployeeId(
+            $request->user()->id,
+            $request->date
+        );
+        if ($getByDateResponse->isSuccess()) {
+            return $this->success(
+                $getByDateResponse->getMessage(),
+                $getByDateResponse->getData(),
+                $getByDateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByDateResponse->getMessage(),
+                $getByDateResponse->getStatusCode()
             );
         }
     }

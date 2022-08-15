@@ -18,13 +18,18 @@ Route::middleware([
     Route::prefix('dashboard')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\Employee\DashboardController::class, 'index'])->name('employee.web.dashboard.index');
     });
+
     Route::prefix('profile')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\Employee\ProfileController::class, 'index'])->name('employee.web.profile.index');
     });
+
     Route::prefix('performance')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\Employee\PerformanceController::class, 'index'])->name('employee.web.performance.index');
         Route::get('status', [\App\Http\Controllers\Web\Employee\PerformanceController::class, 'status'])->name('employee.web.performance.status');
         Route::get('achievement', [\App\Http\Controllers\Web\Employee\PerformanceController::class, 'achievement'])->name('employee.web.performance.achievement');
     });
 
+    Route::prefix('employeeSuggestion')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\Employee\EmployeeSuggestionController::class, 'index'])->name('employee.web.employeeSuggestion.index');
+    });
 });

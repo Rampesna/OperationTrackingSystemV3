@@ -369,24 +369,24 @@
         @endif
 
         @if(checkUserPermission(175, $userPermissions))
-        <div class="col-xl-2 col-6 mb-5 application" data-app-name="İşe Alım Yönetimi">
-            <a href="{{ route('user.web.recruiting.index') }}" class="card cursor-pointer h-lg-100">
-                <div class="card-body d-flex justify-content-between align-items-center flex-column">
-                    <div class="m-0">
-                    <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path opacity="0.3" d="M13.625 22H9.625V3C9.625 2.4 10.025 2 10.625 2H12.625C13.225 2 13.625 2.4 13.625 3V22Z" fill="black"/>
-                            <path d="M19.625 10H12.625V4H19.625L21.025 6.09998C21.325 6.59998 21.325 7.30005 21.025 7.80005L19.625 10Z" fill="black"/>
-                            <path d="M3.62499 16H10.625V10H3.62499L2.225 12.1001C1.925 12.6001 1.925 13.3 2.225 13.8L3.62499 16Z" fill="black"/>
-                        </svg>
-                    </span>
-                    </div>
-                    <div class="d-flex flex-column mt-7">
-                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">İşe Alım Yönetimi</span>
-                    </div>
-                </div>
-            </a>
-        </div>
+{{--        <div class="col-xl-2 col-6 mb-5 application" data-app-name="İşe Alım Yönetimi">--}}
+{{--            <a href="{{ route('user.web.recruiting.index') }}" class="card cursor-pointer h-lg-100">--}}
+{{--                <div class="card-body d-flex justify-content-between align-items-center flex-column">--}}
+{{--                    <div class="m-0">--}}
+{{--                    <span class="svg-icon svg-icon-2hx svg-icon-gray-600">--}}
+{{--                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">--}}
+{{--                            <path opacity="0.3" d="M13.625 22H9.625V3C9.625 2.4 10.025 2 10.625 2H12.625C13.225 2 13.625 2.4 13.625 3V22Z" fill="black"/>--}}
+{{--                            <path d="M19.625 10H12.625V4H19.625L21.025 6.09998C21.325 6.59998 21.325 7.30005 21.025 7.80005L19.625 10Z" fill="black"/>--}}
+{{--                            <path d="M3.62499 16H10.625V10H3.62499L2.225 12.1001C1.925 12.6001 1.925 13.3 2.225 13.8L3.62499 16Z" fill="black"/>--}}
+{{--                        </svg>--}}
+{{--                    </span>--}}
+{{--                    </div>--}}
+{{--                    <div class="d-flex flex-column mt-7">--}}
+{{--                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">İşe Alım Yönetimi</span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </a>--}}
+{{--        </div>--}}
         @endif
 
         @if(checkUserPermission(15, $userPermissions))
@@ -463,6 +463,25 @@
                     </div>
                     <div class="d-flex flex-column mt-7">
                         <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Destek Talepleri</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        @endif
+
+        @if(checkUserPermission(180, $userPermissions))
+        <div class="col-xl-2 col-6 mb-5 application" data-app-name="Destek Talepleri">
+            <a href="{{ route('user.web.employeeSuggestion.index') }}" class="card cursor-pointer h-lg-100">
+                <div class="card-body d-flex justify-content-between align-items-center flex-column">
+                    <div class="m-0">
+                    <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M13.0079 2.6L15.7079 7.2L21.0079 8.4C21.9079 8.6 22.3079 9.7 21.7079 10.4L18.1079 14.4L18.6079 19.8C18.7079 20.7 17.7079 21.4 16.9079 21L12.0079 18.8L7.10785 21C6.20785 21.4 5.30786 20.7 5.40786 19.8L5.90786 14.4L2.30785 10.4C1.70785 9.7 2.00786 8.6 3.00786 8.4L8.30785 7.2L11.0079 2.6C11.3079 1.8 12.5079 1.8 13.0079 2.6Z" fill="black"/>
+                        </svg>
+                    </span>
+                    </div>
+                    <div class="d-flex flex-column mt-7">
+                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Personel Önerileri</span>
                     </div>
                 </div>
             </a>

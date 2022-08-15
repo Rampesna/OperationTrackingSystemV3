@@ -214,6 +214,10 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\TicketController::class, 'index'])->name('user.web.ticket.index');
     });
 
+    Route::prefix('employeeSuggestion')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\EmployeeSuggestionController::class, 'index'])->name('user.web.employeeSuggestion.index');
+    });
+
     Route::prefix('screenMonitoring')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\ScreenMonitoringController::class, 'index'])->name('user.web.screenMonitoring.index');
     });

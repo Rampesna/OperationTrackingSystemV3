@@ -75,7 +75,9 @@
         <div class="col-xl-4 mb-5 text-end">
             <div class="row">
                 <div class="col-xl-12 d-grid">
+                    @if(checkUserPermission(124, $userPermissions))
                     <button class="btn btn-primary" onclick="createOvertime()">Yeni Mesai Oluştur</button>
+                    @endif
                 </div>
             </div>
         </div>

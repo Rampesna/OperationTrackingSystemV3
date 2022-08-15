@@ -16,6 +16,7 @@
 
     <div class="row">
 
+        @if(checkUserPermission(104, $userPermissions))
         <a href="{{ route('user.web.humanResources.dashboard') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -33,6 +34,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(105, $userPermissions))
         <a href="{{ route('user.web.humanResources.employee.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -50,6 +53,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(106, $userPermissions))
         <a href="{{ route('user.web.humanResources.calendar') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -67,6 +72,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(107, $userPermissions))
         <a href="{{ route('user.web.humanResources.permit') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -84,6 +91,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(108, $userPermissions))
         <a href="{{ route('user.web.humanResources.overtime') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -101,6 +110,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(109, $userPermissions))
         <a href="{{ route('user.web.humanResources.payment') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -118,6 +129,8 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(110, $userPermissions))
         <a href="{{ route('user.web.humanResources.report') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -136,6 +149,7 @@
                 </div>
             </div>
         </a>
+        @endif
 
     </div>
 

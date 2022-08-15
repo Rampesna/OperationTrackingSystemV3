@@ -1,5 +1,7 @@
 <script>
 
+    var overviewPermission = `{{ checkUserPermission(111, $userPermissions) ? 'true' : 'false' }}`;
+
     var employees = $('#employees');
 
     var page = $('#page');
@@ -39,7 +41,7 @@
                     employees.append(`
                     <tr>
                         <td>
-                            <a href="${personalInformationRoute}" class="cursor-pointer text-primary">${employee.name}</a>
+                            <a ${overviewPermission === 'true' ? `href="${personalInformationRoute}"` : ``} class="cursor-pointer text-primary">${employee.name}</a>
                         </td>
                         <td>
                             ${employee.identity}

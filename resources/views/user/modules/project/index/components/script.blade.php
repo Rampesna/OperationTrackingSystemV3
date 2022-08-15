@@ -1,5 +1,7 @@
 <script>
 
+    var overviewPermission = `{{ checkUserPermission(142, $userPermissions) ? 'true' : 'false' }}`
+
     var projectsRow = $('#projects');
     var keywordFilter = $('#keyword');
     var statusIdsFilter = $('#statusIds');
@@ -131,7 +133,7 @@
                         <div class="card border-hover-primary">
                             <div class="card-header border-0 pt-9">
                                 <div class="card-title m-0">
-                                    <a href="${overviewRoute}" class="symbol symbol-50px w-50px bg-light">
+                                    <a ${overviewPermission === 'true' ? `href="${overviewRoute}"` : ``} class="symbol symbol-50px w-50px bg-light">
                                         <img src="${imageUrl}" alt="image" class="p-3">
                                     </a>
                                 </div>
@@ -140,7 +142,7 @@
                                 </div>
                             </div>
                             <div class="card-body p-9">
-                                <a href="${overviewRoute}" class="fs-3 fw-bolder text-dark">${project.name}</a>
+                                <a ${overviewPermission === 'true' ? `href="${overviewRoute}"` : ``} class="fs-3 fw-bolder text-dark">${project.name}</a>
                                 <p></p>
                                 <div class="bg-primary rounded h-8px" role="progressbar" style="width: ${project.progress}%" aria-valuenow="${project.progress}" aria-valuemin="0" aria-valuemax="100"></div>
                                 <div class="row">

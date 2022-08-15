@@ -23,6 +23,7 @@ use App\Interfaces\Eloquent\IDeviceService;
 use App\Interfaces\Eloquent\IDeviceStatusService;
 use App\Interfaces\Eloquent\IEmployeePersonalInformationService;
 use App\Interfaces\Eloquent\IEmployeeService;
+use App\Interfaces\Eloquent\IEmployeeSuggestionService;
 use App\Interfaces\Eloquent\IFileService;
 use App\Interfaces\Eloquent\IFoodListCheckService;
 use App\Interfaces\Eloquent\IFoodListService;
@@ -96,6 +97,7 @@ use App\Services\Eloquent\DeviceService;
 use App\Services\Eloquent\DeviceStatusService;
 use App\Services\Eloquent\EmployeePersonalInformationService;
 use App\Services\Eloquent\EmployeeService;
+use App\Services\Eloquent\EmployeeSuggestionService;
 use App\Services\Eloquent\FileService;
 use App\Services\Eloquent\FoodListCheckService;
 use App\Services\Eloquent\FoodListService;
@@ -220,6 +222,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IPurchaseStatusService::class, PurchaseStatusService::class);
         $this->app->bind(IPurchaseItemService::class, PurchaseItemService::class);
         $this->app->bind(IProjectStatusService::class, ProjectStatusService::class);
+        $this->app->bind(IEmployeeSuggestionService::class, EmployeeSuggestionService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

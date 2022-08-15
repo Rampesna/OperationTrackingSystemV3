@@ -75,7 +75,9 @@
         <div class="col-xl-4 mb-5 text-end">
             <div class="row">
                 <div class="col-xl-12 d-grid">
+                    @if(checkUserPermission(121, $userPermissions))
                     <button class="btn btn-primary" onclick="createPermit()">Yeni İzin Oluştur</button>
+                    @endif
                 </div>
             </div>
         </div>

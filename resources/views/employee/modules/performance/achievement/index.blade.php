@@ -14,7 +14,7 @@
 
 @section('content')
 
-
+    <div class="row" id="achievementsRow"></div>
 
 @endsection
 

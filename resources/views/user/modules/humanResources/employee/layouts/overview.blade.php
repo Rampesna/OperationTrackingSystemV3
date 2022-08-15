@@ -30,33 +30,53 @@
         </div>
         <div class="separator"></div>
         <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder">
+
+            @if(checkUserPermission(112, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(4) === 'personalInformation' ? 'active' : '' }}" href="{{ route('user.web.humanResources.employee.personalInformation', ['id' => $id]) }}">Kişisel Bilgiler</a>
             </li>
+            @endif
+            @if(checkUserPermission(113, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(4) === 'position' ? 'active' : '' }}" href="{{ route('user.web.humanResources.employee.position', ['id' => $id]) }}">Kariyer</a>
             </li>
+            @endif
+            @if(checkUserPermission(114, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(4) === 'permit' ? 'active' : '' }}" href="{{ route('user.web.humanResources.employee.permit', ['id' => $id]) }}">İzinler</a>
             </li>
+            @endif
+            @if(checkUserPermission(115, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(4) === 'overtime' ? 'active' : '' }}" href="{{ route('user.web.humanResources.employee.overtime', ['id' => $id]) }}">Mesailer</a>
             </li>
+            @endif
+            @if(checkUserPermission(116, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(4) === 'payment' ? 'active' : '' }}" href="{{ route('user.web.humanResources.employee.payment', ['id' => $id]) }}">Ödemeler</a>
             </li>
+            @endif
+            @if(checkUserPermission(117, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(4) === 'device' ? 'active' : '' }}" href="{{ route('user.web.humanResources.employee.device', ['id' => $id]) }}">Zimmetler</a>
             </li>
+            @endif
+            @if(checkUserPermission(118, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(4) === 'file' ? 'active' : '' }}" href="{{ route('user.web.humanResources.employee.file', ['id' => $id]) }}">Dosyalar</a>
             </li>
+            @endif
+            @if(checkUserPermission(119, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(4) === 'shift' ? 'active' : '' }}" href="{{ route('user.web.humanResources.employee.shift', ['id' => $id]) }}">Vardiyalar</a>
             </li>
+            @endif
+            @if(checkUserPermission(120, $userPermissions))
             <li class="nav-item">
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(4) === 'punishment' ? 'active' : '' }}" href="{{ route('user.web.humanResources.employee.punishment', ['id' => $id]) }}">Cezalar</a>
             </li>
+            @endif
+
         </ul>
     </div>
 </div>
