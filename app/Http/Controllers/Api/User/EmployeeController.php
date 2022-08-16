@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\EmployeeController\GetAllWorkersRequest;
 use App\Http\Requests\Api\User\EmployeeController\CreateRequest;
 use App\Http\Requests\Api\User\EmployeeController\UpdateRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsRequest;
@@ -32,6 +33,26 @@ class EmployeeController extends Controller
     public function __construct(IEmployeeService $employeeService)
     {
         $this->employeeService = $employeeService;
+    }
+
+    /**
+     * @param GetAllWorkersRequest $request
+     */
+    public function getAllWorkers(GetAllWorkersRequest $request)
+    {
+        $getAllWorkersResponse = $this->employeeService->getAllWorkers();
+        if ($getAllWorkersResponse->isSuccess()) {
+            return $this->success(
+                $getAllWorkersResponse->getMessage(),
+                $getAllWorkersResponse->getData(),
+                $getAllWorkersResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllWorkersResponse->getMessage(),
+                $getAllWorkersResponse->getStatusCode()
+            );
+        }
     }
 
     /**

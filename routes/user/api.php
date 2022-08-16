@@ -89,6 +89,7 @@ Route::middleware([
     });
 
     Route::prefix('employee')->group(function () {
+        Route::get('getAllWorkers', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getAllWorkers'])->name('user.api.employee.getAllWorkers');
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIds'])->name('user.api.employee.getByCompanyIds');
         Route::get('getByCompanyIdsWithPersonalInformation', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIdsWithPersonalInformation'])->name('user.api.employee.getByCompanyIdsWithPersonalInformation');
         Route::get('getByCompanyIdsWithBalance', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByCompanyIdsWithBalance'])->name('user.api.employee.getByCompanyIdsWithBalance');
@@ -503,6 +504,27 @@ Route::middleware([
     Route::prefix('employeeSuggestion')->group(function () {
         Route::get('index', [\App\Http\Controllers\Api\User\EmployeeSuggestionController::class, 'index'])->name('user.api.employeeSuggestion.index');
         Route::get('getById', [\App\Http\Controllers\Api\User\EmployeeSuggestionController::class, 'getById'])->name('user.api.employeeSuggestion.getById');
+    });
+
+    Route::prefix('employeeQualityAssessment')->group(function () {
+        Route::get('getByUserId', [\App\Http\Controllers\Api\User\EmployeeQualityAssessmentController::class, 'getByUserId'])->name('user.api.employeeQualityAssessment.getByUserId');
+        Route::post('create', [\App\Http\Controllers\Api\User\EmployeeQualityAssessmentController::class, 'create'])->name('user.api.employeeQualityAssessment.create');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\EmployeeQualityAssessmentController::class, 'delete'])->name('user.api.employeeQualityAssessment.delete');
+    });
+
+    Route::prefix('qualityAssessmentList')->group(function () {
+        Route::get('getByQualityAssessmentTypeId', [\App\Http\Controllers\Api\User\QualityAssessmentListController::class, 'getByQualityAssessmentTypeId'])->name('user.api.qualityAssessmentList.getByQualityAssessmentTypeId');
+        Route::get('getParametersById', [\App\Http\Controllers\Api\User\QualityAssessmentListController::class, 'getParametersById'])->name('user.api.qualityAssessmentList.getParametersById');
+    });
+
+    Route::prefix('career')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Api\User\CareerController::class, 'index'])->name('user.api.career.index');
+        Route::post('sendBatchSms', [\App\Http\Controllers\Api\User\CareerController::class, 'sendBatchSms'])->name('user.api.career.sendBatchSms');
+    });
+
+    Route::prefix('batchSms')->group(function () {
+        Route::post('sendToEmployees', [\App\Http\Controllers\Api\User\BatchSmsController::class, 'sendToEmployees'])->name('user.api.batchSms.sendToEmployees');
+        Route::post('sendToNumbers', [\App\Http\Controllers\Api\User\BatchSmsController::class, 'sendToNumbers'])->name('user.api.batchSms.sendToNumbers');
     });
 
     Route::prefix('operationApi')->group(function () {

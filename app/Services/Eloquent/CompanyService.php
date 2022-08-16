@@ -100,7 +100,7 @@ class CompanyService implements ICompanyService
 
         return new ServiceResponse(
             true,
-            '',
+            'Users',
             200,
             [
                 'totalCount' => $users->count(),

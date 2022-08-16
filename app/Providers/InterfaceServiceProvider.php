@@ -9,6 +9,7 @@ use App\Interfaces\Eloquent\IAcademyEducationPlanService;
 use App\Interfaces\Eloquent\IAcademyEducationService;
 use App\Interfaces\Eloquent\IBoardService;
 use App\Interfaces\Eloquent\IBranchService;
+use App\Interfaces\Eloquent\ICareerService;
 use App\Interfaces\Eloquent\ICentralMissionService;
 use App\Interfaces\Eloquent\ICentralMissionStatusService;
 use App\Interfaces\Eloquent\ICentralMissionTypeService;
@@ -22,6 +23,7 @@ use App\Interfaces\Eloquent\IDevicePackageService;
 use App\Interfaces\Eloquent\IDeviceService;
 use App\Interfaces\Eloquent\IDeviceStatusService;
 use App\Interfaces\Eloquent\IEmployeePersonalInformationService;
+use App\Interfaces\Eloquent\IEmployeeQualityAssessmentService;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IEmployeeSuggestionService;
 use App\Interfaces\Eloquent\IFileService;
@@ -48,6 +50,7 @@ use App\Interfaces\Eloquent\IProjectStatusService;
 use App\Interfaces\Eloquent\IPurchaseItemService;
 use App\Interfaces\Eloquent\IPurchaseService;
 use App\Interfaces\Eloquent\IPurchaseStatusService;
+use App\Interfaces\Eloquent\IQualityAssessmentListService;
 use App\Interfaces\Eloquent\IQueueService;
 use App\Interfaces\Eloquent\ISaturdayPermitService;
 use App\Interfaces\Eloquent\IShiftGroupEmployeeUseListService;
@@ -64,6 +67,7 @@ use App\Interfaces\Eloquent\ITitleService;
 use App\Interfaces\Eloquent\IUserPermissionService;
 use App\Interfaces\Eloquent\IUserRoleService;
 use App\Interfaces\Eloquent\IUserService;
+use App\Interfaces\MesajPaneli\IMesajPaneliService;
 use App\Interfaces\NetsantralApi\INetsantralApiService;
 use App\Interfaces\OperationApi\IDataScanningService;
 use App\Interfaces\OperationApi\IExamSystemService;
@@ -83,6 +87,7 @@ use App\Services\Eloquent\AcademyEducationPlanService;
 use App\Services\Eloquent\AcademyEducationService;
 use App\Services\Eloquent\BoardService;
 use App\Services\Eloquent\BranchService;
+use App\Services\Eloquent\CareerService;
 use App\Services\Eloquent\CentralMissionService;
 use App\Services\Eloquent\CentralMissionStatusService;
 use App\Services\Eloquent\CentralMissionTypeService;
@@ -96,6 +101,7 @@ use App\Services\Eloquent\DevicePackageService;
 use App\Services\Eloquent\DeviceService;
 use App\Services\Eloquent\DeviceStatusService;
 use App\Services\Eloquent\EmployeePersonalInformationService;
+use App\Services\Eloquent\EmployeeQualityAssessmentService;
 use App\Services\Eloquent\EmployeeService;
 use App\Services\Eloquent\EmployeeSuggestionService;
 use App\Services\Eloquent\FileService;
@@ -122,6 +128,7 @@ use App\Services\Eloquent\ProjectStatusService;
 use App\Services\Eloquent\PurchaseItemService;
 use App\Services\Eloquent\PurchaseService;
 use App\Services\Eloquent\PurchaseStatusService;
+use App\Services\Eloquent\QualityAssessmentListService;
 use App\Services\Eloquent\QueueService;
 use App\Services\Eloquent\SaturdayPermitService;
 use App\Services\Eloquent\ShiftGroupEmployeeUseListService;
@@ -138,6 +145,7 @@ use App\Services\Eloquent\TitleService;
 use App\Services\Eloquent\UserPermissionService;
 use App\Services\Eloquent\UserRoleService;
 use App\Services\Eloquent\UserService;
+use App\Services\MesajPaneli\MesajPaneliService;
 use App\Services\NetsantralApi\NetsantralApiService;
 use App\Services\OperationApi\DataScanningService;
 use App\Services\OperationApi\ExamSystemService;
@@ -223,6 +231,9 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IPurchaseItemService::class, PurchaseItemService::class);
         $this->app->bind(IProjectStatusService::class, ProjectStatusService::class);
         $this->app->bind(IEmployeeSuggestionService::class, EmployeeSuggestionService::class);
+        $this->app->bind(IEmployeeQualityAssessmentService::class, EmployeeQualityAssessmentService::class);
+        $this->app->bind(IQualityAssessmentListService::class, QualityAssessmentListService::class);
+        $this->app->bind(ICareerService::class, CareerService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);
@@ -244,6 +255,9 @@ class InterfaceServiceProvider extends ServiceProvider
 
         // AwsServices
         $this->app->bind(IStorageService::class, StorageService::class);
+
+        // MesajPaneliServices
+        $this->app->bind(IMesajPaneliService::class, MesajPaneliService::class);
     }
 
     /**

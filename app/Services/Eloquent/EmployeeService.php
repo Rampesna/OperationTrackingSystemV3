@@ -23,6 +23,19 @@ class EmployeeService implements IEmployeeService
     }
 
     /**
+     * @return ServiceResponse
+     */
+    public function getAllWorkers(): ServiceResponse
+    {
+        return new ServiceResponse(
+            true,
+            'All worker employees',
+            200,
+            Employee::where('leave', 0)->get()
+        );
+    }
+
+    /**
      * @param int $id
      *
      * @return ServiceResponse

@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('quality_assessment_list_id');
             $table->date('date');
-            $table->string('call_number');
-            $table->string('call_url');
+            $table->string('call_number')->nullable();
+            $table->string('call_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

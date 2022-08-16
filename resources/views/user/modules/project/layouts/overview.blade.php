@@ -94,6 +94,21 @@
                 <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'ticket' ? 'active' : '' }}" href="{{ route('user.web.project.ticket', ['id' => $id]) }}">Destek Talepleri</a>
             </li>
             @endif
+            @if(checkUserPermission(184, $userPermissions))
+            <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'version' ? 'active' : '' }}" href="{{ route('user.web.project.version', ['id' => $id]) }}">Versiyonlar</a>
+            </li>
+            @endif
+            @if(checkUserPermission(185, $userPermissions))
+            <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'projectJob' ? 'active' : '' }}" href="{{ route('user.web.project.projectJob', ['id' => $id]) }}">İşler</a>
+            </li>
+            @endif
+            @if(checkUserPermission(186, $userPermissions))
+            <li class="nav-item">
+                <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'landingCustomer' ? 'active' : '' }}" href="{{ route('user.web.project.landingCustomer', ['id' => $id]) }}">Ürün Kullanıcıları</a>
+            </li>
+            @endif
 
         </ul>
     </div>

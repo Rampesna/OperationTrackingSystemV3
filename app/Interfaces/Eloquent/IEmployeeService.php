@@ -7,6 +7,11 @@ use App\Services\ServiceResponse;
 interface IEmployeeService extends IEloquentService
 {
     /**
+     * @return ServiceResponse
+     */
+    public function getAllWorkers(): ServiceResponse;
+
+    /**
      * @param string $email
      *
      * @return ServiceResponse

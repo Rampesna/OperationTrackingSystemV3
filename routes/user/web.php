@@ -124,6 +124,8 @@ Route::middleware([
 
     Route::prefix('qualityAssessment')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\QualityAssessmentController::class, 'index'])->name('user.web.qualityAssessment.index');
+        Route::get('call', [\App\Http\Controllers\Web\User\QualityAssessmentController::class, 'call'])->name('user.web.qualityAssessment.call');
+        Route::get('mail', [\App\Http\Controllers\Web\User\QualityAssessmentController::class, 'mail'])->name('user.web.qualityAssessment.mail');
     });
 
     Route::prefix('closingJob')->group(function () {
@@ -175,6 +177,14 @@ Route::middleware([
         });
     });
 
+    Route::prefix('career')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\CareerController::class, 'index'])->name('user.web.career.index');
+    });
+
+    Route::prefix('batchSms')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\BatchSmsController::class, 'index'])->name('user.web.batchSms.index');
+    });
+
     Route::prefix('foodList')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\FoodListController::class, 'index'])->name('user.web.foodList.index');
         Route::get('foodList', [\App\Http\Controllers\Web\User\FoodListController::class, 'foodList'])->name('user.web.foodList.foodList');
@@ -193,6 +203,9 @@ Route::middleware([
         Route::get('note/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'note'])->name('user.web.project.note');
         Route::get('file/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'file'])->name('user.web.project.file');
         Route::get('ticket/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'ticket'])->name('user.web.project.ticket');
+        Route::get('version/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'version'])->name('user.web.project.version');
+        Route::get('projectJob/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'projectJob'])->name('user.web.project.projectJob');
+        Route::get('landingCustomer/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'landingCustomer'])->name('user.web.project.landingCustomer');
     });
 
     Route::prefix('inventory')->group(function () {

@@ -53,4 +53,25 @@ class ProjectController extends Controller
             'id' => $request->id
         ]);
     }
+
+    public function version(Request $request)
+    {
+        return view('user.modules.project.version.index', [
+            'id' => $request->id
+        ]);
+    }
+
+    public function projectJob(Request $request)
+    {
+        return view('user.modules.project.projectJob.index', [
+            'id' => $request->id
+        ]);
+    }
+
+    public function landingCustomer(Request $request)
+    {
+        return view('user.modules.project.landingCustomer.index', [
+            'id' => $request->id
+        ]);
+    }
 }

@@ -10,4 +10,14 @@ class QualityAssessmentController extends Controller
     {
         return view('user.modules.qualityAssessment.index.index');
     }
+
+    public function call()
+    {
+        return view('user.modules.qualityAssessment.call.index');
+    }
+
+    public function mail()
+    {
+        return view('user.modules.qualityAssessment.mail.index');
+    }
 }

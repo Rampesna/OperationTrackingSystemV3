@@ -69,3 +69,15 @@ if (!function_exists('checkUserPermission')) {
         return in_array($userPermissionId, $authUserPermissions);
     }
 }
+
+if (!function_exists('clearPhoneNumber')) {
+    function clearPhoneNumber($phoneNumber)
+    {
+        $phoneNumber = str_replace(' ', '', $phoneNumber);
+        $phoneNumber = str_replace('-', '', $phoneNumber);
+        $phoneNumber = str_replace(')', '', $phoneNumber);
+        $phoneNumber = str_replace('(', '', $phoneNumber);
+
+        return $phoneNumber;
+    }
+}
