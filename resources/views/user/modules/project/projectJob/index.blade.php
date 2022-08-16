@@ -19,7 +19,7 @@
     <button id="ticketMessagesDrawerButton" style="display: none"></button>
 
     <div class="row">
-        <div class="col-xl-12 mb-5">
+        <div class="col-xl-9 mb-5">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -45,6 +45,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div class="form-group d-grid">
+                <button class="btn btn-primary" onclick="createProjectJob()">Yeni İş Oluştur</button>
             </div>
         </div>
     </div>

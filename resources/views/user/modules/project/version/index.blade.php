@@ -16,10 +16,14 @@
 
     @include('user.modules.project.layouts.overview')
 
+    @include('user.modules.project.version.modals.createProjectVersion')
+    @include('user.modules.project.version.modals.updateProjectVersion')
+    @include('user.modules.project.version.modals.deleteProjectVersion')
+
     <button id="ticketMessagesDrawerButton" style="display: none"></button>
 
     <div class="row">
-        <div class="col-xl-12 mb-5">
+        <div class="col-xl-9 mb-5">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -45,6 +49,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div class="form-group d-grid">
+                <button class="btn btn-primary" onclick="createProjectVersion()">Yeni Versiyon Oluştur</button>
             </div>
         </div>
     </div>
@@ -87,7 +96,7 @@
                             <th class="">Versiyon Başlığı</th>
                         </tr>
                         </thead>
-                        <tbody class="fw-bold text-gray-600" id="versions"></tbody>
+                        <tbody class="fw-bold text-gray-600" id="projectVersions"></tbody>
                     </table>
                 </div>
             </div>

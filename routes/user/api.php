@@ -530,6 +530,14 @@ Route::middleware([
         Route::post('sendToNumbers', [\App\Http\Controllers\Api\User\BatchSmsController::class, 'sendToNumbers'])->name('user.api.batchSms.sendToNumbers');
     });
 
+    Route::prefix('projectVersion')->group(function () {
+        Route::get('getByProjectId', [\App\Http\Controllers\Api\User\ProjectVersionController::class, 'getByProjectId'])->name('user.api.projectVersion.getByProjectId');
+        Route::get('getById', [\App\Http\Controllers\Api\User\ProjectVersionController::class, 'getById'])->name('user.api.projectVersion.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\ProjectVersionController::class, 'create'])->name('user.api.projectVersion.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\ProjectVersionController::class, 'update'])->name('user.api.projectVersion.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\ProjectVersionController::class, 'delete'])->name('user.api.projectVersion.delete');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

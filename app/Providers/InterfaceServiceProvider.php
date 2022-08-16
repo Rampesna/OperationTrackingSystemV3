@@ -47,6 +47,7 @@ use App\Interfaces\Eloquent\IPersonalAccessTokenService;
 use App\Interfaces\Eloquent\IPositionService;
 use App\Interfaces\Eloquent\IProjectService;
 use App\Interfaces\Eloquent\IProjectStatusService;
+use App\Interfaces\Eloquent\IProjectVersionService;
 use App\Interfaces\Eloquent\IPurchaseItemService;
 use App\Interfaces\Eloquent\IPurchaseService;
 use App\Interfaces\Eloquent\IPurchaseStatusService;
@@ -125,6 +126,7 @@ use App\Services\Eloquent\PersonalAccessTokenService;
 use App\Services\Eloquent\PositionService;
 use App\Services\Eloquent\ProjectService;
 use App\Services\Eloquent\ProjectStatusService;
+use App\Services\Eloquent\ProjectVersionService;
 use App\Services\Eloquent\PurchaseItemService;
 use App\Services\Eloquent\PurchaseService;
 use App\Services\Eloquent\PurchaseStatusService;
@@ -234,6 +236,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IEmployeeQualityAssessmentService::class, EmployeeQualityAssessmentService::class);
         $this->app->bind(IQualityAssessmentListService::class, QualityAssessmentListService::class);
         $this->app->bind(ICareerService::class, CareerService::class);
+        $this->app->bind(IProjectVersionService::class, ProjectVersionService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);
