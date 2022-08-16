@@ -616,6 +616,7 @@ Route::middleware([
 
         Route::prefix('jobsSystem')->group(function () {
             Route::post('setJobsExcel', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobsExcel'])->name('user.api.operationApi.jobsSystem.setJobsExcel');
+            Route::post('setJobsWithId', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobsWithId'])->name('user.api.operationApi.jobsSystem.setJobsWithId');
             Route::post('setJobsClosedExcel', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobsClosedExcel'])->name('user.api.operationApi.jobsSystem.setJobsClosedExcel');
             Route::post('setJobSuspend', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobSuspend'])->name('user.api.operationApi.jobsSystem.setJobSuspend');
             Route::post('setJobCaseWorkDelete', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobCaseWorkDelete'])->name('user.api.operationApi.jobsSystem.setJobCaseWorkDelete');

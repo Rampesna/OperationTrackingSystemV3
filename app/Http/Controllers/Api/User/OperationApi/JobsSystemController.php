@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User\OperationApi;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\OperationApi\JobsSystemController\SetJobsExcelRequest;
+use App\Http\Requests\Api\User\OperationApi\JobsSystemController\SetJobsWithIdRequest;
 use App\Http\Requests\Api\User\OperationApi\JobsSystemController\SetJobsClosedExcelRequest;
 use App\Http\Requests\Api\User\OperationApi\JobsSystemController\SetJobSuspendRequest;
 use App\Http\Requests\Api\User\OperationApi\JobsSystemController\SetJobCaseWorkDeleteRequest;
@@ -48,6 +49,33 @@ class JobsSystemController extends Controller
             ];
         }
 
+        $setJobsExcelResponse = $this->jobsSystemService->SetJobsExcel($jobList);
+        if ($setJobsExcelResponse->isSuccess()) {
+            return $this->success(
+                $setJobsExcelResponse->getMessage(),
+                $setJobsExcelResponse->getData(),
+                $setJobsExcelResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setJobsExcelResponse->getMessage(),
+                $setJobsExcelResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetJobsWithIdRequest $request
+     */
+    public function setJobsWithId(SetJobsWithIdRequest $request)
+    {
+        $jobList = [[
+            'id' => $request->id,
+            'oncelik' => $request->priority,
+            'kullaniciYapilacakIslerKodu' => $request->code ?? 1,
+            'Turu' => $request->typeId,
+            'firmaTuru' => $request->commercialCompanyId,
+        ]];
         $setJobsExcelResponse = $this->jobsSystemService->SetJobsExcel($jobList);
         if ($setJobsExcelResponse->isSuccess()) {
             return $this->success(

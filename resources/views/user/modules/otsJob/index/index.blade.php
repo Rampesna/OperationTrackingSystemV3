@@ -19,6 +19,7 @@
     @include('user.modules.otsJob.index.modals.setJobCaseWorkDelete')
     @include('user.modules.otsJob.index.modals.setJobsClosedExcel')
     @include('user.modules.otsJob.index.modals.setJobsExcel')
+    @include('user.modules.otsJob.index.modals.setJobsWithId')
     @include('user.modules.otsJob.index.modals.setJobSuspend')
 
     <div class="row">
@@ -41,6 +42,25 @@
                 </div>
             </div>
         </a>
+        @endif
+        @if(checkUserPermission(37, $userPermissions))
+            <a onclick="setJobsWithId()" class="col-xl-2 col-6 cursor-pointer mb-5">
+                <div class="card h-lg-100">
+                    <div class="card-body d-flex justify-content-between align-items-center flex-column">
+                        <div class="m-0">
+                    <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path opacity="0.3" d="M5 16C3.3 16 2 14.7 2 13C2 11.3 3.3 10 5 10H5.1C5 9.7 5 9.3 5 9C5 6.2 7.2 4 10 4C11.9 4 13.5 5 14.3 6.5C14.8 6.2 15.4 6 16 6C17.7 6 19 7.3 19 9C19 9.4 18.9 9.7 18.8 10C18.9 10 18.9 10 19 10C20.7 10 22 11.3 22 13C22 14.7 20.7 16 19 16H5ZM8 13.6H16L12.7 10.3C12.3 9.89999 11.7 9.89999 11.3 10.3L8 13.6Z" fill="black"/>
+                            <path d="M11 13.6V19C11 19.6 11.4 20 12 20C12.6 20 13 19.6 13 19V13.6H11Z" fill="black"/>
+                        </svg>
+                    </span>
+                        </div>
+                        <div class="d-flex flex-column mt-7">
+                            <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">ID İle İş Aktarımı</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
         @endif
         @if(checkUserPermission(38, $userPermissions))
         <a onclick="setDataScanning()" class="col-xl-2 col-6 cursor-pointer mb-5">
