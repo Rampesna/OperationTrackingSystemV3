@@ -45,6 +45,8 @@ use App\Interfaces\Eloquent\IPermitService;
 use App\Interfaces\Eloquent\IPermitTypeService;
 use App\Interfaces\Eloquent\IPersonalAccessTokenService;
 use App\Interfaces\Eloquent\IPositionService;
+use App\Interfaces\Eloquent\IProjectJobService;
+use App\Interfaces\Eloquent\IProjectJobTypeService;
 use App\Interfaces\Eloquent\IProjectService;
 use App\Interfaces\Eloquent\IProjectStatusService;
 use App\Interfaces\Eloquent\IProjectVersionService;
@@ -124,6 +126,8 @@ use App\Services\Eloquent\PermitService;
 use App\Services\Eloquent\PermitTypeService;
 use App\Services\Eloquent\PersonalAccessTokenService;
 use App\Services\Eloquent\PositionService;
+use App\Services\Eloquent\ProjectJobService;
+use App\Services\Eloquent\ProjectJobTypeService;
 use App\Services\Eloquent\ProjectService;
 use App\Services\Eloquent\ProjectStatusService;
 use App\Services\Eloquent\ProjectVersionService;
@@ -237,6 +241,8 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IQualityAssessmentListService::class, QualityAssessmentListService::class);
         $this->app->bind(ICareerService::class, CareerService::class);
         $this->app->bind(IProjectVersionService::class, ProjectVersionService::class);
+        $this->app->bind(IProjectJobService::class, ProjectJobService::class);
+        $this->app->bind(IProjectJobTypeService::class, ProjectJobTypeService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

@@ -60,6 +60,10 @@
                         </div>
                         <div class="separator my-2"></div>
                         <div class="menu-item px-5">
+                            <a href="{{ route('user.web.profile.index') }}" class="menu-link px-5">Profilim</a>
+                        </div>
+                        <div class="separator my-2"></div>
+                        <div class="menu-item px-5">
                             <a href="{{ route('user.web.authentication.logout') }}" class="menu-link px-5">Çıkış Yap</a>
                         </div>
                         <div class="separator my-2"></div>

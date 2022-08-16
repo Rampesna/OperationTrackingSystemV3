@@ -16,6 +16,10 @@
 
     @include('user.modules.project.layouts.overview')
 
+    @include('user.modules.project.projectJob.modals.createProjectJob')
+    @include('user.modules.project.projectJob.modals.updateProjectJob')
+    @include('user.modules.project.projectJob.modals.deleteProjectJob')
+
     <button id="ticketMessagesDrawerButton" style="display: none"></button>
 
     <div class="row">

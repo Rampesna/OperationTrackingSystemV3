@@ -14,6 +14,7 @@ use App\Http\Requests\Api\User\UserController\SetSelectedCompaniesRequest;
 use App\Http\Requests\Api\User\UserController\LoginRequest;
 use App\Http\Requests\Api\User\UserController\GetProfileRequest;
 use App\Http\Requests\Api\User\UserController\SwapThemeRequest;
+use App\Http\Requests\Api\User\UserController\UpdatePasswordRequest;
 use App\Http\Requests\Api\User\UserController\GetAllRequest;
 use App\Http\Requests\Api\User\UserController\GetByIdRequest;
 use App\Http\Requests\Api\User\UserController\GetByEmailRequest;
@@ -160,6 +161,36 @@ class UserController extends Controller
             return $this->error(
                 $swapThemeResponse->getMessage(),
                 $swapThemeResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdatePasswordRequest $request
+     */
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $user = $this->userService->getById($request->user()->id);
+        if ($user->isSuccess()) {
+            if (Hash::check($request->oldPassword, $user->getData()->password)) {
+                $user->getData()->password = bcrypt($request->newPassword);
+                $user->getData()->save();
+
+                return $this->success(
+                    'Password updated successfully',
+                    $user->getData(),
+                    $user->getStatusCode()
+                );
+            } else {
+                return $this->error(
+                    'Old password is incorrect',
+                    401
+                );
+            }
+        } else {
+            return $this->error(
+                $user->getMessage(),
+                $user->getStatusCode()
             );
         }
     }

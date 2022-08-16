@@ -20,6 +20,7 @@ Route::middleware([
     Route::get('getSelectedCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'getSelectedCompanies'])->name('user.api.getSelectedCompanies');
     Route::post('setSelectedCompanies', [\App\Http\Controllers\Api\User\UserController::class, 'setSelectedCompanies'])->name('user.api.setSelectedCompanies');
     Route::post('swapTheme', [\App\Http\Controllers\Api\User\UserController::class, 'swapTheme'])->name('user.api.swapTheme');
+    Route::post('updatePassword', [\App\Http\Controllers\Api\User\UserController::class, 'updatePassword'])->name('user.api.updatePassword');
 
     Route::prefix('user')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\UserController::class, 'getAll'])->name('user.api.user.getAll');
@@ -536,6 +537,18 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\User\ProjectVersionController::class, 'create'])->name('user.api.projectVersion.create');
         Route::put('update', [\App\Http\Controllers\Api\User\ProjectVersionController::class, 'update'])->name('user.api.projectVersion.update');
         Route::delete('delete', [\App\Http\Controllers\Api\User\ProjectVersionController::class, 'delete'])->name('user.api.projectVersion.delete');
+    });
+
+    Route::prefix('projectJob')->group(function () {
+        Route::get('getByProjectId', [\App\Http\Controllers\Api\User\ProjectJobController::class, 'getByProjectId'])->name('user.api.projectJob.getByProjectId');
+        Route::get('getById', [\App\Http\Controllers\Api\User\ProjectJobController::class, 'getById'])->name('user.api.projectJob.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\ProjectJobController::class, 'create'])->name('user.api.projectJob.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\ProjectJobController::class, 'update'])->name('user.api.projectJob.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\ProjectJobController::class, 'delete'])->name('user.api.projectJob.delete');
+    });
+
+    Route::prefix('projectJobType')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\ProjectJobTypeController::class, 'getAll'])->name('user.api.projectJobType.getAll');
     });
 
     Route::prefix('operationApi')->group(function () {

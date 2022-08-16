@@ -1,4 +1,4 @@
-<div class="modal fade show" id="DeleteTicketModal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
+<div class="modal fade show" id="DeleteProjectJobModal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered mw-800px">
         <div class="modal-content rounded">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -14,17 +14,17 @@
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <div class="form fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="mb-13 text-center">
-                        <h1 class="mb-3">Destek Talebi Sil</h1>
+                        <h1 class="mb-3">İş Sil</h1>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-                        <input type="hidden" id="delete_ticket_id">
+                        <input type="hidden" id="delete_project_job_id">
                         <p class="text-center">
-                            Bu destek talebini silmek istediğinize emin misiniz?
+                            Bu işi silmek istediğinize emin misiniz?
                         </p>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>
-                        <button type="button" class="btn btn-danger" id="DeleteTicketButton">Sil</button>
+                        <button type="button" class="btn btn-danger" id="DeleteProjectJobButton">Sil</button>
                     </div>
                 </div>
             </div>
