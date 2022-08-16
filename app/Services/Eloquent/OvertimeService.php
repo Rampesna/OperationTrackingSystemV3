@@ -458,6 +458,58 @@ class OvertimeService implements IOvertimeService
     }
 
     /**
+     * @param array $companyIds
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function getDateBetweenAndCompanyIds(
+        array  $companyIds,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse
+    {
+        $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(
+            0,
+            1000,
+            $companyIds
+        );
+        if ($employeesByCompanyIdsResponse->isSuccess()) {
+            $overtimes = Overtime::with([
+                'employee',
+                'status',
+                'type'
+            ])->orderBy('id', 'desc')->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray());
+
+            $overtimes->where(function ($permits) use ($startDate, $endDate) {
+                $permits->whereBetween('start_date', [
+                    $startDate . ' 00:00:00',
+                    $endDate . ' 23:59:59'
+                ])->
+                orWhere(function ($permits) use ($startDate, $endDate) {
+                    $permits->whereBetween('end_date', [
+                        $startDate . ' 00:00:00',
+                        $endDate . ' 23:59:59'
+                    ]);
+                })->
+                orWhere(function ($permits) use ($startDate, $endDate) {
+                    $permits->where('start_date', '<=', $startDate)->where('end_date', '>=', $endDate);
+                });
+            });
+
+            return new ServiceResponse(
+                true,
+                'Overtimes',
+                200,
+                $overtimes->get()
+            );
+        } else {
+            return $employeesByCompanyIdsResponse;
+        }
+    }
+
+    /**
      * @param int $overtimeId
      * @param int $statusId
      *

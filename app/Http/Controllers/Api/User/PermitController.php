@@ -8,6 +8,7 @@ use App\Http\Requests\Api\User\PermitController\GetByIdRequest;
 use App\Http\Requests\Api\User\PermitController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\PermitController\GetDateBetweenByEmployeeIdsAndTypeIdsRequest;
+use App\Http\Requests\Api\User\PermitController\GetDateBetweenAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PermitController\CalculateAnnualPermitRequest;
@@ -100,6 +101,30 @@ class PermitController extends Controller
             return $this->error(
                 $getByCompanyIdsResponse->getMessage(),
                 $getByCompanyIdsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetDateBetweenAndCompanyIdsRequest $request
+     */
+    public function getDateBetweenAndCompanyIds(GetDateBetweenAndCompanyIdsRequest $request)
+    {
+        $getDateBetweenAndCompanyIdsResponse = $this->permitService->getDateBetweenAndCompanyIds(
+            $request->companyIds,
+            $request->startDate,
+            $request->endDate
+        );
+        if ($getDateBetweenAndCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getDateBetweenAndCompanyIdsResponse->getMessage(),
+                $getDateBetweenAndCompanyIdsResponse->getData(),
+                $getDateBetweenAndCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDateBetweenAndCompanyIdsResponse->getMessage(),
+                $getDateBetweenAndCompanyIdsResponse->getStatusCode()
             );
         }
     }

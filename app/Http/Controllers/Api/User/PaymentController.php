@@ -8,6 +8,7 @@ use App\Http\Requests\Api\User\PaymentController\GetByIdRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByStatusIdAndCompanyIdsRequest;
+use App\Http\Requests\Api\User\PaymentController\GetDateBetweenAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\PaymentController\CreateRequest;
 use App\Http\Requests\Api\User\PaymentController\UpdateRequest;
@@ -172,6 +173,30 @@ class PaymentController extends Controller
             return $this->error(
                 $getByDateResponse->getMessage(),
                 $getByDateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetDateBetweenAndCompanyIdsRequest $request
+     */
+    public function getDateBetweenAndCompanyIds(GetDateBetweenAndCompanyIdsRequest $request)
+    {
+        $getDateBetweenAndCompanyIdsResponse = $this->paymentService->getDateBetweenAndCompanyIds(
+            $request->companyIds,
+            $request->startDate,
+            $request->endDate
+        );
+        if ($getDateBetweenAndCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getDateBetweenAndCompanyIdsResponse->getMessage(),
+                $getDateBetweenAndCompanyIdsResponse->getData(),
+                $getDateBetweenAndCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDateBetweenAndCompanyIdsResponse->getMessage(),
+                $getDateBetweenAndCompanyIdsResponse->getStatusCode()
             );
         }
     }

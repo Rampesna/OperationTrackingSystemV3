@@ -354,6 +354,7 @@ Route::middleware([
         Route::get('getDateBetweenByEmployeeIdsAndTypeIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getDateBetweenByEmployeeIdsAndTypeIds'])->name('user.api.permit.getDateBetweenByEmployeeIdsAndTypeIds');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.permit.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getByDateAndCompanyIds'])->name('user.api.permit.getByDateAndCompanyIds');
+        Route::get('getDateBetweenAndCompanyIds', [\App\Http\Controllers\Api\User\PermitController::class, 'getDateBetweenAndCompanyIds'])->name('user.api.permit.getDateBetweenAndCompanyIds');
         Route::get('calculateAnnualPermit', [\App\Http\Controllers\Api\User\PermitController::class, 'calculateAnnualPermit'])->name('user.api.permit.calculateAnnualPermit');
         Route::post('create', [\App\Http\Controllers\Api\User\PermitController::class, 'create'])->name('user.api.permit.create');
         Route::put('update', [\App\Http\Controllers\Api\User\PermitController::class, 'update'])->name('user.api.permit.update');
@@ -369,6 +370,7 @@ Route::middleware([
         Route::get('getDateBetweenByEmployeeIdsAndTypeIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getDateBetweenByEmployeeIdsAndTypeIds'])->name('user.api.overtime.getDateBetweenByEmployeeIdsAndTypeIds');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.overtime.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getByDateAndCompanyIds'])->name('user.api.overtime.getByDateAndCompanyIds');
+        Route::get('getDateBetweenAndCompanyIds', [\App\Http\Controllers\Api\User\OvertimeController::class, 'getDateBetweenAndCompanyIds'])->name('user.api.overtime.getDateBetweenAndCompanyIds');
         Route::post('create', [\App\Http\Controllers\Api\User\OvertimeController::class, 'create'])->name('user.api.overtime.create');
         Route::put('update', [\App\Http\Controllers\Api\User\OvertimeController::class, 'update'])->name('user.api.overtime.update');
         Route::put('setStatus', [\App\Http\Controllers\Api\User\OvertimeController::class, 'setStatus'])->name('user.api.overtime.setStatus');
@@ -382,6 +384,7 @@ Route::middleware([
         Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByEmployeeId'])->name('user.api.payment.getByEmployeeId');
         Route::get('getByStatusIdAndCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByStatusIdAndCompanyIds'])->name('user.api.payment.getByStatusIdAndCompanyIds');
         Route::get('getByDateAndCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getByDateAndCompanyIds'])->name('user.api.payment.getByDateAndCompanyIds');
+        Route::get('getDateBetweenAndCompanyIds', [\App\Http\Controllers\Api\User\PaymentController::class, 'getDateBetweenAndCompanyIds'])->name('user.api.payment.getDateBetweenAndCompanyIds');
         Route::post('create', [\App\Http\Controllers\Api\User\PaymentController::class, 'create'])->name('user.api.payment.create');
         Route::put('update', [\App\Http\Controllers\Api\User\PaymentController::class, 'update'])->name('user.api.payment.update');
         Route::put('setStatus', [\App\Http\Controllers\Api\User\PaymentController::class, 'setStatus'])->name('user.api.payment.setStatus');

@@ -8,6 +8,7 @@ use App\Http\Requests\Api\User\OvertimeController\GetByIdRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetDateBetweenByEmployeeIdsAndTypeIdsRequest;
+use App\Http\Requests\Api\User\OvertimeController\GetDateBetweenAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByStatusIdAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\OvertimeController\CreateRequest;
@@ -198,6 +199,30 @@ class OvertimeController extends Controller
             return $this->error(
                 $getByDateResponse->getMessage(),
                 $getByDateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetDateBetweenAndCompanyIdsRequest $request
+     */
+    public function getDateBetweenAndCompanyIds(GetDateBetweenAndCompanyIdsRequest $request)
+    {
+        $getDateBetweenAndCompanyIdsResponse = $this->overtimeService->getDateBetweenAndCompanyIds(
+            $request->companyIds,
+            $request->startDate,
+            $request->endDate
+        );
+        if ($getDateBetweenAndCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getDateBetweenAndCompanyIdsResponse->getMessage(),
+                $getDateBetweenAndCompanyIdsResponse->getData(),
+                $getDateBetweenAndCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDateBetweenAndCompanyIdsResponse->getMessage(),
+                $getDateBetweenAndCompanyIdsResponse->getStatusCode()
             );
         }
     }

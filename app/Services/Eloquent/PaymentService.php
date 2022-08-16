@@ -392,6 +392,47 @@ class PaymentService implements IPaymentService
     }
 
     /**
+     * @param array $companyIds
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function getDateBetweenAndCompanyIds(
+        array  $companyIds,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse
+    {
+        $employeesByCompanyIdsResponse = $this->employeeService->getByCompanyIds(
+            0,
+            1000,
+            $companyIds
+        );
+        if ($employeesByCompanyIdsResponse->isSuccess()) {
+            $payments = Payment::with([
+                'employee',
+                'status',
+                'type'
+            ])->orderBy('id', 'desc')->whereIn('employee_id', collect($employeesByCompanyIdsResponse->getData()['employees'])->pluck('id')->toArray());
+
+            $payments->whereBetween('date', [
+                $startDate,
+                $endDate
+            ]);
+
+            return new ServiceResponse(
+                true,
+                'Payments',
+                200,
+                $payments->get()
+            );
+        } else {
+            return $employeesByCompanyIdsResponse;
+        }
+    }
+
+    /**
      * @param int $paymentId
      * @param int $statusId
      *
