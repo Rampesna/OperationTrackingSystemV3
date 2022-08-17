@@ -263,6 +263,10 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\CentralMissionStatusController::class, 'index'])->name('user.web.centralMissionStatus.index');
     });
 
+    Route::prefix('centralMissionType')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\CentralMissionTypeController::class, 'index'])->name('user.web.centralMissionType.index');
+    });
+
     Route::prefix('jobDepartment')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\JobDepartmentController::class, 'index'])->name('user.web.jobDepartment.index');
     });

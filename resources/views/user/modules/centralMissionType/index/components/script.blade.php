@@ -1,6 +1,6 @@
 <script>
 
-    var centralMissionStatuses = $('#centralMissionStatuses');
+    var centralMissionTypes = $('#centralMissionTypes');
 
     var page = $('#page');
     var pageUpButton = $('#pageUp');
@@ -9,24 +9,24 @@
 
     var keywordFilter = $('#keyword');
 
-    var CreateCentralMissionStatusButton = $('#CreateCentralMissionStatusButton');
-    var UpdateCentralMissionStatusButton = $('#UpdateCentralMissionStatusButton');
-    var DeleteCentralMissionStatusButton = $('#DeleteCentralMissionStatusButton');
+    var CreateCentralMissionTypeButton = $('#CreateCentralMissionTypeButton');
+    var UpdateCentralMissionTypeButton = $('#UpdateCentralMissionTypeButton');
+    var DeleteCentralMissionTypeButton = $('#DeleteCentralMissionTypeButton');
 
-    var createCentralMissionStatusCompanyId = $('#create_central_mission_status_company_id');
-    var updateCentralMissionStatusCompanyId = $('#update_central_mission_status_company_id');
+    var createCentralMissionTypeCompanyId = $('#create_central_mission_type_company_id');
+    var updateCentralMissionTypeCompanyId = $('#update_central_mission_type_company_id');
 
-    function createCentralMissionStatus() {
-        $('#create_central_mission_status_name').val('');
-        $('#CreateCentralMissionStatusModal').modal('show');
+    function createCentralMissionType() {
+        $('#create_central_mission_type_name').val('');
+        $('#CreateCentralMissionTypeModal').modal('show');
     }
 
-    function updateCentralMissionStatus(id) {
+    function updateCentralMissionType(id) {
         $('#loader').show();
-        $('#update_central_mission_status_id').val(id);
+        $('#update_central_mission_type_id').val(id);
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.centralMissionStatus.getById') }}',
+            url: '{{ route('user.api.centralMissionType.getById') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -35,24 +35,24 @@
                 id: id,
             },
             success: function (response) {
-                $('#update_central_mission_status_name').val(response.response.name);
-                $('#UpdateCentralMissionStatusModal').modal('show');
+                $('#update_central_mission_type_name').val(response.response.name);
+                $('#UpdateCentralMissionTypeModal').modal('show');
                 $('#loader').hide();
             },
             error: function (error) {
                 console.log(error);
-                toastr.error('Merkezi Görev Durumu Verileri Alınırken Serviste Bir Sorun Oluştu!');
+                toastr.error('Merkezi Görev Türü Verileri Alınırken Serviste Bir Sorun Oluştu!');
                 $('#loader').hide();
             }
         });
     }
 
-    function deleteCentralMissionStatus(id) {
-        $('#delete_central_mission_status_id').val(id);
-        $('#DeleteCentralMissionStatusModal').modal('show');
+    function deleteCentralMissionType(id) {
+        $('#delete_central_mission_type_id').val(id);
+        $('#DeleteCentralMissionTypeModal').modal('show');
     }
 
-    function getCentralMissionStatuses() {
+    function getCentralMissionTypes() {
         $('#loader').show();
         var companyIds = SelectedCompanies.val();
         var pageIndex = parseInt(page.html()) - 1;
@@ -61,7 +61,7 @@
 
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.centralMissionStatus.index') }}',
+            url: '{{ route('user.api.centralMissionType.index') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -74,24 +74,24 @@
             },
             success: function (response) {
                 console.log(response);
-                centralMissionStatuses.empty();
-                $.each(response.response.centralMissionStatuses, function (i, centralMissionStatus) {
-                    centralMissionStatuses.append(`
+                centralMissionTypes.empty();
+                $.each(response.response.centralMissionTypes, function (i, centralMissionType) {
+                    centralMissionTypes.append(`
                     <tr>
                         <td class="text-end">
                             <div class="dropdown">
-                                <button class="btn btn-secondary btn-icon btn-sm" type="button" id="${centralMissionStatus.id}_Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary btn-icon btn-sm" type="button" id="${centralMissionType.id}_Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-th"></i>
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="${centralMissionStatus.id}_Dropdown" style="width: 175px">
-                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateCentralMissionStatus(${centralMissionStatus.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                <div class="dropdown-menu" aria-labelledby="${centralMissionType.id}_Dropdown" style="width: 175px">
+                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateCentralMissionType(${centralMissionType.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
                                     <hr class="text-muted">
-                                    <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteCentralMissionStatus(${centralMissionStatus.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                    <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteCentralMissionType(${centralMissionType.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            ${centralMissionStatus.name}
+                            ${centralMissionType.name}
                         </td>
                     </tr>
                     `);
@@ -113,7 +113,7 @@
         });
     }
 
-    getCentralMissionStatuses();
+    getCentralMissionTypes();
 
     keywordFilter.on('keypress', function (e) {
         if (e.which === 13) {
@@ -129,7 +129,7 @@
         }
 
         page.html(newPage);
-        getCentralMissionStatuses();
+        getCentralMissionTypes();
     }
 
     pageUpButton.click(function () {
@@ -144,17 +144,17 @@
         changePage(1);
     });
 
-    CreateCentralMissionStatusButton.click(function () {
-        var name = $('#create_central_mission_status_name').val();
+    CreateCentralMissionTypeButton.click(function () {
+        var name = $('#create_central_mission_type_name').val();
 
         if (!name) {
-            toastr.warning('Merkezi Görev Durumu Adı Zorunludur!');
+            toastr.warning('Merkezi Görev Türü Adı Zorunludur!');
         } else {
             $('#loader').show();
-            $('#CreateCentralMissionStatusModal').modal('hide');
+            $('#CreateCentralMissionTypeModal').modal('hide');
             $.ajax({
                 type: 'post',
-                url: '{{ route('user.api.centralMissionStatus.create') }}',
+                url: '{{ route('user.api.centralMissionType.create') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token
@@ -163,31 +163,31 @@
                     name: name,
                 },
                 success: function () {
-                    toastr.success('Merkezi Görev Durumu Başarıyla Oluşturuldu!');
+                    toastr.success('Merkezi Görev Türü Başarıyla Oluşturuldu!');
                     changePage(1);
                     $('#loader').hide();
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('Merkezi Görev Durumu Oluşturulurken Serviste Bir Sorun Oluştu!');
+                    toastr.error('Merkezi Görev Türü Oluşturulurken Serviste Bir Sorun Oluştu!');
                     $('#loader').hide();
                 }
             });
         }
     });
 
-    UpdateCentralMissionStatusButton.click(function () {
-        var id = $('#update_central_mission_status_id').val();
-        var name = $('#update_central_mission_status_name').val();
+    UpdateCentralMissionTypeButton.click(function () {
+        var id = $('#update_central_mission_type_id').val();
+        var name = $('#update_central_mission_type_name').val();
 
         if (!name) {
-            toastr.warning('Merkezi Görev Durumu Adı Zorunludur!');
+            toastr.warning('Merkezi Görev Türü Adı Zorunludur!');
         } else {
             $('#loader').show();
-            $('#UpdateCentralMissionStatusModal').modal('hide');
+            $('#UpdateCentralMissionTypeModal').modal('hide');
             $.ajax({
                 type: 'put',
-                url: '{{ route('user.api.centralMissionStatus.update') }}',
+                url: '{{ route('user.api.centralMissionType.update') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token
@@ -197,26 +197,26 @@
                     name: name,
                 },
                 success: function () {
-                    toastr.success('Merkezi Görev Durumu Başarıyla Güncellendi!');
+                    toastr.success('Merkezi Görev Türü Başarıyla Güncellendi!');
                     changePage(parseInt(page.html()));
                     $('#loader').hide();
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('Merkezi Görev Durumu Güncellenirken Serviste Bir Sorun Oluştu!');
+                    toastr.error('Merkezi Görev Türü Güncellenirken Serviste Bir Sorun Oluştu!');
                     $('#loader').hide();
                 }
             });
         }
     });
 
-    DeleteCentralMissionStatusButton.click(function () {
-        var id = $('#delete_central_mission_status_id').val();
+    DeleteCentralMissionTypeButton.click(function () {
+        var id = $('#delete_central_mission_type_id').val();
         $('#loader').show();
-        $('#DeleteCentralMissionStatusModal').modal('hide');
+        $('#DeleteCentralMissionTypeModal').modal('hide');
         $.ajax({
             type: 'delete',
-            url: '{{ route('user.api.centralMissionStatus.delete') }}',
+            url: '{{ route('user.api.centralMissionType.delete') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -225,13 +225,13 @@
                 id: id,
             },
             success: function () {
-                toastr.success('Merkezi Görev Durumu Başarıyla Silindi!');
+                toastr.success('Merkezi Görev Türü Başarıyla Silindi!');
                 changePage(parseInt(page.html()));
                 $('#loader').hide();
             },
             error: function (error) {
                 console.log(error);
-                toastr.error('Merkezi Görev Durumu Silinirken Serviste Bir Sorun Oluştu!');
+                toastr.error('Merkezi Görev Türü Silinirken Serviste Bir Sorun Oluştu!');
                 $('#loader').hide();
             }
         });

@@ -15,9 +15,41 @@ class CentralMissionTypeService implements ICentralMissionTypeService
     {
         return new ServiceResponse(
             true,
-            'All centralMission types',
+            'All central mission types',
             200,
             CentralMissionType::all()
+        );
+    }
+
+    /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     */
+    public function index(
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword = null
+    ): ServiceResponse
+    {
+        $centralMissionTypes = CentralMissionType::with([]);
+
+        if ($keyword) {
+            $centralMissionTypes->where('name', 'like', '%' . $keyword . '%');
+        }
+
+        return new ServiceResponse(
+            true,
+            'Central mission types',
+            200,
+            [
+                'totalCount' => $centralMissionTypes->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'centralMissionTypes' => $centralMissionTypes->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
         );
     }
 
@@ -34,14 +66,14 @@ class CentralMissionTypeService implements ICentralMissionTypeService
         if ($centralMissionType) {
             return new ServiceResponse(
                 true,
-                'CentralMission type',
+                'Central mission type',
                 200,
                 $centralMissionType
             );
         } else {
             return new ServiceResponse(
                 false,
-                'CentralMission type not found',
+                'Central mission type not found',
                 404,
                 null
             );
@@ -61,9 +93,53 @@ class CentralMissionTypeService implements ICentralMissionTypeService
         if ($centralMissionType->isSuccess()) {
             return new ServiceResponse(
                 true,
-                'CentralMission type deleted',
+                'Central mission type deleted',
                 200,
                 $centralMissionType->getData()->delete()
+            );
+        } else {
+            return $centralMissionType;
+        }
+    }
+
+    /**
+     * @param string $name
+     */
+    public function create(
+        string $name
+    ): ServiceResponse
+    {
+        $centralMissionType = new CentralMissionType;
+        $centralMissionType->name = $name;
+        $centralMissionType->save();
+
+        return new ServiceResponse(
+            true,
+            'Central mission type created',
+            201,
+            $centralMissionType
+        );
+    }
+
+    /**
+     * @param int $id
+     * @param string $name
+     */
+    public function update(
+        int    $id,
+        string $name
+    ): ServiceResponse
+    {
+        $centralMissionType = $this->getById($id);
+        if ($centralMissionType->isSuccess()) {
+            $centralMissionType->getData()->name = $name;
+            $centralMissionType->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Central mission type updated',
+                200,
+                $centralMissionType
             );
         } else {
             return $centralMissionType;

@@ -461,10 +461,20 @@ Route::middleware([
 
     Route::prefix('centralMissionType')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\CentralMissionTypeController::class, 'getAll'])->name('user.api.centralMissionType.getAll');
+        Route::get('index', [\App\Http\Controllers\Api\User\CentralMissionTypeController::class, 'index'])->name('user.api.centralMissionType.index');
+        Route::get('getById', [\App\Http\Controllers\Api\User\CentralMissionTypeController::class, 'getById'])->name('user.api.centralMissionType.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\CentralMissionTypeController::class, 'create'])->name('user.api.centralMissionType.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\CentralMissionTypeController::class, 'update'])->name('user.api.centralMissionType.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\CentralMissionTypeController::class, 'delete'])->name('user.api.centralMissionType.delete');
     });
 
     Route::prefix('centralMissionStatus')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\CentralMissionStatusController::class, 'getAll'])->name('user.api.centralMissionStatus.getAll');
+        Route::get('index', [\App\Http\Controllers\Api\User\CentralMissionStatusController::class, 'index'])->name('user.api.centralMissionStatus.index');
+        Route::get('getById', [\App\Http\Controllers\Api\User\CentralMissionStatusController::class, 'getById'])->name('user.api.centralMissionStatus.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\CentralMissionStatusController::class, 'create'])->name('user.api.centralMissionStatus.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\CentralMissionStatusController::class, 'update'])->name('user.api.centralMissionStatus.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\CentralMissionStatusController::class, 'delete'])->name('user.api.centralMissionStatus.delete');
     });
 
     Route::prefix('saturdayPermit')->group(function () {

@@ -1,10 +1,10 @@
 @extends('user.layouts.master')
-@section('title', 'Merkezi Görev Durumları | ')
+@section('title', 'Merkezi Görev Türleri | ')
 
 @section('subheader')
     <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
         <div class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
-            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Merkezi Görev Durumları</h1>
+            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Merkezi Görev Türleri</h1>
         </div>
         <div class="d-flex align-items-center gap-2 gap-lg-3">
 
@@ -14,9 +14,9 @@
 
 @section('content')
 
-    @include('user.modules.centralMissionStatus.index.modals.createCentralMissionStatus')
-    @include('user.modules.centralMissionStatus.index.modals.updateCentralMissionStatus')
-    @include('user.modules.centralMissionStatus.index.modals.deleteCentralMissionStatus')
+    @include('user.modules.centralMissionType.index.modals.createCentralMissionType')
+    @include('user.modules.centralMissionType.index.modals.updateCentralMissionType')
+    @include('user.modules.centralMissionType.index.modals.deleteCentralMissionType')
 
     <div class="row">
         <div class="col-xl-8 mb-5">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="col-xl-4 d-grid mb-5 text-end">
-            <button class="btn btn-primary" onclick="createCentralMissionStatus()">Yeni Oluştur</button>
+            <button class="btn btn-primary" onclick="createCentralMissionType()">Yeni Oluştur</button>
         </div>
     </div>
     <br>
@@ -76,7 +76,7 @@
                             <th class="">Durum Adı</th>
                         </tr>
                         </thead>
-                        <tbody class="fw-bold text-gray-600" id="centralMissionStatuses"></tbody>
+                        <tbody class="fw-bold text-gray-600" id="centralMissionTypes"></tbody>
                     </table>
                 </div>
             </div>
@@ -86,9 +86,9 @@
 @endsection
 
 @section('customStyles')
-    @include('user.modules.centralMissionStatus.index.components.style')
+    @include('user.modules.centralMissionType.index.components.style')
 @endsection
 
 @section('customScripts')
-    @include('user.modules.centralMissionStatus.index.components.script')
+    @include('user.modules.centralMissionType.index.components.script')
 @endsection
