@@ -561,6 +561,10 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\ProjectJobTypeController::class, 'getAll'])->name('user.api.projectJobType.getAll');
     });
 
+    Route::prefix('recruiting')->group(function () {
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\RecruitingController::class, 'getByCompanyIds'])->name('user.api.recruiting.getByCompanyIds');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');
