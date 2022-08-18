@@ -15,7 +15,7 @@
 @section('content')
 
     <div class="row">
-        <div class="col-xl-8">
+        <div class="col-xl-7">
             <div class="card mb-5 mb-xl-10">
                 <div class="card-header border-0">
                     <div class="card-title m-0">
@@ -215,6 +215,27 @@
                         <div class="col-lg-9">
                             <input id="emergency_person_phone_number" type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Telefon Numarası">
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-5">
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-body border-top p-9">
+                    <div class="row mb-6">
+                        <label for="old_password" class="col-lg-3 col-form-label fw-bold fs-6">Eski Şifreniz</label>
+                        <div class="col-lg-9">
+                            <input id="old_password" type="password" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Eski Şifreniz">
+                        </div>
+                    </div>
+                    <div class="row mb-6">
+                        <label for="new_password" class="col-lg-3 col-form-label fw-bold fs-6">Yeni Şifreniz</label>
+                        <div class="col-lg-9">
+                            <input id="new_password" type="password" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Yeni Şifreniz">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-success" id="UpdatePasswordButton">Şifreyi Güncelle</button>
                     </div>
                 </div>
             </div>

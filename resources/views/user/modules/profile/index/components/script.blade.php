@@ -41,8 +41,12 @@
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('Şifreniz Güncellenemedi.');
-                    UpdateButton.attr('disabled', false).html('Güncelle');
+                    if (parseInt(error.status) === 401) {
+                        toastr.error('Eski Şifrenizi Yanlış Girdiniz.');
+                    } else {
+                        toastr.error('Şifreniz Güncellenemedi.');
+                        UpdateButton.attr('disabled', false).html('Güncelle');
+                    }
                 }
             });
         }

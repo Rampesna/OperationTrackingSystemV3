@@ -9,8 +9,10 @@ use App\Http\Requests\Api\Employee\EmployeeController\SwapThemeRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetMarketPaymentsRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetPositionsRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SetDeviceTokenRequest;
+use App\Http\Requests\Api\Employee\EmployeeController\UpdatePasswordRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Traits\Response;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -161,6 +163,36 @@ class EmployeeController extends Controller
             return $this->error(
                 $getPositionsResponse->getMessage(),
                 $getPositionsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdatePasswordRequest $request
+     */
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $user = $this->employeeService->getById($request->user()->id);
+        if ($user->isSuccess()) {
+            if (Hash::check($request->oldPassword, $user->getData()->password)) {
+                $user->getData()->password = bcrypt($request->newPassword);
+                $user->getData()->save();
+
+                return $this->success(
+                    'Password updated successfully',
+                    $user->getData(),
+                    $user->getStatusCode()
+                );
+            } else {
+                return $this->error(
+                    'Old password is incorrect',
+                    401
+                );
+            }
+        } else {
+            return $this->error(
+                $user->getMessage(),
+                $user->getStatusCode()
             );
         }
     }

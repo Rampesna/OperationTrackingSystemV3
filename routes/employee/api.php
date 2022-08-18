@@ -15,6 +15,7 @@ Route::middleware([
     Route::post('setDeviceToken', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'setDeviceToken'])->name('employee.api.setDeviceToken');
     Route::get('getMarketPayments', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'getMarketPayments'])->name('employee.api.getMarketPayments');
     Route::get('getPositions', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'getPositions'])->name('employee.api.getPositions');
+    Route::post('updatePassword', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'updatePassword'])->name('employee.api.updatePassword');
 
     Route::prefix('employeePersonalInformation')->group(function () {
         Route::get('getByEmployeeId', [\App\Http\Controllers\Api\Employee\EmployeePersonalInformationController::class, 'getByEmployeeId'])->name('employee.api.employeePersonalInformation.getByEmployeeId');

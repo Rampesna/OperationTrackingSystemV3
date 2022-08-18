@@ -5,6 +5,7 @@
     });
 
     var UpdatePersonalInformationButton = $('#UpdatePersonalInformationButton');
+    var UpdatePasswordButton = $('#UpdatePasswordButton');
 
     function getEmployeePersonalInformation() {
         var employeeId = parseInt(`{{ auth()->id() }}`);
@@ -124,6 +125,45 @@
                 UpdatePersonalInformationButton.attr('disabled', false).html('Güncelle');
             }
         });
+    });
+
+    UpdatePasswordButton.click(function () {
+        var oldPassword = $('#old_password').val();
+        var newPassword = $('#new_password').val();
+
+        if (!oldPassword) {
+            toastr.warning('Eski Şifrenizi Giriniz.');
+        } else if (!newPassword) {
+            toastr.warning('Yeni Şifrenizi Giriniz.');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '{{ route('employee.api.updatePassword') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
+                },
+                success: function () {
+                    toastr.success('Şifreniz Güncellendi.');
+                    $('#old_password').val('');
+                    $('#new_password').val('');
+                    UpdateButton.attr('disabled', false).html('Güncelle');
+                },
+                error: function (error) {
+                    console.log(error);
+                    if (parseInt(error.status) === 401) {
+                        toastr.error('Eski Şifrenizi Yanlış Girdiniz.');
+                    } else {
+                        toastr.error('Şifreniz Güncellenemedi.');
+                        UpdateButton.attr('disabled', false).html('Güncelle');
+                    }
+                }
+            });
+        }
     });
 
 </script>
