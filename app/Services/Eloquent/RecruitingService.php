@@ -4,6 +4,8 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IRecruitingService;
 use App\Models\Eloquent\Recruiting;
+use App\Models\Eloquent\RecruitingStep;
+use App\Models\Eloquent\RecruitingStepSubStepCheck;
 use App\Services\ServiceResponse;
 
 class RecruitingService implements IRecruitingService
@@ -47,6 +49,94 @@ class RecruitingService implements IRecruitingService
             );
         }
     }
+
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function cancel(
+        int $id
+    ): ServiceResponse
+    {
+        $recruiting = $this->getById($id);
+        if ($recruiting->isSuccess()) {
+            $recruiting->getData()->cancel = 1;
+            $recruiting->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Recruiting canceled',
+                200,
+                $recruiting->getData()
+            );
+        } else {
+            return $recruiting;
+        }
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function reactivate(
+        int $id
+    ): ServiceResponse
+    {
+        $recruiting = $this->getById($id);
+        if ($recruiting->isSuccess()) {
+            $recruiting->getData()->cancel = 0;
+            $recruiting->getData()->step_id = 1;
+            $recruiting->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Recruiting reactivated',
+                200,
+                $recruiting->getData()
+            );
+        } else {
+            return $recruiting;
+        }
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return ServiceResponse
+     */
+    public function wizard(
+        int $id
+    ): ServiceResponse
+    {
+        $response = [];
+        $recruiting = Recruiting::find($id);
+        $recruitingSteps = RecruitingStep::all();
+        foreach ($recruitingSteps as $recruitingStep) {
+            $recruitingStepSubStepChecks = RecruitingStepSubStepCheck::
+            with([
+                'recruitingStepSubStep'
+            ])->
+            where('recruiting_id', $recruiting->id)->
+            where('recruiting_step_id', $recruitingStep->id)->
+            get();
+            $response[] = [
+                'recruitingStepId' => $recruitingStep->id,
+                'recruitingStepName' => $recruitingStep->name,
+                'recruitingStepSubStepChecks' => $recruitingStepSubStepChecks
+            ];
+        }
+
+        return new ServiceResponse(
+            true,
+            'Recruiting wizard',
+            200,
+            [
+                'recruiting' => $recruiting,
+                'recruitingSteps' => $response
+            ]
+        );
+    }
+
 
     /**
      * @param int $id
@@ -125,5 +215,118 @@ class RecruitingService implements IRecruitingService
                     ->get()
             ]
         );
+    }
+
+    /**
+     * @param int $companyId
+     * @param int $departmentId
+     * @param string $name
+     * @param string $email
+     * @param string $phoneNumber
+     * @param string $identity
+     * @param string $birthDate
+     * @param int $obstacle
+     *
+     * @return ServiceResponse
+     */
+    public function create(
+        int    $companyId,
+        int    $departmentId,
+        string $name,
+        string $email,
+        string $phoneNumber,
+        string $identity,
+        string $birthDate,
+        int    $obstacle
+    ): ServiceResponse
+    {
+        $recruiting = new Recruiting();
+        $recruiting->company_id = $companyId;
+        $recruiting->department_id = $departmentId;
+        $recruiting->step_id = 1;
+        $recruiting->name = $name;
+        $recruiting->email = $email;
+        $recruiting->phone_number = $phoneNumber;
+        $recruiting->identity = $identity;
+        $recruiting->birth_date = $birthDate;
+        $recruiting->obstacle = $obstacle;
+        $recruiting->save();
+        return new ServiceResponse(
+            true,
+            'Recruiting created',
+            201,
+            $recruiting
+        );
+    }
+
+    /**
+     * @param int $id
+     * @param int $companyId
+     * @param int $departmentId
+     * @param string $name
+     * @param string $email
+     * @param string $phoneNumber
+     * @param string $identity
+     * @param string $birthDate
+     * @param int $obstacle
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int    $id,
+        int    $companyId,
+        int    $departmentId,
+        string $name,
+        string $email,
+        string $phoneNumber,
+        string $identity,
+        string $birthDate,
+        int    $obstacle
+    ): ServiceResponse
+    {
+        $recruiting = $this->getById($id);
+        if ($recruiting->isSuccess()) {
+            $recruiting->getData()->company_id = $companyId;
+            $recruiting->getData()->department_id = $departmentId;
+            $recruiting->getData()->name = $name;
+            $recruiting->getData()->email = $email;
+            $recruiting->getData()->phone_number = $phoneNumber;
+            $recruiting->getData()->identity = $identity;
+            $recruiting->getData()->birth_date = $birthDate;
+            $recruiting->getData()->obstacle = $obstacle;
+            $recruiting->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Recruiting updated',
+                200,
+                $recruiting->getData()
+            );
+        } else {
+            return $recruiting;
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param int|string $cv
+     */
+    public function updateCv(
+        int        $id,
+        int|string $cv
+    ): ServiceResponse
+    {
+        $recruiting = $this->getById($id);
+        if ($recruiting->isSuccess()) {
+            $recruiting->getData()->cv = $cv;
+            $recruiting->getData()->save();
+            return new ServiceResponse(
+                true,
+                'CV updated',
+                200,
+                $recruiting->getData()
+            );
+        } else {
+            return $recruiting;
+        }
     }
 }

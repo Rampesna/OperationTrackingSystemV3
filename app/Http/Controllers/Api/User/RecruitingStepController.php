@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Eloquent\IRecruitingStepService;
+use App\Http\Requests\Api\User\RecruitingStepController\GetAllRequest;
 use App\Http\Requests\Api\User\RecruitingStepController\IndexRequest;
 use App\Http\Requests\Api\User\RecruitingStepController\GetByIdRequest;
 use App\Http\Requests\Api\User\RecruitingStepController\CreateRequest;
@@ -26,6 +27,26 @@ class RecruitingStepController extends Controller
     public function __construct(IRecruitingStepService $recruitingStepService)
     {
         $this->recruitingStepService = $recruitingStepService;
+    }
+
+    /**
+     * @param GetAllRequest $request
+     */
+    public function getAll(GetAllRequest $request)
+    {
+        $getAllResponse = $this->recruitingStepService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
+            );
+        }
     }
 
     /**

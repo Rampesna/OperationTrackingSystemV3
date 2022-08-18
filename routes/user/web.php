@@ -201,6 +201,7 @@ Route::middleware([
         Route::get('recruiting', [\App\Http\Controllers\Web\User\RecruitingController::class, 'recruiting'])->name('user.web.recruiting.recruiting');
         Route::get('recruitingStep', [\App\Http\Controllers\Web\User\RecruitingController::class, 'recruitingStep'])->name('user.web.recruiting.recruitingStep');
         Route::get('evaluationParameter', [\App\Http\Controllers\Web\User\RecruitingController::class, 'evaluationParameter'])->name('user.web.recruiting.evaluationParameter');
+        Route::get('wizard/{id?}', [\App\Http\Controllers\Web\User\RecruitingController::class, 'wizard'])->name('user.web.recruiting.wizard');
     });
 
     Route::prefix('project')->group(function () {

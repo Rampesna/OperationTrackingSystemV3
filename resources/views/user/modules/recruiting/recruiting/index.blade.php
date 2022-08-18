@@ -14,6 +14,13 @@
 
 @section('content')
 
+    @include('user.modules.recruiting.recruiting.modals.createRecruiting')
+    @include('user.modules.recruiting.recruiting.modals.updateRecruiting')
+    @include('user.modules.recruiting.recruiting.modals.cancelRecruiting')
+    @include('user.modules.recruiting.recruiting.modals.reactivateRecruiting')
+    @include('user.modules.recruiting.recruiting.modals.setStepRecruiting')
+    @include('user.modules.recruiting.recruiting.modals.deleteRecruiting')
+
     <div class="row">
         <div class="col-xl-8 mb-5">
             <div class="card">
@@ -27,8 +34,8 @@
                         </div>
                         <div class="col-xl-4 mb-5">
                             <div class="form-group">
-                                <label for="statusIds">Durum</label>
-                                <select id="statusIds" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Durum"></select>
+                                <label for="stepIds">Durum</label>
+                                <select id="stepIds" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Durum" multiple></select>
                             </div>
                         </div>
                         <div class="col-xl-6 mb-5">
@@ -57,7 +64,6 @@
             </div>
         </div>
     </div>
-    <br>
     <div class="row">
         <div class="col-xl-12">
             <div class="card">

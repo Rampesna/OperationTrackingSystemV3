@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class RecruitingStepSubStepCheck extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function recruitingStepSubStep()
+    {
+        return $this->belongsTo(RecruitingStepSubStep::class, 'recruiting_step_sub_step_id', 'id');
+    }
 }

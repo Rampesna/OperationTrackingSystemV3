@@ -24,4 +24,82 @@ interface IRecruitingService extends IEloquentService
         ?array  $departmentIds = [],
         ?array  $stepIds = []
     ): ServiceResponse;
+
+    /**
+     * @param int $companyId
+     * @param int $departmentId
+     * @param string $name
+     * @param string $email
+     * @param string $phoneNumber
+     * @param string $identity
+     * @param string $birthDate
+     * @param int $obstacle
+     *
+     * @return ServiceResponse
+     */
+    public function create(
+        int    $companyId,
+        int    $departmentId,
+        string $name,
+        string $email,
+        string $phoneNumber,
+        string $identity,
+        string $birthDate,
+        int    $obstacle
+    ): ServiceResponse;
+
+    /**
+     * @param int $id
+     * @param int $companyId
+     * @param int $departmentId
+     * @param string $name
+     * @param string $email
+     * @param string $phoneNumber
+     * @param string $identity
+     * @param string $birthDate
+     * @param int $obstacle
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int    $id,
+        int    $companyId,
+        int    $departmentId,
+        string $name,
+        string $email,
+        string $phoneNumber,
+        string $identity,
+        string $birthDate,
+        int    $obstacle
+    ): ServiceResponse;
+
+    /**
+     * @param int $id
+     * @param int|string $cv
+     */
+    public function updateCv(
+        int        $id,
+        int|string $cv
+    ): ServiceResponse;
+
+    /**
+     * @param int $id
+     */
+    public function cancel(
+        int $id,
+    ): ServiceResponse;
+
+    /**
+     * @param int $id
+     */
+    public function reactivate(
+        int $id,
+    ): ServiceResponse;
+
+    /**
+     * @param int $id
+     */
+    public function wizard(
+        int $id,
+    ): ServiceResponse;
 }
