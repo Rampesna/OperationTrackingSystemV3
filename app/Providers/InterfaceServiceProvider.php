@@ -57,6 +57,8 @@ use App\Interfaces\Eloquent\IPurchaseStatusService;
 use App\Interfaces\Eloquent\IQualityAssessmentListService;
 use App\Interfaces\Eloquent\IQueueService;
 use App\Interfaces\Eloquent\IRecruitingService;
+use App\Interfaces\Eloquent\IRecruitingStepService;
+use App\Interfaces\Eloquent\IRecruitingStepSubStepService;
 use App\Interfaces\Eloquent\ISaturdayPermitService;
 use App\Interfaces\Eloquent\IShiftGroupEmployeeUseListService;
 use App\Interfaces\Eloquent\IShiftGroupService;
@@ -140,6 +142,8 @@ use App\Services\Eloquent\PurchaseStatusService;
 use App\Services\Eloquent\QualityAssessmentListService;
 use App\Services\Eloquent\QueueService;
 use App\Services\Eloquent\RecruitingService;
+use App\Services\Eloquent\RecruitingStepService;
+use App\Services\Eloquent\RecruitingStepSubStepService;
 use App\Services\Eloquent\SaturdayPermitService;
 use App\Services\Eloquent\ShiftGroupEmployeeUseListService;
 use App\Services\Eloquent\ShiftGroupService;
@@ -249,6 +253,8 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IProjectJobTypeService::class, ProjectJobTypeService::class);
         $this->app->bind(IRecruitingService::class, RecruitingService::class);
         $this->app->bind(IEvaluationParameterService::class, EvaluationParameterService::class);
+        $this->app->bind(IRecruitingStepService::class, RecruitingStepService::class);
+        $this->app->bind(IRecruitingStepSubStepService::class, RecruitingStepSubStepService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

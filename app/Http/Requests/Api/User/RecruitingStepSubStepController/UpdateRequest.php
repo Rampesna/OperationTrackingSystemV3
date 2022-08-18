@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\User\RecruitingStepController;
+namespace App\Http\Requests\Api\User\RecruitingStepSubStepController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
@@ -25,7 +25,7 @@ class UpdateRequest extends BaseApiRequest
     {
         return [
             'id' => 'required|integer',
-            'sms' => 'required|integer',
+            'name' => 'required',
         ];
     }
 }

@@ -3,51 +3,49 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\Eloquent\IRecruitingStepService;
-use App\Http\Requests\Api\User\RecruitingStepController\IndexRequest;
-use App\Http\Requests\Api\User\RecruitingStepController\GetByIdRequest;
-use App\Http\Requests\Api\User\RecruitingStepController\CreateRequest;
-use App\Http\Requests\Api\User\RecruitingStepController\UpdateRequest;
-use App\Http\Requests\Api\User\RecruitingStepController\DeleteRequest;
+use App\Interfaces\Eloquent\IRecruitingStepSubStepService;
+use App\Http\Requests\Api\User\RecruitingStepSubStepController\GetAllByRecruitingStepIdRequest;
+use App\Http\Requests\Api\User\RecruitingStepSubStepController\GetByIdRequest;
+use App\Http\Requests\Api\User\RecruitingStepSubStepController\CreateRequest;
+use App\Http\Requests\Api\User\RecruitingStepSubStepController\UpdateRequest;
+use App\Http\Requests\Api\User\RecruitingStepSubStepController\DeleteRequest;
 use App\Traits\Response;
 
-class RecruitingStepController extends Controller
+class RecruitingStepSubStepController extends Controller
 {
     use Response;
 
     /**
-     * @var $recruitingStepService
+     * @var $recruitingStepSubStepService
      */
-    private $recruitingStepService;
+    private $recruitingStepSubStepService;
 
     /**
-     * @param IRecruitingStepService $recruitingStepService
+     * @param IRecruitingStepSubStepService $recruitingStepSubStepService
      */
-    public function __construct(IRecruitingStepService $recruitingStepService)
+    public function __construct(IRecruitingStepSubStepService $recruitingStepSubStepService)
     {
-        $this->recruitingStepService = $recruitingStepService;
+        $this->recruitingStepSubStepService = $recruitingStepSubStepService;
     }
 
     /**
-     * @param IndexRequest $request
+     * @param GetAllByRecruitingStepIdRequest $request
      */
-    public function index(IndexRequest $request)
+    public function getAllByRecruitingStepId(GetAllByRecruitingStepIdRequest $request)
     {
-        $indexResponse = $this->recruitingStepService->index(
-            $request->pageIndex,
-            $request->pageSize,
-            $request->keyword
+        $getAllResponse = $this->recruitingStepSubStepService->getAllByRecruitingStepId(
+            $request->recruitingStepId
         );
-        if ($indexResponse->isSuccess()) {
+        if ($getAllResponse->isSuccess()) {
             return $this->success(
-                $indexResponse->getMessage(),
-                $indexResponse->getData(),
-                $indexResponse->getStatusCode()
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
             );
         } else {
             return $this->error(
-                $indexResponse->getMessage(),
-                $indexResponse->getStatusCode()
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
             );
         }
     }
@@ -57,7 +55,7 @@ class RecruitingStepController extends Controller
      */
     public function getById(GetByIdRequest $request)
     {
-        $getByIdResponse = $this->recruitingStepService->getById(
+        $getByIdResponse = $this->recruitingStepSubStepService->getById(
             $request->id
         );
         if ($getByIdResponse->isSuccess()) {
@@ -79,11 +77,9 @@ class RecruitingStepController extends Controller
      */
     public function create(CreateRequest $request)
     {
-        $createResponse = $this->recruitingStepService->create(
-            $request->name,
-            $request->color,
-            $request->sms,
-            $request->message
+        $createResponse = $this->recruitingStepSubStepService->create(
+            $request->recruitingStepId,
+            $request->name
         );
         if ($createResponse->isSuccess()) {
             return $this->success(
@@ -104,10 +100,9 @@ class RecruitingStepController extends Controller
      */
     public function update(UpdateRequest $request)
     {
-        $updateResponse = $this->recruitingStepService->update(
+        $updateResponse = $this->recruitingStepSubStepService->update(
             $request->id,
-            $request->sms,
-            $request->message
+            $request->name
         );
         if ($updateResponse->isSuccess()) {
             return $this->success(
@@ -128,7 +123,7 @@ class RecruitingStepController extends Controller
      */
     public function delete(DeleteRequest $request)
     {
-        $deleteResponse = $this->recruitingStepService->delete(
+        $deleteResponse = $this->recruitingStepSubStepService->delete(
             $request->id
         );
         if ($deleteResponse->isSuccess()) {

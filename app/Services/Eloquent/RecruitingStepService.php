@@ -146,16 +146,12 @@ class RecruitingStepService implements IRecruitingStepService
      */
     public function update(
         int     $id,
-        string  $name,
-        string  $color,
         int     $sms,
         ?string $message = null
     ): ServiceResponse
     {
         $recruitingStep = $this->getById($id);
         if ($recruitingStep->isSuccess()) {
-            $recruitingStep->getData()->name = $name;
-            $recruitingStep->getData()->color = $color;
             $recruitingStep->getData()->sms = $sms;
             $recruitingStep->getData()->message = $message;
             $recruitingStep->getData()->save();

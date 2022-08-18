@@ -36,8 +36,6 @@ interface IRecruitingStepService extends IEloquentService
 
     /**
      * @param int $id
-     * @param string $name
-     * @param string $color
      * @param int $sms
      * @param string|null $message
      *
@@ -45,8 +43,6 @@ interface IRecruitingStepService extends IEloquentService
      */
     public function update(
         int     $id,
-        string  $name,
-        string  $color,
         int     $sms,
         ?string $message = null
     ): ServiceResponse;

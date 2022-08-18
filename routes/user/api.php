@@ -573,6 +573,14 @@ Route::middleware([
         Route::delete('delete', [\App\Http\Controllers\Api\User\RecruitingStepController::class, 'delete'])->name('user.api.recruitingStep.delete');
     });
 
+    Route::prefix('recruitingStepSubStep')->group(function () {
+        Route::get('getAllByRecruitingStepId', [\App\Http\Controllers\Api\User\RecruitingStepSubStepController::class, 'getAllByRecruitingStepId'])->name('user.api.recruitingStepSubStep.getAllByRecruitingStepId');
+        Route::get('getById', [\App\Http\Controllers\Api\User\RecruitingStepSubStepController::class, 'getById'])->name('user.api.recruitingStepSubStep.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\RecruitingStepSubStepController::class, 'create'])->name('user.api.recruitingStepSubStep.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\RecruitingStepSubStepController::class, 'update'])->name('user.api.recruitingStepSubStep.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\RecruitingStepSubStepController::class, 'delete'])->name('user.api.recruitingStepSubStep.delete');
+    });
+
     Route::prefix('evaluationParameter')->group(function () {
         Route::get('index', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'index'])->name('user.api.evaluationParameter.index');
         Route::get('getById', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'getById'])->name('user.api.evaluationParameter.getById');

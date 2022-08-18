@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\RecruitingStepController;
+namespace App\Http\Requests\Api\User\RecruitingStepSubStepController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class UpdateRequest extends BaseApiRequest
+class GetAllByRecruitingStepIdRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class UpdateRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer',
-            'sms' => 'required|integer',
+            'recruitingStepId' => 'required|integer',
         ];
     }
 }
