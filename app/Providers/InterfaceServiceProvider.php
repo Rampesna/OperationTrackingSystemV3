@@ -26,6 +26,7 @@ use App\Interfaces\Eloquent\IEmployeePersonalInformationService;
 use App\Interfaces\Eloquent\IEmployeeQualityAssessmentService;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IEmployeeSuggestionService;
+use App\Interfaces\Eloquent\IEvaluationParameterService;
 use App\Interfaces\Eloquent\IFileService;
 use App\Interfaces\Eloquent\IFoodListCheckService;
 use App\Interfaces\Eloquent\IFoodListService;
@@ -108,6 +109,7 @@ use App\Services\Eloquent\EmployeePersonalInformationService;
 use App\Services\Eloquent\EmployeeQualityAssessmentService;
 use App\Services\Eloquent\EmployeeService;
 use App\Services\Eloquent\EmployeeSuggestionService;
+use App\Services\Eloquent\EvaluationParameterService;
 use App\Services\Eloquent\FileService;
 use App\Services\Eloquent\FoodListCheckService;
 use App\Services\Eloquent\FoodListService;
@@ -246,6 +248,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IProjectJobService::class, ProjectJobService::class);
         $this->app->bind(IProjectJobTypeService::class, ProjectJobTypeService::class);
         $this->app->bind(IRecruitingService::class, RecruitingService::class);
+        $this->app->bind(IEvaluationParameterService::class, EvaluationParameterService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

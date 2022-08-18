@@ -10,4 +10,19 @@ class RecruitingController extends Controller
     {
         return view('user.modules.recruiting.index.index');
     }
+
+    public function recruiting()
+    {
+        return view('user.modules.recruiting.recruiting.index');
+    }
+
+    public function recruitingStep()
+    {
+        return view('user.modules.recruiting.recruitingStep.index');
+    }
+
+    public function evaluationParameter()
+    {
+        return view('user.modules.recruiting.evaluationParameter.index');
+    }
 }

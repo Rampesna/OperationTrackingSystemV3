@@ -565,6 +565,22 @@ Route::middleware([
         Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\RecruitingController::class, 'getByCompanyIds'])->name('user.api.recruiting.getByCompanyIds');
     });
 
+    Route::prefix('recruitingStep')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Api\User\RecruitingStepController::class, 'index'])->name('user.api.recruitingStep.index');
+        Route::get('getById', [\App\Http\Controllers\Api\User\RecruitingStepController::class, 'getById'])->name('user.api.recruitingStep.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\RecruitingStepController::class, 'create'])->name('user.api.recruitingStep.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\RecruitingStepController::class, 'update'])->name('user.api.recruitingStep.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\RecruitingStepController::class, 'delete'])->name('user.api.recruitingStep.delete');
+    });
+
+    Route::prefix('evaluationParameter')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'index'])->name('user.api.evaluationParameter.index');
+        Route::get('getById', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'getById'])->name('user.api.evaluationParameter.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'create'])->name('user.api.evaluationParameter.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'update'])->name('user.api.evaluationParameter.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'delete'])->name('user.api.evaluationParameter.delete');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

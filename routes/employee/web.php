@@ -23,6 +23,10 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\Employee\ProfileController::class, 'index'])->name('employee.web.profile.index');
     });
 
+    Route::prefix('employee')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\Employee\EmployeeController::class, 'index'])->name('employee.web.employee.index');
+    });
+
     Route::prefix('performance')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\Employee\PerformanceController::class, 'index'])->name('employee.web.performance.index');
         Route::get('status', [\App\Http\Controllers\Web\Employee\PerformanceController::class, 'status'])->name('employee.web.performance.status');

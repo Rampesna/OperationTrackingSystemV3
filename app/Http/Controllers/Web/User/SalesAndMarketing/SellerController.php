@@ -10,4 +10,9 @@ class SellerController extends Controller
     {
         return view('user.modules.salesAndMarketing.modules.seller.index');
     }
+
+    public function batchSeller()
+    {
+        return view('user.modules.salesAndMarketing.modules.batchSeller.index');
+    }
 }

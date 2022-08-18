@@ -15,98 +15,67 @@
 @section('content')
 
     <div class="row">
-        <div class="col-xl-8 mb-5">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xl-8 mb-5">
-                            <div class="form-group">
-                                <label for="keyword">Arayın</label>
-                                <input id="keyword" type="text" class="form-control form-control-solid filterInput" placeholder="Arayın...">
-                            </div>
-                        </div>
-                        <div class="col-xl-4 mb-5">
-                            <div class="form-group">
-                                <label for="statusIds">Durum</label>
-                                <select id="statusIds" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Durum"></select>
-                            </div>
-                        </div>
-                        <div class="col-xl-6 mb-5">
-                            <div class="row">
-                                <div class="col-xl-6">
-                                    <div class="form-group d-grid">
-                                        <button class="btn btn-primary mt-6" id="FilterButton">Filtrele</button>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="form-group d-grid">
-                                        <button class="btn btn-secondary mt-6" id="ClearFilterButton">Temizle</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+        @if(checkUserPermission(193, $userPermissions))
+        <a href="{{ route('user.web.recruiting.recruiting') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
+            <div class="card h-lg-100">
+                <div class="card-body d-flex justify-content-between align-items-center flex-column">
+                    <div class="m-0">
+                        <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M16.0173 9H15.3945C14.2833 9 13.263 9.61425 12.7431 10.5963L12.154 11.7091C12.0645 11.8781 12.1072 12.0868 12.2559 12.2071L12.6402 12.5183C13.2631 13.0225 13.7556 13.6691 14.0764 14.4035L14.2321 14.7601C14.2957 14.9058 14.4396 15 14.5987 15H18.6747C19.7297 15 20.4057 13.8774 19.912 12.945L18.6686 10.5963C18.1487 9.61425 17.1285 9 16.0173 9Z" fill="black"/>
+                                <rect opacity="0.3" x="14" y="4" width="4" height="4" rx="2" fill="black"/>
+                                <path d="M4.65486 14.8559C5.40389 13.1224 7.11161 12 9 12C10.8884 12 12.5961 13.1224 13.3451 14.8559L14.793 18.2067C15.3636 19.5271 14.3955 21 12.9571 21H5.04292C3.60453 21 2.63644 19.5271 3.20698 18.2067L4.65486 14.8559Z" fill="black"/>
+                                <rect opacity="0.3" x="6" y="5" width="6" height="6" rx="3" fill="black"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column mt-7">
+                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">İşe Alım Listesi</span>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-4 mb-5 text-end">
-            <div class="row">
-                <div class="col-xl-12 d-grid">
-                    <button class="btn btn-primary" onclick="createRecruiting()">Yeni İşe Alım</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body pt-0">
-                    <br>
-                    <div class="row">
-                        <div class="col-xl-1">
-                            <div class="form-group">
-                                <label>
-                                    <select data-control="select2" id="pageSize" data-hide-search="true" class="form-select border-0">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-xl-11 text-end">
-                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark" id="pageDown" disabled>
-                                <i class="fas fa-angle-left"></i>
-                            </button>
-                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark cursor-default" disabled>
-                                <span class="text-muted" id="page">1</span>
-                            </button>
-                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark" id="pageUp">
-                                <i class="fas fa-angle-right"></i>
-                            </button>
-                        </div>
+        </a>
+        @endif
+        @if(checkUserPermission(194, $userPermissions))
+        <a href="{{ route('user.web.recruiting.recruitingStep') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
+            <div class="card h-lg-100">
+                <div class="card-body d-flex justify-content-between align-items-center flex-column">
+                    <div class="m-0">
+                        <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M17.5 7.89998L14.8 14.8L13.4 13.3999C14.2 12.5999 14.2 11.4001 13.4 10.6001C12.6 9.80006 11.4 9.80006 10.6 10.6001L9.20001 9.19991L16.1 6.49996C17 6.19996 17.8 6.99998 17.5 7.89998ZM12.7 11.3C12.3 10.9 11.7 10.9 11.3 11.3C10.9 11.7 10.9 12.2999 11.3 12.6999C11.7 13.0999 12.3 13.0999 12.7 12.6999C13.1 12.2999 13.1 11.7 12.7 11.3Z" fill="black"/>
+                                <path opacity="0.3" d="M22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2C17.5 2 22 6.5 22 12ZM16.1 6.5L9.20001 9.19995L6.5 16.1001C6.2 17.0001 6.99999 17.8 7.89999 17.5L14.8 14.8L17.5 7.90002C17.8 7.00002 17 6.2 16.1 6.5Z" fill="black"/>
+                            </svg>
+                        </span>
                     </div>
-                    <hr class="text-muted">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5">
-                        <thead>
-                        <tr class="text-start text-dark fw-bolder fs-7 gs-0">
-                            <th class="">#</th>
-                            <th class="">Durum</th>
-                            <th class="">Ad Soyad</th>
-                            <th class="hideIfMobile">Departman</th>
-                            <th class="hideIfMobile">E-posta Adresi</th>
-                            <th class="hideIfMobile">Telefon</th>
-                            <th class="hideIfMobile">TCKN</th>
-                            <th class="hideIfMobile">Doğum Tarihi</th>
-                            <th class="hideIfMobile">Engel Durumu</th>
-                        </tr>
-                        </thead>
-                        <tbody class="fw-bold text-gray-600" id="recruitings"></tbody>
-                    </table>
+                    <div class="d-flex flex-column mt-7">
+                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">İşe Alım Aşamaları</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
+        @endif
+        @if(checkUserPermission(195, $userPermissions))
+        <a href="{{ route('user.web.recruiting.evaluationParameter') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
+            <div class="card h-lg-100">
+                <div class="card-body d-flex justify-content-between align-items-center flex-column">
+                    <div class="m-0">
+                        <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path opacity="0.3" d="M21 11H18.9C18.5 7.9 16 5.49998 13 5.09998V3C13 2.4 12.6 2 12 2C11.4 2 11 2.4 11 3V5.09998C7.9 5.49998 5.50001 8 5.10001 11H3C2.4 11 2 11.4 2 12C2 12.6 2.4 13 3 13H5.10001C5.50001 16.1 8 18.4999 11 18.8999V21C11 21.6 11.4 22 12 22C12.6 22 13 21.6 13 21V18.8999C16.1 18.4999 18.5 16 18.9 13H21C21.6 13 22 12.6 22 12C22 11.4 21.6 11 21 11ZM12 17C9.2 17 7 14.8 7 12C7 9.2 9.2 7 12 7C14.8 7 17 9.2 17 12C17 14.8 14.8 17 12 17Z" fill="black"/>
+                                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" fill="black"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column mt-7">
+                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Parametreler</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+        @endif
+
     </div>
 
 @endsection

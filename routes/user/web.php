@@ -97,6 +97,7 @@ Route::middleware([
                 });
             });
             Route::get('seller', [\App\Http\Controllers\Web\User\SalesAndMarketing\SellerController::class, 'index'])->name('user.web.salesAndMarketing.modules.seller.index');
+            Route::get('batchSeller', [\App\Http\Controllers\Web\User\SalesAndMarketing\SellerController::class, 'batchSeller'])->name('user.web.salesAndMarketing.modules.batchSeller.index');
             Route::get('product', [\App\Http\Controllers\Web\User\SalesAndMarketing\ProductController::class, 'index'])->name('user.web.salesAndMarketing.modules.product.index');
         });
     });
@@ -197,6 +198,9 @@ Route::middleware([
 
     Route::prefix('recruiting')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\RecruitingController::class, 'index'])->name('user.web.recruiting.index');
+        Route::get('recruiting', [\App\Http\Controllers\Web\User\RecruitingController::class, 'recruiting'])->name('user.web.recruiting.recruiting');
+        Route::get('recruitingStep', [\App\Http\Controllers\Web\User\RecruitingController::class, 'recruitingStep'])->name('user.web.recruiting.recruitingStep');
+        Route::get('evaluationParameter', [\App\Http\Controllers\Web\User\RecruitingController::class, 'evaluationParameter'])->name('user.web.recruiting.evaluationParameter');
     });
 
     Route::prefix('project')->group(function () {

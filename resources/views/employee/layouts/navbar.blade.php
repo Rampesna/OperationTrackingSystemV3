@@ -54,6 +54,10 @@
                         </div>
                         <div class="separator my-2"></div>
                         <div class="menu-item px-5">
+                            <a href="{{ route('employee.web.employee.index') }}" class="menu-link px-5">Profili Düzenle</a>
+                        </div>
+                        <div class="separator my-2"></div>
+                        <div class="menu-item px-5">
                             <a href="{{ route('employee.web.authentication.logout') }}" class="menu-link px-5">Çıkış Yap</a>
                         </div>
                         <div class="separator my-2"></div>

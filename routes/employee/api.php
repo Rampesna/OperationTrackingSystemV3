@@ -16,6 +16,11 @@ Route::middleware([
     Route::get('getMarketPayments', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'getMarketPayments'])->name('employee.api.getMarketPayments');
     Route::get('getPositions', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'getPositions'])->name('employee.api.getPositions');
 
+    Route::prefix('employeePersonalInformation')->group(function () {
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\Employee\EmployeePersonalInformationController::class, 'getByEmployeeId'])->name('employee.api.employeePersonalInformation.getByEmployeeId');
+        Route::put('update', [\App\Http\Controllers\Api\Employee\EmployeePersonalInformationController::class, 'update'])->name('employee.api.employeePersonalInformation.update');
+    });
+
     Route::prefix('shift')->group(function () {
         Route::get('getDateBetweenByEmployeeId', [\App\Http\Controllers\Api\Employee\ShiftController::class, 'getDateBetweenByEmployeeId'])->name('employee.api.shift.getDateBetweenByEmployeeId');
         Route::get('getByDateAndEmployeeId', [\App\Http\Controllers\Api\Employee\ShiftController::class, 'getByDateAndEmployeeId'])->name('employee.api.shift.getByDateAndEmployeeId');
