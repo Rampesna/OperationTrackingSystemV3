@@ -14,6 +14,34 @@
 
 @section('content')
 
+    @include('user.modules.dashboard.index.modals.diagram')
+
+    <div class="row" id="mainMissions"></div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header pt-3 pb-2">
+                    <h5>Ek Görevlerim</h5>
+                </div>
+                <div class="card-body mt-n5">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5">
+                        <thead>
+                        <tr class="text-start text-dark fw-bolder fs-7 gs-0">
+                            <th>Görev Adı</th>
+                            <th>Görev Durumu</th>
+                            <th>Görev Başlangıcı</th>
+                            <th>Görev Bitişi</th>
+                        </tr>
+                        </thead>
+                        <tbody class="fw-bold text-gray-600" id="additionalCentralMissions"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="text-muted">
+
     <div class="row mb-5">
         <div class="col-12 col-xl-4">
             <label style="width: 100%">

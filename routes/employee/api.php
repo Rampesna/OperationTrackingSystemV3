@@ -92,4 +92,9 @@ Route::middleware([
         });
 
     });
+
+    Route::prefix('centralMission')->group(function () {
+        Route::get('getByRelation', [\App\Http\Controllers\Api\Employee\CentralMissionController::class, 'getByRelation'])->name('employee.api.centralMission.getByRelation');
+        Route::get('getById', [\App\Http\Controllers\Api\Employee\CentralMissionController::class, 'getById'])->name('employee.api.centralMission.getById');
+    });
 });

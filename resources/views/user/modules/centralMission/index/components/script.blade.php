@@ -867,7 +867,7 @@
             success: function (response) {
                 var diagram = $("#diagram").ejDiagram("instance");
                 var data = JSON.parse(response.response.diagram);
-                diagram.load(data);
+                diagram.load(data ?? {});
                 $('#diagram_canvas_svg').click();
                 $('#DiagramModal').modal('show');
                 $('#loader').hide();

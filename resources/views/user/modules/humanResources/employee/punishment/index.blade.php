@@ -16,6 +16,10 @@
 
     @include('user.modules.humanResources.employee.layouts.overview')
 
+    @include('user.modules.humanResources.employee.punishment.modals.createPunishment')
+    @include('user.modules.humanResources.employee.punishment.modals.updatePunishment')
+    @include('user.modules.humanResources.employee.punishment.modals.deletePunishment')
+
     <div class="row">
         <div class="col-xl-9 mb-5">
 

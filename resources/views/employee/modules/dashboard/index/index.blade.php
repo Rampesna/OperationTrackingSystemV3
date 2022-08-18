@@ -26,27 +26,37 @@
     @include('employee.modules.dashboard.index.modals.showOvertime')
     @include('employee.modules.dashboard.index.modals.showPayment')
     @include('employee.modules.dashboard.index.modals.updateFoodListCheck')
+    @include('employee.modules.dashboard.index.modals.diagram')
+
+    <div class="row" id="mainMissions"></div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header pt-3 pb-2">
+                    <h5>Ek Görevlerim</h5>
+                </div>
+                <div class="card-body mt-n5">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5">
+                        <thead>
+                        <tr class="text-start text-dark fw-bolder fs-7 gs-0">
+                            <th>Görev Adı</th>
+                            <th>Görev Durumu</th>
+                            <th>Görev Başlangıcı</th>
+                            <th>Görev Bitişi</th>
+                        </tr>
+                        </thead>
+                        <tbody class="fw-bold text-gray-600" id="additionalCentralMissions"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="text-muted">
 
     <div class="row">
         <div class="col-xl-5">
             <div class="row">
-                <div class="col-xl-12 mb-5">
-                    <div onclick="showCentralMissions()" class="card cursor-pointer h-lg-100">
-                        <div class="card-body d-flex justify-content-between align-items-center flex-column">
-                            <div class="m-0">
-                                <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                        <path opacity="0.3" d="M12 22C13.6569 22 15 20.6569 15 19C15 17.3431 13.6569 16 12 16C10.3431 16 9 17.3431 9 19C9 20.6569 10.3431 22 12 22Z" fill="black"/>
-                                        <path d="M19 15V18C19 18.6 18.6 19 18 19H6C5.4 19 5 18.6 5 18V15C6.1 15 7 14.1 7 13V10C7 7.6 8.7 5.6 11 5.1V3C11 2.4 11.4 2 12 2C12.6 2 13 2.4 13 3V5.1C15.3 5.6 17 7.6 17 10V13C17 14.1 17.9 15 19 15ZM11 10C11 9.4 11.4 9 12 9C12.6 9 13 8.6 13 8C13 7.4 12.6 7 12 7C10.3 7 9 8.3 9 10C9 10.6 9.4 11 10 11C10.6 11 11 10.6 11 10Z" fill="black"/>
-                                    </svg>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column mt-7">
-                                <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Görevlerim</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-xl-6 mb-5">
                     <div onclick="createPermit()" class="card cursor-pointer h-lg-100">
                         <div class="card-body d-flex justify-content-between align-items-center flex-column">

@@ -412,6 +412,10 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\PaymentTypeController::class, 'getAll'])->name('user.api.paymentType.getAll');
     });
 
+    Route::prefix('punishmentCategory')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\PunishmentCategoryController::class, 'getAll'])->name('user.api.punishmentCategory.getAll');
+    });
+
     Route::prefix('ticket')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\TicketController::class, 'getAll'])->name('user.api.ticket.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\TicketController::class, 'getById'])->name('user.api.ticket.getById');

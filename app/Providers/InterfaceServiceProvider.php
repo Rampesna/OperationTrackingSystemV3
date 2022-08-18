@@ -51,6 +51,8 @@ use App\Interfaces\Eloquent\IProjectJobTypeService;
 use App\Interfaces\Eloquent\IProjectService;
 use App\Interfaces\Eloquent\IProjectStatusService;
 use App\Interfaces\Eloquent\IProjectVersionService;
+use App\Interfaces\Eloquent\IPunishmentCategoryService;
+use App\Interfaces\Eloquent\IPunishmentService;
 use App\Interfaces\Eloquent\IPurchaseItemService;
 use App\Interfaces\Eloquent\IPurchaseService;
 use App\Interfaces\Eloquent\IPurchaseStatusService;
@@ -139,6 +141,8 @@ use App\Services\Eloquent\ProjectJobTypeService;
 use App\Services\Eloquent\ProjectService;
 use App\Services\Eloquent\ProjectStatusService;
 use App\Services\Eloquent\ProjectVersionService;
+use App\Services\Eloquent\PunishmentCategoryService;
+use App\Services\Eloquent\PunishmentService;
 use App\Services\Eloquent\PurchaseItemService;
 use App\Services\Eloquent\PurchaseService;
 use App\Services\Eloquent\PurchaseStatusService;
@@ -264,6 +268,8 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IRecruitingDepartmentService::class, RecruitingDepartmentService::class);
         $this->app->bind(IRecruitingStepSubStepCheckService::class, RecruitingStepSubStepCheckService::class);
         $this->app->bind(IRecruitingEvaluationParameterService::class, RecruitingEvaluationParameterService::class);
+        $this->app->bind(IPunishmentCategoryService::class, PunishmentCategoryService::class);
+        $this->app->bind(IPunishmentService::class, PunishmentService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

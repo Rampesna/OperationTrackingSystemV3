@@ -60,6 +60,9 @@
 
     function createPunishment() {
         createPunishmentCategoryId.val('');
+        $('#create_punishment_date').val('');
+        $('#create_punishment_money_deduction').val('');
+        $('#create_punishment_description').val('');
         $('#CreatePunishmentModal').modal('show');
     }
 
@@ -77,17 +80,16 @@
                 id: id,
             },
             success: function (response) {
-                updatePunishmentTypeId.val(response.response.type_id);
-                updatePunishmentStatusId.val(response.response.status_id);
-                $('#update_punishment_start_date').val(reformatDatetimeForInput(response.response.start_date));
-                $('#update_punishment_end_date').val(reformatDatetimeForInput(response.response.end_date));
+                updatePunishmentCategoryId.val(response.response.category_id).trigger('change');
+                $('#update_punishment_date').val(response.response.date);
+                $('#update_punishment_money_deduction').val(response.response.money_deduction);
                 $('#update_punishment_description').val(response.response.description);
                 $('#UpdatePunishmentModal').modal('show');
                 $('#loader').hide();
             },
             error: function (error) {
                 console.log(error);
-                toastr.error('İzin Verileri Alınırken Serviste Bir Sorun Oluştu!');
+                toastr.error('Ceza Verileri Alınırken Serviste Bir Sorun Oluştu!');
                 $('#loader').hide();
             }
         });
@@ -98,38 +100,32 @@
         $('#DeletePunishmentModal').modal('show');
     }
 
-    function getPunishmentTypes() {
+    function getPunishmentCategories() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.punishmentType.getAll') }}',
+            url: '{{ route('user.api.punishmentCategory.getAll') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {},
             success: function (response) {
-                createPunishmentTypeId.empty();
-                updatePunishmentTypeId.empty();
-                typeIdFilter.empty();
-                $.each(response.response, function (i, punishmentType) {
-                    createPunishmentTypeId.append($('<option>', {
-                        value: punishmentType.id,
-                        text: punishmentType.name
+                createPunishmentCategoryId.empty();
+                updatePunishmentCategoryId.empty();
+                $.each(response.response, function (i, punishmentCategory) {
+                    createPunishmentCategoryId.append($('<option>', {
+                        value: punishmentCategory.id,
+                        text: punishmentCategory.name
                     }));
-                    updatePunishmentTypeId.append($('<option>', {
-                        value: punishmentType.id,
-                        text: punishmentType.name
-                    }));
-                    typeIdFilter.append($('<option>', {
-                        value: punishmentType.id,
-                        text: punishmentType.name
+                    updatePunishmentCategoryId.append($('<option>', {
+                        value: punishmentCategory.id,
+                        text: punishmentCategory.name
                     }));
                 });
-                typeIdFilter.val('');
             },
             error: function (error) {
                 console.log(error);
-                toastr.error('İzin Türleri Alınırken Serviste Bir Sorun Oluştu!');
+                toastr.error('Ceza Türleri Alınırken Serviste Bir Sorun Oluştu!');
             }
         });
     }
@@ -139,10 +135,6 @@
         var employeeId = parseInt(`{{ $id }}`);
         var pageIndex = parseInt(page.html()) - 1;
         var pageSize = pageSizeSelector.val();
-        var startDate = startDateFilter.val();
-        var endDate = endDateFilter.val();
-        var statusId = statusIdFilter.val();
-        var typeId = typeIdFilter.val();
 
         $.ajax({
             type: 'get',
@@ -155,10 +147,6 @@
                 employeeId: employeeId,
                 pageIndex: pageIndex,
                 pageSize: pageSize,
-                startDate: startDate ? startDate + ' 00:00:00' : null,
-                endDate: endDate ? endDate + ' 23:59:59' : null,
-                statusId: statusId,
-                typeId: typeId,
             },
             success: function (response) {
                 punishments.empty();
@@ -171,33 +159,20 @@
                                     <i class="fas fa-th"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${punishment.id}_Dropdown" style="width: 175px">
-                                    ${updatePermission === 'true' ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updatePunishment(${punishment.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
-                                    ` : ``}
-                                    ${deletePermission === 'true' ? `
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deletePunishment(${punishment.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
-                                    ` : ``}
                                 </div>
                             </div>
                         </td>
                         <td>
-                            ${punishment.employee ? punishment.employee.name : ''}
-                        </td>
-                        <td>
-                            <span class="badge badge-${punishment.status ? punishment.status.color : ''}">${punishment.status ? punishment.status.name : ''}</span>
+                            ${punishment.category ? punishment.category.name : ''}
                         </td>
                         <td class="hideIfMobile">
-                            ${punishment.type ? punishment.type.name : ''}
+                            ${punishment.date ? reformatDatetimeToDateForHuman(punishment.date) : ''}
                         </td>
                         <td class="hideIfMobile">
-                            ${reformatDatetimeToDatetimeForHuman(punishment.start_date)}
-                        </td>
-                        <td class="hideIfMobile">
-                            ${reformatDatetimeToDatetimeForHuman(punishment.end_date)}
-                        </td>
-                        <td class="hideIfMobile">
-                            ${minutesToString(getMinutesBetweenTwoDates(punishment.start_date, punishment.end_date))}
+                            ${punishment.money_deduction ? `${reformatNumberToMoney(punishment.money_deduction)} ₺` : '--'}
                         </td>
                     </tr>
                     `);
@@ -213,18 +188,14 @@
             },
             error: function (error) {
                 console.log(error);
-                toastr.error('İzinler Alınırken Serviste Bir Sorun Oluştu.');
+                toastr.error('Cezalar Alınırken Serviste Bir Sorun Oluştu.');
                 $('#loader').hide();
             }
         });
     }
 
-    getPunishmentTypes();
+    getPunishmentCategories();
     getPunishments();
-
-    SelectedCompanies.change(function () {
-        getPunishments();
-    });
 
     function changePage(newPage) {
         if (newPage === 1) {
@@ -249,36 +220,19 @@
         changePage(1);
     });
 
-    FilterButton.click(function () {
-        changePage(1);
-    });
-
-    ClearFilterButton.click(function () {
-        typeIdFilter.val('').trigger('change');
-        statusIdFilter.val('').trigger('change');
-        startDateFilter.val('');
-        endDateFilter.val('');
-        changePage(1);
-    });
-
     CreatePunishmentButton.click(function () {
         var employeeId = parseInt(`{{ $id }}`);
-        var typeId = createPunishmentTypeId.val();
-        var statusId = createPunishmentStatusId.val();
-        var startDate = $('#create_punishment_start_date').val();
-        var endDate = $('#create_punishment_end_date').val();
+        var categoryId = createPunishmentCategoryId.val();
+        var date = $('#create_punishment_date').val();
+        var moneyDeduction = $('#create_punishment_money_deduction').val();
         var description = $('#create_punishment_description').val();
 
         if (!employeeId) {
             toastr.warning('Personel Seçimi Zorunludur!');
-        } else if (!typeId) {
-            toastr.warning('İzin Türü Seçimi Zorunludur!');
-        } else if (!statusId) {
-            toastr.warning('İzin Durumu Seçimi Zorunludur!');
-        } else if (!startDate) {
-            toastr.warning('Başlangıç Tarihi Seçimi Zorunludur!');
-        } else if (!endDate) {
-            toastr.warning('Bitiş Tarihi Seçimi Zorunludur!');
+        } else if (!categoryId) {
+            toastr.warning('Ceza Kategorisi Seçimi Zorunludur!');
+        } else if (!date) {
+            toastr.warning('Ceza Tarihi Seçimi Zorunludur!');
         } else {
             CreatePunishmentButton.attr('disabled', true).html(`<i class="fas fa-spinner fa-spin"></i>`);
             $.ajax({
@@ -290,21 +244,20 @@
                 },
                 data: {
                     employeeId: employeeId,
-                    typeId: typeId,
-                    statusId: statusId,
-                    startDate: startDate,
-                    endDate: endDate,
-                    description: description,
+                    categoryId: categoryId,
+                    date: date,
+                    moneyDeduction: moneyDeduction,
+                    description: description
                 },
                 success: function () {
-                    toastr.success('İzin Başarıyla Oluşturuldu!');
+                    toastr.success('Ceza Başarıyla Oluşturuldu!');
                     changePage(1);
                     $('#CreatePunishmentModal').modal('hide');
                     CreatePunishmentButton.attr('disabled', false).html(`Oluştur`);
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('İzin Oluşturulurken Serviste Bir Sorun Oluştu!');
+                    toastr.error('Ceza Oluşturulurken Serviste Bir Sorun Oluştu!');
                     CreatePunishmentButton.attr('disabled', false).html(`Oluştur`);
                 }
             });
@@ -313,21 +266,17 @@
 
     UpdatePunishmentButton.click(function () {
         var id = $('#update_punishment_id').val();
-        var employeeId = parseInt(`{{ $id }}`);
-        var typeId = updatePunishmentTypeId.val();
-        var statusId = updatePunishmentStatusId.val();
-        var startDate = $('#update_punishment_start_date').val();
-        var endDate = $('#update_punishment_end_date').val();
+        var categoryId = updatePunishmentCategoryId.val();
+        var date = $('#update_punishment_date').val();
+        var moneyDeduction = $('#update_punishment_money_deduction').val();
         var description = $('#update_punishment_description').val();
 
-        if (!typeId) {
-            toastr.warning('İzin Türü Seçimi Zorunludur!');
-        } else if (!statusId) {
-            toastr.warning('İzin Durumu Seçimi Zorunludur!');
-        } else if (!startDate) {
-            toastr.warning('Başlangıç Tarihi Seçimi Zorunludur!');
-        } else if (!endDate) {
-            toastr.warning('Bitiş Tarihi Seçimi Zorunludur!');
+        if (!id) {
+            toastr.warning('Ceza Seçimi Zorunludur!');
+        } else if (!categoryId) {
+            toastr.warning('Ceza Kategorisi Seçimi Zorunludur!');
+        } else if (!date) {
+            toastr.warning('Ceza Tarihi Seçimi Zorunludur!');
         } else {
             UpdatePunishmentButton.attr('disabled', true).html(`<i class="fas fa-spinner fa-spin"></i>`);
             $.ajax({
@@ -339,22 +288,15 @@
                 },
                 data: {
                     id: id,
-                    employeeId: employeeId,
-                    typeId: typeId,
-                    statusId: statusId,
-                    startDate: startDate,
-                    endDate: endDate,
-                    description: description,
+                    categoryId: categoryId,
+                    date: date,
+                    moneyDeduction: moneyDeduction,
+                    description: description
                 },
                 success: function () {
-                    toastr.success('İzin Başarıyla Güncellendi!');
-                    changePage(parseInt(page.html()));
+                    toastr.success('Ceza Başarıyla Güncellendi!');
+                    changePage(1);
                     $('#UpdatePunishmentModal').modal('hide');
-                    UpdatePunishmentButton.attr('disabled', false).html(`Güncelle`);
-                },
-                error: function (error) {
-                    console.log(error);
-                    toastr.error('İzin Güncellenirken Serviste Bir Sorun Oluştu!');
                     UpdatePunishmentButton.attr('disabled', false).html(`Güncelle`);
                 }
             });
@@ -375,14 +317,14 @@
                 id: id,
             },
             success: function () {
-                toastr.success('İzin Başarıyla Silindi!');
+                toastr.success('Ceza Başarıyla Silindi!');
                 changePage(parseInt(page.html()));
                 $('#DeletePunishmentModal').modal('hide');
                 DeletePunishmentButton.attr('disabled', false).html(`Sil`);
             },
             error: function (error) {
                 console.log(error);
-                toastr.error('İzin Silinirken Serviste Bir Sorun Oluştu!');
+                toastr.error('Ceza Silinirken Serviste Bir Sorun Oluştu!');
                 DeletePunishmentButton.attr('disabled', false).html(`Sil`);
             }
         });
