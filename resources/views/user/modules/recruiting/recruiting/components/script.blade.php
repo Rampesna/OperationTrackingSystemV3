@@ -173,6 +173,10 @@
         });
     }
 
+    function downloadCv(id) {
+        window.open(`{{ route('user.web.file.download') }}/${id}`, '_blank');
+    }
+
     function cancelRecruiting(id) {
         $('#cancel_recruiting_id').val(id);
         $('#CancelRecruitingModal').modal('show');
@@ -260,6 +264,7 @@
                                     <a href="${wizardUrl}/${recruiting.id}" target="_blank" class="dropdown-item cursor-pointer mb-2 py-3 ps-6" title="İlerleme"><i class="fas fa-forward me-2 text-info"></i> <span class="text-dark">İlerleme</span></a>
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateRecruiting(${recruiting.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="downloadCv(${recruiting.cv})" title="CV İndir"><i class="fas fa-download me-2 text-info"></i> <span class="text-dark">CV İndir</span></a>
                                     ${recruiting.cancel === 0 ? `
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="cancelRecruiting(${recruiting.id})" title="İptal Et"><i class="fas fa-times-circle me-2 text-danger"></i> <span class="text-dark">İptal Et</span></a>
                                     ` : ``}
