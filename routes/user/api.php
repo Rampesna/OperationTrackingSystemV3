@@ -392,6 +392,14 @@ Route::middleware([
         Route::delete('delete', [\App\Http\Controllers\Api\User\PaymentController::class, 'delete'])->name('user.api.payment.delete');
     });
 
+    Route::prefix('punishment')->group(function () {
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\PunishmentController::class, 'getByEmployeeId'])->name('user.api.punishment.getByEmployeeId');
+        Route::get('getById', [\App\Http\Controllers\Api\User\PunishmentController::class, 'getById'])->name('user.api.punishment.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\PunishmentController::class, 'create'])->name('user.api.punishment.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\PunishmentController::class, 'update'])->name('user.api.punishment.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\PunishmentController::class, 'delete'])->name('user.api.punishment.delete');
+    });
+
     Route::prefix('permitType')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\PermitTypeController::class, 'getAll'])->name('user.api.permitType.getAll');
     });
