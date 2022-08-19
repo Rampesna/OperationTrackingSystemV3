@@ -36,4 +36,8 @@ Route::middleware([
     Route::prefix('employeeSuggestion')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\Employee\EmployeeSuggestionController::class, 'index'])->name('employee.web.employeeSuggestion.index');
     });
+
+    Route::prefix('abandon')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\Employee\AbandonController::class, 'index'])->name('employee.web.abandon.index');
+    });
 });
