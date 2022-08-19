@@ -284,6 +284,11 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\UserRoleController::class, 'index'])->name('user.web.userRole.index');
     });
 
+    Route::prefix('exam')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\ExamController::class, 'index'])->name('user.web.exam.index');
+        Route::get('employee/{examId?}', [\App\Http\Controllers\Web\User\ExamController::class, 'employee'])->name('user.web.exam.employee');
+    });
+
     Route::prefix('file')->group(function () {
         Route::get('download/{id?}', [\App\Http\Controllers\Web\User\FileController::class, 'download'])->name('user.web.file.download');
     });

@@ -131,13 +131,13 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
     }
 
     /**
-     * @param int $id
+     * @param int $employeeGuid
      * @param int $examId
      *
      * @return ServiceResponse
      */
     public function GetExamResultReadingReplyList(
-        int $id,
+        int $employeeGuid,
         int $examId
     ): ServiceResponse
     {
@@ -148,7 +148,7 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
 
         $parameters = [
             'ExamId' => $examId,
-            'PersonId' => $id
+            'PersonId' => $employeeGuid
         ];
 
         return new ServiceResponse(

@@ -721,6 +721,12 @@ Route::middleware([
             Route::post('setJobSuspend', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobSuspend'])->name('user.api.operationApi.jobsSystem.setJobSuspend');
             Route::post('setJobCaseWorkDelete', [\App\Http\Controllers\Api\User\OperationApi\JobsSystemController::class, 'setJobCaseWorkDelete'])->name('user.api.operationApi.jobsSystem.setJobCaseWorkDelete');
         });
+
+        Route::prefix('examSystem')->group(function () {
+            Route::get('getExamList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getExamList'])->name('user.api.operationApi.examSystem.getExamList');
+            Route::get('getExamResultReadingList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getExamResultReadingList'])->name('user.api.operationApi.examSystem.getExamResultReadingList');
+            Route::get('getExamResultReadingReplyList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getExamResultReadingReplyList'])->name('user.api.operationApi.examSystem.getExamResultReadingReplyList');
+        });
     });
 
     Route::prefix('otsCallApi')->group(function () {

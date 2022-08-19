@@ -49,13 +49,13 @@ interface IExamSystemService
     ): ServiceResponse;
 
     /**
-     * @param int $id
+     * @param int $employeeGuid
      * @param int $examId
      *
      * @return ServiceResponse
      */
     public function GetExamResultReadingReplyList(
-        int $id,
+        int $employeeGuid,
         int $examId
     ): ServiceResponse;
 
