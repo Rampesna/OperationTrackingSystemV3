@@ -80,6 +80,17 @@ interface IShiftService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param array $companyIds
+     * @param string $date
+     *
+     * @return ServiceResponse
+     */
+    public function getByDateAndCompanyIds(
+        array  $companyIds,
+        string $date
+    ): ServiceResponse;
+
+    /**
      * @param array $shifts {
      * @param int $companyId
      * @param int $employeeId
@@ -139,6 +150,17 @@ interface IShiftService extends IEloquentService
         string $date,
         string $startTime,
         string $endTime
+    ): ServiceResponse;
+
+    /**
+     * @param int $shiftId
+     * @param int $swapShiftId
+     *
+     * @return ServiceResponse
+     */
+    public function swapShift(
+        int $shiftId,
+        int $swapShiftId
     ): ServiceResponse;
 
     /**

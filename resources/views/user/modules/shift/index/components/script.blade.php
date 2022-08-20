@@ -18,6 +18,7 @@
     var updateShiftShiftGroupId = $('#update_shift_shift_group_id');
     var createShiftEmployees = $('#create_shift_employees');
     var updateShiftBatchEmployeeIds = $('#update_shift_batch_employee_ids');
+    var swapShiftShiftId = $('#swap_shift_shift_id');
 
     var FilterButton = $('#FilterButton');
     var RobotButton = $('#RobotButton');
@@ -27,6 +28,7 @@
     var UpdateShiftBatchButton = $('#UpdateShiftBatchButton');
     var DeleteShiftButton = $('#DeleteShiftButton');
     var DeleteMultipleButton = $('#DeleteMultipleButton');
+    var SwapShiftButton = $('#SwapShiftButton');
 
     function getJobDepartments() {
         var companyIds = SelectedCompanies.val();
@@ -257,6 +259,42 @@
         });
     }
 
+    function swapShift() {
+        var shiftId = $('#swap_shift_id').val();
+        var companyIds = SelectedCompanies.val();
+        var date = $('#swap_shift_date').val();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.shift.getByDateAndCompanyIds') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                companyIds: companyIds,
+                date: date
+            },
+            success: function (response) {
+                swapShiftShiftId.empty();
+                $.each(response.response, function (i, shift) {
+                    if (parseInt(shiftId) !== parseInt(shift.id)) {
+                        swapShiftShiftId.append($('<option>', {
+                            value: shift.id,
+                            text: `${shift.employee.name} - ${moment(new Date(shift.start_date)).format('HH:mm')} - ${moment(new Date(shift.end_date)).format('HH:mm')}`
+                        }));
+                    }
+                });
+                swapShiftShiftId.val('').trigger('change');
+                $('#ShowModal').modal('hide');
+                $('#SwapShiftModal').modal('show');
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Seçilen Tarihteki Diğer Vardiyalar Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
     function deleteShift() {
         $('#delete_shift_id').val($('#update_shift_id').val());
         $('#DeleteShiftModal').modal('show');
@@ -327,6 +365,10 @@
                     $('#update_shift_start_date').val(reformatDatetimeForInput(response.response.start_date));
                     $('#update_shift_end_date').val(reformatDatetimeForInput(response.response.end_date));
                     $('#update_shift_friday_additional_break_duration').val(allShiftGroups.find(shiftGroup => parseInt(shiftGroup.id) === parseInt(response.response.shift_group_id)).friday_additional_break_duration);
+
+                    $('#swap_shift_id').val(response.response.id);
+                    $('#swap_shift_date').val(reformatDatetimeTo_YYYY_MM_DD(response.response.start_date));
+
                     $('#ShowModal').modal('show');
                     $('#loader').hide();
                 },
@@ -366,7 +408,7 @@
                             start: reformatDateForCalendar(shift.start_date),
                             end: reformatDateForCalendar(shift.end_date),
                             type: 'shift',
-                            classNames: 'bg-primary text-white cursor-pointer ms-1 me-1',
+                            classNames: `bg-${parseInt(shift.shift_group_id) === 1 ? `primary` : `danger`} text-white cursor-pointer ms-1 me-1`,
                             backgroundColor: 'white',
                             shift_id: `${shift.id}`
                         });
@@ -567,6 +609,40 @@
                     console.log(error);
                     toastr.error('Vardiyalar Alınırken Serviste Bir Sorun Oluştu!');
                     $('#loader').hide();
+                }
+            });
+        }
+    });
+
+    SwapShiftButton.click(function () {
+        var shiftId = $('#swap_shift_id').val();
+        var swapShiftId = swapShiftShiftId.val();
+
+        if (!swapShiftId) {
+            toastr.warning('Değiştirilecek Vardiyayı Seçmelisiniz!');
+        } else {
+            SwapShiftButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.shift.swapShift') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    shiftId: shiftId,
+                    swapShiftId: swapShiftId,
+                },
+                success: function (response) {
+                    toastr.success('Vardiyalar Başarıyla Değiştirildi.');
+                    $('#SwapShiftModal').modal('hide');
+                    SwapShiftButton.attr('disabled', false).html('Değiştir');
+                    calendar.refetchEvents();
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Vardiyalar Değiştirilirken Serviste Bir Sorun Oluştu!');
+                    SwapShiftButton.attr('disabled', false).html('Değiştir');
                 }
             });
         }

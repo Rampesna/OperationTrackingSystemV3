@@ -73,6 +73,7 @@ Route::middleware([
 
     Route::prefix('santralMonitoring')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\SantralMonitoringController::class, 'index'])->name('user.web.santralMonitoring.index');
+        Route::get('abandon', [\App\Http\Controllers\Web\User\SantralMonitoringController::class, 'abandon'])->name('user.web.santralMonitoring.abandon');
 
         Route::prefix('monitor')->group(function () {
             Route::get('job', [\App\Http\Controllers\Web\User\SantralMonitoring\MonitorController::class, 'job'])->name('user.web.santralMonitoring.monitor.job');
@@ -291,5 +292,7 @@ Route::middleware([
 
     Route::prefix('file')->group(function () {
         Route::get('download/{id?}', [\App\Http\Controllers\Web\User\FileController::class, 'download'])->name('user.web.file.download');
+        Route::get('downloadByKey', [\App\Http\Controllers\Web\User\FileController::class, 'downloadByKey'])->name('user.web.file.downloadByKey');
+        Route::get('createPdf/{id?}', [\App\Http\Controllers\Web\User\FileController::class, 'createPdf'])->name('user.web.file.createPdf');
     });
 });

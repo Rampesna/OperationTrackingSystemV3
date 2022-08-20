@@ -303,6 +303,30 @@ class ShiftService implements IShiftService
     }
 
     /**
+     * @param array $companyIds
+     * @param string $date
+     *
+     * @return ServiceResponse
+     */
+    public function getByDateAndCompanyIds(
+        array  $companyIds,
+        string $date
+    ): ServiceResponse
+    {
+        return new ServiceResponse(
+            true,
+            'Shifts',
+            200,
+            Shift::with([
+                'employee'
+            ])->whereIn('company_id', $companyIds)->whereBetween('start_date', [
+                date('Y-m-d 00:00:00', strtotime($date)),
+                date('Y-m-d 23:59:59', strtotime($date))
+            ])->get()
+        );
+    }
+
+    /**
      * @param array $shifts {
      * @param int $employeeId
      * @param int $shiftGroupId
@@ -533,6 +557,37 @@ class ShiftService implements IShiftService
                 'start_date' => $date . ' ' . $startTime,
                 'end_date' => $date . ' ' . $endTime,
             ])
+        );
+    }
+
+    /**
+     * @param int $shiftId
+     * @param int $swapShiftId
+     *
+     * @return ServiceResponse
+     */
+    public function swapShift(
+        int $shiftId,
+        int $swapShiftId
+    ): ServiceResponse
+    {
+        $shift = $this->getById($shiftId);
+        $swapShift = $this->getById($swapShiftId);
+
+        $firstId = $shift->getData()->employee_id;
+        $secondId = $swapShift->getData()->employee_id;
+
+        $shift->getData()->employee_id = $secondId;
+        $shift->getData()->save();
+
+        $swapShift->getData()->employee_id = $firstId;
+        $swapShift->getData()->save();
+
+        return new ServiceResponse(
+            true,
+            'Shifts swapped',
+            200,
+            null
         );
     }
 

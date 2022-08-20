@@ -33,6 +33,9 @@
                     </div>
                     <div class="text-center">
                         @if(checkUserPermission(84, $userPermissions))
+                            <button type="button" class="btn btn-info me-3" onclick="swapShift()">Personel Değiştir</button>
+                        @endif
+                        @if(checkUserPermission(84, $userPermissions))
                             <button type="button" class="btn btn-primary me-3" onclick="updateShift()">Düzenle</button>
                         @endif
                         @if(checkUserPermission(85, $userPermissions))

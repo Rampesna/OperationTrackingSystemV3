@@ -113,6 +113,9 @@
             success: function (response) {
                 console.log(response);
                 queues.empty();
+                $('#totalCountSpan').text(response.response.totalCount);
+                $('#startCountSpan').text(parseInt(((pageIndex) * pageSize)) + 1);
+                $('#endCountSpan').text(parseInt(parseInt(((pageIndex) * pageSize)) + 1) + parseInt(pageSize));
                 $.each(response.response.queues, function (i, queue) {
                     queues.append(`
                     <tr>

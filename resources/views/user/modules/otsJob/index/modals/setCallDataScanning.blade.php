@@ -15,6 +15,9 @@
                 <div class="form fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="mb-13 text-center">
                         <h1 class="mb-3">Çağrı Tarama Aktarımı</h1>
+                        <a class="ms-5 fs-5" href="{{ route('user.web.file.downloadByKey', ['key' => 'excelTemplates/callDataScanning.xlsx']) }}">
+                            <i class="fa fa-lg fa-file-download"></i> Aktarım Dosyası Şablonu
+                        </a>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <div class="row">

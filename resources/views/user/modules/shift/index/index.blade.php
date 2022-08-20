@@ -24,6 +24,7 @@
     @include('user.modules.shift.index.modals.updateShift')
     @include('user.modules.shift.index.modals.updateShiftBatch')
     @include('user.modules.shift.index.modals.deleteShift')
+    @include('user.modules.shift.index.modals.swapShift')
 
     <div class="row">
         <div class="col-xl-12 mb-5">

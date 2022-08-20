@@ -95,6 +95,11 @@
         });
     }
 
+    function createPdf(id) {
+        var route = `{{ route('user.web.file.createPdf') }}`;
+        window.location.href = `${route}/${id}`;
+    }
+
     function deletePunishment(id) {
         $('#delete_punishment_id').val(id);
         $('#DeletePunishmentModal').modal('show');
@@ -160,6 +165,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${punishment.id}_Dropdown" style="width: 175px">
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updatePunishment(${punishment.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="createPdf(${punishment.id})" title="Belge Oluştur"><i class="fas fa-file me-2 text-dark"></i> <span class="text-dark">Belge Oluştur</span></a>
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deletePunishment(${punishment.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
                                 </div>

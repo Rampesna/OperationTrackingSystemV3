@@ -613,15 +613,20 @@
                                 </div>
                                 <div class="separator separator-dashed my-5"></div>
                                 <div class="d-flex flex-center">
-                                    <div id="${employee.guid}_eBadge" class="badge badge-${eBadge} badge-circle cursor-pointer eBadge" data-employee-id="${employee.id}" data-employee-guid="${employee.guid}">E</div>
-                                    <div id="${employee.guid}_gBadge" class="badge badge-${gBadge} badge-circle cursor-pointer gBadge ms-2" data-employee-id="${employee.id}" data-employee-guid="${employee.guid}">G</div>
-                                    <div id="${employee.guid}_tBadge" class="badge badge-${tBadge} badge-circle cursor-pointer tBadge ms-2" data-employee-id="${employee.id}" data-employee-guid="${employee.guid}">T</div>
-                                    <div id="${employee.guid}_yBadge" class="badge badge-${yBadge} badge-circle cursor-pointer yBadge ms-2" data-employee-id="${employee.id}" data-employee-guid="${employee.guid}">Y</div>
+                                    <div id="${employee.guid}_eBadge" class="badge badge-${eBadge} badge-circle cursor-pointer eBadge badgeTooltip" data-employee-id="${employee.id}" data-employee-guid="${employee.guid}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eğitim Yetkisini Güncellemek İçin Tıklayın">E</div>
+                                    <div id="${employee.guid}_gBadge" class="badge badge-${gBadge} badge-circle cursor-pointer gBadge ms-2 badgeTooltip" data-employee-id="${employee.id}" data-employee-guid="${employee.guid}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Görevlendirme Yetkisini Güncellemek İçin Tıklayın">G</div>
+                                    <div id="${employee.guid}_tBadge" class="badge badge-${tBadge} badge-circle cursor-pointer tBadge ms-2 badgeTooltip" data-employee-id="${employee.id}" data-employee-guid="${employee.guid}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Takım Lideri Yetkisini Güncellemek İçin Tıklayın">T</div>
+                                    <div id="${employee.guid}_yBadge" class="badge badge-${yBadge} badge-circle cursor-pointer yBadge ms-2 badgeTooltip" data-employee-id="${employee.id}" data-employee-guid="${employee.guid}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Takım Lider Yardımcısı Yetkisini Güncellemek İçin Tıklayın">Y</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     `);
+                });
+
+                var badgeTooltips = $('.badgeTooltip');
+                $.each(badgeTooltips, function () {
+                    $(this).tooltip();
                 });
 
                 var employeesSource = {
@@ -1058,7 +1063,8 @@
         var assignment = $(`#${guid}_gBadge`).hasClass('badge-success') ? 1 : 0;
         var teamLead = $(`#${guid}_tBadge`).hasClass('badge-success') ? 1 : 0;
         var teamLeadAssistant = $(`#${guid}_yBadge`).hasClass('badge-success') ? 1 : 0;
-
+        badge.html(`<i class="fa fa-spinner fa-spin"></i>`);
+        toastr.info('Eğitim Yetkisi Güncelleniyor, Lütfen Bekleyiniz...');
         $.ajax({
             type: 'post',
             url: '{{ route('user.api.operationApi.personSystem.setPersonAuthority') }}',
@@ -1074,10 +1080,12 @@
                 teamLeadAssistant: teamLeadAssistant
             },
             success: function () {
+                badge.html('E');
                 education === 0 ? badge.removeClass('badge-success').addClass('badge-warning') : badge.removeClass('badge-warning').addClass('badge-success');
             },
             error: function (error) {
                 console.log(error);
+                badge.html('E');
                 toastr.error('Personel Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
             }
         });
@@ -1091,7 +1099,8 @@
         var assignment = badge.hasClass('badge-success') ? 0 : 1;
         var teamLead = $(`#${guid}_tBadge`).hasClass('badge-success') ? 1 : 0;
         var teamLeadAssistant = $(`#${guid}_yBadge`).hasClass('badge-success') ? 1 : 0;
-
+        badge.html(`<i class="fa fa-spinner fa-spin"></i>`);
+        toastr.info('Görevlendirme Yetkisi Güncelleniyor, Lütfen Bekleyiniz...');
         $.ajax({
             type: 'post',
             url: '{{ route('user.api.operationApi.personSystem.setPersonAuthority') }}',
@@ -1107,10 +1116,12 @@
                 teamLeadAssistant: teamLeadAssistant
             },
             success: function () {
+                badge.html('G');
                 assignment === 0 ? badge.removeClass('badge-success').addClass('badge-warning') : badge.removeClass('badge-warning').addClass('badge-success');
             },
             error: function (error) {
                 console.log(error);
+                badge.html('G');
                 toastr.error('Personel Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
             }
         });
@@ -1124,7 +1135,8 @@
         var assignment = $(`#${guid}_gBadge`).hasClass('badge-success') ? 1 : 0;
         var teamLead = badge.hasClass('badge-success') ? 0 : 1;
         var teamLeadAssistant = $(`#${guid}_yBadge`).hasClass('badge-success') ? 1 : 0;
-
+        badge.html(`<i class="fa fa-spinner fa-spin"></i>`);
+        toastr.info('Takım Lideri Yetkisi Güncelleniyor, Lütfen Bekleyiniz...');
         $.ajax({
             type: 'post',
             url: '{{ route('user.api.operationApi.personSystem.setPersonAuthority') }}',
@@ -1140,10 +1152,12 @@
                 teamLeadAssistant: teamLeadAssistant
             },
             success: function () {
+                badge.html('T');
                 teamLead === 0 ? badge.removeClass('badge-success').addClass('badge-warning') : badge.removeClass('badge-warning').addClass('badge-success');
             },
             error: function (error) {
                 console.log(error);
+                badge.html('T');
                 toastr.error('Personel Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
             }
         });
@@ -1157,7 +1171,8 @@
         var assignment = $(`#${guid}_gBadge`).hasClass('badge-success') ? 1 : 0;
         var teamLead = $(`#${guid}_tBadge`).hasClass('badge-success') ? 1 : 0;
         var teamLeadAssistant = badge.hasClass('badge-success') ? 0 : 1;
-
+        badge.html(`<i class="fa fa-spinner fa-spin"></i>`);
+        toastr.info('Takım Lideri Yardımcısı Yetkisi Güncelleniyor, Lütfen Bekleyiniz...');
         $.ajax({
             type: 'post',
             url: '{{ route('user.api.operationApi.personSystem.setPersonAuthority') }}',
@@ -1173,10 +1188,12 @@
                 teamLeadAssistant: teamLeadAssistant
             },
             success: function () {
+                badge.html('Y');
                 teamLeadAssistant === 0 ? badge.removeClass('badge-success').addClass('badge-warning') : badge.removeClass('badge-warning').addClass('badge-success');
             },
             error: function (error) {
                 console.log(error);
+                badge.html('Y');
                 toastr.error('Personel Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
             }
         });

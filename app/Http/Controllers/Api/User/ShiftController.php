@@ -8,10 +8,12 @@ use App\Http\Requests\Api\User\ShiftController\GetByIdRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByCompanyIdRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\ShiftController\GetByCompanyIdsRequest;
+use App\Http\Requests\Api\User\ShiftController\GetByDateAndCompanyIdsRequest;
 use App\Http\Requests\Api\User\ShiftController\CreateBatchRequest;
 use App\Http\Requests\Api\User\ShiftController\CreateEmployeeFirstShiftsRequest;
 use App\Http\Requests\Api\User\ShiftController\UpdateRequest;
 use App\Http\Requests\Api\User\ShiftController\UpdateBatchRequest;
+use App\Http\Requests\Api\User\ShiftController\SwapShiftRequest;
 use App\Http\Requests\Api\User\ShiftController\RobotRequest;
 use App\Http\Requests\Api\User\ShiftController\DeleteRequest;
 use App\Http\Requests\Api\User\ShiftController\DeleteByIdsRequest;
@@ -155,6 +157,29 @@ class ShiftController extends Controller
     }
 
     /**
+     * @param GetByDateAndCompanyIdsRequest $request
+     */
+    public function getByDateAndCompanyIds(GetByDateAndCompanyIdsRequest $request)
+    {
+        $getByDateAndCompanyIdsResponse = $this->shiftService->getByDateAndCompanyIds(
+            $request->companyIds,
+            $request->date
+        );
+        if ($getByDateAndCompanyIdsResponse->isSuccess()) {
+            return $this->success(
+                $getByDateAndCompanyIdsResponse->getMessage(),
+                $getByDateAndCompanyIdsResponse->getData(),
+                $getByDateAndCompanyIdsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByDateAndCompanyIdsResponse->getMessage(),
+                $getByDateAndCompanyIdsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
      * @param CreateBatchRequest $request
      */
     public function createBatch(CreateBatchRequest $request)
@@ -249,6 +274,29 @@ class ShiftController extends Controller
             return $this->error(
                 $updateBatchResponse->getMessage(),
                 $updateBatchResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SwapShiftRequest $request
+     */
+    public function swapShift(SwapShiftRequest $request)
+    {
+        $swapShiftResponse = $this->shiftService->swapShift(
+            $request->shiftId,
+            $request->swapShiftId
+        );
+        if ($swapShiftResponse->isSuccess()) {
+            return $this->success(
+                $swapShiftResponse->getMessage(),
+                $swapShiftResponse->getData(),
+                $swapShiftResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $swapShiftResponse->getMessage(),
+                $swapShiftResponse->getStatusCode()
             );
         }
     }
