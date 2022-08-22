@@ -290,6 +290,20 @@ Route::middleware([
         Route::get('employee/{examId?}', [\App\Http\Controllers\Web\User\ExamController::class, 'employee'])->name('user.web.exam.employee');
     });
 
+    Route::prefix('settings')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\SettingsController::class, 'index'])->name('user.web.settings.index');
+        Route::get('company', [\App\Http\Controllers\Web\User\SettingsController::class, 'company'])->name('user.web.settings.company');
+        Route::get('queue', [\App\Http\Controllers\Web\User\SettingsController::class, 'queue'])->name('user.web.settings.queue');
+        Route::get('competence', [\App\Http\Controllers\Web\User\SettingsController::class, 'competence'])->name('user.web.settings.competence');
+        Route::get('centralMissionStatus', [\App\Http\Controllers\Web\User\SettingsController::class, 'centralMissionStatus'])->name('user.web.settings.centralMissionStatus');
+        Route::get('centralMissionType', [\App\Http\Controllers\Web\User\SettingsController::class, 'centralMissionType'])->name('user.web.settings.centralMissionType');
+        Route::get('jobDepartment', [\App\Http\Controllers\Web\User\SettingsController::class, 'jobDepartment'])->name('user.web.settings.jobDepartment');
+        Route::get('jobDepartmentType', [\App\Http\Controllers\Web\User\SettingsController::class, 'jobDepartmentType'])->name('user.web.settings.jobDepartmentType');
+        Route::get('shiftGroup', [\App\Http\Controllers\Web\User\SettingsController::class, 'shiftGroup'])->name('user.web.settings.shiftGroup');
+        Route::get('user', [\App\Http\Controllers\Web\User\SettingsController::class, 'user'])->name('user.web.settings.user');
+        Route::get('userRole', [\App\Http\Controllers\Web\User\SettingsController::class, 'userRole'])->name('user.web.settings.userRole');
+    });
+
     Route::prefix('file')->group(function () {
         Route::get('download/{id?}', [\App\Http\Controllers\Web\User\FileController::class, 'download'])->name('user.web.file.download');
         Route::get('downloadByKey', [\App\Http\Controllers\Web\User\FileController::class, 'downloadByKey'])->name('user.web.file.downloadByKey');
