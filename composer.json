@@ -8,6 +8,7 @@
         "php": "^8.0.2",
         "aws/aws-sdk-php": "^3.232",
         "barryvdh/laravel-dompdf": "^1.0",
+        "graham-campbell/gitlab": "^6.0",
         "guzzlehttp/guzzle": "^7.4",
         "ladumor/one-signal": "*",
         "laravel/framework": "^9.2",

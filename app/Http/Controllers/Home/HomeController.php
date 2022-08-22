@@ -8,6 +8,7 @@ use App\Models\Eloquent\SaturdayPermit;
 use App\Models\Eloquent\Ticket;
 use App\Models\Eloquent\User;
 use App\Services\AwsS3\StorageService;
+use App\Services\Gitlab\UserService;
 use Aws\S3\S3Client;
 use App\Models\Eloquent\Device;
 use App\Models\Eloquent\DevicePackage;
@@ -69,6 +70,14 @@ class HomeController extends Controller
     // REGEX
 
     public function test()
+    {
+        $gitlabUserService = new UserService;
+        return response()->json(
+            $gitlabUserService->getAllUsers()->getData()
+        );
+    }
+
+    public function test123321123()
     {
         $client = new Client;
         $searchUrl = 'https://suchen.mobile.de/fahrzeuge/search.html?dam=0&isSearchRequest=true&ref=quickSearch&sb=rel&vc=Car';
