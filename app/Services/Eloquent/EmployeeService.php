@@ -224,7 +224,7 @@ class EmployeeService implements IEmployeeService
         $employees = Employee::with([
             'company',
             'jobDepartment',
-        ])->whereIn('company_id', $companyIds)
+        ])->orderBy('name')->whereIn('company_id', $companyIds)
             ->where('leave', $leave);
 
         if ($keyword) {

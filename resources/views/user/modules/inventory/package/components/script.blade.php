@@ -217,6 +217,9 @@
             },
             success: function (response) {
                 devicePackages.empty();
+                $('#totalCountSpan').text(response.response.totalCount);
+                $('#startCountSpan').text(parseInt(((pageIndex) * pageSize)) + 1);
+                $('#endCountSpan').text(parseInt(parseInt(((pageIndex) * pageSize)) + 1) + parseInt(pageSize) > response.response.totalCount ? response.response.totalCount : parseInt(((pageIndex) * pageSize)) + 1 + parseInt(pageSize));
                 $.each(response.response.devicePackages, function (i, devicePackage) {
                     devicePackages.append(`
                     <tr>

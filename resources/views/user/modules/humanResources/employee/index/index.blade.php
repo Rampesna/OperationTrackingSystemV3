@@ -22,16 +22,12 @@
                     <div class="row">
                         <div class="col-xl-6 mb-5">
                             <div class="form-group">
-                                <input id="keyword" type="text" class="form-control form-control-solid filterInput"
-                                       placeholder="Personel Adı, TCKN, Email..."
-                                       aria-label="Personel Adı, TCKN, Email...">
+                                <input id="keyword" type="text" class="form-control form-control-solid filterInput" placeholder="Personel Adı, TCKN, Email..." aria-label="Personel Adı, TCKN, Email...">
                             </div>
                         </div>
                         <div class="col-xl-3 mb-5">
                             <div class="form-group">
-                                <select id="leave" class="form-select form-select-solid" data-control="select2"
-                                        data-placeholder="Çalışma Durumu" data-minimum-results-for-search="Infinity"
-                                        aria-label="Çalışma Durumu">
+                                <select id="leave" class="form-select form-select-solid" data-control="select2" data-placeholder="Çalışma Durumu" data-minimum-results-for-search="Infinity" aria-label="Çalışma Durumu">
                                     <option value="0" selected>Aktif Çalışanlar</option>
                                     <option value="1">İşten Ayrılanlar</option>
                                 </select>
@@ -76,12 +72,10 @@
                             </div>
                         </div>
                         <div class="col-xl-11 text-end">
-                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark"
-                                    id="pageDown" disabled>
+                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark" id="pageDown" disabled>
                                 <i class="fas fa-angle-left"></i>
                             </button>
-                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark cursor-default"
-                                    disabled>
+                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark cursor-default" disabled>
                                 <span class="text-muted" id="page">1</span>
                             </button>
                             <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark" id="pageUp">
@@ -101,6 +95,12 @@
                         </thead>
                         <tbody class="fw-bold text-gray-600" id="employees"></tbody>
                     </table>
+                    <hr class="text-muted">
+                    <div class="row">
+                        <div class="col-xl-12 text-end">
+                            <span class="text-muted">Toplam <span id="totalCountSpan">%</span> Kayıttan <span id="startCountSpan">%</span> - <span id="endCountSpan">%</span> Arasındakiler Gösteriliyor</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

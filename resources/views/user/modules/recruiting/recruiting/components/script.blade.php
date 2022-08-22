@@ -251,6 +251,9 @@
             },
             success: function (response) {
                 recruitings.empty();
+                $('#totalCountSpan').text(response.response.totalCount);
+                $('#startCountSpan').text(parseInt(((pageIndex) * pageSize)) + 1);
+                $('#endCountSpan').text(parseInt(parseInt(((pageIndex) * pageSize)) + 1) + parseInt(pageSize) > response.response.totalCount ? response.response.totalCount : parseInt(((pageIndex) * pageSize)) + 1 + parseInt(pageSize));
                 var wizardUrl = `{{ route('user.web.recruiting.wizard') }}`;
                 $.each(response.response.recruitings, function (i, recruiting) {
                     recruitings.append(`

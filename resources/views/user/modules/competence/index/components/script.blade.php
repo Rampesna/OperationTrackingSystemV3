@@ -105,8 +105,10 @@
                 keyword: keyword,
             },
             success: function (response) {
-                console.log(response);
                 competences.empty();
+                $('#totalCountSpan').text(response.response.totalCount);
+                $('#startCountSpan').text(parseInt(((pageIndex) * pageSize)) + 1);
+                $('#endCountSpan').text(parseInt(parseInt(((pageIndex) * pageSize)) + 1) + parseInt(pageSize) > response.response.totalCount ? response.response.totalCount : parseInt(((pageIndex) * pageSize)) + 1 + parseInt(pageSize));
                 $.each(response.response.competences, function (i, competence) {
                     competences.append(`
                     <tr>

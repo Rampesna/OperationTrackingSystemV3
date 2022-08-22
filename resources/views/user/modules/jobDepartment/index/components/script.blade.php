@@ -104,7 +104,6 @@
                 pageSize: 1000,
             },
             success: function (response) {
-                console.log(response);
                 createJobDepartmentTypeId.empty();
                 updateJobDepartmentTypeId.empty();
                 $.each(response.response.jobDepartmentTypes, function (i, jobDepartmentType) {
@@ -147,6 +146,9 @@
             },
             success: function (response) {
                 jobDepartments.empty();
+                $('#totalCountSpan').text(response.response.totalCount);
+                $('#startCountSpan').text(parseInt(((pageIndex) * pageSize)) + 1);
+                $('#endCountSpan').text(parseInt(parseInt(((pageIndex) * pageSize)) + 1) + parseInt(pageSize) > response.response.totalCount ? response.response.totalCount : parseInt(((pageIndex) * pageSize)) + 1 + parseInt(pageSize));
                 $.each(response.response.jobDepartments, function (i, jobDepartment) {
                     jobDepartments.append(`
                     <tr>

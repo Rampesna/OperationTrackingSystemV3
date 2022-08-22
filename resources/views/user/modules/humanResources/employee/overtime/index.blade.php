@@ -128,6 +128,12 @@
                         </thead>
                         <tbody class="fw-bold text-gray-600" id="overtimes"></tbody>
                     </table>
+                    <hr class="text-muted">
+                    <div class="row">
+                        <div class="col-xl-12 text-end">
+                            <span class="text-muted">Toplam <span id="totalCountSpan">%</span> Kayıttan <span id="startCountSpan">%</span> - <span id="endCountSpan">%</span> Arasındakiler Gösteriliyor</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
