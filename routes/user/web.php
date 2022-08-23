@@ -15,19 +15,21 @@ Route::middleware([
 
     Route::get('logout', [\App\Http\Controllers\Web\User\AuthenticationController::class, 'logout'])->name('user.web.authentication.logout');
 
+    Route::prefix('profile')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\ProfileController::class, 'index'])->name('user.web.profile.index');
+    });
+
     Route::prefix('dashboard')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\DashboardController::class, 'index'])->name('user.web.dashboard.index');
     });
 
     Route::prefix('employee')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\EmployeeController::class, 'index'])->name('user.web.employee.index');
+        Route::get('index', [\App\Http\Controllers\Web\User\EmployeeController::class, 'index'])->name('user.web.employee.index')->middleware('CheckUserPermission:1');
     });
 
-    Route::prefix('profile')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\ProfileController::class, 'index'])->name('user.web.profile.index');
-    });
-
-    Route::prefix('report')->group(function () {
+    Route::prefix('report')->middleware([
+        'CheckUserPermission:2'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\ReportController::class, 'index'])->name('user.web.report.index');
 
         Route::prefix('dataScanning')->group(function () {
@@ -67,11 +69,15 @@ Route::middleware([
         });
     });
 
-    Route::prefix('otsJob')->group(function () {
+    Route::prefix('otsJob')->middleware([
+        'CheckUserPermission:3'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\OtsJobController::class, 'index'])->name('user.web.otsJob.index');
     });
 
-    Route::prefix('santralMonitoring')->group(function () {
+    Route::prefix('santralMonitoring')->middleware([
+        'CheckUserPermission:4'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\SantralMonitoringController::class, 'index'])->name('user.web.santralMonitoring.index');
         Route::get('abandon', [\App\Http\Controllers\Web\User\SantralMonitoringController::class, 'abandon'])->name('user.web.santralMonitoring.abandon');
 
@@ -82,7 +88,9 @@ Route::middleware([
         });
     });
 
-    Route::prefix('salesAndMarketing')->group(function () {
+    Route::prefix('salesAndMarketing')->middleware([
+        'CheckUserPermission:5'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\SalesAndMarketingController::class, 'index'])->name('user.web.salesAndMarketing.index');
 
         Route::prefix('modules')->group(function () {
@@ -103,24 +111,34 @@ Route::middleware([
         });
     });
 
-    Route::prefix('academy')->group(function () {
+    Route::prefix('academy')->middleware([
+        'CheckUserPermission:6'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\AcademyController::class, 'index'])->name('user.web.academy.index');
         Route::get('education', [\App\Http\Controllers\Web\User\AcademyController::class, 'education'])->name('user.web.academy.education');
     });
 
-    Route::prefix('shift')->group(function () {
+    Route::prefix('shift')->middleware([
+        'CheckUserPermission:7'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\ShiftController::class, 'index'])->name('user.web.shift.index');
     });
 
-    Route::prefix('saturdayPermit')->group(function () {
+    Route::prefix('saturdayPermit')->middleware([
+        'CheckUserPermission:8'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\SaturdayPermitController::class, 'index'])->name('user.web.saturdayPermit.index');
     });
 
-    Route::prefix('specialReport')->group(function () {
+    Route::prefix('specialReport')->middleware([
+        'CheckUserPermission:9'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\SpecialReportController::class, 'index'])->name('user.web.specialReport.index');
     });
 
-    Route::prefix('meeting')->group(function () {
+    Route::prefix('meeting')->middleware([
+        'CheckUserPermission:10'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\MeetingController::class, 'index'])->name('user.web.meeting.index');
     });
 
@@ -128,7 +146,9 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\PerformanceController::class, 'index'])->name('user.web.performance.index');
     });
 
-    Route::prefix('qualityAssessment')->group(function () {
+    Route::prefix('qualityAssessment')->middleware([
+        'CheckUserPermission:181'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\QualityAssessmentController::class, 'index'])->name('user.web.qualityAssessment.index');
         Route::get('call', [\App\Http\Controllers\Web\User\QualityAssessmentController::class, 'call'])->name('user.web.qualityAssessment.call');
         Route::get('mail', [\App\Http\Controllers\Web\User\QualityAssessmentController::class, 'mail'])->name('user.web.qualityAssessment.mail');
@@ -138,19 +158,25 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\ClosingJobController::class, 'index'])->name('user.web.closingJob.index');
     });
 
-    Route::prefix('purchase')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\PurchaseController::class, 'index'])->name('user.web.purchase.index');
-        Route::get('purchase', [\App\Http\Controllers\Web\User\PurchaseController::class, 'purchase'])->name('user.web.purchase.purchase');
-        Route::get('report', [\App\Http\Controllers\Web\User\PurchaseController::class, 'report'])->name('user.web.purchase.report');
-    });
-
-    Route::prefix('market')->group(function () {
+    Route::prefix('market')->middleware([
+        'CheckUserPermission:11'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\MarketController::class, 'index'])->name('user.web.market.index');
         Route::get('employee', [\App\Http\Controllers\Web\User\MarketController::class, 'employee'])->name('user.web.market.employee');
         Route::get('market', [\App\Http\Controllers\Web\User\MarketController::class, 'market'])->name('user.web.market.market');
     });
 
-    Route::prefix('humanResources')->group(function () {
+    Route::prefix('purchase')->middleware([
+        'CheckUserPermission:12'
+    ])->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\PurchaseController::class, 'index'])->name('user.web.purchase.index');
+        Route::get('purchase', [\App\Http\Controllers\Web\User\PurchaseController::class, 'purchase'])->name('user.web.purchase.purchase');
+        Route::get('report', [\App\Http\Controllers\Web\User\PurchaseController::class, 'report'])->name('user.web.purchase.report');
+    });
+
+    Route::prefix('humanResources')->middleware([
+        'CheckUserPermission:13'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'index'])->name('user.web.humanResources.index');
         Route::get('dashboard', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'dashboard'])->name('user.web.humanResources.dashboard');
         Route::get('calendar', [\App\Http\Controllers\Web\User\HumanResourcesController::class, 'calendar'])->name('user.web.humanResources.calendar');
@@ -183,29 +209,17 @@ Route::middleware([
         });
     });
 
-    Route::prefix('career')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\CareerController::class, 'index'])->name('user.web.career.index');
-    });
-
-    Route::prefix('batchSms')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\BatchSmsController::class, 'index'])->name('user.web.batchSms.index');
-    });
-
-    Route::prefix('foodList')->group(function () {
+    Route::prefix('foodList')->middleware([
+        'CheckUserPermission:14'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\FoodListController::class, 'index'])->name('user.web.foodList.index');
         Route::get('foodList', [\App\Http\Controllers\Web\User\FoodListController::class, 'foodList'])->name('user.web.foodList.foodList');
         Route::get('report', [\App\Http\Controllers\Web\User\FoodListController::class, 'report'])->name('user.web.foodList.report');
     });
 
-    Route::prefix('recruiting')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\RecruitingController::class, 'index'])->name('user.web.recruiting.index');
-        Route::get('recruiting', [\App\Http\Controllers\Web\User\RecruitingController::class, 'recruiting'])->name('user.web.recruiting.recruiting');
-        Route::get('recruitingStep', [\App\Http\Controllers\Web\User\RecruitingController::class, 'recruitingStep'])->name('user.web.recruiting.recruitingStep');
-        Route::get('evaluationParameter', [\App\Http\Controllers\Web\User\RecruitingController::class, 'evaluationParameter'])->name('user.web.recruiting.evaluationParameter');
-        Route::get('wizard/{id?}', [\App\Http\Controllers\Web\User\RecruitingController::class, 'wizard'])->name('user.web.recruiting.wizard');
-    });
-
-    Route::prefix('project')->group(function () {
+    Route::prefix('project')->middleware([
+        'CheckUserPermission:15'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\ProjectController::class, 'index'])->name('user.web.project.index');
         Route::get('overview/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'overview'])->name('user.web.project.overview');
         Route::get('task/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'task'])->name('user.web.project.task');
@@ -218,26 +232,56 @@ Route::middleware([
         Route::get('landingCustomer/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'landingCustomer'])->name('user.web.project.landingCustomer');
     });
 
-    Route::prefix('inventory')->group(function () {
+    Route::prefix('inventory')->middleware([
+        'CheckUserPermission:16'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\InventoryController::class, 'index'])->name('user.web.inventory.index');
         Route::get('employee', [\App\Http\Controllers\Web\User\InventoryController::class, 'employee'])->name('user.web.inventory.employee');
         Route::get('device', [\App\Http\Controllers\Web\User\InventoryController::class, 'device'])->name('user.web.inventory.device');
         Route::get('package', [\App\Http\Controllers\Web\User\InventoryController::class, 'package'])->name('user.web.inventory.package');
     });
 
+    Route::prefix('centralMission')->middleware([
+        'CheckUserPermission:17'
+    ])->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\CentralMissionController::class, 'index'])->name('user.web.centralMission.index');
+    });
+
+    Route::prefix('ticket')->middleware([
+        'CheckUserPermission:18'
+    ])->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\TicketController::class, 'index'])->name('user.web.ticket.index');
+    });
+
+    Route::prefix('career')->middleware([
+        'CheckUserPermission:187'
+    ])->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\CareerController::class, 'index'])->name('user.web.career.index');
+    });
+
+    Route::prefix('batchSms')->middleware([
+        'CheckUserPermission:190'
+    ])->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\BatchSmsController::class, 'index'])->name('user.web.batchSms.index');
+    });
+
+    Route::prefix('recruiting')->middleware([
+        'CheckUserPermission:175'
+    ])->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\RecruitingController::class, 'index'])->name('user.web.recruiting.index');
+        Route::get('recruiting', [\App\Http\Controllers\Web\User\RecruitingController::class, 'recruiting'])->name('user.web.recruiting.recruiting');
+        Route::get('recruitingStep', [\App\Http\Controllers\Web\User\RecruitingController::class, 'recruitingStep'])->name('user.web.recruiting.recruitingStep');
+        Route::get('evaluationParameter', [\App\Http\Controllers\Web\User\RecruitingController::class, 'evaluationParameter'])->name('user.web.recruiting.evaluationParameter');
+        Route::get('wizard/{id?}', [\App\Http\Controllers\Web\User\RecruitingController::class, 'wizard'])->name('user.web.recruiting.wizard');
+    });
+
     Route::prefix('assignment')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\AssignmentController::class, 'index'])->name('user.web.assignment.index');
     });
 
-    Route::prefix('centralMission')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\CentralMissionController::class, 'index'])->name('user.web.centralMission.index');
-    });
-
-    Route::prefix('ticket')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\TicketController::class, 'index'])->name('user.web.ticket.index');
-    });
-
-    Route::prefix('employeeSuggestion')->group(function () {
+    Route::prefix('employeeSuggestion')->middleware([
+        'CheckUserPermission:180'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\EmployeeSuggestionController::class, 'index'])->name('user.web.employeeSuggestion.index');
     });
 
@@ -245,52 +289,16 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\ScreenMonitoringController::class, 'index'])->name('user.web.screenMonitoring.index');
     });
 
-    Route::prefix('shiftGroup')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\ShiftGroupController::class, 'index'])->name('user.web.shiftGroup.index');
-    });
-
-    Route::prefix('user')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\UserController::class, 'index'])->name('user.web.user.index');
-    });
-
-    Route::prefix('company')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\CompanyController::class, 'index'])->name('user.web.company.index');
-    });
-
-    Route::prefix('queue')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\QueueController::class, 'index'])->name('user.web.queue.index');
-    });
-
-    Route::prefix('competence')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\CompetenceController::class, 'index'])->name('user.web.competence.index');
-    });
-
-    Route::prefix('centralMissionStatus')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\CentralMissionStatusController::class, 'index'])->name('user.web.centralMissionStatus.index');
-    });
-
-    Route::prefix('centralMissionType')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\CentralMissionTypeController::class, 'index'])->name('user.web.centralMissionType.index');
-    });
-
-    Route::prefix('jobDepartment')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\JobDepartmentController::class, 'index'])->name('user.web.jobDepartment.index');
-    });
-
-    Route::prefix('jobDepartmentType')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\JobDepartmentTypeController::class, 'index'])->name('user.web.jobDepartmentType.index');
-    });
-
-    Route::prefix('userRole')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\User\UserRoleController::class, 'index'])->name('user.web.userRole.index');
-    });
-
-    Route::prefix('exam')->group(function () {
+    Route::prefix('exam')->middleware([
+        'CheckUserPermission:197'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\ExamController::class, 'index'])->name('user.web.exam.index');
         Route::get('employee/{examId?}', [\App\Http\Controllers\Web\User\ExamController::class, 'employee'])->name('user.web.exam.employee');
     });
 
-    Route::prefix('settings')->group(function () {
+    Route::prefix('settings')->middleware([
+        'CheckUserPermission:166'
+    ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\SettingsController::class, 'index'])->name('user.web.settings.index');
         Route::get('company', [\App\Http\Controllers\Web\User\SettingsController::class, 'company'])->name('user.web.settings.company');
         Route::get('queue', [\App\Http\Controllers\Web\User\SettingsController::class, 'queue'])->name('user.web.settings.queue');
