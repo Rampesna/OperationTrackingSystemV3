@@ -30,6 +30,7 @@
                 </div>
                 <div class="text-center">
                     <button type="button" id="LoginButton" class="btn btn-lg btn-primary w-100 mb-5">Giriş Yap</button>
+                    <a href="{{ route('home') }}" class="btn btn-lg btn-secondary w-100 mb-5">Ana Ekran</a>
                 </div>
             </div>
         </div>

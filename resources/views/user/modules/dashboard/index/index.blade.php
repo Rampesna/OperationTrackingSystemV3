@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
-                <div class="card-header pt-3 pb-2">
+                <div class="card-header pt-5 pb-0">
                     <h5>Ek Görevlerim</h5>
                 </div>
                 <div class="card-body mt-n5">
@@ -35,12 +35,6 @@
                         </thead>
                         <tbody class="fw-bold text-gray-600" id="additionalCentralMissions"></tbody>
                     </table>
-                    <hr class="text-muted">
-                    <div class="row">
-                        <div class="col-xl-12 text-end">
-                            <span class="text-muted">Toplam <span id="totalCountSpan">%</span> Kayıttan <span id="startCountSpan">%</span> - <span id="endCountSpan">%</span> Arasındakiler Gösteriliyor</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
