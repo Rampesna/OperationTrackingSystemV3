@@ -59,6 +59,10 @@ class AuthenticationController extends Controller
             abort(404);
         }
 
+        if ($passwordReset->getData()->created_at->addMinutes(60)->isPast()) {
+            abort(404);
+        }
+
         return view('user.modules.authentication.resetPassword.index', [
             'token' => $request->token
         ]);

@@ -531,7 +531,7 @@ class UserController extends Controller
                 date('Y-m-d H:i:s', strtotime('-1 hour'))
             );
 
-            if ($checkPasswordReset == true) {
+            if ($checkPasswordReset->isSuccess()) {
                 return $this->error('You can not send another password reset email for the same user within an hour', 406);
             }
 
