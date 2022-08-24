@@ -89,18 +89,44 @@
             },
             data: {},
             success: function (response) {
-                console.log(response);
                 allLandingCustomers = response.response;
-                createProjectJobLandingCustomerId.empty();
-                updateProjectJobLandingCustomerId.empty();
-                $.each(response.response, function (i, landingCustomer) {
-                    createProjectJobLandingCustomerId.append(`<option value="${landingCustomer.id}">${landingCustomer.name}</option>`);
-                    updateProjectJobLandingCustomerId.append(`<option value="${landingCustomer.id}">${landingCustomer.name}</option>`);
-                });
             },
             error: function (error) {
                 console.log(error);
                 toastr.error('Ürün Sistemi Kullanıcı Listesi Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
+    function getProjectLandingCustomers() {
+        var projectId = parseInt('{{ $id }}');
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.projectLandingCustomer.getAllByProjectId') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                projectId: projectId,
+            },
+            success: function (response) {
+                createProjectJobLandingCustomerId.empty();
+                updateProjectJobLandingCustomerId.empty();
+                $.each(response.response, function (i, projectLandingCustomer) {
+                    createProjectJobLandingCustomerId.append($('<option>', {
+                        value: allLandingCustomers.find(landingCustomer => parseInt(landingCustomer.id) === parseInt(projectLandingCustomer.customer_id)).id,
+                        text: allLandingCustomers.find(landingCustomer => parseInt(landingCustomer.id) === parseInt(projectLandingCustomer.customer_id)).name
+                    }));
+                    updateProjectJobLandingCustomerId.append($('<option>', {
+                        value: allLandingCustomers.find(landingCustomer => parseInt(landingCustomer.id) === parseInt(projectLandingCustomer.customer_id)).id,
+                        text: allLandingCustomers.find(landingCustomer => parseInt(landingCustomer.id) === parseInt(projectLandingCustomer.customer_id)).name
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Proje Ürün Kullanıcıları Alınırken Serviste Bir Sorun Oluştu!');
             }
         });
     }
@@ -130,6 +156,7 @@
     }
 
     getLandingCustomers();
+    getProjectLandingCustomers();
     getProjectJobTypes();
 
     var projectJobs = $('#projectJobs');

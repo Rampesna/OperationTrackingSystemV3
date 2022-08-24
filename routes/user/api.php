@@ -326,6 +326,11 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\ProjectStatusController::class, 'getAll'])->name('user.api.projectStatus.getAll');
     });
 
+    Route::prefix('projectLandingCustomer')->group(function () {
+        Route::get('getAllByProjectId', [\App\Http\Controllers\Api\User\ProjectLandingCustomerController::class, 'getAllByProjectId'])->name('user.api.projectLandingCustomer.getAllByProjectId');
+        Route::post('updateByProjectId', [\App\Http\Controllers\Api\User\ProjectLandingCustomerController::class, 'updateByProjectId'])->name('user.api.projectLandingCustomer.updateByProjectId');
+    });
+
     Route::prefix('task')->group(function () {
         Route::get('getById', [\App\Http\Controllers\Api\User\TaskController::class, 'getById'])->name('user.api.task.getById');
         Route::get('getFilesById', [\App\Http\Controllers\Api\User\TaskController::class, 'getFilesById'])->name('user.api.task.getFilesById');
