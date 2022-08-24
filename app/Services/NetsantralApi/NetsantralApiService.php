@@ -49,4 +49,26 @@ class NetsantralApiService implements INetsantralApiService
             $response
         );
     }
+
+    /**
+     * @param string $queueShort
+     *
+     * @return ServiceResponse
+     */
+    public function abandons(
+        string $queueShort
+    ): ServiceResponse
+    {
+        $endpoint = "Abandons";
+        $response = json_decode($this->callApi($this->baseUrl . $endpoint, 'get', [], [
+            'appToken' => env('NETSANTRAL_API_TOKEN'),
+            'queue' => $queueShort
+        ])->getBody());
+        return new ServiceResponse(
+            true,
+            'Abandons',
+            200,
+            $response
+        );
+    }
 }

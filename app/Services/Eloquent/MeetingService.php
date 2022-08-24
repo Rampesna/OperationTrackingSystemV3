@@ -44,7 +44,10 @@ class MeetingService implements IMeetingService
         int $id
     ): ServiceResponse
     {
-        $meeting = Meeting::find($id);
+        $meeting = Meeting::with([
+            'type',
+            'users'
+        ])->find($id);
         if ($meeting) {
             return new ServiceResponse(
                 true,
@@ -102,6 +105,31 @@ class MeetingService implements IMeetingService
             whereBetween('start_date', [$startDate, $endDate])->
             when($keyword, function ($meetings) use ($keyword) {
                 return $meetings->where('title', 'like', '%' . $keyword . '%');
+            })->get();
+            return new ServiceResponse(
+                true,
+                'Meetings',
+                200,
+                $meetings
+            );
+        } else {
+            return $userMeetingsResponse;
+        }
+    }
+
+    /**
+     * @param int $userId
+     *
+     * @return ServiceResponse
+     */
+    public function getAllByUserId(
+        int $userId
+    ): ServiceResponse
+    {
+        $userMeetingsResponse = $this->userService->getMeetings($userId);
+        if ($userMeetingsResponse->isSuccess()) {
+            $meetings = Meeting::where(function ($meetings) use ($userMeetingsResponse, $userId) {
+                $meetings->whereIn('id', $userMeetingsResponse->getData()->pluck('id')->toArray())->orWhere('creator_id', $userId);
             })->get();
             return new ServiceResponse(
                 true,

@@ -12,8 +12,8 @@
                                 <i class="fa fa-spinner fa-spin"></i>
                             </a>
                             <span class="badge badge-light-primary me-auto" id="projectStatusBadge">
-                                    X
-                                </span>
+                                X
+                            </span>
                         </div>
                         <div class="d-flex flex-wrap fw-bold mb-4 fs-5 text-gray-400" id="projectDescription">
                             <i class="fa fa-spinner fa-spin"></i>

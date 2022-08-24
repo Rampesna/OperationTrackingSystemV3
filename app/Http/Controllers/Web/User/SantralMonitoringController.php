@@ -10,4 +10,9 @@ class SantralMonitoringController extends Controller
     {
         return view('user.modules.santralMonitoring.index.index');
     }
+
+    public function abandon()
+    {
+        return view('user.modules.santralMonitoring.abandon.index');
+    }
 }

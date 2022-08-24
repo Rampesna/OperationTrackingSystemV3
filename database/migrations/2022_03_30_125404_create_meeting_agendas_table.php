@@ -14,11 +14,11 @@ return new class extends Migration {
     {
         Schema::create('meeting_agendas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('meeting_id');
+            $table->unsignedBigInteger('creator_id');
+            $table->unsignedBigInteger('meeting_id')->nullable();
             $table->text('subject');
-            $table->longText('discussions');
-            $table->longText('result');
+            $table->longText('discussions')->nullable();
+            $table->longText('result')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

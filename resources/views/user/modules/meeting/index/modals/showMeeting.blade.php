@@ -38,19 +38,37 @@
                         </div>
                         <hr class="text-muted">
                         <div class="row mb-5">
-                            <div class="col-xl-8 mt-3">
-                                <label for="show_meeting_location" class="font-weight-bolder">Toplantı Adresi</label>
+                            <div class="col-xl-12 text-center">
+                                <label class="font-weight-bolder mb-1">Katılımcılar</label>
                             </div>
-                            <div class="col-xl-4">
+                            <div class="col-xl-12 text-center">
+                                <span id="show_meeting_users_span"></span>
+                            </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="row mb-5">
+                            <div class="col-xl-12 text-center">
+                                <label class="font-weight-bolder mb-1">Toplantı Adresi</label>
+                            </div>
+                            <div class="col-xl-12">
                                 <div class="form-group">
-                                    <input id="show_meeting_location" type="datetime-local" class="form-control form-control-solid" readonly>
+                                    <input id="show_meeting_location" type="text" class="form-control form-control-solid" aria-label="Toplantı Adresi" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="row mb-5">
+                            <div class="col-xl-12">
+                                <div class="form-group">
+                                    <textarea id="show_meeting_description" class="form-control form-control-solid" aria-label="Açıklamalar" rows="4" readonly></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="text-center">
-                        <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>
-                        <button type="button" class="btn btn-success" id="EditMeetingButton" onclick="updateMeeting()">Düzenle</button>
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Kapat</button>
+                        <button type="button" class="btn btn-success me-3" id="EditMeetingButton" onclick="updateMeeting()">Düzenle</button>
+                        <button type="button" class="btn btn-info" id="MeetingAgendasButton" onclick="meetingAgendas()">Toplantı Gündemleri</button>
                     </div>
                 </div>
             </div>

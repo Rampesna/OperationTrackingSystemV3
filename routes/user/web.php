@@ -140,6 +140,8 @@ Route::middleware([
         'CheckUserPermission:10'
     ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\MeetingController::class, 'index'])->name('user.web.meeting.index');
+        Route::get('meetingAgenda', [\App\Http\Controllers\Web\User\MeetingController::class, 'meetingAgenda'])->name('user.web.meeting.meetingAgenda');
+        Route::get('agenda/{meetingId?}', [\App\Http\Controllers\Web\User\MeetingController::class, 'agenda'])->name('user.web.meeting.agenda');
     });
 
     Route::prefix('performance')->group(function () {

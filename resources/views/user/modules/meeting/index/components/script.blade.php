@@ -9,6 +9,8 @@
         $('#loader').hide();
     });
 
+    var showMeetingUsersSpan = $('#show_meeting_users_span');
+
     var createMeetingUsers = $('#create_meeting_users');
     var updateMeetingUsers = $('#update_meeting_users');
 
@@ -18,6 +20,7 @@
     var CreateMeetingButton = $('#CreateMeetingButton');
     var UpdateMeetingButton = $('#UpdateMeetingButton');
     var EditMeetingButton = $('#EditMeetingButton');
+    var MeetingAgendasButton = $('#MeetingAgendasButton');
 
     function getMeetingTypes() {
         $.ajax({
@@ -97,14 +100,20 @@
         $('#create_meeting_name').val('');
         $('#create_meeting_start_date').val(date ? `${moment(new Date(date)).format('YYYY-MM-DD')}T12:00` : '');
         $('#create_meeting_end_date').val(date ? `${moment(new Date(date)).format('YYYY-MM-DD')}T13:00` : '');
-        createMeetingTypeId.val('');
+        createMeetingTypeId.val('').trigger('change');
         $('#create_meeting_location').val('');
         $('#create_meeting_description').val('');
         $('#CreateMeetingModal').modal('show');
     }
 
     function updateMeeting() {
+        $('#ShowMeetingModal').modal('hide');
+        $('#UpdateMeetingModal').modal('show');
+    }
 
+    function meetingAgendas() {
+        var meetingId = $('#update_meeting_id').val();
+        window.open(`{{ route('user.web.meeting.agenda') }}/${meetingId}`, '_blank');
     }
 
     const element = document.getElementById("calendar");
@@ -154,8 +163,11 @@
                     id: meetingId,
                 },
                 success: function (response) {
-                    $('#ShowModal').modal('show');
-                    updateMeetingUsers.val([]).trigger('change');
+                    updateMeetingUsers.val(
+                        $.map(response.response.users, function (user) {
+                            return user.id;
+                        })
+                    ).trigger('change');
                     $('#update_meeting_name').val(response.response.name);
                     $('#update_meeting_start_date').val(reformatDatetimeForInput(response.response.start_date));
                     $('#update_meeting_end_date').val(reformatDatetimeForInput(response.response.end_date));
@@ -163,6 +175,19 @@
                     $('#update_meeting_location').val(response.response.location);
                     $('#update_meeting_description').val(response.response.description);
                     parseInt(response.response.creator_id) === authId ? EditMeetingButton.show() : EditMeetingButton.hide();
+
+                    $('#show_meeting_name_span').html(response.response.name);
+                    $('#show_meeting_type_badge_span').html(response.response.type ? response.response.type.name : '');
+                    $('#show_meeting_start_date').html(response.response.start_date ? reformatDatetimeToDatetimeForHuman(response.response.start_date) : '');
+                    $('#show_meeting_end_date').html(response.response.end_date ? reformatDatetimeToDatetimeForHuman(response.response.end_date) : '');
+                    $('#show_meeting_location').val(response.response.location ?? '');
+                    $('#show_meeting_description').val(response.response.description ?? '');
+                    showMeetingUsersSpan.empty();
+                    var showMeetingUsers = ``;
+                    $.each(response.response.users, function (i, user) {
+                        showMeetingUsersSpan.append(`<span class="badge bg-primary me-2">${user.name}</span>`);
+                    });
+
                     $('#ShowMeetingModal').modal('show');
                     $('#loader').hide();
                 },

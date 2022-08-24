@@ -37,15 +37,20 @@
     var GetAbandonsButton = $('#GetAbandonsButton');
     var DownloadExcelButton = $('#DownloadExcelButton');
 
-    function getQueues() {
+    function getQueuesByCompanyIds() {
+        var companyIds = SelectedCompanies.val();
         $.ajax({
             type: 'get',
-            url: '{{ route('employee.api.queue.getByCompanyId') }}',
+            url: '{{ route('user.api.queue.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
-            data: {},
+            data: {
+                companyIds: companyIds,
+                pageIndex: 0,
+                pageSize: 10000,
+            },
             success: function (response) {
                 queueIdFilter.empty();
                 $.each(response.response.queues, function (i, queue) {
@@ -60,7 +65,11 @@
         });
     }
 
-    getQueues();
+    getQueuesByCompanyIds();
+
+    SelectedCompanies.change(function () {
+        getQueuesByCompanyIds();
+    });
 
     GetAbandonsButton.click(function () {
         var queueShort = queueIdFilter.find(':selected').data('short');
@@ -71,7 +80,7 @@
             GetAbandonsButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
             $.ajax({
                 type: 'get',
-                url: '{{ route('employee.api.netsantralApi.abandons') }}',
+                url: '{{ route('user.api.netsantralApi.abandons') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token

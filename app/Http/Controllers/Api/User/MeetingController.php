@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Interfaces\Eloquent\IMeetingService;
 use App\Http\Requests\Api\User\MeetingController\GetDateBetweenByUserIdRequest;
+use App\Http\Requests\Api\User\MeetingController\GetAllByUserIdRequest;
 use App\Http\Requests\Api\User\MeetingController\GetByIdRequest;
 use App\Http\Requests\Api\User\MeetingController\CreateRequest;
 use App\Http\Requests\Api\User\MeetingController\UpdateRequest;
@@ -49,6 +50,28 @@ class MeetingController extends Controller
             return $this->error(
                 $getDateBetweenByUserIdResponse->getMessage(),
                 $getDateBetweenByUserIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetAllByUserIdRequest $request
+     */
+    public function getAllByUserId(GetAllByUserIdRequest $request)
+    {
+        $getAllByUserIdResponse = $this->meetingService->getAllByUserId(
+            $request->user()->id
+        );
+        if ($getAllByUserIdResponse->isSuccess()) {
+            return $this->success(
+                $getAllByUserIdResponse->getMessage(),
+                $getAllByUserIdResponse->getData(),
+                $getAllByUserIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllByUserIdResponse->getMessage(),
+                $getAllByUserIdResponse->getStatusCode()
             );
         }
     }

@@ -22,6 +22,15 @@ interface IMeetingService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $userId
+     *
+     * @return ServiceResponse
+     */
+    public function getAllByUserId(
+        int $userId
+    ): ServiceResponse;
+
+    /**
      * @param int $meetingId
      *
      * @return ServiceResponse

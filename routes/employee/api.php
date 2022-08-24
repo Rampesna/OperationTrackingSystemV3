@@ -57,6 +57,10 @@ Route::middleware([
         Route::delete('delete', [\App\Http\Controllers\Api\Employee\EmployeeSuggestionController::class, 'delete'])->name('employee.api.employeeSuggestion.delete');
     });
 
+    Route::prefix('queue')->group(function () {
+        Route::get('getByCompanyId', [\App\Http\Controllers\Api\Employee\QueueController::class, 'getByCompanyId'])->name('employee.api.queue.getByCompanyId');
+    });
+
     Route::prefix('permitType')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\Employee\PermitTypeController::class, 'getAll'])->name('employee.api.permitType.getAll');
     });
@@ -97,5 +101,9 @@ Route::middleware([
     Route::prefix('centralMission')->group(function () {
         Route::get('getByRelation', [\App\Http\Controllers\Api\Employee\CentralMissionController::class, 'getByRelation'])->name('employee.api.centralMission.getByRelation');
         Route::get('getById', [\App\Http\Controllers\Api\Employee\CentralMissionController::class, 'getById'])->name('employee.api.centralMission.getById');
+    });
+
+    Route::prefix('netsantralApi')->group(function () {
+        Route::get('abandons', [\App\Http\Controllers\Api\Employee\NetsantralApi\NetsantralApiController::class, 'abandons'])->name('employee.api.netsantralApi.abandons');
     });
 });

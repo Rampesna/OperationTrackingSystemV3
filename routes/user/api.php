@@ -257,10 +257,19 @@ Route::middleware([
 
     Route::prefix('meeting')->group(function () {
         Route::get('getDateBetweenByUserId', [\App\Http\Controllers\Api\User\MeetingController::class, 'getDateBetweenByUserId'])->name('user.api.meeting.getDateBetweenByUserId');
+        Route::get('getAllByUserId', [\App\Http\Controllers\Api\User\MeetingController::class, 'getAllByUserId'])->name('user.api.meeting.getAllByUserId');
         Route::get('getById', [\App\Http\Controllers\Api\User\MeetingController::class, 'getById'])->name('user.api.meeting.getById');
         Route::post('create', [\App\Http\Controllers\Api\User\MeetingController::class, 'create'])->name('user.api.meeting.create');
         Route::put('update', [\App\Http\Controllers\Api\User\MeetingController::class, 'update'])->name('user.api.meeting.update');
         Route::delete('delete', [\App\Http\Controllers\Api\User\MeetingController::class, 'delete'])->name('user.api.meeting.delete');
+    });
+
+    Route::prefix('meetingAgenda')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Api\User\MeetingAgendaController::class, 'index'])->name('user.api.meetingAgenda.index');
+        Route::get('getById', [\App\Http\Controllers\Api\User\MeetingAgendaController::class, 'getById'])->name('user.api.meetingAgenda.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\MeetingAgendaController::class, 'create'])->name('user.api.meetingAgenda.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\MeetingAgendaController::class, 'update'])->name('user.api.meetingAgenda.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\MeetingAgendaController::class, 'delete'])->name('user.api.meetingAgenda.delete');
     });
 
     Route::prefix('meetingType')->group(function () {
@@ -739,5 +748,6 @@ Route::middleware([
 
     Route::prefix('netsantralApi')->group(function () {
         Route::get('getSantral', [\App\Http\Controllers\Api\User\NetsantralApi\NetsantralApiController::class, 'getSantral'])->name('user.api.netsantralApi.getSantral');
+        Route::get('abandons', [\App\Http\Controllers\Api\User\NetsantralApi\NetsantralApiController::class, 'abandons'])->name('user.api.netsantralApi.abandons');
     });
 });
