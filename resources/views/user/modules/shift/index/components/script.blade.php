@@ -459,6 +459,7 @@
                     month: month
                 },
                 success: function (response) {
+                    console.log(response);
                     $('#loader').hide();
                     $('#RobotModal').modal('hide');
                     toastr.success('Vardiyalar Oluşturuldu!');

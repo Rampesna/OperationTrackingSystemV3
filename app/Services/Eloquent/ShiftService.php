@@ -697,14 +697,19 @@ class ShiftService implements IShiftService
                                 $weeklyEmployees = $this->employeeService->getByIds(
                                     Shift::where('shift_group_id', $shiftGroup->id)
                                         ->orderBy('id', 'desc')
-                                        ->limit($shiftGroup->per_day)
+                                        ->whereBetween('start_date', [
+                                            date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 00:00:00',
+                                            date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 23:59:59'
+                                        ])
+//                                        ->limit($shiftGroup->per_day)
                                         ->pluck('employee_id')
                                         ->toArray()
-                                );
+                                )->getData();
+                                goto continueForWeekNextDay;
 
-                                if ($weeklyEmployees->getData()->count() < $shiftGroup->per_day) {
-                                    $weeklyEmployees = collect();
-                                }
+//                                if ($weeklyEmployees->count() < $shiftGroup->per_day) {
+//                                    $weeklyEmployees = collect();
+//                                }
                             }
 
                             $unavailableEmployeeIds = [];
@@ -734,6 +739,7 @@ class ShiftService implements IShiftService
                                 }
                             }
 
+                            continueForWeekNextDay:
                             $todayWeekOfYear = Carbon::createFromDate(date('Y-m-d', strtotime($date)))->weekOfYear;
                             $yesterdayWeekOfYear = Carbon::createFromDate(date('Y-m-d', strtotime('-1 day', strtotime($date))))->weekOfYear;
 
@@ -764,8 +770,9 @@ class ShiftService implements IShiftService
                                             }
                                         }
                                     }
+
                                     $saturdayPermit = $this->saturdayPermitService->getByEmployeeIdAndDate($employee->id, $date);
-                                    if ($saturdayPermit->isSuccess()) {
+                                    if ($saturdayPermit->isSuccess() && $shiftGroup->id != 2) {
                                         if ($saturdayPermit->getData()->status == 'on') {
                                             $this->shiftGroupEmployeeUseListService->setUsedShiftGroupEmployee($shiftGroup->id, $employee->id);
                                             $shifts->push([
@@ -796,6 +803,10 @@ class ShiftService implements IShiftService
                                             'updated_at' => date('Y-m-d H:i:s'),
                                         ]);
                                     }
+                                }
+
+                                if ($dayControlVariable == 'day0') {
+                                    $continueForNextWeek = true;
                                 }
                             } else {
                                 $weeklyEmployees = collect();

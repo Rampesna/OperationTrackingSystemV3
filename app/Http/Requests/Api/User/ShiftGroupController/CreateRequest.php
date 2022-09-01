@@ -28,7 +28,7 @@ class CreateRequest extends BaseApiRequest
             'order' => 'required',
             'name' => 'required',
             'addType' => 'required',
-            'perDay' => 'required',
+//            'perDay' => 'required',
             'day1' => 'required',
             'day1StartTime' => 'required',
             'day1EndTime' => 'required',
