@@ -42,12 +42,29 @@ class HomeController extends Controller
         return view('home.modules.index.index');
     }
 
+    function sampling($chars, $size, $combinations = array())
+    {
+        if (empty($combinations)) {
+            $combinations = $chars;
+        }
+        if ($size == 1) {
+            return $combinations;
+        }
+        $new_combinations = array();
+        foreach ($combinations as $combination) {
+            foreach ($chars as $char) {
+                $new_combinations[] = $combination . $char;
+            }
+        }
+        return $this->sampling($chars, $size - 1, $new_combinations);
+    }
+
+
     public function test()
     {
-        $gitlabUserService = new UserService;
-        return response()->json(
-            $gitlabUserService->getAllUsers()->getData()
-        );
+        return response()->json([
+            'message' => 'No Way!',
+        ]);
     }
 
     public function oneSignalTest()

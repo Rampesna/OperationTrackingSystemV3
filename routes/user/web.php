@@ -32,38 +32,38 @@ Route::middleware([
     ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\ReportController::class, 'index'])->name('user.web.report.index');
 
-        Route::prefix('dataScanning')->group(function () {
+        Route::prefix('dataScanning')->middleware(['CheckUserPermission:26'])->group(function () {
             Route::get('index', [\App\Http\Controllers\Web\User\Reports\DataScanningReportController::class, 'index'])->name('user.web.report.dataScanning.index');
         });
 
-        Route::prefix('special')->group(function () {
+        Route::prefix('special')->middleware(['CheckUserPermission:27'])->group(function () {
             Route::get('index', [\App\Http\Controllers\Web\User\Reports\SpecialReportController::class, 'index'])->name('user.web.report.special.index');
         });
 
-        Route::prefix('job')->group(function () {
+        Route::prefix('job')->middleware(['CheckUserPermission:28'])->group(function () {
             Route::get('index', [\App\Http\Controllers\Web\User\Reports\JobReportController::class, 'index'])->name('user.web.report.job.index');
 
-            Route::prefix('callFind')->group(function () {
+            Route::prefix('callFind')->middleware(['CheckUserPermission:32'])->group(function () {
                 Route::get('index', [\App\Http\Controllers\Web\User\Reports\JobReports\CallFindReportController::class, 'index'])->name('user.web.report.job.callFind.index');
             });
 
-            Route::prefix('callFindDetail')->group(function () {
+            Route::prefix('callFindDetail')->middleware(['CheckUserPermission:33'])->group(function () {
                 Route::get('index', [\App\Http\Controllers\Web\User\Reports\JobReports\CallFindDetailReportController::class, 'index'])->name('user.web.report.job.callFindDetail.index');
             });
 
-            Route::prefix('appointment')->group(function () {
+            Route::prefix('appointment')->middleware(['CheckUserPermission:34'])->group(function () {
                 Route::get('index', [\App\Http\Controllers\Web\User\Reports\JobReports\AppointmentReportController::class, 'index'])->name('user.web.report.job.appointment.index');
             });
 
-            Route::prefix('leavedEmployeeWorkStatus')->group(function () {
+            Route::prefix('leavedEmployeeWorkStatus')->middleware(['CheckUserPermission:35'])->group(function () {
                 Route::get('index', [\App\Http\Controllers\Web\User\Reports\JobReports\LeavedEmployeeWorkStatusReportController::class, 'index'])->name('user.web.report.job.leavedEmployeeWorkStatus.index');
             });
         });
 
-        Route::prefix('employee')->group(function () {
+        Route::prefix('employee')->middleware(['CheckUserPermission:29'])->group(function () {
             Route::get('index', [\App\Http\Controllers\Web\User\Reports\EmployeeReportController::class, 'index'])->name('user.web.report.employee.index');
 
-            Route::prefix('jobDepartment')->group(function () {
+            Route::prefix('jobDepartment')->middleware(['CheckUserPermission:36'])->group(function () {
                 Route::get('index', [\App\Http\Controllers\Web\User\Reports\EmployeeReports\JobDepartmentReportController::class, 'index'])->name('user.web.report.employee.jobDepartment.index');
             });
         });
