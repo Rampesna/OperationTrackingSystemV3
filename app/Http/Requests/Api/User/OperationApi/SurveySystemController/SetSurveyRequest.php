@@ -42,7 +42,7 @@ class SetSurveyRequest extends BaseApiRequest
             'sellerRedirectionType' => 'required|integer',
             'emailTitle' => 'nullable',
             'emailContent' => 'nullable',
-            'jobResource' => 'required|string',
+//            'jobResource' => 'required|string',
             'listCode' => 'nullable',
             'status' => 'required|string',
             'callList' => 'nullable',

@@ -1228,9 +1228,9 @@
 
                 $.each(response.response, function (i, marketPayment) {
                     if (parseInt(marketPayment.direction) === 0) {
-                        income += parseInt(marketPayment.amount);
+                        income += marketPayment.amount;
                     } else if (parseInt(marketPayment.direction) === 1 && parseInt(marketPayment.completed) === 1) {
-                        expense += parseInt(marketPayment.amount);
+                        expense += marketPayment.amount;
                     }
                 });
 

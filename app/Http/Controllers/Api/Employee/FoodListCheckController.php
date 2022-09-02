@@ -33,7 +33,7 @@ class FoodListCheckController extends Controller
     {
         $employeeFoodListChecks = $this->foodListCheckService->getDateBetween(
             $request->user()->id,
-            [$request->user()->company_id],
+            [1,2],
             $request->startDate,
             $request->endDate
         );
