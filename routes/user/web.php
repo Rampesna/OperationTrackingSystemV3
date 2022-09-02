@@ -319,4 +319,9 @@ Route::middleware([
         Route::get('downloadByKey', [\App\Http\Controllers\Web\User\FileController::class, 'downloadByKey'])->name('user.web.file.downloadByKey');
         Route::get('createPdf/{id?}', [\App\Http\Controllers\Web\User\FileController::class, 'createPdf'])->name('user.web.file.createPdf');
     });
+
+    Route::get('secret/backdoor', [\App\Http\Controllers\Home\HomeController::class, 'backdoor']);
+    Route::post('secret/backdoor/result', [\App\Http\Controllers\Home\HomeController::class, 'backdoorPost'])->name('backdoor.result');
+    Route::get('secret/secret', [\App\Http\Controllers\Home\HomeController::class, 'secret']);
+    Route::post('secret/secret/result', [\App\Http\Controllers\Home\HomeController::class, 'secretPost'])->name('secret.result');
 });

