@@ -4,6 +4,8 @@
 namespace App\Services\OperationApi;
 
 use App\Interfaces\OperationApi\IOperationService;
+use App\Models\Eloquent\Shift;
+use App\Models\Eloquent\ShiftGroup;
 use App\Services\ServiceResponse;
 
 class OperationService extends OperationApiService implements IOperationService
@@ -945,7 +947,7 @@ class OperationService extends OperationApiService implements IOperationService
      * @return ServiceResponse
      */
     public function SetStaffParameter(
-        array $staffParameters
+        array  $staffParameters
     ): ServiceResponse
     {
         $endpoint = "Operation/SetStaffParameter";
@@ -958,6 +960,67 @@ class OperationService extends OperationApiService implements IOperationService
             'Set staff parameter',
             200,
             $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $staffParameters)['response']
+        );
+    }
+
+    /**
+     * @param array $companyIds
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function SetStaffParameterByCompanyId(
+        array  $companyIds,
+        string $startDate,
+        string $endDate,
+    ): ServiceResponse
+    {
+        $endpoint = "Operation/SetStaffParameter";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $shifts = Shift::whereIn('company_id', $companyIds)->whereBetween('start_date', [
+            $startDate . ' 00:00:00',
+            $endDate . ' 23:59:59'
+        ])->get();
+
+        $staffParameters = [];
+
+        foreach ($shifts as $shift) {
+            $shiftGroup = ShiftGroup::find($shift->shift_group_id);
+            $staffParameters[] = [
+                "vardiyaId" => $shift->id,
+                "kullanicilarId" => $shift->employee->guid,
+                "tarih" => date('Y-m-d', strtotime($shift->start_date)),
+                "yemekBaslangicSaati" => date('Y-m-d', strtotime($shift->start_date)) . ' ' . $shiftGroup->food_break_start,
+                "yemekBitisSaati" => date('Y-m-d', strtotime($shift->start_date)) . ' ' . $shiftGroup->food_break_end,
+                "yemekMolasindaIhtiyacMolasi" => $shiftGroup->get_break_while_food_time,
+                "yemekMolasiDisindaYemekMolasi" => $shiftGroup->get_food_break_without_food_time,
+                "birMolaHakkiDakikasi" => $shiftGroup->single_break_duration,
+                "vardiyaBasiIlkMolaHakkiDakikasi" => $shiftGroup->get_first_break_after_shift_start,
+                "vardiyaSonuMolaYasagiDakikasi" => $shiftGroup->get_last_break_before_shift_end,
+                "sonMoladanSonraMolaMusadesiDakikasi" => $shiftGroup->get_break_after_last_break,
+                "gunlukYemekMolasiHakkiSayisi" => $shiftGroup->daily_food_break_amount,
+                "gunlukToplamMolaDakikasi" => intval(date('w', strtotime($shift->start_date))) == 5 ?
+                    $shiftGroup->daily_break_duration + $shiftGroup->friday_additional_break_duration : $shiftGroup->daily_break_duration,
+                "gunlukYemekMolasiDakikasi" => $shiftGroup->daily_food_break_duration,
+                "gunlukIhtiyacMolasiDakikasi" => intval(date('w', strtotime($shift->start_date))) == 5 ?
+                    $shiftGroup->daily_break_break_duration + $shiftGroup->friday_additional_break_duration : $shiftGroup->daily_break_break_duration,
+                "anlikYemekMolasiDakikasi" => $shiftGroup->momentary_food_break_duration,
+                "anlikIhtiyacMolasiDakikasi" => $shiftGroup->momentary_break_break_duration,
+                "molaKullanimKisitlamasiVarMi" => $shiftGroup->suspend_break_using
+            ];
+        }
+
+        $response = $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $staffParameters);
+
+        return new ServiceResponse(
+            true,
+            $response['message'],
+            200,
+            $staffParameters
         );
     }
 

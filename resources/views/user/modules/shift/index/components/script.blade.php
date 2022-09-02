@@ -488,8 +488,8 @@
         } else {
             $('#loader').show();
             $.ajax({
-                type: 'get',
-                url: '{{ route('user.api.shift.getByCompanyIds') }}',
+                type: 'post',
+                url: '{{ route('user.api.operationApi.operation.setStaffParameterByCompanyId') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token
@@ -500,57 +500,82 @@
                     endDate: endDate,
                 },
                 success: function (response) {
-                    var staffParameters = [];
-                    $.each(response.response, function (i, shift) {
-                        staffParameters.push({
-                            vardiyaId: shift.id,
-                            kullanicilarId: shift.employee.guid,
-                            tarih: reformatDatetimeTo_YYYY_MM_DD(shift.start_date),
-                            yemekBaslangicSaati: `${reformatDatetimeTo_YYYY_MM_DD(shift.start_date)} ${shift.shift_group.food_break_start}`,
-                            yemekBitisSaati: `${reformatDatetimeTo_YYYY_MM_DD(shift.end_date)} ${shift.shift_group.food_break_end}`,
-                            yemekMolasindaIhtiyacMolasi: shift.shift_group.get_break_while_food_time,
-                            yemekMolasiDisindaYemekMolasi: shift.shift_group.get_food_break_without_food_time,
-                            birMolaHakkiDakikasi: shift.shift_group.single_break_duration,
-                            vardiyaBasiIlkMolaHakkiDakikasi: shift.shift_group.get_first_break_after_shift_start,
-                            vardiyaSonuMolaYasagiDakikasi: shift.shift_group.get_last_break_before_shift_end,
-                            sonMoladanSonraMolaMusadesiDakikasi: shift.shift_group.get_break_after_last_break,
-                            gunlukYemekMolasiHakkiSayisi: shift.shift_group.daily_food_break_amount,
-                            gunlukToplamMolaDakikasi: getWeekDayOfDate(reformatDatetimeTo_YYYY_MM_DD(shift.start_date)) === 5 ? shift.shift_group.daily_break_duration + shift.shift_group.friday_additional_break_duration : shift.shift_group.daily_break_duration,
-                            gunlukYemekMolasiDakikasi: shift.shift_group.daily_food_break_duration,
-                            gunlukIhtiyacMolasiDakikasi: getWeekDayOfDate(reformatDatetimeTo_YYYY_MM_DD(shift.start_date)) === 5 ? shift.shift_group.daily_break_break_duration + shift.shift_group.friday_additional_break_duration : shift.shift_group.daily_break_break_duration,
-                            anlikYemekMolasiDakikasi: shift.shift_group.momentary_food_break_duration,
-                            anlikIhtiyacMolasiDakikasi: shift.shift_group.momentary_break_break_duration,
-                            molaKullanimKisitlamasiVarMi: shift.shift_group.suspend_break_using,
-                        });
-                    });
-                    $.ajax({
-                        type: 'post',
-                        url: '{{ route('user.api.operationApi.operation.setStaffParameter') }}',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Authorization': token
-                        },
-                        data: {
-                            staffParameters: staffParameters,
-                        },
-                        success: function () {
-                            toastr.success('Vardiyalar Başarıyla Aktarıldı.');
-                            $('#SetStaffParameterModal').modal('hide');
-                            $('#loader').hide();
-                        },
-                        error: function (error) {
-                            console.log(error);
-                            toastr.error('Vardiyalar Aktarılırken Serviste Bir Sorun Oluştu!');
-                            $('#loader').hide();
-                        }
-                    });
+                    console.log(response);
+                    toastr.success('Vardiyalar Başarıyla Aktarıldı.');
+                    $('#SetStaffParameterModal').modal('hide');
+                    $('#loader').hide();
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('Vardiyalar Alınırken Serviste Bir Sorun Oluştu!');
+                    toastr.error('Vardiyalar Aktarılırken Serviste Bir Sorun Oluştu!');
                     $('#loader').hide();
                 }
             });
+            {{--$.ajax({--}}
+            {{--    type: 'get',--}}
+            {{--    url: '{{ route('user.api.shift.getByCompanyIds') }}',--}}
+            {{--    headers: {--}}
+            {{--        'Accept': 'application/json',--}}
+            {{--        'Authorization': token--}}
+            {{--    },--}}
+            {{--    data: {--}}
+            {{--        companyIds: companyIds,--}}
+            {{--        startDate: startDate,--}}
+            {{--        endDate: endDate,--}}
+            {{--    },--}}
+            {{--    success: function (response) {--}}
+            {{--        var staffParameters = [];--}}
+            {{--        $.each(response.response, function (i, shift) {--}}
+            {{--            staffParameters.push({--}}
+            {{--                vardiyaId: shift.id,--}}
+            {{--                kullanicilarId: shift.employee.guid,--}}
+            {{--                tarih: reformatDatetimeTo_YYYY_MM_DD(shift.start_date),--}}
+            {{--                yemekBaslangicSaati: `${reformatDatetimeTo_YYYY_MM_DD(shift.start_date)} ${shift.shift_group.food_break_start}`,--}}
+            {{--                yemekBitisSaati: `${reformatDatetimeTo_YYYY_MM_DD(shift.end_date)} ${shift.shift_group.food_break_end}`,--}}
+            {{--                yemekMolasindaIhtiyacMolasi: shift.shift_group.get_break_while_food_time,--}}
+            {{--                yemekMolasiDisindaYemekMolasi: shift.shift_group.get_food_break_without_food_time,--}}
+            {{--                birMolaHakkiDakikasi: shift.shift_group.single_break_duration,--}}
+            {{--                vardiyaBasiIlkMolaHakkiDakikasi: shift.shift_group.get_first_break_after_shift_start,--}}
+            {{--                vardiyaSonuMolaYasagiDakikasi: shift.shift_group.get_last_break_before_shift_end,--}}
+            {{--                sonMoladanSonraMolaMusadesiDakikasi: shift.shift_group.get_break_after_last_break,--}}
+            {{--                gunlukYemekMolasiHakkiSayisi: shift.shift_group.daily_food_break_amount,--}}
+            {{--                gunlukToplamMolaDakikasi: getWeekDayOfDate(reformatDatetimeTo_YYYY_MM_DD(shift.start_date)) === 5 ? shift.shift_group.daily_break_duration + shift.shift_group.friday_additional_break_duration : shift.shift_group.daily_break_duration,--}}
+            {{--                gunlukYemekMolasiDakikasi: shift.shift_group.daily_food_break_duration,--}}
+            {{--                gunlukIhtiyacMolasiDakikasi: getWeekDayOfDate(reformatDatetimeTo_YYYY_MM_DD(shift.start_date)) === 5 ? shift.shift_group.daily_break_break_duration + shift.shift_group.friday_additional_break_duration : shift.shift_group.daily_break_break_duration,--}}
+            {{--                anlikYemekMolasiDakikasi: shift.shift_group.momentary_food_break_duration,--}}
+            {{--                anlikIhtiyacMolasiDakikasi: shift.shift_group.momentary_break_break_duration,--}}
+            {{--                molaKullanimKisitlamasiVarMi: shift.shift_group.suspend_break_using,--}}
+            {{--            });--}}
+            {{--        });--}}
+            {{--        console.log(staffParameters);--}}
+            {{--        $.ajax({--}}
+            {{--            type: 'post',--}}
+            {{--            url: '{{ route('user.api.operationApi.operation.setStaffParameter') }}',--}}
+            {{--            headers: {--}}
+            {{--                'Accept': 'application/json',--}}
+            {{--                'Authorization': token--}}
+            {{--            },--}}
+            {{--            data: {--}}
+            {{--                staffParameters: staffParameters,--}}
+            {{--            },--}}
+            {{--            success: function () {--}}
+            {{--                toastr.success('Vardiyalar Başarıyla Aktarıldı.');--}}
+            {{--                $('#SetStaffParameterModal').modal('hide');--}}
+            {{--                $('#loader').hide();--}}
+            {{--            },--}}
+            {{--            error: function (error) {--}}
+            {{--                console.log(error);--}}
+            {{--                toastr.error('Vardiyalar Aktarılırken Serviste Bir Sorun Oluştu!');--}}
+            {{--                $('#loader').hide();--}}
+            {{--            }--}}
+            {{--        });--}}
+            {{--    },--}}
+            {{--    error: function (error) {--}}
+            {{--        console.log(error);--}}
+            {{--        toastr.error('Vardiyalar Alınırken Serviste Bir Sorun Oluştu!');--}}
+            {{--        $('#loader').hide();--}}
+            {{--    }--}}
+            {{--});--}}
         }
     });
 

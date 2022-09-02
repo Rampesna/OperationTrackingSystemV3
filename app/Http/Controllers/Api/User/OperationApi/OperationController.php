@@ -22,6 +22,7 @@ use App\Http\Requests\Api\User\OperationApi\OperationController\SetStaffParamete
 use App\Interfaces\Eloquent\ICompanyService;
 use App\Interfaces\OperationApi\IOperationService;
 use App\Traits\Response;
+use Illuminate\Http\Request;
 
 class OperationController extends Controller
 {
@@ -356,6 +357,30 @@ class OperationController extends Controller
     {
         $setStaffParameterResponse = $this->operationService->SetStaffParameter(
             $request->staffParameters
+        );
+        if ($setStaffParameterResponse->isSuccess()) {
+            return $this->success(
+                $setStaffParameterResponse->getMessage(),
+                $setStaffParameterResponse->getData(),
+                $setStaffParameterResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setStaffParameterResponse->getMessage(),
+                $setStaffParameterResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function setStaffParameterByCompanyId(Request $request)
+    {
+        $setStaffParameterResponse = $this->operationService->SetStaffParameterByCompanyId(
+            $request->companyIds,
+            $request->startDate,
+            $request->endDate,
         );
         if ($setStaffParameterResponse->isSuccess()) {
             return $this->success(

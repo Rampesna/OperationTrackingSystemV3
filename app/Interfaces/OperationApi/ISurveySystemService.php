@@ -149,7 +149,7 @@ interface ISurveySystemService
      * @param int $sellerRedirectionType
      * @param string|null $emailTitle
      * @param string|null $emailContent
-     * @param string $jobResource
+     * @param string|null $jobResource
      * @param string|null $listCode
      * @param string|null $status
      * @param array|null $callList
@@ -175,7 +175,7 @@ interface ISurveySystemService
         int         $sellerRedirectionType,
         string|null $emailTitle,
         string|null $emailContent,
-        string      $jobResource,
+        ?string     $jobResource,
         string|null $listCode,
         string|null $status,
         array|null  $callList = []

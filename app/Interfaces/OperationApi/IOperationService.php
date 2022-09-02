@@ -377,6 +377,19 @@ interface IOperationService
     ): ServiceResponse;
 
     /**
+     * @param array $companyIds
+     * @param string $startDate
+     * @param string $endDate
+     *
+     * @return ServiceResponse
+     */
+    public function SetStaffParameterByCompanyId(
+        array  $companyIds,
+        string $startDate,
+        string $endDate,
+    ): ServiceResponse;
+
+    /**
      * @param int $shiftId
      *
      * @return ServiceResponse

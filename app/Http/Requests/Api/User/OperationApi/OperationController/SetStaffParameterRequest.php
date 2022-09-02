@@ -24,7 +24,7 @@ class SetStaffParameterRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'staffParameters' => 'required|array',
+//            'staffParameters' => 'required|array',
         ];
     }
 }

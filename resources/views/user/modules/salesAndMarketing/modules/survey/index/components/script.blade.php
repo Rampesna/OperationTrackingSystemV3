@@ -364,8 +364,6 @@
             toastr.warning('Ek Ürün İçin Arama Planı Gönderilsin mi Boş Olamaz!');
         } else if (!sellerRedirectionType) {
             toastr.warning('Satıcı Yönlendirme Tipi Boş Olamaz!');
-        } else if (!jobResource) {
-            toastr.warning('İş Kaynağı Boş Olamaz!');
         } else if (!listCode) {
             toastr.warning('Liste Kodu Boş Olamaz!');
         } else {
@@ -468,8 +466,6 @@
             toastr.warning('Ek Ürün İçin Arama Planı Gönderilsin mi Boş Olamaz!');
         } else if (!sellerRedirectionType) {
             toastr.warning('Satıcı Yönlendirme Tipi Boş Olamaz!');
-        } else if (!jobResource) {
-            toastr.warning('İş Kaynağı Boş Olamaz!');
         } else if (!listCode) {
             toastr.warning('Liste Kodu Boş Olamaz!');
         } else {

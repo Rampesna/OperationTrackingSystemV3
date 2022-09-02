@@ -804,10 +804,6 @@ class ShiftService implements IShiftService
                                         ]);
                                     }
                                 }
-
-                                if ($dayControlVariable == 'day0') {
-                                    $continueForNextWeek = true;
-                                }
                             } else {
                                 $weeklyEmployees = collect();
                                 $continueForNextWeek = true;
