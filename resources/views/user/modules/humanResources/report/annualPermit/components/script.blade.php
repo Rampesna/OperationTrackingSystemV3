@@ -105,6 +105,7 @@
                 permitTypeIds: typeIds,
             },
             success: function (response) {
+                console.log(response);
                 var source = {
                     localdata: response.response,
                     datatype: "array",

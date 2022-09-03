@@ -291,10 +291,10 @@ function getMinutesBetweenTwoDatesForOvertime(startDate, endDate) {
 function minutesToString(minutes) {
     var remainingMinutes = minutes % 60;
     var hours = Math.floor(minutes / 60);
-    var remainingHours = hours % 8;
-    var days = Math.floor(hours / 8);
+    // var remainingHours = hours % 8;
+    // var days = Math.floor(hours / 8);
 
-    return `${days > 0 ? days + ' Gün ' : ''}${remainingHours > 0 ? remainingHours + ' Saat ' : ''}${remainingMinutes > 0 ? remainingMinutes + ' Dakika' : ''}`;
+    return `${hours > 0 ? hours + ' Saat ' : ''}${remainingMinutes > 0 ? remainingMinutes + ' Dakika' : ''}`;
     // return days + ' days, ' + remainingHours + ' hours, ' + remainingMinutes + ' minutes';
 }
 

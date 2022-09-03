@@ -125,7 +125,7 @@
                     $.each(employeeOvertimes, function (i, overtimes) {
                         var minutes = 0;
                         $.each(overtimes, function (j, overtime) {
-                            minutes += getMinutesBetweenTwoDates(overtime.start_date, overtime.end_date);
+                            minutes += getMinutesBetweenTwoDatesForOvertime(overtime.start_date, overtime.end_date);
                         });
                         employees.push({
                             name: overtimes[0].employee.name,

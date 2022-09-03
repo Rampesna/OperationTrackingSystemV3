@@ -317,7 +317,7 @@ class PermitService implements IPermitService
                 $permits = Permit::where('employee_id', $employeeId)->whereIn('type_id', $permitTypeIds)->whereBetween('start_date', [
                     $calculateStartDate . ' 00:00:00',
                     $calculateEndDate . ' 23:59:59'
-                ]);
+                ])->get();
 
                 $totalDurationOfMinutes = 0;
                 foreach ($permits as $permit) {

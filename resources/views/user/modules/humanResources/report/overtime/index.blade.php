@@ -25,7 +25,7 @@
                             <div class="input-group input-group-solid flex-nowrap">
                                 <button class="btn btn-icon btn-success" id="SelectAllEmployeesButton"><i class="fa fa-check-circle"></i></button>
                                 <button class="btn btn-icon btn-danger" id="UnSelectAllEmployeesButton"><i class="fa fa-times-circle"></i></button>
-                                <select id="employeeIds" class="form-control form-control-solid selectpicker" title="Personeller" multiple></select>
+                                <select id="employeeIds" class="form-control form-control-solid selectpicker" title="Personeller" data-live-search="true" multiple></select>
                             </div>
                         </div>
                         <div class="col-xl-4 mb-5">
