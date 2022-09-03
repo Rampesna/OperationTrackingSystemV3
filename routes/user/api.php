@@ -313,6 +313,7 @@ Route::middleware([
     Route::prefix('project')->group(function () {
         Route::get('getByUserId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getByUserId'])->name('user.api.project.getByUserId');
         Route::get('getById', [\App\Http\Controllers\Api\User\ProjectController::class, 'getById'])->name('user.api.project.getById');
+        Route::get('getAllTasks', [\App\Http\Controllers\Api\User\ProjectController::class, 'getAllTasks'])->name('user.api.project.getAllTasks');
         Route::get('getSubtasksByProjectId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getSubtasksByProjectId'])->name('user.api.project.getSubtasksByProjectId');
         Route::get('getBoardsByProjectId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getBoardsByProjectId'])->name('user.api.project.getBoardsByProjectId');
         Route::get('getUsersByProjectId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getUsersByProjectId'])->name('user.api.project.getUsersByProjectId');
@@ -439,6 +440,8 @@ Route::middleware([
         Route::get('getByCreator', [\App\Http\Controllers\Api\User\TicketController::class, 'getByCreator'])->name('user.api.ticket.getByCreator');
         Route::post('create', [\App\Http\Controllers\Api\User\TicketController::class, 'create'])->name('user.api.ticket.create');
         Route::put('update', [\App\Http\Controllers\Api\User\TicketController::class, 'update'])->name('user.api.ticket.update');
+        Route::put('updateTask', [\App\Http\Controllers\Api\User\TicketController::class, 'updateTask'])->name('user.api.ticket.updateTask');
+        Route::put('updateTransactionStatus', [\App\Http\Controllers\Api\User\TicketController::class, 'updateTransactionStatus'])->name('user.api.ticket.updateTransactionStatus');
         Route::put('setStatus', [\App\Http\Controllers\Api\User\TicketController::class, 'setStatus'])->name('user.api.ticket.setStatus');
         Route::delete('delete', [\App\Http\Controllers\Api\User\TicketController::class, 'delete'])->name('user.api.ticket.delete');
     });
@@ -641,6 +644,10 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'create'])->name('user.api.evaluationParameter.create');
         Route::put('update', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'update'])->name('user.api.evaluationParameter.update');
         Route::delete('delete', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'delete'])->name('user.api.evaluationParameter.delete');
+    });
+
+    Route::prefix('ticketTransactionStatus')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\TicketTransactionStatusController::class, 'getAll'])->name('user.api.ticketTransactionStatus.getAll');
     });
 
     Route::prefix('operationApi')->group(function () {

@@ -65,7 +65,7 @@ class HomeController extends Controller
     public function test()
     {
         return response()->json([
-            'message' => 'No Way!',
+            'pass' => bcrypt('1234'),
         ]);
     }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\Eloquent\IProjectService;
 use App\Http\Requests\Api\User\ProjectController\GetByUserIdRequest;
 use App\Http\Requests\Api\User\ProjectController\GetByIdRequest;
+use App\Http\Requests\Api\User\ProjectController\GetAllTasksRequest;
 use App\Http\Requests\Api\User\ProjectController\GetSubtasksByProjectIdRequest;
 use App\Http\Requests\Api\User\ProjectController\GetBoardsByProjectIdRequest;
 use App\Http\Requests\Api\User\ProjectController\GetUsersByProjectIdRequest;
@@ -78,6 +79,35 @@ class ProjectController extends Controller
             return $this->error(
                 $getByIdResponse->getMessage(),
                 $getByIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetAllTasksRequest $request
+     */
+    public function getAllTasks(GetAllTasksRequest $request)
+    {
+        $userProjects = $request->user()->projects()->pluck('id')->toArray();
+
+        if (!in_array($request->projectId, $userProjects)) {
+            return $this->error('Project not found', 404);
+        }
+
+        $getAllTasksResponse = $this->projectService->getAllTasks(
+            $request->projectId,
+            $request->management
+        );
+        if ($getAllTasksResponse->isSuccess()) {
+            return $this->success(
+                $getAllTasksResponse->getMessage(),
+                $getAllTasksResponse->getData(),
+                $getAllTasksResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllTasksResponse->getMessage(),
+                $getAllTasksResponse->getStatusCode()
             );
         }
     }

@@ -36,6 +36,7 @@
     var updateTicketRelationType = $('#update_ticket_relation_type');
     var updateTicketRelationId = $('#update_ticket_relation_id');
     var updateTicketPriorityId = $('#update_ticket_priority_id');
+    var updateTicketStatusId = $('#update_ticket_status_id');
 
     var ticketMessagesTicketFiles = $('#ticket_messages_ticket_files');
 
@@ -244,6 +245,10 @@
                         value: ticketStatus.id,
                         text: ticketStatus.name
                     }));
+                    updateTicketStatusId.append($('<option>', {
+                        value: ticketStatus.id,
+                        text: ticketStatus.name
+                    }));
                 });
             },
             error: function (error) {
@@ -320,6 +325,9 @@
                         </td>
                         <td>
                             <span class="badge badge-${ticket.status ? ticket.status.color : 'secondary'}">${ticket.status ? ticket.status.name : ''}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-secondary">${ticket.transaction_status ? ticket.transaction_status.name : ''}</span>
                         </td>
                         <td class="hideIfMobile">
                             ${ticket.source ?? ''}

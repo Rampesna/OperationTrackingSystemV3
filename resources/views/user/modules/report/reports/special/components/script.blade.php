@@ -35,6 +35,7 @@
     var statusReportDiv = $('#statusReport');
 
     var ReportButton = $('#ReportButton');
+    var DownloadExcelButton = $('#DownloadExcelButton');
 
     function getSpecialReportsByCompanyIds() {
         $('#loader').show();
@@ -169,6 +170,8 @@
                         toastr.warning('Rapor Sonuçları Boş!');
                     }
 
+                    $('#DownloadExcelArea').show();
+
                     $('#loader').hide();
                 },
                 error: function (error) {
@@ -178,6 +181,10 @@
                 }
             });
         }
+    });
+
+    DownloadExcelButton.click(function () {
+        reportDiv.jqxGrid('exportdata', 'xlsx', specialReportsInput.find('option:selected').text());
     });
 
 </script>

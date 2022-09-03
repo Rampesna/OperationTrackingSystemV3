@@ -30,6 +30,11 @@ class Ticket extends Model
         return $this->belongsTo(TicketStatus::class, 'status_id', 'id');
     }
 
+    public function transactionStatus()
+    {
+        return $this->belongsTo(TicketTransactionStatus::class, 'ticket_transaction_status_id', 'id');
+    }
+
     public function files()
     {
         return $this->morphMany(File::class, 'relation');

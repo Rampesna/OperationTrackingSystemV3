@@ -50,6 +50,17 @@ interface IProjectService extends IEloquentService
 
     /**
      * @param int $projectId
+     * @param int $management
+     *
+     * @return ServiceResponse
+     */
+    public function getAllTasks(
+        int $projectId,
+        int $management
+    ): ServiceResponse;
+
+    /**
+     * @param int $projectId
      *
      * @return ServiceResponse
      */

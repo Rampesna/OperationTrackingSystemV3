@@ -77,6 +77,7 @@ use App\Interfaces\Eloquent\ITicketMessageService;
 use App\Interfaces\Eloquent\ITicketPriorityService;
 use App\Interfaces\Eloquent\ITicketService;
 use App\Interfaces\Eloquent\ITicketStatusService;
+use App\Interfaces\Eloquent\ITicketTransactionStatusService;
 use App\Interfaces\Eloquent\ITitleService;
 use App\Interfaces\Eloquent\IUserPermissionService;
 use App\Interfaces\Eloquent\IUserRoleService;
@@ -169,6 +170,7 @@ use App\Services\Eloquent\TicketMessageService;
 use App\Services\Eloquent\TicketPriorityService;
 use App\Services\Eloquent\TicketService;
 use App\Services\Eloquent\TicketStatusService;
+use App\Services\Eloquent\TicketTransactionStatusService;
 use App\Services\Eloquent\TitleService;
 use App\Services\Eloquent\UserPermissionService;
 use App\Services\Eloquent\UserRoleService;
@@ -276,6 +278,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IRecruitingEvaluationParameterService::class, RecruitingEvaluationParameterService::class);
         $this->app->bind(IPunishmentCategoryService::class, PunishmentCategoryService::class);
         $this->app->bind(IPunishmentService::class, PunishmentService::class);
+        $this->app->bind(ITicketTransactionStatusService::class, TicketTransactionStatusService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

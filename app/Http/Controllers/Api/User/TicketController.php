@@ -10,6 +10,8 @@ use App\Http\Requests\Api\User\TicketController\GetByRelationRequest;
 use App\Http\Requests\Api\User\TicketController\GetByCreatorRequest;
 use App\Http\Requests\Api\User\TicketController\CreateRequest;
 use App\Http\Requests\Api\User\TicketController\UpdateRequest;
+use App\Http\Requests\Api\User\TicketController\UpdateTransactionStatusRequest;
+use App\Http\Requests\Api\User\TicketController\UpdateTaskRequest;
 use App\Http\Requests\Api\User\TicketController\SetStatusRequest;
 use App\Http\Requests\Api\User\TicketController\DeleteRequest;
 use App\Traits\Response;
@@ -194,6 +196,52 @@ class TicketController extends Controller
             return $this->error(
                 $updateResponse->getMessage(),
                 $updateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateTaskRequest $request
+     */
+    public function updateTask(UpdateTaskRequest $request)
+    {
+        $updateTaskResponse = $this->ticketService->updateTask(
+            $request->ticketId,
+            $request->taskId
+        );
+        if ($updateTaskResponse->isSuccess()) {
+            return $this->success(
+                $updateTaskResponse->getMessage(),
+                $updateTaskResponse->getData(),
+                $updateTaskResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateTaskResponse->getMessage(),
+                $updateTaskResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param UpdateTransactionStatusRequest $request
+     */
+    public function updateTransactionStatus(UpdateTransactionStatusRequest $request)
+    {
+        $updateTransactionStatusResponse = $this->ticketService->updateTransactionStatus(
+            $request->ticketId,
+            $request->ticketTransactionStatusId
+        );
+        if ($updateTransactionStatusResponse->isSuccess()) {
+            return $this->success(
+                $updateTransactionStatusResponse->getMessage(),
+                $updateTransactionStatusResponse->getData(),
+                $updateTransactionStatusResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateTransactionStatusResponse->getMessage(),
+                $updateTransactionStatusResponse->getStatusCode()
             );
         }
     }

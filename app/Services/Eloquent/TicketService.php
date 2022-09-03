@@ -34,6 +34,7 @@ class TicketService implements ITicketService
             'creator',
             'relation',
             'priority',
+            'transactionStatus',
             'status',
             'files',
         ])->find($id);
@@ -101,6 +102,7 @@ class TicketService implements ITicketService
             'relation',
             'creator',
             'priority',
+            'transactionStatus',
             'status',
         ])->orderBy('id', 'desc')->where('relation_type', $relationType)->where('relation_id', $relationId);
 
@@ -158,6 +160,7 @@ class TicketService implements ITicketService
             'relation',
             'creator',
             'priority',
+            'transactionStatus',
             'status',
         ])->orderBy('id', 'desc')->where('creator_type', $creatorType)->where('creator_id', $creatorId);
 
@@ -299,6 +302,58 @@ class TicketService implements ITicketService
             return new ServiceResponse(
                 true,
                 'Ticket updated',
+                200,
+                $ticket->getData()
+            );
+        } else {
+            return $ticket;
+        }
+    }
+
+    /**
+     * @param int $ticketId
+     * @param int $taskId
+     *
+     * @return ServiceResponse
+     */
+    public function updateTask(
+        int $ticketId,
+        int $taskId
+    ): ServiceResponse
+    {
+        $ticket = $this->getById($ticketId);
+        if ($ticket->isSuccess()) {
+            $ticket->getData()->task_id = $taskId;
+            $ticket->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Ticket task updated',
+                200,
+                $ticket->getData()
+            );
+        } else {
+            return $ticket;
+        }
+    }
+
+    /**
+     * @param int $ticketId
+     * @param int $ticketTransactionStatusId
+     *
+     * @return ServiceResponse
+     */
+    public function updateTransactionStatus(
+        int $ticketId,
+        int $ticketTransactionStatusId
+    ): ServiceResponse
+    {
+        $ticket = $this->getById($ticketId);
+        if ($ticket->isSuccess()) {
+            $ticket->getData()->ticket_transaction_status_id = $ticketTransactionStatusId;
+            $ticket->getData()->save();
+            return new ServiceResponse(
+                true,
+                'Ticket transaction status updated',
                 200,
                 $ticket->getData()
             );

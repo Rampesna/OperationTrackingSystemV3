@@ -117,6 +117,28 @@ interface ITicketService extends IEloquentService
 
     /**
      * @param int $ticketId
+     * @param int $taskId
+     *
+     * @return ServiceResponse
+     */
+    public function updateTask(
+        int $ticketId,
+        int $taskId
+    ): ServiceResponse;
+
+    /**
+     * @param int $ticketId
+     * @param int $ticketTransactionStatusId
+     *
+     * @return ServiceResponse
+     */
+    public function updateTransactionStatus(
+        int $ticketId,
+        int $ticketTransactionStatusId
+    ): ServiceResponse;
+
+    /**
+     * @param int $ticketId
      * @param int $statusId
      *
      * @return ServiceResponse

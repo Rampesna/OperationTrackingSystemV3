@@ -74,6 +74,26 @@
                         <input type="date" class="form-control form-control-solid" id="ticket_messages_ticket_todo_end_date_input" aria-label="Yapılacak Temin Zamanı" disabled>
                     </div>
                 </div>
+                <hr class="text-muted">
+                <div class="row mt-3">
+                    <div class="col-xl-3 mt-3">
+                        <span class="fw-bolder">Bağlı Görev</span>
+                    </div>
+                    <div class="col-xl-9">
+                        <select id="ticket_messages_ticket_task_id_input" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Bağlı Görev" aria-label="Bağlı Görev"></select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-xl-3 mt-3">
+                        <span class="fw-bolder">Görev Durumu</span>
+                    </div>
+                    <div class="col-xl-9">
+                        <select id="ticket_messages_ticket_transaction_status_id_input" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Görev Durumu" aria-label="Görev Durumu">
+
+                        </select>
+                    </div>
+                </div>
+                <hr class="text-muted">
                 <div class="row mt-3">
                     <div class="col-xl-3 mt-3">
                         <span class="fw-bolder">Yüklenen Dosyalar</span>

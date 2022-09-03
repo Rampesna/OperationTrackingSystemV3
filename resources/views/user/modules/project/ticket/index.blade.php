@@ -106,6 +106,7 @@
                             <th>Başlık</th>
                             <th>Öncelik</th>
                             <th>Durum</th>
+                            <th>Görev Durumu</th>
                             <th class="hideIfMobile">Talep Kaynağı</th>
                             <th class="hideIfMobile">İstenilen Temin Zamanı</th>
                             <th class="hideIfMobile">Yapılacak Temin Zamanı</th>

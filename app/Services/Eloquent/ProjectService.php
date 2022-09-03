@@ -179,6 +179,32 @@ class ProjectService implements IProjectService
 
     /**
      * @param int $projectId
+     * @param int $management
+     *
+     * @return ServiceResponse
+     */
+    public function getAllTasks(
+        int $projectId,
+        int $management
+    ): ServiceResponse
+    {
+        $project = $this->getById($projectId);
+        if ($project->isSuccess()) {
+            return new ServiceResponse(
+                true,
+                'Project tasks',
+                200,
+                $project->getData()->tasks()->with([
+                    'priority'
+                ])->where('management', $management)->get()->toArray()
+            );
+        } else {
+            return $project;
+        }
+    }
+
+    /**
+     * @param int $projectId
      *
      * @return ServiceResponse
      */

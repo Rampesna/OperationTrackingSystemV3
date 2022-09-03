@@ -52,6 +52,15 @@
             <div id="report"></div>
         </div>
     </div>
+    <div class="row mt-5" id="DownloadExcelArea" style="display: none">
+        <div class="col-xl-10"></div>
+        <div class="col-xl-2 d-grid">
+            <button class="btn btn-primary" id="DownloadExcelButton">
+                <i class="fas fa-file-excel"></i>
+                Excel İndir
+            </button>
+        </div>
+    </div>
 
 @endsection
 

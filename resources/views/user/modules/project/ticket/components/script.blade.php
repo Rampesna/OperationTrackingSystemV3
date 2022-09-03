@@ -99,6 +99,8 @@
     var updateTicketStatusId = $('#update_ticket_status_id');
 
     var ticketMessagesTicketFiles = $('#ticket_messages_ticket_files');
+    var ticketMessagesTicketTaskIdInput = $('#ticket_messages_ticket_task_id_input');
+    var ticketMessagesTicketTransactionStatusIdInput = $('#ticket_messages_ticket_transaction_status_id_input');
 
     function controlMobile() {
         if (detectMobile()) {
@@ -173,6 +175,8 @@
                 $('#ticket_messages_ticket_created_at_input').val(reformatDatetimeForInput(response.response.created_at));
                 $('#ticket_messages_ticket_requested_end_date_input').val(response.response.requested_end_date);
                 $('#ticket_messages_ticket_todo_end_date_input').val(response.response.todo_end_date);
+                ticketMessagesTicketTransactionStatusIdInput.val(response.response.ticket_transaction_status_id).select2();
+                ticketMessagesTicketTaskIdInput.val(response.response.task_id).select2();
                 ticketMessagesTicketFiles.empty();
                 $.each(response.response.files, function (i, file) {
                     ticketMessagesTicketFiles.append(`<a href="${fileDownloadUrl}/${file.id}" target="_blank" title="${file.name}" class="me-2"><i class="fa fa-lg fa-file"></i></a>`);
@@ -272,6 +276,68 @@
         });
     }
 
+    function getTicketTransactionStatuses() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.ticketTransactionStatus.getAll') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                ticketMessagesTicketTransactionStatusIdInput.empty();
+                ticketMessagesTicketTransactionStatusIdInput.append($('<option>', {
+                    value: null,
+                    text: ' - Seçim Yok - '
+                }));
+                $.each(response.response, function (i, ticketMessagesTicketTransactionStatus) {
+                    ticketMessagesTicketTransactionStatusIdInput.append($('<option>', {
+                        value: ticketMessagesTicketTransactionStatus.id,
+                        text: ticketMessagesTicketTransactionStatus.name
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Destek Talebi İşlem Durumları Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
+    function getAllTasks() {
+        var projectId = parseInt(`{{ $id }}`);
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.project.getAllTasks') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                projectId: projectId,
+                management: 1
+            },
+            success: function (response) {
+                ticketMessagesTicketTaskIdInput.empty();
+                ticketMessagesTicketTaskIdInput.append($('<option>', {
+                    value: null,
+                    text: ' - Seçim Yok - '
+                }));
+                $.each(response.response, function (i, task) {
+                    ticketMessagesTicketTaskIdInput.append($('<option>', {
+                        value: task.id,
+                        text: task.name
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Proje Görevleri Alınırken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    }
+
     function getTicketStatuses() {
         $.ajax({
             type: 'get',
@@ -343,7 +409,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${ticket.id}_Dropdown" style="width: 175px">
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateTicket(${ticket.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
-                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="getTicketMessages(${ticket.id})" title="Mesajlar"><i class="fas fa-envelope me-2 text-info"></i> <span class="text-dark">Mesajlar</span></a>
+                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="getTicketMessages(${ticket.id})" title="İncele"><i class="fas fa-eye me-2 text-info"></i> <span class="text-dark">İncele</span></a>
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteTicket(${ticket.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
                                 </div>
@@ -362,7 +428,10 @@
                             <span class="badge badge-${ticket.priority ? ticket.priority.color : 'secondary'}">${ticket.priority ? ticket.priority.name : ''}</span>
                         </td>
                         <td>
-                            <span class="badge badge-${ticket.status ? ticket.status.color : 'secondary'}">${ticket.status ? ticket.status.name : ''}</span>
+                            <span class="badge badge-${ticket.status ? ticket.status.color : 'secondary'}">${ticket.status ? ticket.status.name : '--'}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-secondary">${ticket.transaction_status ? ticket.transaction_status.name : ''}</span>
                         </td>
                         <td class="hideIfMobile">
                             ${ticket.source ?? ''}
@@ -458,6 +527,8 @@
     }
 
     getTicketPriorities();
+    getTicketTransactionStatuses();
+    getAllTasks();
     getTicketStatuses();
     getTicketsByRelation();
 
@@ -496,6 +567,53 @@
 
     updateTicketRelationType.change(function () {
         getRelationsForUpdate();
+    });
+
+    ticketMessagesTicketTransactionStatusIdInput.change(function () {
+        var ticketId = $('#create_ticket_message_ticket_id').val();
+        var ticketTransactionStatusId = $(this).val();
+
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.ticket.updateTransactionStatus') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                ticketId: ticketId,
+                ticketTransactionStatusId: ticketTransactionStatusId
+            },
+            success: function () {
+                changePage(page.html());
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Görev Durumu Güncellenirken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    });
+
+    ticketMessagesTicketTaskIdInput.change(function () {
+        var ticketId = $('#create_ticket_message_ticket_id').val();
+        var taskId = $(this).val();
+
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.ticket.updateTask') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                ticketId: ticketId,
+                taskId: taskId
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Bağlı Görev Güncellenirken Serviste Bir Sorun Oluştu!');
+            }
+        });
     });
 
     ClearFilterButton.click(function () {
