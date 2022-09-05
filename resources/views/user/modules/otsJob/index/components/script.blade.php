@@ -340,7 +340,7 @@
     });
 
     SetJobsClosedExcelButton.click(function () {
-        var file = $('#set_data_scanning_file')[0].files[0];
+        var file = $('#set_jobs_closed_excel_file')[0].files[0];
         var commercialCompanyId = setJobsClosedExcelCommercialCompanyId.val();
 
         if (!file) {
