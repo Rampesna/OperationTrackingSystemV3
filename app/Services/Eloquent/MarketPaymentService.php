@@ -71,6 +71,37 @@ class MarketPaymentService implements IMarketPaymentService
     }
 
     /**
+     * @param int $marketId
+     * @param int|null $direction
+     * @param string $startDate
+     * @param string $endDate
+     */
+    public function index(
+        int    $marketId,
+        ?int   $direction,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse
+    {
+        $marketPayments = MarketPayment::with([
+            'creator',
+            'market',
+            'relation'
+        ])->where('market_id', $marketId)->whereBetween('created_at', [$startDate, $endDate]);
+
+        if ($direction !== null) {
+            $marketPayments->where('direction', $direction);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Market payments',
+            200,
+            $marketPayments->get()
+        );
+    }
+
+    /**
      * @param int|null $creatorId
      * @param int|null $marketId
      * @param int|null $relationId

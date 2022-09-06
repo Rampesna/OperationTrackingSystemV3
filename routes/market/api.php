@@ -15,6 +15,7 @@ Route::middleware([
     Route::get('getMarketPayments', [\App\Http\Controllers\Api\Market\MarketController::class, 'getMarketPayments'])->name('market.api.getMarketPayments');
 
     Route::prefix('marketPayment')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Api\Market\MarketPaymentController::class, 'index'])->name('market.api.marketPayment.index');
         Route::post('getByCode', [\App\Http\Controllers\Api\Market\MarketPaymentController::class, 'getByCode'])->name('market.api.marketPayment.getByCode');
         Route::post('setCompleted', [\App\Http\Controllers\Api\Market\MarketPaymentController::class, 'setCompleted'])->name('market.api.marketPayment.setCompleted');
     });

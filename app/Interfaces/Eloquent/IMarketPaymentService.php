@@ -7,6 +7,19 @@ use App\Services\ServiceResponse;
 interface IMarketPaymentService extends IEloquentService
 {
     /**
+     * @param int $marketId
+     * @param int|null $direction
+     * @param string $startDate
+     * @param string $endDate
+     */
+    public function index(
+        int    $marketId,
+        ?int   $direction,
+        string $startDate,
+        string $endDate
+    ): ServiceResponse;
+
+    /**
      * @param int|null $creatorId
      * @param int|null $marketId
      * @param int|null $relationId

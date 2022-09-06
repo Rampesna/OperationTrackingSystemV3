@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Market;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Market\MarketPaymentController\IndexRequest;
 use App\Http\Requests\Api\Market\MarketPaymentController\GetByCodeRequest;
 use App\Http\Requests\Api\Market\MarketPaymentController\SetCompletedRequest;
 use App\Interfaces\Eloquent\IMarketPaymentService;
@@ -23,6 +24,31 @@ class MarketPaymentController extends Controller
     public function __construct(IMarketPaymentService $marketPaymentService)
     {
         $this->marketPaymentService = $marketPaymentService;
+    }
+
+    /**
+     * @param IndexRequest $request
+     */
+    public function index(IndexRequest $request)
+    {
+        $indexResponse = $this->marketPaymentService->index(
+            $request->user()->id,
+            $request->direction,
+            $request->startDate,
+            $request->endDate,
+        );
+        if ($indexResponse->isSuccess()) {
+            return $this->success(
+                $indexResponse->getMessage(),
+                $indexResponse->getData(),
+                $indexResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $indexResponse->getMessage(),
+                $indexResponse->getStatusCode()
+            );
+        }
     }
 
     /**

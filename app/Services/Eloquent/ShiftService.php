@@ -620,10 +620,6 @@ class ShiftService implements IShiftService
         foreach ($shiftGroups->getData() as $shiftGroup) {
             $startDayOfMonth = 1;
             $endDayOfMonth = date('t', strtotime($month));
-            $weeklyEmployees = collect();
-            $randomEmployees = collect();
-            $continueForNextWeek = false;
-            $checkNewMonthFirstDate = false;
 
             for ($day = $startDayOfMonth; $day <= $endDayOfMonth; $day++) {
                 $date = $month . '-' . sprintf('%02d', $day);
@@ -693,84 +689,80 @@ class ShiftService implements IShiftService
                     } else {
                         if ($shiftGroup->set_group_weekly === 1) {
                             checkWeeklyEmployees:
-                            if ($day == 1 && $dayControlVariable != 'day1') {
-                                $weeklyEmployees = $this->employeeService->getByIds(
-                                    Shift::where('shift_group_id', $shiftGroup->id)
-                                        ->orderBy('id', 'desc')
-                                        ->whereBetween('start_date', [
-                                            date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 00:00:00',
-                                            date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 23:59:59'
-                                        ])
-//                                        ->limit($shiftGroup->per_day)
-                                        ->pluck('employee_id')
-                                        ->toArray()
-                                )->getData();
-                                goto continueForWeekNextDay;
+                            if ($dayControlVariable != 'day1') {
+                                if ($day == 1) {
+                                    $weeklyEmployees = $this->employeeService->getByIds(
+                                        Shift::where('shift_group_id', $shiftGroup->id)
+                                            ->orderBy('id', 'desc')
+                                            ->whereBetween('start_date', [
+                                                date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 00:00:00',
+                                                date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 23:59:59'
+                                            ])
+                                            ->pluck('employee_id')
+                                            ->toArray()
+                                    )->getData();
+                                } else {
+                                    $weeklyEmployees = $this->employeeService->getByIds(
+                                        $shifts->where('shift_group_id', $shiftGroup->id)
+                                            ->whereBetween('start_date', [
+                                                date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 00:00:00',
+                                                date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 23:59:59'
+                                            ])
+                                            ->pluck('employee_id')
+                                            ->toArray()
+                                    )->getData();
+                                }
+                            } else {
+                                retryWeekly:
+                                $unavailableEmployeeIds = [];
+                                $usedShiftGroupEmployees = $this->shiftGroupEmployeeUseListService->getUsedShiftGroupEmployees($shiftGroup->id);
+                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $usedShiftGroupEmployees->getData()->pluck('id')->toArray());
+                                $saturdayPermitEmployeesResponse = $this->saturdayPermitService->getByDate(date('Y-m-d', strtotime('next saturday', strtotime($date))));
 
-//                                if ($weeklyEmployees->count() < $shiftGroup->per_day) {
-//                                    $weeklyEmployees = collect();
-//                                }
-                            }
+                                if ($saturdayPermitEmployeesResponse->isSuccess()) {
+                                    $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $saturdayPermitEmployeesResponse->getData()->where('status', 'off')->pluck('employee_id')->toArray());
+                                }
 
-                            $unavailableEmployeeIds = [];
-                            $usedShiftGroupEmployees = $this->shiftGroupEmployeeUseListService->getUsedShiftGroupEmployees($shiftGroup->id);
-                            $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $usedShiftGroupEmployees->getData()->pluck('id')->toArray());
-                            $saturdayPermitEmployeesResponse = $this->saturdayPermitService->getByDate(date('Y-m-d', strtotime('next saturday', strtotime($date))));
-                            if ($saturdayPermitEmployeesResponse->isSuccess()) {
-                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $saturdayPermitEmployeesResponse->getData()->where('status', 'off')->pluck('employee_id')->toArray());
-                            }
-
-                            if ($weeklyEmployees->count() < $shiftGroup->per_day) {
                                 $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $unavailableEmployeeIds)->get();
-                                $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
-                                if ($weeklyEmployees->count() < $shiftGroup->per_day) {
-                                    $this->shiftGroupEmployeeUseListService->setShiftGroupEmployeesNotUsed($shiftGroup->id);
-                                    $shiftGroupEmployees = $shiftGroup->employees;
-                                    $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
 
-                                    if ($weeklyEmployees->count() < $shiftGroup->per_day) {
-                                        return new ServiceResponse(
-                                            false,
-                                            'Not enough employees for shift group',
-                                            400,
-                                            $shiftGroup->name . ' - Vardiya Grubunda Yeterli Personel Yok!'
-                                        );
+                                if (count($shiftGroupEmployees) < $shiftGroup->per_day) {
+                                    $this->shiftGroupEmployeeUseListService->setShiftGroupEmployeesNotUsed($shiftGroup->id);
+                                    goto retryWeekly;
+                                }
+
+                                $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
+                            }
+
+                            $x = '';
+
+                            foreach ($weeklyEmployees as $employee) {
+                                if ($shiftGroup->delete_if_exist === 1) {
+                                    $getShiftKeysForDelete = $shifts->where('employee_id', $employee->id)
+                                        ->whereBetween('start_date', [
+                                            $date . ' 00:00:00',
+                                            $date . ' 23:59:59'
+                                        ])->keys();
+                                    if (count($getShiftKeysForDelete) > 0) {
+                                        foreach ($getShiftKeysForDelete as $key) {
+                                            $shifts->forget($key);
+                                        }
                                     }
                                 }
-                            }
 
-                            continueForWeekNextDay:
-                            $todayWeekOfYear = Carbon::createFromDate(date('Y-m-d', strtotime($date)))->weekOfYear;
-                            $yesterdayWeekOfYear = Carbon::createFromDate(date('Y-m-d', strtotime('-1 day', strtotime($date))))->weekOfYear;
-
-                            if ($todayWeekOfYear == $yesterdayWeekOfYear || $continueForNextWeek == true) {
-                                $continueForNextWeek = false;
-                                foreach ($weeklyEmployees as $employee) {
-                                    if ($shiftGroup->delete_if_exist === 1) {
-                                        $getShiftKeysForDelete = $shifts->where('employee_id', $employee->id)
-                                            ->whereBetween('start_date', [
-                                                $date . ' 00:00:00',
-                                                $date . ' 23:59:59'
-                                            ])->keys();
-                                        if (count($getShiftKeysForDelete) > 0) {
-                                            foreach ($getShiftKeysForDelete as $key) {
-                                                $shifts->forget($key);
-                                            }
+                                if ($dayControlVariable == 'day0' && $shiftGroup->week_permit === 1) {
+                                    $getShiftKeysForDelete = $shifts->where('employee_id', $employee->id)
+                                        ->whereBetween('start_date', [
+                                            date('Y-m-d', strtotime('-7 days', strtotime('+' . $shiftGroup->number_of_week_permit_day . ' days', strtotime($date)))) . ' 00:00:00',
+                                            date('Y-m-d', strtotime('-7 days', strtotime('+' . $shiftGroup->number_of_week_permit_day . ' days', strtotime($date)))) . ' 23:59:59'
+                                        ])->keys();
+                                    if (count($getShiftKeysForDelete) > 0) {
+                                        foreach ($getShiftKeysForDelete as $key) {
+                                            $shifts->forget($key);
                                         }
                                     }
-                                    if ($dayControlVariable == 'day0' && $shiftGroup->week_permit === 1) {
-                                        $getShiftKeysForDelete = $shifts->where('employee_id', $employee->id)
-                                            ->whereBetween('start_date', [
-                                                date('Y-m-d', strtotime('-7 days', strtotime('+' . $shiftGroup->number_of_week_permit_day . ' days', strtotime($date)))) . ' 00:00:00',
-                                                date('Y-m-d', strtotime('-7 days', strtotime('+' . $shiftGroup->number_of_week_permit_day . ' days', strtotime($date)))) . ' 23:59:59'
-                                            ])->keys();
-                                        if (count($getShiftKeysForDelete) > 0) {
-                                            foreach ($getShiftKeysForDelete as $key) {
-                                                $shifts->forget($key);
-                                            }
-                                        }
-                                    }
+                                }
 
+                                if ($dayControlVariable == 'day6') {
                                     $saturdayPermit = $this->saturdayPermitService->getByEmployeeIdAndDate($employee->id, $date);
                                     if ($saturdayPermit->isSuccess() && $shiftGroup->id != 2) {
                                         if ($saturdayPermit->getData()->status == 'on') {
@@ -803,11 +795,22 @@ class ShiftService implements IShiftService
                                             'updated_at' => date('Y-m-d H:i:s'),
                                         ]);
                                     }
+                                } else {
+                                    $this->shiftGroupEmployeeUseListService->setUsedShiftGroupEmployee($shiftGroup->id, $employee->id);
+                                    $shifts->push([
+                                        'company_id' => $employee->company_id,
+                                        'employee_id' => $employee->id,
+                                        'shift_group_id' => $shiftGroup->id,
+                                        'created_by' => $userId,
+                                        'last_updated_by' => $userId,
+                                        'deleted_by' => null,
+                                        'start_date' => $date . ' ' . $shiftGroup->$dayShiftGroupStartTimeVariable,
+                                        'end_date' => $date . ' ' . $shiftGroup->$dayShiftGroupEndTimeVariable,
+                                        'created_at' => date('Y-m-d H:i:s'),
+                                        'updated_at' => date('Y-m-d H:i:s'),
+                                    ]);
+
                                 }
-                            } else {
-                                $weeklyEmployees = collect();
-                                $continueForNextWeek = true;
-                                goto checkWeeklyEmployees;
                             }
                         } else {
                             $unavailableEmployeeIds = [];
