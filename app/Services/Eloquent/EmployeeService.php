@@ -4,6 +4,7 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Models\Eloquent\Employee;
+use App\Models\Eloquent\Position;
 use App\Services\ServiceResponse;
 use Illuminate\Support\Facades\Crypt;
 
@@ -675,6 +676,43 @@ class EmployeeService implements IEmployeeService
             return new ServiceResponse(
                 true,
                 'Employee updated',
+                200,
+                $employee->getData()
+            );
+        } else {
+            return $employee;
+        }
+    }
+
+    /**
+     * @param int $employeeId
+     * @param int $employeeGuid
+     * @param string $date
+     * @param int $leavingReasonId
+     */
+    public function leave(
+        int    $employeeId,
+        int    $employeeGuid,
+        string $date,
+        int    $leavingReasonId
+    ): ServiceResponse
+    {
+        $employee = $this->getById($employeeId);
+        if ($employee->isSuccess()) {
+            $employee->getData()->leave = 1;
+            $employee->getData()->password = '';
+            $employee->getData()->save();
+
+            $position = Position::where('employee_id', $employeeId)->where('end_date', null)->first();
+            if ($position) {
+                $position->end_date = $date;
+                $position->leaving_reason_id = $leavingReasonId;
+                $position->save();
+            }
+
+            return new ServiceResponse(
+                true,
+                'Employee left',
                 200,
                 $employee->getData()
             );

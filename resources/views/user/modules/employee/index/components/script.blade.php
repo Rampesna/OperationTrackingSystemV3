@@ -31,6 +31,7 @@
     var updateEmployeeWorkTasksPermission = `{{ checkUserPermission(23, $userPermissions) ? 'true' : 'false' }}`;
     var updateEmployeeGroupsPermission = `{{ checkUserPermission(24, $userPermissions) ? 'true' : 'false' }}`;
     var updateEmployeeJobDepartmentPermission = `{{ checkUserPermission(25, $userPermissions) ? 'true' : 'false' }}`;
+    var leaveEmployeePermission = `{{ checkUserPermission(202, $userPermissions) ? 'true' : 'false' }}`;
 
     /////////////////////////////////////////////////////////////////////////////////
 
@@ -68,6 +69,9 @@
 
     var setEmployeeWorkToDoTypeJobCodeInput = $('#set_employee_work_to_do_type_job_code');
     var SetEmployeeWorkToDoTypeButton = $('#SetEmployeeWorkToDoTypeButton');
+
+    var leaveEmployeeLeavingReasonId = $('#leave_employee_leaving_reason_id');
+    var LeaveEmployeeButton = $('#LeaveEmployeeButton');
 
     var keyword = $('#keyword');
     var selectedEmployees = [];
@@ -432,6 +436,15 @@
         }, 500);
     }
 
+    function leaveEmployee(employeeId, employeeGuid, employeeName) {
+        $('#leave_employee_employee_id').val(employeeId);
+        $('#leave_employee_employee_guid').val(employeeGuid);
+        $('#leave_employee_employee_name_span').text(`${employeeName} - İşten Çıkar`);
+        $('#leave_employee_leaving_date').val('');
+        leaveEmployeeLeavingReasonId.val('').trigger('change');
+        $('#LeaveEmployeeModal').modal('show');
+    }
+
     // Get Methods
 
     function getEmployees() {
@@ -582,6 +595,12 @@
                                          ${updateEmployeeJobDepartmentPermission === 'true' ? `
                                          <div class="menu-item px-3 pb-3">
                                              <a onclick="updateEmployeeJobDepartment(${employee.id}, '${employee.name}')" class="menu-link px-3">Departman</a>
+                                         </div>
+                                         ` : ``}
+                                         ${leaveEmployeePermission === 'true' ? `
+                                         <hr>
+                                         <div class="menu-item px-3 pb-3">
+                                             <a onclick="leaveEmployee(${employee.id}, ${employee.guid}, '${employee.name}')" class="menu-link px-3">İşten Çıkar</a>
                                          </div>
                                          ` : ``}
                                       </ul>
@@ -972,6 +991,30 @@
         });
     }
 
+    function getLeavingReasons() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.leavingReason.getAll') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                leaveEmployeeLeavingReasonId.empty();
+                $.each(response.response, function (i, leavingReason) {
+                    leaveEmployeeLeavingReasonId.append(`
+                    <option value="${leavingReason.id}">${leavingReason.id} - ${leavingReason.name}</option>
+                    `);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('İşten Çıkarma Nedenleri Servisinde Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+            }
+        });
+    }
+
     // Get Operation Methods
 
     function getScripts() {
@@ -1027,6 +1070,7 @@
     getEmployeeTasks();
     getEmployeeWorkTasks();
     getEmployeeGroupTasks();
+    getLeavingReasons();
     getScripts();
     getDataScannings();
     getEmployees();
@@ -1667,6 +1711,46 @@
                 $('#loader').hide();
             }
         });
+    });
+
+    LeaveEmployeeButton.click(function () {
+        var employeeId = $('#leave_employee_employee_id').val();
+        var employeeGuid = $('#leave_employee_employee_guid').val();
+        var date = $('#leave_employee_leaving_date').val();
+        var leavingReasonId = leaveEmployeeLeavingReasonId.val();
+
+        if (!date) {
+            toastr.warning('Lütfen Personelin Ayrılacağı Tarihi Seçin.');
+        } else if (!leavingReasonId) {
+            toastr.warning('Lütfen Personelin Ayrılma Nedenini Seçin.');
+        } else {
+            LeaveEmployeeButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.employee.leave') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    employeeId: employeeId,
+                    employeeGuid: employeeGuid,
+                    date: date,
+                    leavingReasonId: leavingReasonId
+                },
+                success: function () {
+                    toastr.success('Personel Başarıyla İşten Çıkarıldı.');
+                    $('#LeaveEmployeeModal').modal('hide');
+                    LeaveEmployeeButton.attr('disabled', false).html('İşten Çıkar');
+                    $(`#${employeeId}_employeeCard`).remove();
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Personel İşten Çıkarılırken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                    LeaveEmployeeButton.attr('disabled', false).html('İşten Çıkar');
+                }
+            });
+        }
     });
 
     $('body').on('contextmenu', function (e) {

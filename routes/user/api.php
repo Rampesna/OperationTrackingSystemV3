@@ -100,6 +100,7 @@ Route::middleware([
         Route::get('getByEmail', [\App\Http\Controllers\Api\User\EmployeeController::class, 'getByEmail'])->name('user.api.employee.getByEmail');
         Route::post('create', [\App\Http\Controllers\Api\User\EmployeeController::class, 'create'])->name('user.api.employee.create');
         Route::put('update', [\App\Http\Controllers\Api\User\EmployeeController::class, 'update'])->name('user.api.employee.update');
+        Route::put('leave', [\App\Http\Controllers\Api\User\EmployeeController::class, 'leave'])->name('user.api.employee.leave');
         Route::post('updateJobDepartment', [\App\Http\Controllers\Api\User\EmployeeController::class, 'updateJobDepartment'])->name('user.api.employee.updateJobDepartment');
     });
 

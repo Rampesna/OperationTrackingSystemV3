@@ -127,6 +127,31 @@
         window.open(`{{ route('user.web.file.download') }}/${id}`, '_blank');
     }
 
+    function deleteFile() {
+        $('#ShowModal').modal('hide');
+        var id = $('#delete_file_id').val();
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('user.api.file.delete') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function () {
+                toastr.success('Dosya Silindi');
+                getFilesByEmployeeId();
+
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Dosya Silinirken Bir Sorun Oluştu.');
+            }
+        });
+    }
+
     $(document).delegate('#fileUploadArea', 'click', function () {
         fileSelector.click();
     });

@@ -63,7 +63,14 @@
             <div id="statusReports"></div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-xl-9"></div>
+        <div class="col-xl-3">
+            <div class="form-group d-grid">
+                <button type="button" class="btn btn-sm btn-primary mt-6" id="DownloadExcelButton" style="display: none">Excel İndir</button>
+            </div>
+        </div>
+    </div>
 
 
 @endsection

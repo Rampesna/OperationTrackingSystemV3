@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\EmployeeController\GetAllWorkersRequest;
 use App\Http\Requests\Api\User\EmployeeController\CreateRequest;
 use App\Http\Requests\Api\User\EmployeeController\UpdateRequest;
+use App\Http\Requests\Api\User\EmployeeController\LeaveRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithPersonalInformationRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithBalanceRequest;
@@ -321,6 +322,31 @@ class EmployeeController extends Controller
             return $this->error(
                 $updateResponse->getMessage(),
                 $updateResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param LeaveRequest $request
+     */
+    public function leave(LeaveRequest $request)
+    {
+        $leaveResponse = $this->employeeService->leave(
+            $request->employeeId,
+            $request->employeeGuid,
+            $request->date,
+            $request->leavingReasonId
+        );
+        if ($leaveResponse->isSuccess()) {
+            return $this->success(
+                $leaveResponse->getMessage(),
+                $leaveResponse->getData(),
+                $leaveResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $leaveResponse->getMessage(),
+                $leaveResponse->getStatusCode()
             );
         }
     }

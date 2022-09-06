@@ -255,6 +255,19 @@ interface IEmployeeService extends IEloquentService
 
     /**
      * @param int $employeeId
+     * @param int $employeeGuid
+     * @param string $date
+     * @param int $leavingReasonId
+     */
+    public function leave(
+        int    $employeeId,
+        int    $employeeGuid,
+        string $date,
+        int    $leavingReasonId
+    ): ServiceResponse;
+
+    /**
+     * @param int $employeeId
      *
      * @return ServiceResponse
      */

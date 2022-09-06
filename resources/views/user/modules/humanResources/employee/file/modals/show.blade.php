@@ -24,6 +24,7 @@
                         </div>
                     </div>
                     <div class="col-xl-6 mb-5">
+                        <input type="hidden" id="delete_file_id">
                         <div onclick="deleteFile()" class="card py-0 cursor-pointer">
                             <div class="card-body">
                                 <span class="menu-icon">

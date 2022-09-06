@@ -30,6 +30,7 @@
     @include('user.modules.employee.index.modals.updateEmployeeWorkTasks')
     @include('user.modules.employee.index.modals.updateEmployeeGroupTasks')
     @include('user.modules.employee.index.modals.updateEmployeeJobDepartment')
+    @include('user.modules.employee.index.modals.leaveEmployee')
 
     @include('user.modules.employee.index.components.contextMenu')
 

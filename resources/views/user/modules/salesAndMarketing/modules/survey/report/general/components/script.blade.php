@@ -28,6 +28,7 @@
 
     var ReportButton = $('#ReportButton');
     var ReportSelectedStatusesButton = $('#ReportSelectedStatusesButton');
+    var DownloadExcelButton = $('#DownloadExcelButton');
 
     var reportCards = $('#reportCards');
     var reportsRow = $('#reportsRow');
@@ -584,6 +585,7 @@
                         return false;
                     }
                 });
+                DownloadExcelButton.show();
                 $('#loader').hide();
             },
             error: function (error) {
@@ -592,6 +594,10 @@
                 $('#loader').hide();
             }
         });
+    });
+
+    DownloadExcelButton.click(function () {
+        statusReportsDiv.jqxGrid('exportdata', 'xlsx', 'Rapor');
     });
 
 </script>
