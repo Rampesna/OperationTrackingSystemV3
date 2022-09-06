@@ -737,6 +737,7 @@ Route::middleware([
             Route::post('setSurveySellerConnect', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveySellerConnect'])->name('user.api.operationApi.surveySystem.setSurveySellerConnect');
             Route::post('setSurveySellerDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveySellerDelete'])->name('user.api.operationApi.surveySystem.setSurveySellerDelete');
             Route::post('setSurveyProduct', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyProduct'])->name('user.api.operationApi.surveySystem.setSurveyProduct');
+            Route::post('copySurvey', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'copySurvey'])->name('user.api.operationApi.surveySystem.copySurvey');
         });
 
         Route::prefix('jobsSystem')->group(function () {

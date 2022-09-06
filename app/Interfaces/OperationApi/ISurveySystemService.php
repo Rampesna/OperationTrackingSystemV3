@@ -325,6 +325,19 @@ interface ISurveySystemService
     ): ServiceResponse;
 
     /**
+     * @param int $surveyId
+     * @param string $surveyCode
+     * @param string $name
+     *
+     * @return ServiceResponse
+     */
+    public function CopySurvey(
+        int    $surveyId,
+        string $surveyCode,
+        string $name
+    ): ServiceResponse;
+
+    /**
      * @param int $surveyCode
      * @param array $guids
      *

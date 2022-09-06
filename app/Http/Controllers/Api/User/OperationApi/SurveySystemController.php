@@ -34,6 +34,7 @@ use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveySell
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySellerConnectRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySellerDeleteRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyProductRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\CopySurveyRequest;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Traits\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -802,6 +803,30 @@ class SurveySystemController extends Controller
             return $this->error(
                 $setSurveyProductResponse->getMessage(),
                 $setSurveyProductResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param CopySurveyRequest $request
+     */
+    public function copySurvey(CopySurveyRequest $request)
+    {
+        $copySurveyResponse = $this->surveySystemService->copySurvey(
+            $request->surveyId,
+            $request->surveyCode,
+            $request->name
+        );
+        if ($copySurveyResponse->isSuccess()) {
+            return $this->success(
+                $copySurveyResponse->getMessage(),
+                $copySurveyResponse->getData(),
+                $copySurveyResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $copySurveyResponse->getMessage(),
+                $copySurveyResponse->getStatusCode()
             );
         }
     }

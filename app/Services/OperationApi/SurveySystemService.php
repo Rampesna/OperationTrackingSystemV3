@@ -822,6 +822,56 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
     }
 
     /**
+     * @param int $surveyId
+     * @param string $surveyCode
+     * @param string $name
+     *
+     * @return ServiceResponse
+     */
+    public function CopySurvey(
+        int    $surveyId,
+        string $surveyCode,
+        string $name
+    ): ServiceResponse
+    {
+        $oldSurvey = $this->GetSurveyEdit($surveyId);
+        if ($oldSurvey->isSuccess()) {
+            $newSurveyId = $this->SetSurvey(
+                null,
+                rand(10000, 999999),
+                $name,
+                $oldSurvey->getData()['aciklama'],
+                $oldSurvey->getData()['musteriBilgilendirme'],
+                $oldSurvey->getData()['musteriBilgilendirme2'],
+                $oldSurvey->getData()['uyumCrmHizmetUrun'],
+                $oldSurvey->getData()['uyumCrmCagriNedeni'],
+                $oldSurvey->getData()['uyumCrmFirsat'],
+                $oldSurvey->getData()['uyumCrmCagri'],
+                intval($oldSurvey->getData()['uyumCrmAramaPlani']),
+                intval($oldSurvey->getData()['uyumCrmFirsatSaticiyaYonlendir']),
+                intval($oldSurvey->getData()['uyumCrmAramaPlaniSaticiyaYonlendir']),
+                intval($oldSurvey->getData()['uyumCrmEkUrunFirsat']),
+                intval($oldSurvey->getData()['uyumCrmEkUrunAramaPlani']),
+                intval($oldSurvey->getData()['uyumCrmSaticiKoduTurKodu']),
+                $oldSurvey->getData()['epostaBaslik'] ?? '',
+                $oldSurvey->getData()['epostaIcerik'] ?? '',
+                $oldSurvey->getData()['uyumCrmIsKaynagi'],
+                $oldSurvey->getData()['uyumCrmListeKod'],
+                $oldSurvey->getData()['durum'],
+                []
+            );
+
+            if ($newSurveyId->isSuccess()) {
+
+            } else {
+                return $newSurveyId;
+            }
+        } else {
+            return $oldSurvey;
+        }
+    }
+
+    /**
      * @param int $surveyCode
      * @param array $guids
      *

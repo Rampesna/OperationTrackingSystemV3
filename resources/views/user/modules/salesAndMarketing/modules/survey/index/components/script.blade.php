@@ -34,6 +34,7 @@
     var UpdateSurveyButton = $('#UpdateSurveyButton');
     var DeleteSurveyButton = $('#DeleteSurveyButton');
     var ConnectSubSurveyButton = $('#ConnectSubSurveyButton');
+    var CopySurveyButton = $('#CopySurveyButton');
 
     function createRandomCode() {
         return parseInt(Math.floor((Math.random() * 100000) + 10000) / 10) * 10;
@@ -311,6 +312,12 @@
         window.open(`{{ route('user.web.salesAndMarketing.modules.survey.report.employee') }}?id=${id}&code=${code}`, '_blank');
     }
 
+    function copySurvey() {
+        $('#copy_survey_name').val('');
+        $('#TransactionsModal').modal('hide');
+        $('#CopySurveyModal').modal('show');
+    }
+
     CreateSurveyButton.click(function () {
         var id = null;
         var code = $('#create_survey_code').val();
@@ -577,6 +584,23 @@
                     toastr.error('Alt Script Bağlanırken Serviste Bir Hata Oluştu!');
                     $('#loader').hide();
                 }
+            });
+        }
+    });
+
+    CopySurveyButton.click(function () {
+        var id = $('#selected_survey_id').val();
+        var code = $('#selected_survey_code').val();
+        var name = $('#copy_survey_name').val();
+
+        if (!name) {
+            toastr.warning('Yeni Scriptin Adı Boş Olamaz!');
+        } else {
+            CopySurveyButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            console.log({
+                id: id,
+                code: code,
+                name: name,
             });
         }
     });

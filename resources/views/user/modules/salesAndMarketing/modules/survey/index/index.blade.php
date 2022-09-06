@@ -20,6 +20,7 @@
     @include('user.modules.salesAndMarketing.modules.survey.index.modals.updateSurvey')
     @include('user.modules.salesAndMarketing.modules.survey.index.modals.deleteSurvey')
     @include('user.modules.salesAndMarketing.modules.survey.index.modals.connectSubSurvey')
+    @include('user.modules.salesAndMarketing.modules.survey.index.modals.copySurvey')
 
     <input type="hidden" id="selected_survey_row_index">
     <input type="hidden" id="selected_survey_id">
