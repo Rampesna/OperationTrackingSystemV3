@@ -9,6 +9,7 @@ use App\Http\Requests\Api\User\OperationApi\DataScanningController\GetDataScanSu
 use App\Http\Requests\Api\User\OperationApi\DataScanningController\GetDataScanTablesRequest;
 use App\Http\Requests\Api\User\OperationApi\DataScanningController\SetDataScanningRequest;
 use App\Http\Requests\Api\User\OperationApi\DataScanningController\SetCallDataScanningRequest;
+use App\Http\Requests\Api\User\OperationApi\DataScanningController\GetDataScanGibListRequest;
 use App\Interfaces\OperationApi\IDataScanningService;
 use App\Traits\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -218,5 +219,29 @@ class DataScanningController extends Controller
         }
 
         return $this->success('Call data scannings', $responses);
+    }
+
+    /**
+     * @param GetDataScanGibListRequest $request
+     */
+    public function getDataScanGibList(GetDataScanGibListRequest $request)
+    {
+        $getDataScanGibListResponse = $this->dataScanningService->GetDataScanGibList(
+            $request->startDate,
+            $request->endDate,
+            $request->companyIds
+        );
+        if ($getDataScanGibListResponse->isSuccess()) {
+            return $this->success(
+                $getDataScanGibListResponse->getMessage(),
+                $getDataScanGibListResponse->getData(),
+                $getDataScanGibListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getDataScanGibListResponse->getMessage(),
+                $getDataScanGibListResponse->getStatusCode()
+            );
+        }
     }
 }

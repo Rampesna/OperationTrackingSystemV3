@@ -77,9 +77,9 @@ interface IDataScanningService
 
     /**
      * @param int $groupCode
-     * @param string $groupCode
-     * @param string $groupCode
-     * @param string $groupCode
+     * @param string $description
+     * @param string $tableName
+     * @param string $groupName
      *
      * @return ServiceResponse
      */
@@ -88,5 +88,18 @@ interface IDataScanningService
         string $description,
         string $tableName,
         string $groupName
+    ): ServiceResponse;
+
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param array $officeCodes
+     *
+     * @return ServiceResponse
+     */
+    public function GetDataScanGibList(
+        string $startDate,
+        string $endDate,
+        array  $officeCodes
     ): ServiceResponse;
 }

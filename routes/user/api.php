@@ -702,6 +702,7 @@ Route::middleware([
             Route::get('getDataScanSummaryList', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'getDataScanSummaryList'])->name('user.api.operationApi.dataScanning.getDataScanSummaryList');
             Route::post('setDataScanning', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'setDataScanning'])->name('user.api.operationApi.dataScanning.setDataScanning');
             Route::post('setCallDataScanning', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'setCallDataScanning'])->name('user.api.operationApi.dataScanning.setCallDataScanning');
+            Route::get('getDataScanGibList', [\App\Http\Controllers\Api\User\OperationApi\DataScanningController::class, 'getDataScanGibList'])->name('user.api.operationApi.dataScanning.getDataScanGibList');
         });
 
         Route::prefix('surveySystem')->group(function () {

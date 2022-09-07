@@ -58,6 +58,10 @@ Route::middleware([
             Route::prefix('leavedEmployeeWorkStatus')->middleware(['CheckUserPermission:35'])->group(function () {
                 Route::get('index', [\App\Http\Controllers\Web\User\Reports\JobReports\LeavedEmployeeWorkStatusReportController::class, 'index'])->name('user.web.report.job.leavedEmployeeWorkStatus.index');
             });
+
+            Route::prefix('gibCallFind')->middleware(['CheckUserPermission:203'])->group(function () {
+                Route::get('index', [\App\Http\Controllers\Web\User\Reports\JobReports\GibCallFindReportController::class, 'index'])->name('user.web.report.job.gibCallFind.index');
+            });
         });
 
         Route::prefix('employee')->middleware(['CheckUserPermission:29'])->group(function () {

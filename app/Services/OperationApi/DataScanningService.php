@@ -206,4 +206,35 @@ class DataScanningService extends OperationApiService implements IDataScanningSe
             $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)
         );
     }
+
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param array $officeCodes
+     *
+     * @return ServiceResponse
+     */
+    public function GetDataScanGibList(
+        string $startDate,
+        string $endDate,
+        array  $officeCodes
+    ): ServiceResponse
+    {
+        $endpoint = "DataScanning/GetDataScanGibList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'BaslangicTarihi' => $startDate,
+            'BitisTarihi' => $endDate,
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get data scan gib list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $officeCodes)['response']
+        );
+    }
 }
