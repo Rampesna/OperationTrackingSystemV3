@@ -37,6 +37,8 @@
                                         <option value="1">Beklemede</option>
                                         <option value="2">Onaylandı</option>
                                         <option value="3">Reddedildi</option>
+                                        <option value="4">Ekstra İzne Çevrildi</option>
+                                        <option value="5">Ödemeye Çevrildi</option>
                                     </select>
                                 </div>
                             </div>

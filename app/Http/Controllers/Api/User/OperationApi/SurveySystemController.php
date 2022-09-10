@@ -747,7 +747,9 @@ class SurveySystemController extends Controller
     public function setSurveySellerConnect(SetSurveySellerConnectRequest $request)
     {
         $setSurveySellerConnectResponse = $this->surveySystemService->SetSurveySellerConnect(
-            $request->sellers
+            $request->sellers,
+            $request->surveys,
+            $request->products
         );
         if ($setSurveySellerConnectResponse->isSuccess()) {
             return $this->success(

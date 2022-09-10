@@ -70,6 +70,18 @@ Route::middleware([
             Route::prefix('jobDepartment')->middleware(['CheckUserPermission:36'])->group(function () {
                 Route::get('index', [\App\Http\Controllers\Web\User\Reports\EmployeeReports\JobDepartmentReportController::class, 'index'])->name('user.web.report.employee.jobDepartment.index');
             });
+
+            Route::prefix('overtimeStartEnd')->middleware(['CheckUserPermission:204'])->group(function () {
+                Route::get('index', [\App\Http\Controllers\Web\User\Reports\EmployeeReports\OvertimeStartEndReportController::class, 'index'])->name('user.web.report.employee.overtimeStartEnd.index');
+            });
+
+            Route::prefix('break')->middleware(['CheckUserPermission:205'])->group(function () {
+                Route::get('index', [\App\Http\Controllers\Web\User\Reports\EmployeeReports\BreakReportController::class, 'index'])->name('user.web.report.employee.break.index');
+            });
+
+            Route::prefix('monthlyAbsence')->middleware(['CheckUserPermission:206'])->group(function () {
+                Route::get('index', [\App\Http\Controllers\Web\User\Reports\EmployeeReports\MonthlyAbsenceReportController::class, 'index'])->name('user.web.report.employee.monthlyAbsence.index');
+            });
         });
     });
 

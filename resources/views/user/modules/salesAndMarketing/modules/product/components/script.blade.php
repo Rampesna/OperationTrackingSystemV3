@@ -253,7 +253,7 @@
         } else if (!emailContentFile) {
             toastr.warning('E-posta İçeriği Boş Olamaz.');
         } else {
-            var input = document.getElementById("create_product_email_content_file");
+            var input = document.getElementById("update_product_email_content_file");
             var fReader = new FileReader();
             fReader.readAsDataURL(input.files[0]);
             fReader.onloadend = function (event) {

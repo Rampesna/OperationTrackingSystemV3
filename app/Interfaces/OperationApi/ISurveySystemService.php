@@ -299,11 +299,15 @@ interface ISurveySystemService
 
     /**
      * @param array $sellers
+     * @param array $surveys
+     * @param array $products
      *
      * @return ServiceResponse
      */
     public function SetSurveySellerConnect(
-        array $sellers
+        array $sellers,
+        array $surveys,
+        array $products
     ): ServiceResponse;
 
     /**

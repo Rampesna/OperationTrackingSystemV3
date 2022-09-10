@@ -386,9 +386,12 @@
                     'Authorization': token
                 },
                 data: {
-                    sellers: list,
+                    sellers: sellers,
+                    surveys: scripts,
+                    products: products,
                 },
-                success: function () {
+                success: function (response) {
+                    console.log(response);
                     CreateBatchSellerButton.attr('disabled', false).html('Oluştur');
                     sellersDiv.jqxGrid('clearselection');
                     scriptsDiv.jqxGrid('clearselection');

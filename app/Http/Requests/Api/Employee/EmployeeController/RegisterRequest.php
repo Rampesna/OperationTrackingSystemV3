@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\User\OperationApi\SurveySystemController;
+namespace App\Http\Requests\Api\Employee\EmployeeController;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class SetSurveySellerConnectRequest extends BaseApiRequest
+class RegisterRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class SetSurveySellerConnectRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'sellers' => 'required|array',
-            'surveys' => 'required|array',
-            'products' => 'required|array',
+            'name' => 'required',
+            'email' => 'required|email|unique:employees',
+            'password' => 'required',
         ];
     }
 }

@@ -26,7 +26,7 @@ class JobsSystemService extends OperationApiService implements IJobsSystemServic
             true,
             'Set jobs excel',
             200,
-            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList)['response']
+            json_decode($this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList)->body())
         );
     }
 

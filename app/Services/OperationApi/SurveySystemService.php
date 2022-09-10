@@ -753,11 +753,15 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
 
     /**
      * @param array $sellers
+     * @param array $surveys
+     * @param array $products
      *
      * @return ServiceResponse
      */
     public function SetSurveySellerConnect(
-        array $sellers
+        array $sellers,
+        array $surveys,
+        array $products
     ): ServiceResponse
     {
         $endpoint = "SurveySystem/SetSurveySellerConnect";
@@ -765,11 +769,27 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
+        $list = [];
+        foreach ($sellers as $seller) {
+            foreach ($surveys as $survey) {
+                foreach ($products as $product) {
+                    $list[] = [
+                        'id' => null,
+                        'saticiKodu' => $seller['saticiAdi'],
+                        'saticiAdi' => $seller['saticiAdi'],
+                        'durum' => 1,
+                        'grupKodu' => $survey['kodu'],
+                        'urunKodu' => $product['kodu']
+                    ];
+                }
+            }
+        }
+
         return new ServiceResponse(
             true,
             'Set Survey Seller Connect',
             200,
-            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $sellers)['response']
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response']
         );
     }
 

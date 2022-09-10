@@ -13,6 +13,7 @@ use App\Models\Eloquent\Employee;
 use App\Models\Eloquent\SaturdayPermit;
 use App\Models\Eloquent\Shift;
 use App\Models\Eloquent\ShiftGroup;
+use App\Services\OperationApi\OperationService;
 use App\Services\ServiceResponse;
 
 class SaturdayPermitService implements ISaturdayPermitService
@@ -266,6 +267,32 @@ class SaturdayPermitService implements ISaturdayPermitService
                             'Cumartesi İzni İptalinden Dolayı Oluşturulan Vardiya (Çalışma Günlerinde İzin Kullanımından Dolayı)' :
                             'Cumartesi İzni İptalinden Dolayı Oluşturulan Vardiya (Belirsiz Nedenli)');
                     $shift->save();
+
+                    $staffParameter = [
+                        [
+                            'vardiyaId' => $shift->id,
+                            'kullanicilarId' => $employee->guid,
+                            'tarih' => date('Y-m-d', strtotime($shift->start_date)),
+                            'yemekBaslangicSaati' => date('Y-m-d', strtotime($shift->start_date)) . ' ' . $shiftGroup->food_break_start,
+                            'yemekBitisSaati' => date('Y-m-d', strtotime($shift->start_date)) . ' ' . $shiftGroup->food_break_end,
+                            'yemekMolasindaIhtiyacMolasi' => $shiftGroup->get_break_while_food_time,
+                            'yemekMolasiDisindaYemekMolasi' => $shiftGroup->get_food_break_without_food_time,
+                            'birMolaHakkiDakikasi' => $shiftGroup->single_break_duration,
+                            'vardiyaBasiIlkMolaHakkiDakikasi' => $shiftGroup->get_first_break_after_shift_start,
+                            'vardiyaSonuMolaYasagiDakikasi' => $shiftGroup->get_last_break_before_shift_end,
+                            'sonMoladanSonraMolaMusadesiDakikasi' => $shiftGroup->get_break_after_last_break,
+                            'gunlukYemekMolasiHakkiSayisi' => $shiftGroup->daily_food_break_amount,
+                            'gunlukToplamMolaDakikasi' => $shiftGroup->daily_break_duration,
+                            'gunlukYemekMolasiDakikasi' => $shiftGroup->daily_food_break_duration,
+                            'gunlukIhtiyacMolasiDakikasi' => $shiftGroup->daily_break_break_duration,
+                            'anlikYemekMolasiDakikasi' => $shiftGroup->momentary_food_break_duration,
+                            'anlikIhtiyacMolasiDakikasi' => $shiftGroup->momentary_break_break_duration,
+                            'molaKullanimKisitlamasiVarMi' => $shiftGroup->suspend_break_using,
+                        ]
+                    ];
+
+                    $operationService = new OperationService;
+                    $operationService->SetStaffParameter($staffParameter);
 
                     return new ServiceResponse(
                         true,

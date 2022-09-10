@@ -40,13 +40,15 @@ class JobsSystemController extends Controller
         $jobs = Excel::toCollection(null, $file);
 
         foreach ($jobs[0] as $job) {
-            $jobList[] = [
-                'id' => $job[0],
-                'oncelik' => $job[1],
-                'kullaniciYapilacakIslerKodu' => $job[2] ?? 1,
-                'Turu' => $request->type,
-                'firmaTuru' => $request->commercialCompanyId,
-            ];
+            if ($job[0]) {
+                $jobList[] = [
+                    'id' => $job[0],
+                    'oncelik' => $job[1],
+                    'kullaniciYapilacakIslerKodu' => $job[2] ?? 1,
+                    'Turu' => $request->type,
+                    'firmaTuru' => $request->commercialCompanyId,
+                ];
+            }
         }
 
         $setJobsExcelResponse = $this->jobsSystemService->SetJobsExcel($jobList);
@@ -102,10 +104,12 @@ class JobsSystemController extends Controller
         $jobs = Excel::toCollection(null, $file);
 
         foreach ($jobs[0] as $job) {
-            $jobList[] = [
-                'id' => intval($job[0]),
-                'firmaTuru' => $request->commercialCompanyId,
-            ];
+            if ($job[0]) {
+                $jobList[] = [
+                    'id' => intval($job[0]),
+                    'firmaTuru' => $request->commercialCompanyId,
+                ];
+            }
         }
 
         $setJobsClosedExcelResponse = $this->jobsSystemService->SetJobsClosedExcel($jobList);

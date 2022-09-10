@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\EmployeeController\LoginRequest;
+use App\Http\Requests\Api\Employee\EmployeeController\RegisterRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetProfileRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SwapThemeRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetMarketPaymentsRequest;
@@ -53,6 +54,14 @@ class EmployeeController extends Controller
                 $employee->getStatusCode()
             );
         }
+    }
+
+    /**
+     * @param RegisterRequest $request
+     */
+    public function register(RegisterRequest $request)
+    {
+
     }
 
     /**
