@@ -116,6 +116,37 @@ class EmployeeService implements IEmployeeService
     }
 
     /**
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     *
+     * @return ServiceResponse
+     */
+    public function register(
+        string $name,
+        string $email,
+        string $password
+    ): ServiceResponse
+    {
+        $employee = new Employee;
+        $employee->company_id = 1;
+        $employee->role_id = 1;
+        $employee->name = $name;
+        $employee->email = $email;
+        $employee->password = bcrypt($password);
+        $employee->suspend = 0;
+        $employee->saturday_permit_order = 1;
+        $employee->save();
+
+        return new ServiceResponse(
+            true,
+            'Employee registered',
+            201,
+            $employee
+        );
+    }
+
+    /**
      * @param array $ids
      *
      * @return ServiceResponse

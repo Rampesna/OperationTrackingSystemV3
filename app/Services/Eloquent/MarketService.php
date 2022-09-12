@@ -82,6 +82,34 @@ class MarketService implements IMarketService
     }
 
     /**
+     * @param string $name
+     * @param string $code
+     * @param string $password
+     *
+     * @return ServiceResponse
+     */
+    public function register(
+        string $name,
+        string $code,
+        string $password
+    ): ServiceResponse
+    {
+        $market = new Market;
+        $market->code = $code;
+        $market->name = $name;
+        $market->password = bcrypt($password);
+        $market->suspended = 0;
+        $market->save();
+
+        return new ServiceResponse(
+            true,
+            'Market registered',
+            201,
+            $market
+        );
+    }
+
+    /**
      * @param array $ids
      *
      * @return ServiceResponse

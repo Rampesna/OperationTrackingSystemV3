@@ -30,6 +30,19 @@ interface IEmployeeService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     *
+     * @return ServiceResponse
+     */
+    public function register(
+        string $name,
+        string $email,
+        string $password
+    ): ServiceResponse;
+
+    /**
      * @param int $employeeId
      * @param int $theme
      *

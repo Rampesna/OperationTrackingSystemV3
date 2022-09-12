@@ -311,15 +311,3 @@ class SaturdayPermitService implements ISaturdayPermitService
         }
     }
 }
-
-/*
-    'company_id' => $employeeResponse->getData()->company_id,
-    'employee_id' => $shift['employeeId'],
-    'shift_group_id' => $shift['shiftGroupId'],
-    'created_by' => $authUserId,
-    'last_updated_by' => $authUserId,
-    'start_date' => $shift['startDate'],
-    'end_date' => $shift['endDate'],
-    'created_at' => date('Y-m-d H:i:s'),
-    'updated_at' => date('Y-m-d H:i:s')
- * */

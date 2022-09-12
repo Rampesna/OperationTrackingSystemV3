@@ -25,6 +25,19 @@ interface IMarketService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param string $name
+     * @param string $code
+     * @param string $password
+     *
+     * @return ServiceResponse
+     */
+    public function register(
+        string $name,
+        string $code,
+        string $password
+    ): ServiceResponse;
+
+    /**
      * @param int $marketId
      * @param int $theme
      *

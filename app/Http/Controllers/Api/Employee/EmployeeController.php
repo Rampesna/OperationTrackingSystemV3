@@ -61,7 +61,23 @@ class EmployeeController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-
+        $registerResponse = $this->employeeService->register(
+            $request->name,
+            $request->email,
+            $request->password
+        );
+        if ($registerResponse->isSuccess()) {
+            return $this->success(
+                $registerResponse->getMessage(),
+                $registerResponse->getData(),
+                $registerResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $registerResponse->getMessage(),
+                $registerResponse->getStatusCode()
+            );
+        }
     }
 
     /**

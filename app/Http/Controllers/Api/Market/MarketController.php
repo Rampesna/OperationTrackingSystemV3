@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Market;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Market\MarketController\RegisterRequest;
 use App\Http\Requests\Api\Market\MarketController\LoginRequest;
 use App\Http\Requests\Api\Market\MarketController\GetProfileRequest;
 use App\Http\Requests\Api\Market\MarketController\SwapThemeRequest;
@@ -45,6 +46,30 @@ class MarketController extends Controller
             return $this->error(
                 $market->getMessage(),
                 $market->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param RegisterRequest $request
+     */
+    public function register(RegisterRequest $request)
+    {
+        $registerResponse = $this->marketService->register(
+            $request->name,
+            $request->code,
+            $request->password
+        );
+        if ($registerResponse->isSuccess()) {
+            return $this->success(
+                $registerResponse->getMessage(),
+                $registerResponse->getData(),
+                $registerResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $registerResponse->getMessage(),
+                $registerResponse->getStatusCode()
             );
         }
     }

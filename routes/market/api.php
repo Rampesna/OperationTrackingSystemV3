@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('authentication')->group(function () {
     Route::post('login', [\App\Http\Controllers\Api\Market\MarketController::class, 'login'])->name('market.api.login');
+    Route::post('register', [\App\Http\Controllers\Api\Market\MarketController::class, 'register'])->name('market.api.register');
 });
 
 Route::middleware([
