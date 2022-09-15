@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\CompanyController\GetAllRequest;
 use App\Http\Requests\Api\User\CompanyController\GetUsersByCompanyIdsRequest;
 use App\Http\Requests\Api\User\CompanyController\TreeRequest;
 use App\Http\Requests\Api\User\CompanyController\GetByIdRequest;
@@ -26,6 +27,26 @@ class CompanyController extends Controller
     public function __construct(ICompanyService $companyService)
     {
         $this->companyService = $companyService;
+    }
+
+    /**
+     * @param GetAllRequest $request
+     */
+    public function getAll(GetAllRequest $request)
+    {
+        $getAllResponse = $this->companyService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
+            );
+        }
     }
 
     /**

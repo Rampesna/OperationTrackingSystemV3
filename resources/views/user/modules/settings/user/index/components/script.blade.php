@@ -82,7 +82,7 @@
     function getCompanies() {
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.getCompanies') }}',
+            url: '{{ route('user.api.company.getAll') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -276,7 +276,7 @@
                 data: {
                     email: email,
                 },
-                success: function (response) {
+                success: function () {
                     toastr.warning('Bu E-Posta Adresi Zaten Kullanılıyor!');
                 },
                 error: function (error) {
@@ -360,7 +360,7 @@
                     email: email,
                     exceptId: id,
                 },
-                success: function (response) {
+                success: function () {
                     toastr.warning('Bu E-Posta Adresi Zaten Kullanılıyor!');
                 },
                 error: function (error) {

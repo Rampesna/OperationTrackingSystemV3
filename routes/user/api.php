@@ -51,6 +51,7 @@ Route::middleware([
     });
 
     Route::prefix('company')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\CompanyController::class, 'getAll'])->name('user.api.company.getAll');
         Route::get('getUsersByCompanyIds', [\App\Http\Controllers\Api\User\CompanyController::class, 'getUsersByCompanyIds'])->name('user.api.company.getUsersByCompanyIds');
         Route::get('tree', [\App\Http\Controllers\Api\User\CompanyController::class, 'tree'])->name('user.api.company.tree');
         Route::get('getById', [\App\Http\Controllers\Api\User\CompanyController::class, 'getById'])->name('user.api.company.getById');
