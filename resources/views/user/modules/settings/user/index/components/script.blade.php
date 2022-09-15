@@ -277,9 +277,11 @@
                     email: email,
                 },
                 success: function (response) {
-                    if (response.response) {
-                        toastr.warning('Bu E-Posta Adresi Zaten Kullanılıyor!');
-                    } else {
+                    toastr.warning('Bu E-Posta Adresi Zaten Kullanılıyor!');
+                },
+                error: function (error) {
+                    console.log(error);
+                    if (parseInt(error.status) === 404) {
                         $('#loader').show();
                         $('#CreateUserModal').modal('hide');
                         $.ajax({
@@ -321,11 +323,9 @@
                                 toastr.error('Kullanıcı Oluşturulurken Serviste Bir Sorun Oluştu!');
                             }
                         });
+                    } else {
+                        toastr.error('E-posta Kontrolü Yapılırken Serviste Bir Sorun Oluştu!');
                     }
-                },
-                error: function (error) {
-                    console.log(error);
-                    toastr.error('E-posta Kontrolü Yapılırken Serviste Bir Sorun Oluştu!');
                 }
             });
         }
@@ -361,9 +361,11 @@
                     exceptId: id,
                 },
                 success: function (response) {
-                    if (response.response) {
-                        toastr.warning('Bu E-Posta Adresi Zaten Kullanılıyor!');
-                    } else {
+                    toastr.warning('Bu E-Posta Adresi Zaten Kullanılıyor!');
+                },
+                error: function (error) {
+                    console.log(error);
+                    if (parseInt(error.status) === 404) {
                         $('#loader').show();
                         $('#UpdateUserModal').modal('hide');
                         $.ajax({
@@ -406,11 +408,9 @@
                                 toastr.error('Kullanıcı Güncellenirken Serviste Bir Sorun Oluştu!');
                             }
                         });
+                    } else {
+                        toastr.error('E-posta Kontrolü Yapılırken Serviste Bir Sorun Oluştu!');
                     }
-                },
-                error: function (error) {
-                    console.log(error);
-                    toastr.error('E-posta Kontrolü Yapılırken Serviste Bir Sorun Oluştu!');
                 }
             });
         }

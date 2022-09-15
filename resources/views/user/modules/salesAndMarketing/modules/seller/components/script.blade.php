@@ -296,6 +296,8 @@
 
     CreateSellerButton.click(function () {
         var sellers = [];
+        var surveys = [];
+        var products = [];
         var sellerCodes = $('.newSeller');
         var surveyCodes = createSellerSurveyCodes.val();
         var productCodes = createSellerProductCodes.val();
@@ -307,17 +309,20 @@
             toastr.warning('Hiç Ürün Seçilmedi!');
         } else {
             $.each(sellerCodes, function (x, sellerCode) {
-                $.each(surveyCodes, function (y, surveyCode) {
-                    $.each(productCodes, function (z, productCode) {
-                        sellers.push({
-                            id: null,
-                            saticiKodu: $(sellerCode).val(),
-                            saticiAdi: $(sellerCode).val(),
-                            durum: 1,
-                            grupKodu: surveyCode,
-                            urunKodu: productCode
-                        });
-                    });
+                sellers.push({
+                    saticiAdi: $(sellerCode).val(),
+                });
+            });
+
+            $.each(surveyCodes, function (x, surveyCode) {
+                surveys.push({
+                    kodu: surveyCode,
+                });
+            });
+
+            $.each(productCodes, function (x, productCode) {
+                products.push({
+                    kodu: productCode,
                 });
             });
 
@@ -332,6 +337,8 @@
                 },
                 data: {
                     sellers: sellers,
+                    surveys: surveys,
+                    products: products,
                 },
                 success: function () {
                     getSellers();
