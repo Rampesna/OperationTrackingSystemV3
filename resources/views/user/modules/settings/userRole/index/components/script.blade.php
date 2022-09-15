@@ -114,7 +114,17 @@
                     }
                 });
                 jsTreeSelector.bind("select_node.jstree deselect_node.jstree", function (e, data) {
-                    setUserRoleUserPermissions(jsTreeSelector.jstree("get_selected"));
+                    var nodes = [];
+                    var selectedNodes = jsTreeSelector.jstree(true).get_selected('full',true);
+                    $.each(selectedNodes, function (i, selectedNode) {
+                        nodes.push(parseInt(selectedNode.id));
+                        if (selectedNode.parent !== '#') {
+                            if ($.inArray(parseInt(selectedNode.parent), nodes) === -1) {
+                                nodes.push(parseInt(selectedNode.parent));
+                            }
+                        }
+                    });
+                    setUserRoleUserPermissions(nodes);
                 });
 
                 $('#UpdateUserRoleUserPermissionsModal').modal('show');
