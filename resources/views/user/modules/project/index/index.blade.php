@@ -56,8 +56,9 @@
             <div class="row">
                 <div class="col-xl-12 d-grid">
                     @if(checkUserPermission(141, $userPermissions))
-                    <button class="btn btn-primary" onclick="createProject()">Yeni Proje Oluştur</button>
+                    <button class="btn btn-primary mb-3" onclick="createProject()">Yeni Proje Oluştur</button>
                     @endif
+                    <a href="{{ route('user.web.project.timesheet') }}" class="btn btn-info">Görev Takibi</a>
                 </div>
             </div>
         </div>

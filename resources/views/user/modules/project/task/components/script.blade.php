@@ -236,6 +236,7 @@
                 management: 0
             },
             success: function (response) {
+                console.log(response);
                 $('.kanban-container').html('');
 
                 var boardsList = [];
@@ -261,7 +262,12 @@
                             title: `
                                 <div class="row">
                                     <div class="col-xl-10">
-                                       <i class="fa fa-check-circle text-success"></i><span data-id="${task.id}" class="taskTitle cursor-pointer ms-2">${task.name}</span>
+                                        ${task.active_timesheet ? `
+                                        <i data-timesheet-id="${task.active_timesheet.id}" class="far fa-play-circle text-warning ${parseInt(task.active_timesheet.starter_id) === masterAuthId ? `stopTimesheet cursor-pointer` : ``}"></i>
+                                        ` : `
+                                        <i data-task-id="${task.id}" class="far fa-play-circle text-success startTimesheet cursor-pointer"></i>
+                                        `}
+                                        <span data-id="${task.id}" class="taskTitle cursor-pointer ms-2">${task.name}</span>
                                     </div>
                                     <div class="col-xl-1 text-right">
                                         <i class="fas fa-sort-amount-down cursor-pointer sublistToggleIcon" data-id="${task.id}"></i>
@@ -401,6 +407,68 @@
                 });
             }
         }
+    });
+
+    $(document).delegate('.startTimesheet', 'click', function () {
+        var taskId = $(this).attr('data-task-id');
+        $('#loader').show();
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.timesheet.create') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                taskId: taskId,
+            },
+            success: function () {
+                fetchBoards();
+                $('#loader').hide();
+            },
+            error: function (error) {
+                $('#loader').hide();
+                console.log(error);
+                if (parseInt(error.status) === 422) {
+                    $.each(error.responseJSON.response, function (i, error) {
+                        toastr.error(error[0]);
+                    });
+                } else {
+                    toastr.error(error.responseJSON.message);
+                }
+            }
+        });
+    });
+
+    $(document).delegate('.stopTimesheet', 'click', function () {
+        var id = $(this).attr('data-timesheet-id');
+        $('#loader').show();
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.timesheet.setEndTime') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function () {
+                fetchBoards();
+                $('#loader').hide();
+            },
+            error: function (error) {
+                $('#loader').hide();
+                console.log(error);
+                if (parseInt(error.status) === 422) {
+                    $.each(error.responseJSON.response, function (i, error) {
+                        toastr.error(error[0]);
+                    });
+                } else {
+                    toastr.error(error.responseJSON.message);
+                }
+            }
+        });
     });
 
     // ------------------- Task Transactions End -------------------

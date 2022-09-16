@@ -10,6 +10,10 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $appends = [
+        'active_timesheet',
+    ];
+
     public function board()
     {
         return $this->belongsTo(Board::class);
@@ -33,5 +37,15 @@ class Task extends Model
     public function priority()
     {
         return $this->belongsTo(TaskPriority::class, 'priority_id', 'id');
+    }
+
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class, 'task_id', 'id');
+    }
+
+    public function getActiveTimesheetAttribute()
+    {
+        return $this->timesheets()->whereNull('end_time')->first();
     }
 }

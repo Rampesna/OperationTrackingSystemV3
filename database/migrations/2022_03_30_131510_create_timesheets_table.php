@@ -15,11 +15,10 @@ return new class extends Migration {
         Schema::create('timesheets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('task_id');
-            $table->unsignedBigInteger('creator_id');
-            $table->string('creator_type');
+            $table->unsignedBigInteger('starter_id');
             $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->text('description');
+            $table->dateTime('end_time')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

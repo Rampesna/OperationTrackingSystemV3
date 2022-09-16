@@ -120,12 +120,17 @@
                     endDate: endDate,
                 },
                 success: function (response) {
+                    var start = startDate + ' 09:00:00';
+                    var end = endDate + ' 18:00:00';
                     var employees = [];
                     var employeePermits = groupBy(response.response, 'employee_id');
                     $.each(employeePermits, function (i, permits) {
                         var minutes = 0;
                         $.each(permits, function (j, permit) {
-                            minutes += getMinutesBetweenTwoDates(permit.start_date, permit.end_date);
+                            minutes += getMinutesBetweenTwoDates(
+                                new Date(permit.start_date) < new Date(start) ? start : permit.start_date,
+                                new Date(permit.end_date) > new Date(end) ? end : permit.end_date
+                            );
                         });
                         employees.push({
                             name: permits[0].employee.name,

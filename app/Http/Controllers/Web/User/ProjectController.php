@@ -12,6 +12,11 @@ class ProjectController extends Controller
         return view('user.modules.project.index.index');
     }
 
+    public function timesheet()
+    {
+        return view('user.modules.project.timesheet.index');
+    }
+
     public function overview(Request $request)
     {
         return view('user.modules.project.overview.index', [

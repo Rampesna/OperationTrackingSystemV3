@@ -366,6 +366,15 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\TaskPriorityController::class, 'getAll'])->name('user.api.taskPriority.getAll');
     });
 
+    Route::prefix('timesheet')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\TimesheetController::class, 'getAll'])->name('user.api.timesheet.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\TimesheetController::class, 'getById'])->name('user.api.timesheet.getById');
+        Route::get('getActiveTimesheets', [\App\Http\Controllers\Api\User\TimesheetController::class, 'getActiveTimesheets'])->name('user.api.timesheet.getActiveTimesheets');
+        Route::get('getDateBetween', [\App\Http\Controllers\Api\User\TimesheetController::class, 'getDateBetween'])->name('user.api.timesheet.getDateBetween');
+        Route::post('create', [\App\Http\Controllers\Api\User\TimesheetController::class, 'create'])->name('user.api.timesheet.create');
+        Route::put('setEndTime', [\App\Http\Controllers\Api\User\TimesheetController::class, 'setEndTime'])->name('user.api.timesheet.setEndTime');
+    });
+
     Route::prefix('permit')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\PermitController::class, 'getAll'])->name('user.api.permit.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\PermitController::class, 'getById'])->name('user.api.permit.getById');

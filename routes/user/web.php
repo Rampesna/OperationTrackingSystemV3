@@ -239,6 +239,7 @@ Route::middleware([
         'CheckUserPermission:15'
     ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\ProjectController::class, 'index'])->name('user.web.project.index');
+        Route::get('timesheet', [\App\Http\Controllers\Web\User\ProjectController::class, 'timesheet'])->name('user.web.project.timesheet');
         Route::get('overview/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'overview'])->name('user.web.project.overview');
         Route::get('task/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'task'])->name('user.web.project.task');
         Route::get('managementTask/{id?}', [\App\Http\Controllers\Web\User\ProjectController::class, 'managementTask'])->name('user.web.project.managementTask');
