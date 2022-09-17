@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Interfaces\Eloquent\IProjectService;
 use App\Http\Requests\Api\User\ProjectController\GetByUserIdRequest;
+use App\Http\Requests\Api\User\ProjectController\GetAllRequest;
 use App\Http\Requests\Api\User\ProjectController\GetByIdRequest;
 use App\Http\Requests\Api\User\ProjectController\GetAllTasksRequest;
 use App\Http\Requests\Api\User\ProjectController\GetSubtasksByProjectIdRequest;
@@ -53,6 +54,26 @@ class ProjectController extends Controller
             return $this->error(
                 $getByUserIdResponse->getMessage(),
                 $getByUserIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetAllRequest $request
+     */
+    public function getAll(GetAllRequest $request)
+    {
+        $getAllResponse = $this->projectService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
             );
         }
     }

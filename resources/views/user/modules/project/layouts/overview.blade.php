@@ -71,12 +71,12 @@
             @endif
             @if(checkUserPermission(144, $userPermissions))
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'task' ? 'active' : '' }}" href="{{ route('user.web.project.task', ['id' => $id]) }}">Görevler</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'task' ? 'active' : '' }}" href="{{ route('user.web.project.task', ['id' => $id]) }}">Personel Görevleri</a>
             </li>
             @endif
             @if(checkUserPermission(145, $userPermissions))
             <li class="nav-item">
-                <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'managementTask' ? 'active' : '' }}" href="{{ route('user.web.project.managementTask', ['id' => $id]) }}">Yönetim İşleri</a>
+                <a class="nav-link text-active-primary py-5 me-6 {{ request()->segment(3) === 'managementTask' ? 'active' : '' }}" href="{{ route('user.web.project.managementTask', ['id' => $id]) }}">Yazılım İşleri</a>
             </li>
             @endif
             @if(checkUserPermission(146, $userPermissions))

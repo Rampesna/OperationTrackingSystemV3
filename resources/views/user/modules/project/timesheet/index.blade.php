@@ -20,23 +20,28 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-xl-2 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <div class="form-group">
-                                <label for="startDate">Başlangıç Tarihi</label>
-                                <input id="startDate" type="datetime-local" class="form-control form-control-solid">
+                                <label for="userIds">Kullanıcılar</label>
+                                <select id="userIds" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Kullanıcılar" multiple></select>
                             </div>
                         </div>
-                        <div class="col-xl-2 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <div class="form-group">
-                                <label for="endDate">Bitiş Tarihi</label>
-                                <input id="endDate" type="datetime-local" class="form-control form-control-solid">
+                                <label for="projectIds">Projeler</label>
+                                <select id="projectIds" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Projeler" multiple></select>
                             </div>
                         </div>
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <div class="row">
                                 <div class="col-xl-6">
                                     <div class="form-group d-grid">
-                                        <button class="btn btn-primary mt-6" id="GetTimesheetsButton">Görevleri Getir</button>
+                                        <button class="btn btn-primary mt-6" id="FilterButton">Filtrele</button>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group d-grid">
+                                        <button class="btn btn-secondary mt-6" id="ClearFilterButton">Temizle</button>
                                     </div>
                                 </div>
                             </div>
@@ -48,14 +53,20 @@
     </div>
     <div class="row">
         <div class="col-xl-12">
-            <div class="card card-flush h-xl-100">
-                <div class="card-header pt-5">
-                    <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bolder text-dark">Görevler</span>
-                    </h3>
-                </div>
-                <div class="card-body pb-0">
-                    <div id="activeTimesheets" class="vis-timeline-custom min-w-700px"></div>
+            <div class="card">
+                <div class="card-body pt-2">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5">
+                        <thead>
+                        <tr class="text-start text-dark fw-bolder fs-7 gs-0">
+                            <th class="">Kullanıcı</th>
+                            <th class="">Aktif Proje</th>
+                            <th class="">Aktif Görev</th>
+                            <th class="hideIfMobile">Çalışma Başlangıcı</th>
+                            <th class="hideIfMobile">Görev Deadline</th>
+                        </tr>
+                        </thead>
+                        <tbody class="fw-bold text-gray-600" id="users"></tbody>
+                    </table>
                 </div>
             </div>
         </div>

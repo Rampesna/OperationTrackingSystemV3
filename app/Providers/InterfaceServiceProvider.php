@@ -83,6 +83,7 @@ use App\Interfaces\Eloquent\ITitleService;
 use App\Interfaces\Eloquent\IUserPermissionService;
 use App\Interfaces\Eloquent\IUserRoleService;
 use App\Interfaces\Eloquent\IUserService;
+use App\Interfaces\Eloquent\IUserTypeService;
 use App\Interfaces\MesajPaneli\IMesajPaneliService;
 use App\Interfaces\NetsantralApi\INetsantralApiService;
 use App\Interfaces\OperationApi\IDataScanningService;
@@ -177,6 +178,7 @@ use App\Services\Eloquent\TitleService;
 use App\Services\Eloquent\UserPermissionService;
 use App\Services\Eloquent\UserRoleService;
 use App\Services\Eloquent\UserService;
+use App\Services\Eloquent\UserTypeService;
 use App\Services\MesajPaneli\MesajPaneliService;
 use App\Services\NetsantralApi\NetsantralApiService;
 use App\Services\OperationApi\DataScanningService;
@@ -282,6 +284,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IPunishmentService::class, PunishmentService::class);
         $this->app->bind(ITicketTransactionStatusService::class, TicketTransactionStatusService::class);
         $this->app->bind(ITimesheetService::class, TimesheetService::class);
+        $this->app->bind(IUserTypeService::class, UserTypeService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

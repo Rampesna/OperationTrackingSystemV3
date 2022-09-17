@@ -40,6 +40,16 @@
                         </div>
                         <div class="row mb-5">
                             <div class="col-xl-3 mt-3">
+                                <label for="update_user_type_id" class="font-weight-bolder">Kullanıcı Türü</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <select id="update_user_type_id" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Kullanıcı Türü"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
                                 <label for="update_user_name" class="font-weight-bolder">Ad Soyad</label>
                             </div>
                             <div class="col-xl-9">

@@ -74,6 +74,8 @@
                     <table class="table align-middle table-row-dashed fs-6 gy-5">
                         <thead>
                         <tr class="text-start text-dark fw-bolder fs-7 gs-0">
+                            <th class="">#</th>
+                            <th class="">Tür</th>
                             <th class="">Ad Soyad</th>
                             <th class="">E-posta</th>
                             <th class="">Telefon</th>

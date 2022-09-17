@@ -83,6 +83,15 @@ class TimesheetService implements ITimesheetService
         string $startTime
     ): ServiceResponse
     {
+        if (Timesheet::where('starter_id', $starterId)->whereNull('end_time')->count() > 0) {
+            return new ServiceResponse(
+                false,
+                'You already have an active timesheet',
+                406,
+                null
+            );
+        }
+
         $timesheet = new Timesheet();
         $timesheet->task_id = $taskId;
         $timesheet->starter_id = $starterId;

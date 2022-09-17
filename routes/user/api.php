@@ -24,6 +24,9 @@ Route::middleware([
 
     Route::prefix('user')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\UserController::class, 'getAll'])->name('user.api.user.getAll');
+        Route::get('getAllByTypeId', [\App\Http\Controllers\Api\User\UserController::class, 'getAllByTypeId'])->name('user.api.user.getAllByTypeId');
+        Route::get('index', [\App\Http\Controllers\Api\User\UserController::class, 'index'])->name('user.api.user.index');
+        Route::get('getAllWithTimesheets', [\App\Http\Controllers\Api\User\UserController::class, 'getAllWithTimesheets'])->name('user.api.user.getAllWithTimesheets');
         Route::get('getById', [\App\Http\Controllers\Api\User\UserController::class, 'getById'])->name('user.api.user.getById');
         Route::get('getByEmail', [\App\Http\Controllers\Api\User\UserController::class, 'getByEmail'])->name('user.api.user.getByEmail');
         Route::post('create', [\App\Http\Controllers\Api\User\UserController::class, 'create'])->name('user.api.user.create');
@@ -31,6 +34,10 @@ Route::middleware([
         Route::put('update', [\App\Http\Controllers\Api\User\UserController::class, 'update'])->name('user.api.user.update');
         Route::put('setSuspend', [\App\Http\Controllers\Api\User\UserController::class, 'setSuspend'])->name('user.api.user.setSuspend');
         Route::delete('delete', [\App\Http\Controllers\Api\User\UserController::class, 'delete'])->name('user.api.user.delete');
+    });
+
+    Route::prefix('userType')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\UserTypeController::class, 'getAll'])->name('user.api.userType.getAll');
     });
 
     Route::prefix('userRole')->group(function () {
@@ -314,6 +321,7 @@ Route::middleware([
 
     Route::prefix('project')->group(function () {
         Route::get('getByUserId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getByUserId'])->name('user.api.project.getByUserId');
+        Route::get('getAll', [\App\Http\Controllers\Api\User\ProjectController::class, 'getAll'])->name('user.api.project.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\ProjectController::class, 'getById'])->name('user.api.project.getById');
         Route::get('getAllTasks', [\App\Http\Controllers\Api\User\ProjectController::class, 'getAllTasks'])->name('user.api.project.getAllTasks');
         Route::get('getSubtasksByProjectId', [\App\Http\Controllers\Api\User\ProjectController::class, 'getSubtasksByProjectId'])->name('user.api.project.getSubtasksByProjectId');

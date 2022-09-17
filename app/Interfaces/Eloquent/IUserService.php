@@ -7,6 +7,43 @@ use App\Services\ServiceResponse;
 interface IUserService extends IEloquentService
 {
     /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function index(
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword = null,
+        ?int    $typeId = null
+    ): ServiceResponse;
+
+    /**
+     * @param int $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getAllByTypeId(
+        int $typeId
+    ): ServiceResponse;
+
+    /**
+     * @param int|null $typeId
+     * @param array|null $userIds
+     * @param array|null $projectIds
+     *
+     * @return ServiceResponse
+     */
+    public function getAllWithTimesheets(
+        ?int   $typeId = null,
+        ?array $userIds = [],
+        ?array $projectIds = []
+    ): ServiceResponse;
+
+    /**
      * @param string $email
      * @param int|null $exceptId
      *
@@ -110,6 +147,7 @@ interface IUserService extends IEloquentService
 
     /**
      * @param int $roleId
+     * @param int $typeId
      * @param string $name
      * @param string $email
      * @param string|null $phone
@@ -119,6 +157,7 @@ interface IUserService extends IEloquentService
      */
     public function create(
         int     $roleId,
+        int     $typeId,
         string  $name,
         string  $email,
         ?string $phone = null,
@@ -128,6 +167,7 @@ interface IUserService extends IEloquentService
     /**
      * @param int $id
      * @param int $roleId
+     * @param int $typeId
      * @param string $name
      * @param string $email
      * @param string|null $phone
@@ -138,6 +178,7 @@ interface IUserService extends IEloquentService
     public function update(
         int     $id,
         int     $roleId,
+        int     $typeId,
         string  $name,
         string  $email,
         ?string $phone = null,

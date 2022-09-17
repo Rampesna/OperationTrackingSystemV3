@@ -20,6 +20,9 @@
     var createUserRoleId = $('#create_user_role_id');
     var updateUserRoleId = $('#update_user_role_id');
 
+    var createUserTypeId = $('#create_user_type_id');
+    var updateUserTypeId = $('#update_user_type_id');
+
     function createUser() {
         createUserCompanyIds.val([]);
         createUserRoleId.val('');
@@ -48,6 +51,7 @@
                     return company.id;
                 }));
                 updateUserRoleId.val(response.response.role_id);
+                updateUserTypeId.val(response.response.type_id);
                 $('#update_user_name').val(response.response.name);
                 $('#update_user_email').val(response.response.email);
                 $('#update_user_phone').val(response.response.phone);
@@ -109,6 +113,42 @@
         });
     }
 
+    function getUserTypes() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.userType.getAll') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                createUserTypeId.empty();
+                updateUserTypeId.empty();
+                $.each(response.response, function (i, userType) {
+                    createUserTypeId.append($('<option>', {
+                        value: userType.id,
+                        text: userType.name
+                    }));
+                    updateUserTypeId.append($('<option>', {
+                        value: userType.id,
+                        text: userType.name
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                if (parseInt(error.status) === 422) {
+                    $.each(error.responseJSON.response, function (i, error) {
+                        toastr.error(error[0]);
+                    });
+                } else {
+                    toastr.error(error.responseJSON.message);
+                }
+            }
+        });
+    }
+
     function getUserRoles() {
         $.ajax({
             type: 'get',
@@ -146,7 +186,7 @@
 
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.company.getUsersByCompanyIds') }}',
+            url: '{{ route('user.api.user.index') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -165,6 +205,21 @@
                 $.each(response.response.users, function (i, user) {
                     users.append(`
                     <tr>
+                        <td class="text-start">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary btn-icon btn-sm" type="button" id="${user.id}_Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="${user.id}_Dropdown" style="width: 175px">
+                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateUser(${user.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    <hr class="text-muted">
+                                    <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteUser(${user.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            ${user.type ? user.type.name : ''}
+                        </td>
                         <td>
                             ${user.name}
                         </td>
@@ -179,18 +234,6 @@
                         </td>
                         <td>
                             ${parseInt(user.suspend) === 1 ? `<span class="badge badge-danger cursor-pointer" onclick="setUserSuspend(${user.id}, 0)">Pasif</span>` : `<span class="badge badge-success cursor-pointer" onclick="setUserSuspend(${user.id}, 1)">Aktif</span>`}
-                        </td>
-                        <td class="text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary btn-icon btn-sm" type="button" id="${user.id}_Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-th"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="${user.id}_Dropdown" style="width: 175px">
-                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateUser(${user.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
-                                    <hr class="text-muted">
-                                    <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteUser(${user.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
-                                </div>
-                            </div>
                         </td>
                     </tr>
                     `);
@@ -213,6 +256,7 @@
     }
 
     getCompanies();
+    getUserTypes();
     getUserRoles();
     getUsers();
 
@@ -252,6 +296,7 @@
     CreateUserButton.click(function () {
         var companyIds = createUserCompanyIds.val();
         var roleId = createUserRoleId.val();
+        var typeId = createUserTypeId.val();
         var name = $('#create_user_name').val();
         var email = $('#create_user_email').val();
         var phone = $('#create_user_phone').val();
@@ -261,6 +306,8 @@
             toastr.warning('En Az 1 Firma Seçmelisiniz!');
         } else if (!roleId) {
             toastr.warning('Kullanıcı Rolü Seçmediniz!');
+        } else if (!typeId) {
+            toastr.warning('Kullanıcı Türü Seçmediniz!');
         } else if (!name) {
             toastr.warning('Ad Soyad Girmediniz!');
         } else if (!email) {
@@ -293,6 +340,7 @@
                             },
                             data: {
                                 roleId: roleId,
+                                typeId: typeId,
                                 name: name,
                                 email: email,
                                 phone: phone,
@@ -335,6 +383,7 @@
         var id = $('#update_user_id').val();
         var companyIds = updateUserCompanyIds.val();
         var roleId = updateUserRoleId.val();
+        var typeId = updateUserTypeId.val();
         var name = $('#update_user_name').val();
         var email = $('#update_user_email').val();
         var phone = $('#update_user_phone').val();
@@ -344,6 +393,8 @@
             toastr.warning('En Az 1 Firma Seçmelisiniz!');
         } else if (!roleId) {
             toastr.warning('Kullanıcı Rolü Seçmediniz!');
+        } else if (!typeId) {
+            toastr.warning('Kullanıcı Türü Seçmediniz!');
         } else if (!name) {
             toastr.warning('Ad Soyad Girmediniz!');
         } else if (!email) {
@@ -378,6 +429,7 @@
                             data: {
                                 id: id,
                                 roleId: roleId,
+                                typeId: typeId,
                                 name: name,
                                 email: email,
                                 phone: phone,

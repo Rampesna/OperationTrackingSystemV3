@@ -5,6 +5,7 @@ namespace App\Services\Eloquent;
 use App\Interfaces\Eloquent\IUserService;
 use App\Mail\User\ForgotPasswordEmail;
 use App\Mail\User\WelcomeEmail;
+use App\Models\Eloquent\Project;
 use App\Models\Eloquent\User;
 use App\Services\ServiceResponse;
 use Illuminate\Support\Facades\Crypt;
@@ -53,6 +54,128 @@ class UserService implements IUserService
                 null
             );
         }
+    }
+
+    /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     * @param int|null $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function index(
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword = null,
+        ?int    $typeId = null
+    ): ServiceResponse
+    {
+        $users = User::with([
+            'role',
+            'type'
+        ])->where(function ($users) use ($keyword) {
+            $users->where('name', 'like', '%' . $keyword . '%')
+                ->orWhere('email', 'like', '%' . $keyword . '%');
+        });
+
+        if ($typeId) {
+            $users->where('type_id', $typeId);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Users',
+            200,
+            [
+                'totalCount' => $users->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'users' => $users->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
+        );
+    }
+
+    /**
+     * @param int $typeId
+     *
+     * @return ServiceResponse
+     */
+    public function getAllByTypeId(
+        int $typeId
+    ): ServiceResponse
+    {
+        return new ServiceResponse(
+            true,
+            'Users',
+            200,
+            User::where('type_id', $typeId)->get()
+        );
+    }
+
+    /**
+     * @param int|null $typeId
+     * @param array|null $userIds
+     * @param array|null $projectIds
+     *
+     * @return ServiceResponse
+     */
+    public function getAllWithTimesheets(
+        ?int   $typeId = null,
+        ?array $userIds = [],
+        ?array $projectIds = []
+    ): ServiceResponse
+    {
+        $taskIds = [];
+
+        if ($projectIds && count($projectIds) > 0) {
+            foreach ($projectIds as $projectId) {
+                $project = Project::find($projectId);
+                if ($project) {
+                    $tasks = $project->tasks;
+                    if ($tasks && count($tasks) > 0) {
+                        foreach ($tasks as $task) {
+                            $taskIds[] = $task->id;
+                        }
+                    }
+                }
+            }
+        }
+
+        $users = User::with([
+            'timesheets' => function ($timesheets) use ($taskIds) {
+                $timesheets->with([
+                    'task' => function ($task) use ($taskIds) {
+                        $task->with([
+                            'board' => function ($project) {
+                                $project->with([
+                                    'project'
+                                ]);
+                            }
+                        ]);
+                    }
+                ])->whereNull('end_time')->when($taskIds && count($taskIds) > 0, function ($timesheets) use ($taskIds) {
+                    $timesheets->whereIn('task_id', $taskIds);
+                });
+            }
+        ]);
+
+        if ($userIds && count($userIds) > 0) {
+            $users->whereIn('id', $userIds);
+        }
+
+        if ($typeId) {
+            $users->where('type_id', $typeId);
+        }
+
+        return new ServiceResponse(
+            true,
+            'Users',
+            200,
+            $users->get()
+        );
     }
 
     /**
@@ -338,6 +461,7 @@ class UserService implements IUserService
 
     /**
      * @param int $roleId
+     * @param int $typeId
      * @param string $name
      * @param string $email
      * @param string|null $phone
@@ -347,6 +471,7 @@ class UserService implements IUserService
      */
     public function create(
         int     $roleId,
+        int     $typeId,
         string  $name,
         string  $email,
         ?string $phone = null,
@@ -357,6 +482,7 @@ class UserService implements IUserService
 
         $user = new User;
         $user->role_id = $roleId;
+        $user->type_id = $typeId;
         $user->name = $name;
         $user->email = $email;
         $user->phone = $phone;
@@ -377,6 +503,7 @@ class UserService implements IUserService
     /**
      * @param int $id
      * @param int $roleId
+     * @param int $typeId
      * @param string $name
      * @param string $email
      * @param string|null $phone
@@ -387,6 +514,7 @@ class UserService implements IUserService
     public function update(
         int     $id,
         int     $roleId,
+        int     $typeId,
         string  $name,
         string  $email,
         ?string $phone = null,
@@ -396,6 +524,7 @@ class UserService implements IUserService
         $user = $this->getById($id);
         if ($user->isSuccess()) {
             $user->getData()->role_id = $roleId;
+            $user->getData()->type_id = $typeId;
             $user->getData()->name = $name;
             $user->getData()->email = $email;
             $user->getData()->phone = $phone;

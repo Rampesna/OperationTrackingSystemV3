@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\UserController\IndexRequest;
+use App\Http\Requests\Api\User\UserController\GetAllWithTimesheetsRequest;
+use App\Http\Requests\Api\User\UserController\GetAllByTypeIdRequest;
 use App\Http\Requests\Api\User\UserController\GetCompaniesRequest;
 use App\Http\Requests\Api\User\UserController\ResetPasswordRequest;
 use App\Http\Requests\Api\User\UserController\SendPasswordResetEmailRequest;
@@ -372,6 +375,77 @@ class UserController extends Controller
     }
 
     /**
+     * @param GetAllByTypeIdRequest $request
+     */
+    public function getAllByTypeId(GetAllByTypeIdRequest $request)
+    {
+        $getAllByTypeIdResponse = $this->userService->getAllByTypeId(
+            $request->typeId
+        );
+        if ($getAllByTypeIdResponse->isSuccess()) {
+            return $this->success(
+                $getAllByTypeIdResponse->getMessage(),
+                $getAllByTypeIdResponse->getData(),
+                $getAllByTypeIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllByTypeIdResponse->getMessage(),
+                $getAllByTypeIdResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param IndexRequest $request
+     */
+    public function index(IndexRequest $request)
+    {
+        $indexResponse = $this->userService->index(
+            $request->pageIndex,
+            $request->pageSize,
+            $request->keyword,
+            $request->typeId
+        );
+        if ($indexResponse->isSuccess()) {
+            return $this->success(
+                $indexResponse->getMessage(),
+                $indexResponse->getData(),
+                $indexResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $indexResponse->getMessage(),
+                $indexResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetAllWithTimesheetsRequest $request
+     */
+    public function getAllWithTimesheets(GetAllWithTimesheetsRequest $request)
+    {
+        $getAllWithTimesheetsResponse = $this->userService->getAllWithTimesheets(
+            $request->typeId,
+            $request->userIds,
+            $request->projectIds
+        );
+        if ($getAllWithTimesheetsResponse->isSuccess()) {
+            return $this->success(
+                $getAllWithTimesheetsResponse->getMessage(),
+                $getAllWithTimesheetsResponse->getData(),
+                $getAllWithTimesheetsResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllWithTimesheetsResponse->getMessage(),
+                $getAllWithTimesheetsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
      * @param GetByIdRequest $request
      */
     public function getById(GetByIdRequest $request)
@@ -423,6 +497,7 @@ class UserController extends Controller
     {
         $createResponse = $this->userService->create(
             $request->roleId,
+            $request->typeId,
             $request->name,
             $request->email,
             $request->phone,
@@ -450,6 +525,7 @@ class UserController extends Controller
         $updateResponse = $this->userService->update(
             $request->id,
             $request->roleId,
+            $request->typeId,
             $request->name,
             $request->email,
             $request->phone,

@@ -15,7 +15,7 @@ class ProjectService implements IProjectService
     {
         return new ServiceResponse(
             true,
-            '',
+            'All projects',
             200,
             Project::all()
         );
