@@ -107,4 +107,12 @@ Route::middleware([
     Route::prefix('netsantralApi')->group(function () {
         Route::get('abandons', [\App\Http\Controllers\Api\Employee\NetsantralApi\NetsantralApiController::class, 'abandons'])->name('employee.api.netsantralApi.abandons');
     });
+
+    Route::prefix('knowledgeBaseQuestion')->group(function () {
+        Route::get('search', [\App\Http\Controllers\Api\Employee\KnowledgeBaseQuestionController::class, 'search'])->name('employee.api.knowledgeBaseQuestionCategory.search');
+    });
+
+    Route::prefix('knowledgeBaseQuestionCategory')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\Employee\KnowledgeBaseQuestionCategoryController::class, 'getAll'])->name('employee.api.knowledgeBaseQuestionCategory.getAll');
+    });
 });

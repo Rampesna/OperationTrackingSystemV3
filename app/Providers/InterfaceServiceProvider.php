@@ -32,6 +32,8 @@ use App\Interfaces\Eloquent\IFoodListCheckService;
 use App\Interfaces\Eloquent\IFoodListService;
 use App\Interfaces\Eloquent\IJobDepartmentService;
 use App\Interfaces\Eloquent\IJobDepartmentTypeService;
+use App\Interfaces\Eloquent\IKnowledgeBaseQuestionCategoryService;
+use App\Interfaces\Eloquent\IKnowledgeBaseQuestionService;
 use App\Interfaces\Eloquent\ILeavingReasonService;
 use App\Interfaces\Eloquent\IMarketPaymentService;
 use App\Interfaces\Eloquent\IMarketService;
@@ -127,6 +129,8 @@ use App\Services\Eloquent\FoodListCheckService;
 use App\Services\Eloquent\FoodListService;
 use App\Services\Eloquent\JobDepartmentService;
 use App\Services\Eloquent\JobDepartmentTypeService;
+use App\Services\Eloquent\KnowledgeBaseQuestionCategoryService;
+use App\Services\Eloquent\KnowledgeBaseQuestionService;
 use App\Services\Eloquent\LeavingReasonService;
 use App\Services\Eloquent\MarketPaymentService;
 use App\Services\Eloquent\MarketService;
@@ -285,6 +289,8 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ITicketTransactionStatusService::class, TicketTransactionStatusService::class);
         $this->app->bind(ITimesheetService::class, TimesheetService::class);
         $this->app->bind(IUserTypeService::class, UserTypeService::class);
+        $this->app->bind(IKnowledgeBaseQuestionService::class, KnowledgeBaseQuestionService::class);
+        $this->app->bind(IKnowledgeBaseQuestionCategoryService::class, KnowledgeBaseQuestionCategoryService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

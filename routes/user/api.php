@@ -669,6 +669,14 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\TicketTransactionStatusController::class, 'getAll'])->name('user.api.ticketTransactionStatus.getAll');
     });
 
+    Route::prefix('knowledgeBaseQuestion')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionController::class, 'getAll'])->name('user.api.knowledgeBaseQuestion.getAll');
+    });
+
+    Route::prefix('knowledgeBaseQuestionCategory')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'getAll'])->name('user.api.knowledgeBaseQuestionCategory.getAll');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

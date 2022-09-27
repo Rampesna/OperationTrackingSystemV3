@@ -40,4 +40,9 @@ Route::middleware([
     Route::prefix('abandon')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\Employee\AbandonController::class, 'index'])->name('employee.web.abandon.index');
     });
+
+    Route::prefix('knowledgeBase')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\Employee\KnowledgeBaseController::class, 'index'])->name('employee.web.knowledgeBase.index');
+        Route::get('question/{id?}', [\App\Http\Controllers\Web\Employee\KnowledgeBaseController::class, 'question'])->name('employee.web.knowledgeBase.question');
+    });
 });

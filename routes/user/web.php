@@ -331,6 +331,12 @@ Route::middleware([
         Route::get('userRole', [\App\Http\Controllers\Web\User\SettingsController::class, 'userRole'])->name('user.web.settings.userRole');
     });
 
+    Route::prefix('knowledgeBase')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\KnowledgeBaseController::class, 'index'])->name('user.web.knowledgeBase.index');
+        Route::get('question', [\App\Http\Controllers\Web\User\KnowledgeBaseController::class, 'question'])->name('user.web.knowledgeBase.question');
+        Route::get('category', [\App\Http\Controllers\Web\User\KnowledgeBaseController::class, 'category'])->name('user.web.knowledgeBase.category');
+    });
+
     Route::prefix('file')->group(function () {
         Route::get('download/{id?}', [\App\Http\Controllers\Web\User\FileController::class, 'download'])->name('user.web.file.download');
         Route::get('downloadByKey', [\App\Http\Controllers\Web\User\FileController::class, 'downloadByKey'])->name('user.web.file.downloadByKey');

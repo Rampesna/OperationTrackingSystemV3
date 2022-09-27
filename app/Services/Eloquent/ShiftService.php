@@ -642,6 +642,7 @@ class ShiftService implements IShiftService
                                     }
                                 }
                             }
+
                             if ($dayControlVariable == 'day0' && $shiftGroup->week_permit === 1) {
                                 $getShiftKeysForDelete = $shifts->where('employee_id', $employee->id)
                                     ->whereBetween('start_date', [
@@ -716,11 +717,18 @@ class ShiftService implements IShiftService
                                 retryWeekly:
                                 $unavailableEmployeeIds = [];
                                 $usedShiftGroupEmployees = $this->shiftGroupEmployeeUseListService->getUsedShiftGroupEmployees($shiftGroup->id);
-                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $usedShiftGroupEmployees->getData()->pluck('id')->toArray());
+                                $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $usedShiftGroupEmployees->getData()->pluck('employee_id')->toArray());
                                 $saturdayPermitEmployeesResponse = $this->saturdayPermitService->getByDate(date('Y-m-d', strtotime('next saturday', strtotime($date))));
 
                                 if ($saturdayPermitEmployeesResponse->isSuccess()) {
                                     $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $saturdayPermitEmployeesResponse->getData()->where('status', 'off')->pluck('employee_id')->toArray());
+                                }
+
+                                if ($shiftGroup->sunday_employee_from_shift_group == 1) {
+                                    $unavailableEmployeeIds = array_merge($unavailableEmployeeIds, $shifts->where('shift_group_id', '<>', $shiftGroup->sunday_employee_from_shift_group_id)->whereBetween('start_date', [
+                                        date('Y-m-d', strtotime($date)) . ' 00:00:00',
+                                        date('Y-m-d', strtotime($date)) . ' 23:59:59'
+                                    ])->pluck('employee_id')->toArray());
                                 }
 
                                 $shiftGroupEmployees = $shiftGroup->employees()->whereNotIn('id', $unavailableEmployeeIds)->get();
@@ -728,12 +736,10 @@ class ShiftService implements IShiftService
                                 if (count($shiftGroupEmployees) < $shiftGroup->per_day) {
                                     $this->shiftGroupEmployeeUseListService->setShiftGroupEmployeesNotUsed($shiftGroup->id);
                                     goto retryWeekly;
+                                } else {
+                                    $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
                                 }
-
-                                $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
                             }
-
-                            $x = '';
 
                             foreach ($weeklyEmployees as $employee) {
                                 if ($shiftGroup->delete_if_exist === 1) {
@@ -809,7 +815,6 @@ class ShiftService implements IShiftService
                                         'created_at' => date('Y-m-d H:i:s'),
                                         'updated_at' => date('Y-m-d H:i:s'),
                                     ]);
-
                                 }
                             }
                         } else {
