@@ -1,4 +1,4 @@
-<div class="modal fade show" id="DeleteJobDepartmentTypeModal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
+<div class="modal fade show" id="DeleteKnowledgeBaseQuestionCategoryModal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered mw-900px">
         <div class="modal-content rounded">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -14,17 +14,17 @@
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <div class="form fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="mb-13 text-center">
-                        <h1 class="mb-3">İş Departmanı Türü Sil</h1>
+                        <h1 class="mb-3">Kategori Sil</h1>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-                        <input type="hidden" id="delete_job_department_type_id">
+                        <input type="hidden" id="delete_knowledge_base_question_category_id">
                         <p class="text-center">
-                            İş Departmanı Türünü Silmek İstediğinize Emin Misiniz?
+                            Kategoriyi Silmek İstediğinize Emin Misiniz?
                         </p>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>
-                        <button type="button" class="btn btn-danger" id="DeleteJobDepartmentTypeButton">Sil</button>
+                        <button type="button" class="btn btn-danger" id="DeleteKnowledgeBaseQuestionCategoryButton">Sil</button>
                     </div>
                 </div>
             </div>

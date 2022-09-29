@@ -7,6 +7,19 @@ use App\Services\ServiceResponse;
 interface IKnowledgeBaseQuestionCategoryService extends IEloquentService
 {
     /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     *
+     * @return ServiceResponse
+     */
+    public function index(
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword
+    ): ServiceResponse;
+
+    /**
      * @param int|null $topCategoryId
      * @param string $name
      *

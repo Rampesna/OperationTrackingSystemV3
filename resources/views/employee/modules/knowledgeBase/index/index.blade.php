@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-xl-9">
-            <div class="card">
+            <div class="card mb-5">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xl-12">
@@ -57,6 +57,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" id="knowledgeBaseQuestionsRow"></div>
                 </div>
             </div>
         </div>

@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('creator_id');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->text('question')->index();
+            $table->text('question')->nullable();
             $table->longText('answer')->nullable();
             $table->unsignedBigInteger('view_count')->default(0);
             $table->timestamps();

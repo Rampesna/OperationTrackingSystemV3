@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="col-xl-4 d-grid mb-5 text-end">
-            <button class="btn btn-primary" onclick="createJobDepartmentType()">Yetkinlik Oluştur</button>
+            <button class="btn btn-primary" onclick="createJobDepartmentType()">İş Departman Türü Oluştur</button>
         </div>
     </div>
     <br>

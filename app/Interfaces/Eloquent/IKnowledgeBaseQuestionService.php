@@ -26,6 +26,7 @@ interface IKnowledgeBaseQuestionService extends IEloquentService
      * @param int $creatorId
      * @param int|null $categoryId
      * @param string $question
+     * @param string|null $description
      * @param string|null $answer
      *
      * @return ServiceResponse
@@ -35,6 +36,7 @@ interface IKnowledgeBaseQuestionService extends IEloquentService
         int     $creatorId,
         ?int    $categoryId,
         string  $question,
+        ?string $description,
         ?string $answer
     ): ServiceResponse;
 
@@ -42,6 +44,7 @@ interface IKnowledgeBaseQuestionService extends IEloquentService
      * @param int $id
      * @param int|null $categoryId
      * @param string $question
+     * @param string|null $description
      * @param string|null $answer
      *
      * @return ServiceResponse
@@ -50,6 +53,7 @@ interface IKnowledgeBaseQuestionService extends IEloquentService
         int     $id,
         ?int    $categoryId,
         string  $question,
+        ?string $description,
         ?string $answer
     ): ServiceResponse;
 }

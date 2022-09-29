@@ -71,6 +71,40 @@ class KnowledgeBaseQuestionCategoryService implements IKnowledgeBaseQuestionCate
     }
 
     /**
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     *
+     * @return ServiceResponse
+     */
+    public function index(
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword
+    ): ServiceResponse
+    {
+        $knowledgeBaseQuestionCategories = KnowledgeBaseQuestionCategory::with([]);
+
+        if ($keyword) {
+            $knowledgeBaseQuestionCategories->where('name', 'like', "%$keyword%");
+        }
+
+        return new ServiceResponse(
+            true,
+            'Knowledge base question categories',
+            200,
+            [
+                'totalCount' => $knowledgeBaseQuestionCategories->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'knowledgeBaseQuestionCategories' => $knowledgeBaseQuestionCategories->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
+        );
+    }
+
+    /**
      * @param int|null $topCategoryId
      * @param string $name
      *

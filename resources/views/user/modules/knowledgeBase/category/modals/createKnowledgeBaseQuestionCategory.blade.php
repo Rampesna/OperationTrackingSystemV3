@@ -1,4 +1,4 @@
-<div class="modal fade show" id="DeleteJobDepartmentTypeModal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
+<div class="modal fade show" id="CreateKnowledgeBaseQuestionCategoryModal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered mw-900px">
         <div class="modal-content rounded">
             <div class="modal-header pb-0 border-0 justify-content-end">
@@ -14,17 +14,23 @@
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <div class="form fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="mb-13 text-center">
-                        <h1 class="mb-3">İş Departmanı Türü Sil</h1>
+                        <h1 class="mb-3">Kategori Oluştur</h1>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-                        <input type="hidden" id="delete_job_department_type_id">
-                        <p class="text-center">
-                            İş Departmanı Türünü Silmek İstediğinize Emin Misiniz?
-                        </p>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="create_knowledge_base_question_category_name" class="font-weight-bolder">Kategori Adı</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <input id="create_knowledge_base_question_category_name" type="text" class="form-control form-control-solid">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>
-                        <button type="button" class="btn btn-danger" id="DeleteJobDepartmentTypeButton">Sil</button>
+                        <button type="button" class="btn btn-success" id="CreateKnowledgeBaseQuestionCategoryButton">Oluştur</button>
                     </div>
                 </div>
             </div>

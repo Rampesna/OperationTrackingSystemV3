@@ -671,10 +671,20 @@ Route::middleware([
 
     Route::prefix('knowledgeBaseQuestion')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionController::class, 'getAll'])->name('user.api.knowledgeBaseQuestion.getAll');
+        Route::get('search', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionController::class, 'search'])->name('user.api.knowledgeBaseQuestion.search');
+        Route::get('getById', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionController::class, 'getById'])->name('user.api.knowledgeBaseQuestion.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionController::class, 'create'])->name('user.api.knowledgeBaseQuestion.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionController::class, 'update'])->name('user.api.knowledgeBaseQuestion.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionController::class, 'delete'])->name('user.api.knowledgeBaseQuestion.delete');
     });
 
     Route::prefix('knowledgeBaseQuestionCategory')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'getAll'])->name('user.api.knowledgeBaseQuestionCategory.getAll');
+        Route::get('index', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'index'])->name('user.api.knowledgeBaseQuestionCategory.index');
+        Route::get('getById', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'getById'])->name('user.api.knowledgeBaseQuestionCategory.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'create'])->name('user.api.knowledgeBaseQuestionCategory.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'update'])->name('user.api.knowledgeBaseQuestionCategory.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'delete'])->name('user.api.knowledgeBaseQuestionCategory.delete');
     });
 
     Route::prefix('operationApi')->group(function () {

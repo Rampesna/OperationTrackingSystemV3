@@ -12,6 +12,7 @@
     var FilterButton = $('#FilterButton');
 
     var knowledgeBaseCategoriesRow = $('#knowledgeBaseCategoriesRow');
+    var knowledgeBaseQuestionsRow = $('#knowledgeBaseQuestionsRow');
 
     function getKnowledgeBaseQuestionCategories() {
         $.ajax({
@@ -72,7 +73,20 @@
                 keyword: keyword
             },
             success: function (response) {
-                console.log(response);
+                $.each(response.response.knowledgeBaseQuestions, function (i, knowledgeBaseQuestion) {
+                    knowledgeBaseQuestionsRow.append(`
+                    <div class="col-xl-12 mb-5">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center mb-2">
+                                <a href="#" class="text-dark text-hover-primary fs-4 me-3 fw-bold">${knowledgeBaseQuestion.question}</a>
+                                ${knowledgeBaseQuestion.category ? `<span class="badge badge-light my-1">${knowledgeBaseQuestion.category.name}</span>` : ``}
+                            </div>
+                            ${knowledgeBaseQuestion.description ? `<span class="text-muted fw-bold fs-6">${knowledgeBaseQuestion.description.length > 255 ? `${knowledgeBaseQuestion.description.substring(0,255)}...` : knowledgeBaseQuestion.description}</span>` : ``}
+                        </div>
+                    </div>
+                    <hr class="text-muted">
+                    `);
+                });
             },
             error: function (error) {
                 console.log(error);
@@ -91,12 +105,14 @@
 
     FilterButton.click(function () {
         pageIndex = 0;
+        knowledgeBaseQuestionsRow.empty();
         getKnowledgeBaseQuestions();
     });
 
     keywordInput.keyup(function (e) {
         if (parseInt(e.keyCode) === 13) {
             pageIndex = 0;
+            knowledgeBaseQuestionsRow.empty();
             getKnowledgeBaseQuestions();
         }
     });

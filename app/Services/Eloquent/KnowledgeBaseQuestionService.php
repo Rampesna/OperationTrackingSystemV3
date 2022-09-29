@@ -87,7 +87,7 @@ class KnowledgeBaseQuestionService implements IKnowledgeBaseQuestionService
     {
         $knowledgeBaseQuestions = KnowledgeBaseQuestion::with([
             'category'
-        ]);
+        ])->orderBy('id', 'desc');
 
         if ($categoryIds && count($categoryIds) > 0) {
             $knowledgeBaseQuestions->whereIn('category_id', $categoryIds);
@@ -95,7 +95,7 @@ class KnowledgeBaseQuestionService implements IKnowledgeBaseQuestionService
 
         if ($keyword) {
             $knowledgeBaseQuestions->where(function ($knowledgeBaseQuestions) use ($keyword) {
-                $knowledgeBaseQuestions->where('question', 'like', "%$keyword%")->orWhere('answer', 'like', "%$keyword%");
+                $knowledgeBaseQuestions->where('question', 'like', "%$keyword%")->orWhere('description', 'like', "%$keyword%")->orWhere('answer', 'like', "%$keyword%");
             });
         }
 
@@ -119,6 +119,7 @@ class KnowledgeBaseQuestionService implements IKnowledgeBaseQuestionService
      * @param int $creatorId
      * @param int|null $categoryId
      * @param string $question
+     * @param string|null $description
      * @param string|null $answer
      *
      * @return ServiceResponse
@@ -128,6 +129,7 @@ class KnowledgeBaseQuestionService implements IKnowledgeBaseQuestionService
         int     $creatorId,
         ?int    $categoryId,
         string  $question,
+        ?string $description,
         ?string $answer
     ): ServiceResponse
     {
@@ -151,6 +153,7 @@ class KnowledgeBaseQuestionService implements IKnowledgeBaseQuestionService
      * @param int $id
      * @param int|null $categoryId
      * @param string $question
+     * @param string|null $description
      * @param string|null $answer
      *
      * @return ServiceResponse
@@ -159,6 +162,7 @@ class KnowledgeBaseQuestionService implements IKnowledgeBaseQuestionService
         int     $id,
         ?int    $categoryId,
         string  $question,
+        ?string $description,
         ?string $answer
     ): ServiceResponse
     {
@@ -167,6 +171,7 @@ class KnowledgeBaseQuestionService implements IKnowledgeBaseQuestionService
             $knowledgeBaseQuestion = $knowledgeBaseQuestion->getData();
             $knowledgeBaseQuestion->category_id = $categoryId;
             $knowledgeBaseQuestion->question = $question;
+            $knowledgeBaseQuestion->description = $description;
             $knowledgeBaseQuestion->answer = $answer;
             $knowledgeBaseQuestion->save();
 
