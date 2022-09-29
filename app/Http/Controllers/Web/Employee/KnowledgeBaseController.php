@@ -14,8 +14,12 @@ class KnowledgeBaseController extends Controller
 
     public function question(Request $request)
     {
-        return view('employee.modules.knowledgeBase.question.index', [
-            'id' => $request->id
-        ]);
+        if (!$request->id) {
+            abort(404);
+        } else {
+            return view('employee.modules.knowledgeBase.question.index', [
+                'id' => $request->id
+            ]);
+        }
     }
 }
