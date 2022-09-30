@@ -10,6 +10,7 @@
     var keywordInput = $('#keyword');
 
     var FilterButton = $('#FilterButton');
+    var LoadMoreButton = $('#LoadMoreButton');
 
     var knowledgeBaseCategoriesRow = $('#knowledgeBaseCategoriesRow');
     var knowledgeBaseQuestionsRow = $('#knowledgeBaseQuestionsRow');
@@ -61,7 +62,7 @@
 
         $.ajax({
             type: 'get',
-            url: '{{ route('employee.api.knowledgeBaseQuestionCategory.search') }}',
+            url: '{{ route('employee.api.knowledgeBaseQuestion.search') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -103,6 +104,7 @@
     }
 
     getKnowledgeBaseQuestionCategories();
+    getKnowledgeBaseQuestions();
 
     FilterButton.click(function () {
         pageIndex = 0;
@@ -114,6 +116,13 @@
         if (parseInt(e.keyCode) === 13) {
             pageIndex = 0;
             knowledgeBaseQuestionsRow.empty();
+            getKnowledgeBaseQuestions();
+        }
+    });
+
+    $(window).scroll(function() {
+        if(parseInt($(window).scrollTop() + $(window).height()) === parseInt($(document).height())) {
+            pageIndex++;
             getKnowledgeBaseQuestions();
         }
     });

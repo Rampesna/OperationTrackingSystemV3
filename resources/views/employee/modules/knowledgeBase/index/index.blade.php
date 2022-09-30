@@ -53,7 +53,7 @@
                                         <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="black" />
                                     </svg>
                                 </span>
-                                <input type="text" class="form-control fs-4 py-4 ps-14 text-gray-700 placeholder-gray-400 w-100" id="keyword" placeholder="Arayın..." aria-label="Arayın...">
+                                <input type="text" class="form-control fs-4 py-4 ps-14 text-gray-700 placeholder-gray-400 w-100" id="keyword" placeholder="Arayın..." aria-label="Arayın..." autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="row" id="knowledgeBaseQuestionsRow"></div>
+                    <div class="row mb-5" id="knowledgeBaseQuestionsRow"></div>
                 </div>
             </div>
         </div>

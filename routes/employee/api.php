@@ -109,7 +109,8 @@ Route::middleware([
     });
 
     Route::prefix('knowledgeBaseQuestion')->group(function () {
-        Route::get('search', [\App\Http\Controllers\Api\Employee\KnowledgeBaseQuestionController::class, 'search'])->name('employee.api.knowledgeBaseQuestionCategory.search');
+        Route::get('search', [\App\Http\Controllers\Api\Employee\KnowledgeBaseQuestionController::class, 'search'])->name('employee.api.knowledgeBaseQuestion.search');
+        Route::get('getById', [\App\Http\Controllers\Api\Employee\KnowledgeBaseQuestionController::class, 'getById'])->name('employee.api.knowledgeBaseQuestion.getById');
     });
 
     Route::prefix('knowledgeBaseQuestionCategory')->group(function () {

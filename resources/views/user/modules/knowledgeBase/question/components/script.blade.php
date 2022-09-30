@@ -6,16 +6,24 @@
         $('#loader').hide();
     });
 
-    createKnowledgeBaseQuestionAnswerEditor = null;
-    updateKnowledgeBaseQuestionAnswerEditor = null;
+    var createKnowledgeBaseQuestionAnswerEditor = null;
+    var updateKnowledgeBaseQuestionAnswerEditor = null;
 
-    ClassicEditor.create(document.querySelector('#create_knowledge_base_question_answer')).then(editor => {
+    ClassicEditor.create(document.querySelector('#create_knowledge_base_question_answer'), {
+        ckfinder: {
+            uploadUrl: '',
+        }
+    }).then(editor => {
         createKnowledgeBaseQuestionAnswerEditor = editor;
     }).catch(error => {
         console.error(error);
     });
 
-    ClassicEditor.create(document.querySelector('#update_knowledge_base_question_answer')).then(editor => {
+    ClassicEditor.create(document.querySelector('#update_knowledge_base_question_answer'), {
+        ckfinder: {
+            uploadUrl: '',
+        }
+    }).then(editor => {
         updateKnowledgeBaseQuestionAnswerEditor = editor;
     }).catch(error => {
         console.error(error);

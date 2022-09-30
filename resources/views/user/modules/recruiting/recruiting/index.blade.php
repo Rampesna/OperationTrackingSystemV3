@@ -113,7 +113,12 @@
                     </table>
                     <hr class="text-muted">
                     <div class="row">
-                        <div class="col-xl-12 text-end">
+                        <div class="col-xl-6">
+                            <button class="btn btn-primary btn-sm" id="RecruitingsDownloadExcelButton">
+                                <i class="fa fa-file-excel"></i> Excel İndir
+                            </button>
+                        </div>
+                        <div class="col-xl-6 text-end">
                             <span class="text-muted">Toplam <span id="totalCountSpan">%</span> Kayıttan <span id="startCountSpan">%</span> - <span id="endCountSpan">%</span> Arasındakiler Gösteriliyor</span>
                         </div>
                     </div>

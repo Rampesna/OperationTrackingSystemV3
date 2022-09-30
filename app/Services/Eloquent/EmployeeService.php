@@ -735,10 +735,17 @@ class EmployeeService implements IEmployeeService
             $employee->getData()->save();
 
             $position = Position::where('employee_id', $employeeId)->where('end_date', null)->first();
+
             if ($position) {
                 $position->end_date = $date;
                 $position->leaving_reason_id = $leavingReasonId;
                 $position->save();
+            }
+
+            $shiftGroups = $employee->getData()->shiftGroups()->get();
+
+            foreach ($shiftGroups as $shiftGroup) {
+                $shiftGroup->employees()->detach($employeeId);
             }
 
             return new ServiceResponse(

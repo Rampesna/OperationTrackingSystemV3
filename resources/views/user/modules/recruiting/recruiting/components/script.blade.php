@@ -14,6 +14,7 @@
     var pageSizeSelector = $('#pageSize');
     var FilterButton = $('#FilterButton');
     var ClearFilterButton = $('#ClearFilterButton');
+    var RecruitingsDownloadExcelButton = $('#RecruitingsDownloadExcelButton');
 
     var keywordFilter = $('#keyword');
     var stepIdsFilter = $('#stepIds');
@@ -365,6 +366,15 @@
         keywordFilter.val('');
         stepIdsFilter.val([]).trigger('change');
         changePage(1);
+    });
+
+    RecruitingsDownloadExcelButton.click(function () {
+        const downloadUrl = `{{ route('user.web.recruiting.download') }}`;
+        var companyIds = SelectedCompanies.val();
+        var keyword = keywordFilter.val();
+        var stepIds = stepIdsFilter.val();
+
+        window.open(`${downloadUrl}?companyIds=${companyIds}&keyword=${keyword}&stepIds=${stepIds}`);
     });
 
     CreateRecruitingButton.click(function () {

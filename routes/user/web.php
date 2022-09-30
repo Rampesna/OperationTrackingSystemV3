@@ -292,6 +292,8 @@ Route::middleware([
         Route::get('recruitingStep', [\App\Http\Controllers\Web\User\RecruitingController::class, 'recruitingStep'])->name('user.web.recruiting.recruitingStep');
         Route::get('evaluationParameter', [\App\Http\Controllers\Web\User\RecruitingController::class, 'evaluationParameter'])->name('user.web.recruiting.evaluationParameter');
         Route::get('wizard/{id?}', [\App\Http\Controllers\Web\User\RecruitingController::class, 'wizard'])->name('user.web.recruiting.wizard');
+
+        Route::get('download', [\App\Http\Controllers\Web\User\RecruitingController::class, 'download'])->name('user.web.recruiting.download');
     });
 
     Route::prefix('assignment')->group(function () {

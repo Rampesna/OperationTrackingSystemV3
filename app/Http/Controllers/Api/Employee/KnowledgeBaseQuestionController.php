@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\KnowledgeBaseQuestionController\SearchRequest;
+use App\Http\Requests\Api\Employee\KnowledgeBaseQuestionController\GetByIdRequest;
 use App\Interfaces\Eloquent\IKnowledgeBaseQuestionService;
 use App\Traits\Response;
 
@@ -45,6 +46,28 @@ class KnowledgeBaseQuestionController extends Controller
             return $this->error(
                 $searchResponse->getMessage(),
                 $searchResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByIdRequest $request
+     */
+    public function getById(GetByIdRequest $request)
+    {
+        $getByIdResponse = $this->knowledgeBaseQuestionService->getById(
+            $request->id
+        );
+        if ($getByIdResponse->isSuccess()) {
+            return $this->success(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getData(),
+                $getByIdResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByIdResponse->getMessage(),
+                $getByIdResponse->getStatusCode()
             );
         }
     }

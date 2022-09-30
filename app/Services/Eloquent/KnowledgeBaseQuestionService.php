@@ -30,7 +30,9 @@ class KnowledgeBaseQuestionService implements IKnowledgeBaseQuestionService
         int $id
     ): ServiceResponse
     {
-        $knowledgeBaseQuestion = KnowledgeBaseQuestion::find($id);
+        $knowledgeBaseQuestion = KnowledgeBaseQuestion::with([
+            'category',
+        ])->find($id);
         if ($knowledgeBaseQuestion) {
             return new ServiceResponse(
                 true,
