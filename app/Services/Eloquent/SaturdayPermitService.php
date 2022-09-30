@@ -14,6 +14,7 @@ use App\Models\Eloquent\SaturdayPermit;
 use App\Models\Eloquent\Shift;
 use App\Models\Eloquent\ShiftGroup;
 use App\Services\OperationApi\OperationService;
+use App\Services\OperationApi\PersonSystemService;
 use App\Services\ServiceResponse;
 
 class SaturdayPermitService implements ISaturdayPermitService
@@ -290,6 +291,12 @@ class SaturdayPermitService implements ISaturdayPermitService
                             'molaKullanimKisitlamasiVarMi' => $shiftGroup->suspend_break_using,
                         ]
                     ];
+
+                    $personSystemService = new PersonSystemService;
+                    $personSystemService->SetPersonAddPenalty(
+                        $employee->guid,
+                        $cancelReasonId
+                    );
 
                     $operationService = new OperationService;
                     $operationService->SetStaffParameter($staffParameter);
