@@ -397,7 +397,7 @@
                     },
                     success: function (response) {
                         console.log(response);
-                        $('#update_answer_categories').val('');
+                        updateAnswerCategoriesTagify.removeAllTags();
                         $.each(response.response, function (i, answerCategory) {
                             updateAnswerCategoriesTagify.addTags([`${answerCategory.kategori}`]);
                         });
