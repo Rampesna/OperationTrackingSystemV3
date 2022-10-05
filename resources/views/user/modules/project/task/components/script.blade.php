@@ -89,9 +89,11 @@
     var DeleteTaskButton = $('#DeleteTaskButton');
     var DeleteBoardButton = $('#DeleteBoardButton');
     var CreateCommentButton = $('#CreateCommentButton');
+    var DeleteFileButton = $('#DeleteFileButton');
 
     var selectedTaskSubTasksRow = $('#selectedTaskSubTasksRow');
     var selectedTaskCommentsRow = $('#selectedTaskCommentsRow');
+    var selectedTaskFilesRow = $('#selectedTaskFilesRow');
 
     $(document).delegate('.kanban-item', 'mouseover', function () {
         $(this).css({
@@ -105,6 +107,8 @@
     var updateTaskPriorityIdInput = $('#update_task_priority_id');
     var updateTaskRequesterIdInput = $('#update_task_requester_id');
     var updateTaskDescriptionInput = $('#update_task_description');
+
+    var fileSelector = $('#fileSelector');
 
     // Kanban Definitions
 
@@ -714,6 +718,62 @@
 
     function taskFiles() {
         $('#TaskFilesModal').modal('show');
+        var taskId = $('#selected_task_id').val();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.file.getByRelation') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                relationId: taskId,
+                relationType: 'App\\Models\\Eloquent\\Task'
+            },
+            success: function (response) {
+                var fileUploadSvg = `{{ asset('assets/media/svg/files/upload.svg') }}`;
+                var fileSvg = `{{ asset('assets/media/icons/duotune/files/fil003.svg') }}`;
+                selectedTaskFilesRow.empty().append(`
+                <div class="col-xl-3 mb-5">
+                    <div class="card h-100 flex-center border-dashed p-8 cursor-pointer" id="fileUploadArea">
+                        <img src="${fileUploadSvg}" class="mb-8" alt="" />
+                        <a class="font-weight-bolder text-dark-75 mb-2">Yeni Dosya</a>
+                        <div class="fs-7 fw-bold text-gray-400 mt-auto">Yüklemek İçin Tıklayın</div>
+                    </div>
+                </div>
+                `);
+                $.each(response.response, function (i, file) {
+                    selectedTaskFilesRow.append(`
+                    <div class="col-xl-3 mb-5">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card h-100 flex-center text-center border-dashed p-8" data-id="${file.id}" id="file_${file.id}">
+                                    <img src="${fileSvg}" class="w-25 mb-8" alt="" />
+                                    <a class="font-weight-bolder text-dark-75 mb-2">${file.name}</a>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <i class="fa fa-download text-primary me-3 cursor-pointer" onclick="downloadFile(${file.id})"></i>
+                                            <i class="fa fa-trash text-danger cursor-pointer" onclick="deleteFile(${file.id})"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                if (parseInt(error.status) === 422) {
+                    $.each(error.responseJSON.response, function (i, error) {
+                        toastr.error(error[0]);
+                    });
+                } else {
+                    toastr.error(error.responseJSON.message);
+                }
+            }
+        });
     }
 
     // ------------------- Selected Task Functions End -------------------
@@ -1013,6 +1073,78 @@
 
     $(document).delegate(".sublistToggleIcon", "click", function () {
         $("#sublist_" + $(this).data('id')).slideToggle();
+    });
+
+    $(document).delegate('#fileUploadArea', 'click', function () {
+        fileSelector.click();
+    });
+
+    fileSelector.change(function () {
+        var taskId = $('#selected_task_id').val();
+        var data = new FormData();
+        data.append('relationType', 'App\\Models\\Eloquent\\Task');
+        data.append('relationId', parseInt(taskId));
+        data.append('file', fileSelector[0].files[0]);
+        data.append('filePath', 'uploads/task/{{ $id }}/files/');
+        uploadFile(data);
+    });
+
+    function uploadFile(data) {
+        $.ajax({
+            contentType: false,
+            processData: false,
+            type: 'post',
+            url: '{{ route('user.api.file.upload') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: data,
+            success: function () {
+                toastr.success('Dosya Yüklendi');
+                taskFiles();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Dosya Yüklenirken Bir Sorun Oluştu.');
+            }
+        });
+    }
+
+    function downloadFile(id) {
+        window.open(`{{ route('user.web.file.download') }}/${id}`, '_blank');
+    }
+
+    function deleteFile(id) {
+        $('#delete_file_id').val(id);
+        $('#DeleteFileModal').modal('show');
+    }
+
+    DeleteFileButton.click(function () {
+        DeleteFileButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+        var id = $('#delete_file_id').val();
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('user.api.file.delete') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: id,
+            },
+            success: function () {
+                toastr.success('Dosya Silindi');
+                DeleteFileButton.attr('disabled', false).html('Sil');
+                $('#DeleteFileModal').modal('hide');
+                taskFiles();
+            },
+            error: function (error) {
+                console.log(error);
+                DeleteFileButton.attr('disabled', false).html('Sil');
+                toastr.error('Dosya Silinirken Bir Sorun Oluştu.');
+            }
+        });
     });
 
     // ------------------- Selected Task Transactions End -------------------
