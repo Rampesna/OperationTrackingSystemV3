@@ -102,4 +102,9 @@ class User extends Authenticatable
     {
         return $this->timesheets()->whereNull('end_time')->get();
     }
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'relation');
+    }
 }

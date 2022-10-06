@@ -40,6 +40,7 @@ use App\Interfaces\Eloquent\IMarketService;
 use App\Interfaces\Eloquent\IMeetingAgendaService;
 use App\Interfaces\Eloquent\IMeetingService;
 use App\Interfaces\Eloquent\IMeetingTypeService;
+use App\Interfaces\Eloquent\INotificationService;
 use App\Interfaces\Eloquent\IOvertimeService;
 use App\Interfaces\Eloquent\IOvertimeTypeService;
 use App\Interfaces\Eloquent\IPasswordResetService;
@@ -138,6 +139,7 @@ use App\Services\Eloquent\MarketService;
 use App\Services\Eloquent\MeetingAgendaService;
 use App\Services\Eloquent\MeetingService;
 use App\Services\Eloquent\MeetingTypeService;
+use App\Services\Eloquent\NotificationService;
 use App\Services\Eloquent\OvertimeService;
 use App\Services\Eloquent\OvertimeTypeService;
 use App\Services\Eloquent\PasswordResetService;
@@ -306,6 +308,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ISurveySystemService::class, SurveySystemService::class);
         $this->app->bind(ITvScreenService::class, TvScreenService::class);
         $this->app->bind(IRecruitingActivityService::class, RecruitingActivityService::class);
+        $this->app->bind(INotificationService::class, NotificationService::class);
 
         // OtsCallApiServices
         $this->app->bind(\App\Interfaces\OtsCallApi\ITvScreenService::class, \App\Services\OtsCallApi\TvScreenService::class);

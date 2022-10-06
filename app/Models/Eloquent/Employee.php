@@ -102,4 +102,9 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(Device::class, 'employee_id', 'id');
     }
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'relation');
+    }
 }

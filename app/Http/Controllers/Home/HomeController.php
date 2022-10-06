@@ -2,24 +2,10 @@
 
 namespace App\Http\Controllers\Home;
 
-use App\Services\OperationApi\SpecialReportService;
 use App\Http\Controllers\Controller;
-use App\Models\Eloquent\JobDepartment;
-use App\Models\Eloquent\SaturdayPermit;
-use App\Models\Eloquent\Ticket;
-use App\Models\Eloquent\User;
-use App\Services\AwsS3\StorageService;
-use App\Services\Gitlab\UserService;
-use Aws\S3\S3Client;
-use App\Models\Eloquent\Device;
-use App\Models\Eloquent\DevicePackage;
 use App\Models\Eloquent\Employee;
-use App\Models\Eloquent\EmployeePersonalInformation;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use Ladumor\OneSignal\OneSignal;
 use App\Traits\Response;
 
