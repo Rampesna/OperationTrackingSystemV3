@@ -5,6 +5,7 @@ namespace App\Services\Eloquent;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Models\Eloquent\Employee;
 use App\Models\Eloquent\Position;
+use App\Services\OperationApi\OperationService;
 use App\Services\ServiceResponse;
 use Illuminate\Support\Facades\Crypt;
 
@@ -748,12 +749,19 @@ class EmployeeService implements IEmployeeService
                 $shiftGroup->employees()->detach($employeeId);
             }
 
-            return new ServiceResponse(
-                true,
-                'Employee left',
-                200,
-                $employee->getData()
-            );
+            $operationService = new OperationService;
+            $setUserInterestResponse = $operationService->SetUserInterest($employeeGuid);
+
+            if ($setUserInterestResponse->isSuccess()) {
+                return new ServiceResponse(
+                    true,
+                    'Employee left',
+                    200,
+                    $employee->getData()
+                );
+            } else {
+                return $setUserInterestResponse;
+            }
         } else {
             return $employee;
         }

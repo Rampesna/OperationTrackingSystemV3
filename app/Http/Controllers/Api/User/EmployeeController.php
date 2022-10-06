@@ -17,6 +17,7 @@ use App\Http\Requests\Api\User\EmployeeController\GetByEmailRequest;
 use App\Http\Requests\Api\User\EmployeeController\UpdateJobDepartmentRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IJobDepartmentService;
+use App\Services\OperationApi\OperationService;
 use App\Traits\Response;
 
 class EmployeeController extends Controller
