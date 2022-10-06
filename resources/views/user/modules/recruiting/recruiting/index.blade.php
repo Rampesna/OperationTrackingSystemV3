@@ -20,6 +20,7 @@
     @include('user.modules.recruiting.recruiting.modals.cancelRecruiting')
     @include('user.modules.recruiting.recruiting.modals.reactivateRecruiting')
     @include('user.modules.recruiting.recruiting.modals.setStepRecruiting')
+    @include('user.modules.recruiting.recruiting.modals.recruitingActivity')
     @include('user.modules.recruiting.recruiting.modals.deleteRecruiting')
 
     <div class="row">

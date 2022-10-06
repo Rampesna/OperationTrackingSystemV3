@@ -16,6 +16,7 @@
 @section('content')
 
     @include('user.modules.recruiting.wizard.modals.sendSms')
+    @include('user.modules.recruiting.wizard.modals.submitNextStep')
 
     @include('user.modules.recruiting.wizard.drawers.recruitingEvaluationParameters')
 

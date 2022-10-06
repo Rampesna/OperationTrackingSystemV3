@@ -657,6 +657,11 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\RecruitingDepartmentController::class, 'getAll'])->name('user.api.recruitingDepartment.getAll');
     });
 
+    Route::prefix('recruitingActivity')->group(function () {
+        Route::get('getByRecruitingId', [\App\Http\Controllers\Api\User\RecruitingActivityController::class, 'getByRecruitingId'])->name('user.api.recruitingActivity.getByRecruitingId');
+        Route::post('create', [\App\Http\Controllers\Api\User\RecruitingActivityController::class, 'create'])->name('user.api.recruitingActivity.create');
+    });
+
     Route::prefix('evaluationParameter')->group(function () {
         Route::get('index', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'index'])->name('user.api.evaluationParameter.index');
         Route::get('getById', [\App\Http\Controllers\Api\User\EvaluationParameterController::class, 'getById'])->name('user.api.evaluationParameter.getById');

@@ -7,6 +7,7 @@
     var allRecruitingSteps = [];
 
     var recruitings = $('#recruitings');
+    var recruitingActivitiesTbody = $('#recruitingActivitiesTbody');
 
     var page = $('#page');
     var pageUpButton = $('#pageUp');
@@ -180,6 +181,7 @@
 
     function cancelRecruiting(id) {
         $('#cancel_recruiting_id').val(id);
+        $('#cancel_reason').val('');
         $('#CancelRecruitingModal').modal('show');
     }
 
@@ -219,6 +221,47 @@
                 console.log(error);
                 toastr.error('İşe Alım Verileri Alınırken Serviste Bir Sorun Oluştu!');
                 $('#loader').hide();
+            }
+        });
+    }
+
+    function getRecruitingActivities(id) {
+        $('#loader').show();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.recruitingActivity.getByRecruitingId') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                recruitingId: id,
+            },
+            success: function (response) {
+                $('#loader').hide();
+                $('#RecruitingActivityModal').modal('show');
+                recruitingActivitiesTbody.empty();
+                $.each(response.response, function (i, recruitingActivity) {
+                    recruitingActivitiesTbody.append(`
+                        <tr>
+                            <td>${reformatDatetimeToDatetimeForHuman(recruitingActivity.created_at)}</td>
+                            <td>${recruitingActivity.user.name}</td>
+                            <td><span class="badge badge-secondary">${recruitingActivity.transaction}</span></td>
+                            <td><textarea class="form-control" rows="2" disabled>${recruitingActivity.description}</textarea></td>
+                        </tr>
+                    `);
+                });
+            },
+            error: function (error) {
+                $('#loader').hide();
+                console.log(error);
+                if (parseInt(error.status) === 422) {
+                    $.each(error.responseJSON.response, function (i, error) {
+                        toastr.error(error[0]);
+                    });
+                } else {
+                    toastr.error(error.responseJSON.message);
+                }
             }
         });
     }
@@ -274,6 +317,8 @@
                                     ` : ``}
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="reactivateRecruiting(${recruiting.id})" title="Tekrar Havuza Aktar"><i class="fas fa-check-circle me-2 text-warning"></i> <span class="text-dark">Tekrar Havuza Aktar</span></a>
                                     <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="setStepRecruiting(${recruiting.id})" title="Aşama Seçimi"><i class="fas fa-redo-alt me-2 text-dark"></i> <span class="text-dark">Aşama Seçimi</span></a>
+                                    <hr class="text-muted">
+                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="getRecruitingActivities(${recruiting.id})" title="İşlem Geçmişi"><i class="fas fa-clipboard-list me-2 text-success"></i> <span class="text-dark">İşlem Geçmişi</span></a>
                                     <hr class="text-muted">
                                     <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteRecruiting(${recruiting.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
                                 </div>
@@ -431,7 +476,7 @@
                     'Authorization': token
                 },
                 data: formData,
-                success: function (response) {
+                success: function () {
                     toastr.success('İşe Alım Başarıyla Oluşturuldu.');
                     changePage(1);
                     CreateRecruitingButton.attr('disabled', false).html('Oluştur');
@@ -500,7 +545,7 @@
                     'Authorization': token
                 },
                 data: formData,
-                success: function (response) {
+                success: function () {
                     toastr.success('İşe Alım Başarıyla Güncellendi.');
                     changePage(parseInt(page.html()));
                     UpdateRecruitingButton.attr('disabled', false).html('Güncelle');
@@ -578,6 +623,7 @@
 
     CancelRecruitingButton.click(function () {
         var id = $('#cancel_recruiting_id').val();
+        var reason = $('#cancel_reason').val();
         CancelRecruitingButton.attr('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
         $.ajax({
             type: 'put',
@@ -587,7 +633,8 @@
                 'Authorization': token
             },
             data: {
-                id: id
+                id: id,
+                reason: reason
             },
             success: function () {
                 toastr.success('İşe Alım Başarıyla İptal Edildi.');

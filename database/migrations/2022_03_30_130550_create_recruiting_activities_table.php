@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('recruiting_activities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('recruiting_id');
-            $table->unsignedBigInteger('step_id');
+            $table->string('transaction');
             $table->unsignedBigInteger('user_id');
             $table->text('description')->nullable();
             $table->timestamps();

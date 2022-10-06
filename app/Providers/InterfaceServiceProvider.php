@@ -62,6 +62,7 @@ use App\Interfaces\Eloquent\IPurchaseService;
 use App\Interfaces\Eloquent\IPurchaseStatusService;
 use App\Interfaces\Eloquent\IQualityAssessmentListService;
 use App\Interfaces\Eloquent\IQueueService;
+use App\Interfaces\Eloquent\IRecruitingActivityService;
 use App\Interfaces\Eloquent\IRecruitingDepartmentService;
 use App\Interfaces\Eloquent\IRecruitingEvaluationParameterService;
 use App\Interfaces\Eloquent\IRecruitingService;
@@ -159,6 +160,7 @@ use App\Services\Eloquent\PurchaseService;
 use App\Services\Eloquent\PurchaseStatusService;
 use App\Services\Eloquent\QualityAssessmentListService;
 use App\Services\Eloquent\QueueService;
+use App\Services\Eloquent\RecruitingActivityService;
 use App\Services\Eloquent\RecruitingDepartmentService;
 use App\Services\Eloquent\RecruitingEvaluationParameterService;
 use App\Services\Eloquent\RecruitingService;
@@ -303,6 +305,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ISpecialReportService::class, SpecialReportService::class);
         $this->app->bind(ISurveySystemService::class, SurveySystemService::class);
         $this->app->bind(ITvScreenService::class, TvScreenService::class);
+        $this->app->bind(IRecruitingActivityService::class, RecruitingActivityService::class);
 
         // OtsCallApiServices
         $this->app->bind(\App\Interfaces\OtsCallApi\ITvScreenService::class, \App\Services\OtsCallApi\TvScreenService::class);

@@ -23,6 +23,7 @@ use App\Models\Eloquent\RecruitingStepSubStepCheck;
 use App\Services\AwsS3\StorageService;
 use App\Services\Eloquent\EvaluationParameterService;
 use App\Services\Eloquent\FileService;
+use App\Services\Eloquent\RecruitingActivityService;
 use App\Services\Eloquent\RecruitingEvaluationParameterService;
 use App\Services\Eloquent\RecruitingStepSubStepCheckService;
 use App\Services\Eloquent\RecruitingStepSubStepService;
@@ -327,7 +328,9 @@ class RecruitingController extends Controller
     public function cancel(CancelRequest $request)
     {
         $cancelResponse = $this->recruitingService->cancel(
-            $request->id
+            $request->id,
+            $request->user()->id,
+            $request->reason
         );
         if ($cancelResponse->isSuccess()) {
             return $this->success(
@@ -376,6 +379,15 @@ class RecruitingController extends Controller
                         $evaluationParameter->name
                     );
                 }
+
+                $recruitingActivityService = new RecruitingActivityService;
+                $recruitingActivityService->create(
+                    $reactivateResponse->getData()->id,
+                    'Havuzda',
+                    $request->user()->id,
+                    'Yeniden Havuza Aktarıldı'
+                );
+
                 return $this->success(
                     $reactivateResponse->getMessage(),
                     $reactivateResponse->getData(),
@@ -431,8 +443,19 @@ class RecruitingController extends Controller
     {
         $recruiting = Recruiting::find($request->id);
         if ($recruiting->step_id < 8) {
-            $recruiting->step_id = $recruiting->step_id + 1;
+            $nextStepId = $recruiting->step_id + 1;
+            $nextStep = RecruitingStep::find($nextStepId);
+
+            $recruiting->step_id = $nextStepId;
             $recruiting->save();
+
+            $recruitingActivityService = new RecruitingActivityService;
+            $recruitingActivityService->create(
+                $request->id,
+                $nextStep->name,
+                $request->user()->id,
+                $request->description
+            );
 
             return $this->success(
                 'Next step',

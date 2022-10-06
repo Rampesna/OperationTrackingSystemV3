@@ -2,6 +2,7 @@
 
 namespace App\Services\Eloquent;
 
+use App\Interfaces\Eloquent\IRecruitingActivityService;
 use App\Interfaces\Eloquent\IRecruitingService;
 use App\Models\Eloquent\Recruiting;
 use App\Models\Eloquent\RecruitingStep;
@@ -10,6 +11,19 @@ use App\Services\ServiceResponse;
 
 class RecruitingService implements IRecruitingService
 {
+    /**
+     * @var RecruitingActivityService $recruitingActivityService
+     */
+    private $recruitingActivityService;
+
+    /**
+     * @param IRecruitingActivityService $recruitingActivityService
+     */
+    public function __construct(IRecruitingActivityService $recruitingActivityService)
+    {
+        $this->recruitingActivityService = $recruitingActivityService;
+    }
+
     /**
      * @return ServiceResponse
      */
@@ -52,23 +66,39 @@ class RecruitingService implements IRecruitingService
 
     /**
      * @param int $id
+     * @param int $userId
+     * @param string|null $reason
      *
      * @return ServiceResponse
      */
     public function cancel(
-        int $id
+        int     $id,
+        int     $userId,
+        ?string $reason
     ): ServiceResponse
     {
         $recruiting = $this->getById($id);
         if ($recruiting->isSuccess()) {
             $recruiting->getData()->cancel = 1;
             $recruiting->getData()->save();
-            return new ServiceResponse(
-                true,
-                'Recruiting canceled',
-                200,
-                $recruiting->getData()
+
+            $createRecruitingActivityResponse = $this->recruitingActivityService->create(
+                $recruiting->getData()->id,
+                'İptal Edildi',
+                $userId,
+                $reason
             );
+
+            if ($createRecruitingActivityResponse->isSuccess()) {
+                return new ServiceResponse(
+                    true,
+                    'Recruiting canceled',
+                    200,
+                    $recruiting->getData()
+                );
+            } else {
+                return $createRecruitingActivityResponse;
+            }
         } else {
             return $recruiting;
         }

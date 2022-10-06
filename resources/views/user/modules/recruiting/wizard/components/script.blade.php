@@ -21,6 +21,7 @@
     var createRecruitingEvaluationParameterParameter = $('#create_recruiting_evaluation_parameter_parameter');
 
     var SendSmsButton = $('#SendSmsButton');
+    var SubmitNextStepButton = $('#SubmitNextStepButton');
     var CreateRecruitingEvaluationParameterButton = $('#CreateRecruitingEvaluationParameterButton');
 
     function sendSms() {
@@ -192,6 +193,33 @@
         }
     });
 
+    SubmitNextStepButton.click(function () {
+        $('#loader').show();
+        var description = $('#next_step_description').val();
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.recruiting.nextStep') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                id: recruitingId,
+                description: description
+            },
+            success: function () {
+                $('#SubmitNextStepModal').modal('hide');
+                getRecruitingWiard();
+                $('#loader').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('İşlem Yapılırken Serviste Bir Sorun Oluştu!');
+                $('#loader').hide();
+            }
+        });
+    });
+
     $(document).delegate('.recruitingStepSubStepChecker', 'click', function () {
         $('#loader').show();
         var id = $(this).attr('data-id');
@@ -218,27 +246,8 @@
     });
 
     $(document).delegate('#NextStepButton', 'click', function () {
-        $('#loader').show();
-        $.ajax({
-            type: 'put',
-            url: '{{ route('user.api.recruiting.nextStep') }}',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': token
-            },
-            data: {
-                id: recruitingId,
-            },
-            success: function () {
-                getRecruitingWiard();
-                $('#loader').hide();
-            },
-            error: function (error) {
-                console.log(error);
-                toastr.error('İşlem Yapılırken Serviste Bir Sorun Oluştu!');
-                $('#loader').hide();
-            }
-        });
+        $('#next_step_description').val('');
+        $('#SubmitNextStepModal').modal('show');
     });
 
     $(document).delegate('.checkRecruitingEvaluationParameterButton', 'click', function () {

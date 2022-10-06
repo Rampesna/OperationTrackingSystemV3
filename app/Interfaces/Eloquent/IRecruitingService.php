@@ -84,9 +84,15 @@ interface IRecruitingService extends IEloquentService
 
     /**
      * @param int $id
+     * @param int $userId
+     * @param string|null $reason
+     *
+     * @return ServiceResponse
      */
     public function cancel(
-        int $id,
+        int     $id,
+        int     $userId,
+        ?string $reason
     ): ServiceResponse;
 
     /**
