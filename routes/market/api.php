@@ -13,6 +13,7 @@ Route::middleware([
 
     Route::get('getProfile', [\App\Http\Controllers\Api\Market\MarketController::class, 'getProfile'])->name('market.api.getProfile');
     Route::post('swapTheme', [\App\Http\Controllers\Api\Market\MarketController::class, 'swapTheme'])->name('market.api.swapTheme');
+    Route::post('setDeviceToken', [\App\Http\Controllers\Api\Market\MarketController::class, 'setDeviceToken'])->name('market.api.setDeviceToken');
     Route::get('getMarketPayments', [\App\Http\Controllers\Api\Market\MarketController::class, 'getMarketPayments'])->name('market.api.getMarketPayments');
 
     Route::prefix('marketPayment')->group(function () {

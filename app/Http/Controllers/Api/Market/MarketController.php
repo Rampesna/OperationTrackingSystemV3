@@ -7,6 +7,7 @@ use App\Http\Requests\Api\Market\MarketController\RegisterRequest;
 use App\Http\Requests\Api\Market\MarketController\LoginRequest;
 use App\Http\Requests\Api\Market\MarketController\GetProfileRequest;
 use App\Http\Requests\Api\Market\MarketController\SwapThemeRequest;
+use App\Http\Requests\Api\Market\MarketController\SetDeviceTokenRequest;
 use App\Http\Requests\Api\Market\MarketController\GetMarketPaymentsRequest;
 use App\Interfaces\Eloquent\IMarketService;
 use App\Traits\Response;
@@ -115,6 +116,29 @@ class MarketController extends Controller
             return $this->error(
                 $swapThemeResponse->getMessage(),
                 $swapThemeResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetDeviceTokenRequest $request
+     */
+    public function setDeviceToken(SetDeviceTokenRequest $request)
+    {
+        $setDeviceTokenResponse = $this->marketService->setDeviceToken(
+            $request->user()->id,
+            $request->deviceToken
+        );
+        if ($setDeviceTokenResponse->isSuccess()) {
+            return $this->success(
+                $setDeviceTokenResponse->getMessage(),
+                $setDeviceTokenResponse->getData(),
+                $setDeviceTokenResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setDeviceTokenResponse->getMessage(),
+                $setDeviceTokenResponse->getStatusCode()
             );
         }
     }

@@ -49,6 +49,17 @@ interface IMarketService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param int $marketId
+     * @param string $deviceToken
+     *
+     * @return ServiceResponse
+     */
+    public function setDeviceToken(
+        int    $marketId,
+        string $deviceToken
+    ): ServiceResponse;
+
+    /**
      * @param array $ids
      *
      * @return ServiceResponse

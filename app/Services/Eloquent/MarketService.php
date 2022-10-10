@@ -179,6 +179,33 @@ class MarketService implements IMarketService
         }
     }
 
+    /**
+     * @param int $marketId
+     * @param string $deviceToken
+     *
+     * @return ServiceResponse
+     */
+    public function setDeviceToken(
+        int    $marketId,
+        string $deviceToken
+    ): ServiceResponse
+    {
+        $market = $this->getById($marketId);
+        if ($market->isSuccess()) {
+            $market->getData()->device_token = $deviceToken;
+            $market->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Device token set',
+                200,
+                $market->getData()
+            );
+        } else {
+            return $market;
+        }
+    }
+
     public function generateSanctumToken(
         Market $market
     )

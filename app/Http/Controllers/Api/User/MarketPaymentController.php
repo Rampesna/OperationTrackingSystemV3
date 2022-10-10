@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\MarketPaymentController\AddBalanceEmployeesRequest;
 use App\Http\Requests\Api\User\MarketPaymentController\CreateRequest;
 use App\Interfaces\Eloquent\IMarketPaymentService;
+use App\Models\Eloquent\Market;
+use App\Services\Eloquent\NotificationService;
 use App\Traits\Response;
 
 class MarketPaymentController extends Controller
@@ -74,6 +76,29 @@ class MarketPaymentController extends Controller
             $request->completed
         );
         if ($createResponse->isSuccess()) {
+
+            $heading = 'Gelen Ödeme';
+            $message = $request->amount . ' TL ödeme aldınız.';
+
+            $notificationService = new NotificationService;
+            $notificationCreateResponse = $notificationService->create(
+                'App\\Models\\Eloquent\\Market',
+                $request->marketId,
+                $heading,
+                $message,
+            );
+
+            if ($notificationCreateResponse->isSuccess()) {
+                $oneSignalNotificationService = new \App\Services\OneSignal\NotificationService;
+                $oneSignalNotificationService->sendNotification(
+                    [
+                        Market::find($request->marketId)->device_token ?? ''
+                    ],
+                    $heading,
+                    $message
+                );
+            }
+
             return $this->success(
                 $createResponse->getMessage(),
                 $createResponse->getData(),
