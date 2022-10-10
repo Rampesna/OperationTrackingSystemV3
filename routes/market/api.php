@@ -21,4 +21,7 @@ Route::middleware([
         Route::post('setCompleted', [\App\Http\Controllers\Api\Market\MarketPaymentController::class, 'setCompleted'])->name('market.api.marketPayment.setCompleted');
     });
 
+    Route::prefix('notification')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Api\Market\NotificationController::class, 'index'])->name('market.api.notification.index');
+    });
 });

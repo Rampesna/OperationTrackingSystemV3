@@ -59,6 +59,11 @@ class HomeController extends Controller
     {
         $fields['include_player_ids'] = Employee::where('device_token', '<>', null)->pluck('device_token')->toArray();
         $fields['name'] = 'OTS 2';
+        $fields['title'] = 'OTS 2';
+        $fields['headings'] = [
+            'en' => 'OTS TEST',
+            'tr' => 'OTS TEST',
+        ];
         $fields['contents'] = [
             'en' => 'Test notification',
             'tr' => 'Test notification',

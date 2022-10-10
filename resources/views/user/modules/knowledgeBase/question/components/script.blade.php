@@ -6,6 +6,9 @@
         $('#loader').hide();
     });
 
+    var updateKnowledgeBaseQuestionPermission = `{{ checkUserPermission(211, $userPermissions) ? 'true' : 'false' }}`;
+    var deleteKnowledgeBaseQuestionPermission = `{{ checkUserPermission(212, $userPermissions) ? 'true' : 'false' }}`;
+
     var createKnowledgeBaseQuestionAnswerEditor = null;
     var updateKnowledgeBaseQuestionAnswerEditor = null;
 
@@ -160,9 +163,9 @@
                                     <i class="fas fa-th"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${knowledgeBaseQuestion.id}_Dropdown" style="width: 175px">
-                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateKnowledgeBaseQuestion(${knowledgeBaseQuestion.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    ${updateKnowledgeBaseQuestionPermission === 'true' ? `<a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateKnowledgeBaseQuestion(${knowledgeBaseQuestion.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>` : ``}
                                     <hr class="text-muted">
-                                    <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteKnowledgeBaseQuestion(${knowledgeBaseQuestion.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                    ${deleteKnowledgeBaseQuestionPermission === 'true' ? `<a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteKnowledgeBaseQuestion(${knowledgeBaseQuestion.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>` : ``}
                                 </div>
                             </div>
                         </td>

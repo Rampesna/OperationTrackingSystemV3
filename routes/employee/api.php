@@ -116,4 +116,8 @@ Route::middleware([
     Route::prefix('knowledgeBaseQuestionCategory')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\Employee\KnowledgeBaseQuestionCategoryController::class, 'getAll'])->name('employee.api.knowledgeBaseQuestionCategory.getAll');
     });
+
+    Route::prefix('notification')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Api\Employee\NotificationController::class, 'index'])->name('employee.api.notification.index');
+    });
 });

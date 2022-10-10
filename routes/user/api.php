@@ -692,6 +692,11 @@ Route::middleware([
         Route::delete('delete', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'delete'])->name('user.api.knowledgeBaseQuestionCategory.delete');
     });
 
+    Route::prefix('notification')->group(function () {
+        Route::post('sendBatch', [\App\Http\Controllers\Api\User\NotificationController::class, 'sendBatch'])->name('user.api.notification.sendBatch');
+        Route::post('sendForPenalty', [\App\Http\Controllers\Api\User\NotificationController::class, 'sendForPenalty'])->name('user.api.notification.sendForPenalty');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

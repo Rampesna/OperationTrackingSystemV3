@@ -2,6 +2,9 @@
 
     var knowledgeBaseQuestionCategories = $('#knowledgeBaseQuestionCategories');
 
+    var updateKnowledgeBaseQuestionCategoryPermission = `{{ checkUserPermission(214, $userPermissions) ? 'true' : 'false' }}`;
+    var deleteKnowledgeBaseQuestionCategoryPermission = `{{ checkUserPermission(215, $userPermissions) ? 'true' : 'false' }}`;
+
     var page = $('#page');
     var pageUpButton = $('#pageUp');
     var pageDownButton = $('#pageDown');
@@ -83,9 +86,9 @@
                                     <i class="fas fa-th"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="${knowledgeBaseQuestionCategory.id}_Dropdown" style="width: 175px">
-                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateKnowledgeBaseQuestionCategory(${knowledgeBaseQuestionCategory.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
+                                    ${updateKnowledgeBaseQuestionCategoryPermission === 'true' ? `<a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateKnowledgeBaseQuestionCategory(${knowledgeBaseQuestionCategory.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>` : ``}
                                     <hr class="text-muted">
-                                    <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteKnowledgeBaseQuestionCategory(${knowledgeBaseQuestionCategory.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
+                                    ${deleteKnowledgeBaseQuestionCategoryPermission === 'true' ? `<a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteKnowledgeBaseQuestionCategory(${knowledgeBaseQuestionCategory.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>` : ``}
                                 </div>
                             </div>
                         </td>

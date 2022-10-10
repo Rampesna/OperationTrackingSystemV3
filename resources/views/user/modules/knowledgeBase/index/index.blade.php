@@ -17,6 +17,7 @@
 
     <div class="row">
 
+        @if(checkUserPermission(208, $userPermissions))
         <a href="{{ route('user.web.knowledgeBase.question') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -34,7 +35,9 @@
                 </div>
             </div>
         </a>
+        @endif
 
+        @if(checkUserPermission(209, $userPermissions))
         <a href="{{ route('user.web.knowledgeBase.category') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
@@ -54,6 +57,7 @@
                 </div>
             </div>
         </a>
+        @endif
 
     </div>
 

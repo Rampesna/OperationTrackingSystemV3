@@ -339,6 +339,10 @@ Route::middleware([
         Route::get('category', [\App\Http\Controllers\Web\User\KnowledgeBaseController::class, 'category'])->name('user.web.knowledgeBase.category');
     });
 
+    Route::prefix('notification')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\NotificationController::class, 'index'])->name('user.web.notification.index');
+    });
+
     Route::prefix('file')->group(function () {
         Route::get('download/{id?}', [\App\Http\Controllers\Web\User\FileController::class, 'download'])->name('user.web.file.download');
         Route::get('downloadByKey', [\App\Http\Controllers\Web\User\FileController::class, 'downloadByKey'])->name('user.web.file.downloadByKey');

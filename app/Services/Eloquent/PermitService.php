@@ -6,6 +6,7 @@ use App\Interfaces\Eloquent\IPermitService;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Models\Eloquent\Employee;
 use App\Models\Eloquent\Permit;
+use App\Models\Eloquent\PermitStatus;
 use App\Models\Eloquent\Position;
 use App\Services\ServiceResponse;
 
@@ -576,6 +577,30 @@ class PermitService implements IPermitService
         if ($permit->isSuccess()) {
             $permit->getData()->status_id = $statusId;
             $permit->getData()->save();
+
+            if ($statusId == 2 || $statusId == 3) {
+                $heading = 'İzin Talebi';
+                $message = 'İzin Talebiniz ' . PermitStatus::find($statusId)->name;
+
+                $notificationService = new NotificationService;
+                $notificationCreateResponse = $notificationService->create(
+                    'App\\Models\\Eloquent\\Employee',
+                    $permit->getData()->employee_id,
+                    $heading,
+                    $message,
+                );
+
+                if ($notificationCreateResponse->isSuccess()) {
+                    $oneSignalNotificationService = new \App\Services\OneSignal\NotificationService;
+                    $oneSignalNotificationService->sendNotification(
+                        [
+                            $permit->getData()->employee->device_token ?? ''
+                        ],
+                        $heading,
+                        $message
+                    );
+                }
+            }
 
             return new ServiceResponse(
                 true,

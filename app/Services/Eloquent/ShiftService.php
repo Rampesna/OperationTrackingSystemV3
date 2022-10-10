@@ -510,6 +510,31 @@ class ShiftService implements IShiftService
     {
         $shift = $this->getById($id);
         if ($shift->isSuccess()) {
+            $heading = 'Vardiya Güncellemesi';
+            $message =
+                date('d.m.Y', strtotime($shift->getData()->start_date)) . ' Tarihindeki Vardiyanız ' .
+                date('H:i', strtotime($startDate)) . ' - ' .
+                date('H:i', strtotime($endDate)) . ' Olarak Güncellendi.';
+
+            $notificationService = new NotificationService;
+            $notificationCreateResponse = $notificationService->create(
+                'App\\Models\\Eloquent\\Employee',
+                $shift->getData()->employee_id,
+                $heading,
+                $message,
+            );
+
+            if ($notificationCreateResponse->isSuccess()) {
+                $oneSignalNotificationService = new \App\Services\OneSignal\NotificationService;
+                $oneSignalNotificationService->sendNotification(
+                    [
+                        $shift->getData()->employee->device_token ?? ''
+                    ],
+                    $heading,
+                    $message
+                );
+            }
+
             $shift->getData()->shift_group_id = $shiftGroupId;
             $shift->getData()->start_date = $startDate;
             $shift->getData()->end_date = $endDate;
@@ -543,20 +568,51 @@ class ShiftService implements IShiftService
         string $endTime
     ): ServiceResponse
     {
+
+
+        $shifts = Shift::whereIn('employee_id', $employeeIds)->whereBetween(
+            'start_date', [
+                $date . ' 00:00:00',
+                $date . ' 23:59:59'
+            ]
+        )->get();
+
+        $shifts->each(function ($shift) use ($date, $startTime, $endTime) {
+            $heading = 'Vardiya Güncellemesi';
+            $message =
+                date('d.m.Y', strtotime($shift->start_date)) . ' Tarihindeki Vardiyanız ' .
+                date('H:i', strtotime($startTime)) . ' - ' .
+                date('H:i', strtotime($endTime)) . ' Olarak Güncellendi.';
+
+            $notificationService = new NotificationService;
+            $notificationCreateResponse = $notificationService->create(
+                'App\\Models\\Eloquent\\Employee',
+                $shift->employee_id,
+                $heading,
+                $message,
+            );
+
+            if ($notificationCreateResponse->isSuccess()) {
+                $oneSignalNotificationService = new \App\Services\OneSignal\NotificationService;
+                $oneSignalNotificationService->sendNotification(
+                    [
+                        $shift->employee->device_token ?? ''
+                    ],
+                    $heading,
+                    $message
+                );
+            }
+
+            $shift->start_date = $date . ' ' . $startTime;
+            $shift->end_date = $date . ' ' . $endTime;
+            $shift->save();
+        });
+
         return new ServiceResponse(
             true,
             'Shifts updated',
             200,
-            Shift::whereIn('employee_id', $employeeIds)->whereBetween(
-                'start_date', [
-                    $date . ' 00:00:00',
-                    $date . ' 23:59:59'
-                ]
-            )->update([
-                'last_updated_by' => $authUserId,
-                'start_date' => $date . ' ' . $startTime,
-                'end_date' => $date . ' ' . $endTime,
-            ])
+            null
         );
     }
 

@@ -36,7 +36,9 @@
             </div>
         </div>
         <div class="col-xl-4 d-grid mb-5 text-end">
+            @if(checkUserPermission(213, $userPermissions))
             <button class="btn btn-primary" onclick="createKnowledgeBaseQuestionCategory()">Kategori Oluştur</button>
+            @endif
         </div>
     </div>
     <br>
