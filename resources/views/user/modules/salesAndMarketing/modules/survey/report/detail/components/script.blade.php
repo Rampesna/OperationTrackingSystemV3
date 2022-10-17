@@ -90,6 +90,7 @@
                     companyIds: companyIds,
                 },
                 success: function (response) {
+                    console.log(response);
                     var dataFields = [
                         {name: 'id'},
                         {name: 'musteriAdi'},
@@ -99,7 +100,8 @@
                         {name: 'durum'},
                         {name: 'islemYapanKullanici'},
                         {name: 'kayitYapanKullanici'},
-                        {name: 'sonucDurumu'}
+                        {name: 'sonucDurumu'},
+                        {name: 'kayitTarihi'},
                     ];
                     var columns = [
                         {
@@ -153,6 +155,12 @@
                         {
                             text: 'Sonuç Durumu',
                             dataField: 'sonucDurumu',
+                            columntype: 'textbox',
+                            width: '10%',
+                        },
+                        {
+                            text: 'Kayıt Tarihi',
+                            dataField: 'kayitTarihi',
                             columntype: 'textbox',
                             width: '10%',
                         }

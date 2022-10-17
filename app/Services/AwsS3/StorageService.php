@@ -32,6 +32,30 @@ class StorageService extends AwsS3Service implements IStorageService
     }
 
     /**
+     * @param mixed $filePath
+     * @param string $filePath
+     */
+    public function storeFromAsset(
+        mixed  $filePath,
+        string $fullPath
+    ): ServiceResponse
+    {
+        $response = $this->getClient()->putObject([
+            'Bucket' => $this->getBucket(),
+            'Key' => $fullPath,
+            'Body' => fopen($filePath, 'r'),
+            'ACL' => 'public-read'
+        ]);
+
+        return new ServiceResponse(
+            true,
+            'File uploaded',
+            200,
+            $fullPath
+        );
+    }
+
+    /**
      * @param string $key
      */
     public function getByKey(

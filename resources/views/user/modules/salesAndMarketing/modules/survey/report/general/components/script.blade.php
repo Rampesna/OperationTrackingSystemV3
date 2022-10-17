@@ -109,11 +109,17 @@
                     companyIds: companyIds,
                 },
                 success: function (response) {
+                    console.log(response);
                     $('#loader').hide();
                     if (response.response) {
-                        var unReachableCustomers = response.response.find(function (data) {
+                        var unReachableCustomersObject = response.response.find(function (data) {
                             return parseInt(data.pazarlamaDurumKodu) === 1;
-                        }).aranandatA1;
+                        });
+
+                        var unReachableCustomers = 0;
+                        if (unReachableCustomersObject) {
+                            unReachableCustomersObject.aranandatA1;
+                        }
 
                         reportCards.html('');
                         reportsRow.html('');
