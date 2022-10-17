@@ -42,7 +42,7 @@
         </div>
         <div class="col-xl-6 mb-5 text-end">
             <div class="form-group">
-                @if(checkUserPermission(219, $userPermissions) && $id == 288)
+                @if($id == 288)
                 <button type="button" class="btn btn-sm btn-info mt-6" id="DownloadExcelButton" style="display: none">Excel İndir</button>
                 @endif
             </div>
