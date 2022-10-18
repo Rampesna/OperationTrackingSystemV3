@@ -43,7 +43,11 @@
         <div class="col-xl-6 mb-5 text-end">
             <div class="form-group">
                 @if($id == 288)
-                <button type="button" class="btn btn-sm btn-info mt-6" id="DownloadExcelButton" style="display: none">Excel İndir</button>
+                    @if(auth()->id() == 1)
+                        <button type="button" class="btn btn-sm btn-primary mt-6" id="DownloadExcelButton" style="display: none">Excel İndir</button>
+                    @endif
+                @else
+                    <button type="button" class="btn btn-sm btn-primary mt-6" id="DownloadExcelButton" style="display: none">Excel İndir</button>
                 @endif
             </div>
         </div>
