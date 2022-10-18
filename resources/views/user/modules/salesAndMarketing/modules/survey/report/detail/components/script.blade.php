@@ -101,7 +101,7 @@
                         {name: 'islemYapanKullanici'},
                         {name: 'kayitYapanKullanici'},
                         {name: 'sonucDurumu'},
-                        {name: 'kayitTarihi'},
+                        {name: 'kayitTarihi'}
                     ];
                     var columns = [
                         {
@@ -210,6 +210,7 @@
                                 islemYapanKullanici: list[0].islemYapanKullanici,
                                 kayitYapanKullanici: list[0].kayitYapanKullanici,
                                 sonucDurumu: list[0].sonucDurumu,
+                                kayitTarihi: list[0].kayitTarihi,
                             });
                             var getResult = resultArray.find(
                                 function (item) {
