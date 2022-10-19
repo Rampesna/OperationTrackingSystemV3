@@ -171,31 +171,54 @@
                     var questions = [];
 
                     $.each(response.response, function (i, list) {
-                        var listItemCount = list.length;
-                        if (listItemCount > biggerDataCount) {
-                            biggerDataList = list;
-                            biggerDataCount = listItemCount;
-                        }
+                        $.each(list, function (j, attributeColumn) {
+                            if (attributeColumn.soru != null) {
+                                var getDataField = dataFields.find(
+                                    function (item) {
+                                        return item.name === attributeColumn.soru;
+                                    }
+                                );
+                                if (!getDataField) {
+                                    dataFieldChecking = dataFields.find(
+                                        function (item) {
+                                            return item.name === attributeColumn.soru;
+                                        }
+                                    );
+                                    if (!dataFieldChecking) {
+                                        dataFields.push({
+                                            name: attributeColumn.soru,
+                                        });
+                                    }
+
+                                    var columnChecking = columns.find(
+                                        function (item) {
+                                            return item.dataField === attributeColumn.soru;
+                                        }
+                                    );
+                                    if (!columnChecking) {
+                                        columns.push({
+                                            text: attributeColumn.soru,
+                                            dataField: attributeColumn.soru,
+                                            columntype: 'textbox',
+                                        });
+                                    }
+
+                                    var questionChecking = questions.find(
+                                        function (item) {
+                                            return item === attributeColumn.soru;
+                                        }
+                                    );
+                                    if (!questionChecking) {
+                                        questions.push(attributeColumn.soru);
+                                    }
+                                }
+                            }
+                        });
                     });
 
-                    $.each(biggerDataList, function (i, biggerData) {
-                        var getDataField = dataFields.find(
-                            function (item) {
-                                return item.name === biggerData.soru;
-                            }
-                        );
-                        if (!getDataField) {
-                            dataFields.push({
-                                name: biggerData.soru,
-                            });
-                            columns.push({
-                                text: biggerData.soru,
-                                dataField: biggerData.soru,
-                                columntype: 'textbox',
-                            });
-                            questions.push(biggerData.soru);
-                        }
-                    });
+                    console.log(dataFields);
+                    console.log(columns);
+                    console.log(questions);
 
                     var resultArray = [];
                     $.each(response.response, function (i, list) {
