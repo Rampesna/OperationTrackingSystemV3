@@ -425,6 +425,9 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         string|null $listCode,
         string|null $status,
         int|string  $isNewMarketingScreen,
+        int         $isSurvey,
+        string|null $cantCallGroupCode,
+        string|null $descriptionHtml,
         array|null  $callList = []
     ): ServiceResponse
     {
@@ -455,6 +458,9 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'uyumCrmIsKaynagi' => $jobResource,
             'uyumCrmListeKod' => $listCode,
             'durum' => $status,
+            'scriptAnketMi' => $isSurvey,
+            'aranmayacakGrupKodu' => $cantCallGroupCode,
+            'aciklamaHtml' => $descriptionHtml,
             'aranacakListe' => $callList
         ];
 

@@ -123,6 +123,41 @@
                         </div>
                         <div class="row mb-5">
                             <div class="col-xl-3 mt-3">
+                                <label for="create_survey_description_html" class="font-weight-bolder">HTML Açıklama</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <textarea id="create_survey_description_html"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="create_survey_is_survey" class="font-weight-bolder">Script Anket Mi?</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <select id="create_survey_is_survey" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Script Anket Mi?" aria-hidden="true">
+                                        <option value="" selected disabled hidden></option>
+                                        <option value="0">Hayır</option>
+                                        <option value="1">Evet</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="create_survey_cant_call_group_code" class="font-weight-bolder">Aranmayacak Grup Kodu</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <input id="create_survey_cant_call_group_code" class="form-control form-control-solid" placeholder="Aranmayacak Grup Kodu">
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
                                 <label for="create_survey_opportunity" class="font-weight-bolder">Fırsat Açılsın mı?</label>
                             </div>
                             <div class="col-xl-9">

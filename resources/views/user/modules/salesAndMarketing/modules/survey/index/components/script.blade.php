@@ -21,8 +21,24 @@
 <script src="{{ asset('assets/jqwidgets/globalization/globalize.js') }}"></script>
 <script src="{{ asset('assets/jqwidgets/jqgrid-localization.js') }}"></script>
 <script src="{{ asset('assets/jqwidgets/jszip.min.js') }}"></script>
+<script src="{{ asset('assets/ck/build/ckeditor.js') }}"></script>
 
 <script>
+
+    var createSurveyDescriptionHtmlCkEditor = null;
+    var updateSurveyDescriptionHtmlCkEditor = null;
+
+    ClassicEditor.create(document.querySelector('#create_survey_description_html')).then(editor => {
+        createSurveyDescriptionHtmlCkEditor = editor;
+    }).catch(error => {
+        console.error(error);
+    });
+
+    ClassicEditor.create(document.querySelector('#update_survey_description_html')).then(editor => {
+        updateSurveyDescriptionHtmlCkEditor = editor;
+    }).catch(error => {
+        console.error(error);
+    });
 
     var allSurveys = [];
 
@@ -232,10 +248,14 @@
                 id: id,
             },
             success: function (response) {
+                console.log(response);
                 $('#TransactionsModal').modal('hide');
                 $('#update_survey_code').val(response.response.kodu);
                 $('#update_survey_name').val(response.response.adi);
                 $('#update_survey_status').val(response.response.durum);
+                $('#update_survey_is_survey').val(response.response.scriptAnketMi);
+                $('#update_survey_cant_call_group_code').val(response.response.aranmayacakGrupKodu);
+                updateSurveyDescriptionHtmlCkEditor.setData(response.response.aciklamaHtml ?? '');
                 $('#update_survey_service_product').val(response.response.uyumCrmHizmetUrun);
                 $('#update_survey_call_reason').val(response.response.uyumCrmCagriNedeni);
                 $('#update_survey_tags').val(response.response.etiketler);
@@ -341,6 +361,9 @@
         var listCode = $('#create_survey_list_code').val();
         var isNewMarketingScreen = $('#create_survey_is_new_marketing_screen').val();
         var callList = $('#create_survey_call_list')[0].files[0];
+        var isSurvey = $('#create_survey_is_survey').val();
+        var cantCallGroupCode = $('#create_survey_cant_call_group_code').val();
+        var descriptionHtml = createSurveyDescriptionHtmlCkEditor.getData();
 
         if (!code) {
             toastr.warning('Script Kodu Boş Olamaz!');
@@ -374,6 +397,8 @@
             toastr.warning('Satıcı Yönlendirme Tipi Boş Olamaz!');
         } else if (!isNewMarketingScreen) {
             toastr.warning('Durum Kodu Yönlendirme Tipi Boş Olamaz!');
+        } else if (!isSurvey) {
+            toastr.warning('Script Anket Mi Seçilmedi!');
         } else if (!listCode) {
             toastr.warning('Liste Kodu Boş Olamaz!');
         } else {
@@ -383,6 +408,9 @@
             formData.append('name', name);
             formData.append('status', status);
             formData.append('isNewMarketingScreen', isNewMarketingScreen);
+            formData.append('isSurvey', isSurvey);
+            formData.append('cantCallGroupCode', cantCallGroupCode);
+            formData.append('descriptionHtml', descriptionHtml);
             formData.append('serviceProduct', serviceProduct);
             formData.append('callReason', callReason);
             formData.append('tags', tags);
@@ -447,6 +475,9 @@
         var jobResource = $('#update_survey_job_resource').val();
         var listCode = $('#update_survey_list_code').val();
         var callList = $('#update_survey_call_list')[0].files[0];
+        var isSurvey = $('#update_survey_is_survey').val();
+        var cantCallGroupCode = $('#update_survey_cant_call_group_code').val();
+        var descriptionHtml = updateSurveyDescriptionHtmlCkEditor.getData();
 
         if (!code) {
             toastr.warning('Script Kodu Boş Olamaz!');
@@ -480,6 +511,8 @@
             toastr.warning('Ek Ürün İçin Arama Planı Gönderilsin mi Boş Olamaz!');
         } else if (!sellerRedirectionType) {
             toastr.warning('Durum Kodu Yönlendirme Tipi Boş Olamaz!');
+        } else if (!isSurvey) {
+            toastr.warning('Script Anket mi Boş Olamaz!');
         } else if (!listCode) {
             toastr.warning('Liste Kodu Boş Olamaz!');
         } else {
@@ -490,6 +523,9 @@
             formData.append('name', name);
             formData.append('status', status);
             formData.append('isNewMarketingScreen', isNewMarketingScreen);
+            formData.append('isSurvey', isSurvey);
+            formData.append('cantCallGroupCode', cantCallGroupCode);
+            formData.append('descriptionHtml', descriptionHtml);
             formData.append('serviceProduct', serviceProduct);
             formData.append('callReason', callReason);
             formData.append('tags', tags);

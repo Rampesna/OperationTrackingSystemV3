@@ -128,6 +128,9 @@ class SurveySystemController extends Controller
             $request->listCode,
             $request->status,
             $request->isNewMarketingScreen,
+            $request->isSurvey,
+            $request->cantCallGroupCode,
+            $request->descriptionHtml,
             $request->file('callList') ? Excel::toCollection(null, $request->file('callList'))->map(function ($row) {
                 return [
                     'cariId' => $row[0],
