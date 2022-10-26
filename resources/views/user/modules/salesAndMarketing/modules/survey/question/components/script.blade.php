@@ -355,6 +355,7 @@
         });
         createAnswerProducts.val([]);
         $('#create_answer_columns').val([]);
+        $('#create_answer_status_id').val('');
         $('#CreateAnswerModal').modal('show');
     }
 
@@ -447,6 +448,7 @@
                             productCodes.push(answerProduct.urunKodu);
                         });
                         updateAnswerProducts.val(productCodes);
+                        $('#update_answer_status_id').val(response.response[0] ? response.response[0].durumKodu : '');
                     },
                     error: function (error) {
                         console.log(error);
@@ -606,6 +608,7 @@
         var answer = $('#create_answer_answer').val();
         var order = $('#create_answer_order').val();
         var columns = $('#create_answer_columns').val().join(';');
+        var statusId = $('#create_answer_status_id').val();
 
         if (!questionId) {
             toastr.warning('Soru Seçiminde Hata Var!');
@@ -613,6 +616,8 @@
             toastr.warning('Sıra Boş Olamaz!');
         } else if (!answer) {
             toastr.warning('Cevap Boş Olamaz!');
+        } else if (!statusId) {
+            toastr.warning('Cevaba Bağlı Durum Seçimi Boş Olamaz!');
         } else {
             $('#loader').show();
             $('#CreateAnswerModal').modal('hide');
@@ -701,6 +706,7 @@
                         products.push({
                             urunKodu: `${product}`,
                             anketCevaplarId: newAnswerId,
+                            durumKodu: statusId,
                         });
                     });
                     $.ajax({
@@ -753,6 +759,7 @@
         var answer = $('#update_answer_answer').val();
         var order = $('#update_answer_order').val();
         var columns = $('#update_answer_columns').val().join(';');
+        var statusId = $('#update_answer_status_id').val();
 
         if (!answerId) {
             toastr.warning('Cevap Seçiminde Hata Var!');
@@ -849,6 +856,7 @@
                         products.push({
                             urunKodu: `${product}`,
                             anketCevaplarId: parseInt(answerId),
+                            durumKodu: statusId,
                         });
                     });
                     $.ajax({

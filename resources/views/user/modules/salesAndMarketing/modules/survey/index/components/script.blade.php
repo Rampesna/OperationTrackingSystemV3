@@ -339,6 +339,7 @@
         var sellerRedirectionType = $('#create_survey_seller_redirection_type').val();
         var jobResource = $('#create_survey_job_resource').val();
         var listCode = $('#create_survey_list_code').val();
+        var isNewMarketingScreen = $('#create_survey_is_new_marketing_screen').val();
         var callList = $('#create_survey_call_list')[0].files[0];
 
         if (!code) {
@@ -371,6 +372,8 @@
             toastr.warning('Ek Ürün İçin Arama Planı Gönderilsin mi Boş Olamaz!');
         } else if (!sellerRedirectionType) {
             toastr.warning('Satıcı Yönlendirme Tipi Boş Olamaz!');
+        } else if (!isNewMarketingScreen) {
+            toastr.warning('Durum Kodu Yönlendirme Tipi Boş Olamaz!');
         } else if (!listCode) {
             toastr.warning('Liste Kodu Boş Olamaz!');
         } else {
@@ -379,6 +382,7 @@
             formData.append('code', code);
             formData.append('name', name);
             formData.append('status', status);
+            formData.append('isNewMarketingScreen', isNewMarketingScreen);
             formData.append('serviceProduct', serviceProduct);
             formData.append('callReason', callReason);
             formData.append('tags', tags);
@@ -425,6 +429,7 @@
         var code = $('#update_survey_code').val();
         var name = $('#update_survey_name').val();
         var status = $('#update_survey_status').val();
+        var isNewMarketingScreen = $('#update_survey_is_new_marketing_screen').val();
         var serviceProduct = $('#update_survey_service_product').val();
         var callReason = $('#update_survey_call_reason').val();
         var tags = $('#update_survey_tags').val();
@@ -471,8 +476,10 @@
             toastr.warning('Ek Ürün İçin Fırsat Gönderilsin mi Boş Olamaz!');
         } else if (!additionalProductCallPlan) {
             toastr.warning('Ek Ürün İçin Arama Planı Gönderilsin mi Boş Olamaz!');
+        } else if (!isNewMarketingScreen) {
+            toastr.warning('Ek Ürün İçin Arama Planı Gönderilsin mi Boş Olamaz!');
         } else if (!sellerRedirectionType) {
-            toastr.warning('Satıcı Yönlendirme Tipi Boş Olamaz!');
+            toastr.warning('Durum Kodu Yönlendirme Tipi Boş Olamaz!');
         } else if (!listCode) {
             toastr.warning('Liste Kodu Boş Olamaz!');
         } else {
@@ -482,6 +489,7 @@
             formData.append('code', code);
             formData.append('name', name);
             formData.append('status', status);
+            formData.append('isNewMarketingScreen', isNewMarketingScreen);
             formData.append('serviceProduct', serviceProduct);
             formData.append('callReason', callReason);
             formData.append('tags', tags);

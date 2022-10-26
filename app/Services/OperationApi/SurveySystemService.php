@@ -397,6 +397,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
      * @param string|null $jobResource
      * @param string|null $listCode
      * @param string|null $status
+     * @param int|string $isNewMarketingScreen
      * @param array|null $callList
      *
      * @return ServiceResponse
@@ -423,6 +424,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         ?string     $jobResource,
         string|null $listCode,
         string|null $status,
+        int|string  $isNewMarketingScreen,
         array|null  $callList = []
     ): ServiceResponse
     {
@@ -878,6 +880,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
                 $oldSurvey->getData()['uyumCrmIsKaynagi'],
                 $oldSurvey->getData()['uyumCrmListeKod'],
                 $oldSurvey->getData()['durum'],
+                $oldSurvey->getData()['yeniPazarlamaEkraniMi'],
                 []
             );
 

@@ -235,6 +235,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="update_survey_is_new_marketing_screen" class="font-weight-bolder">Durum Kodu Yönlendirme Tipi</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <select id="update_survey_is_new_marketing_screen" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Durum Kodu Yönlendirme Tipi" aria-hidden="true">
+                                        <option value="" selected disabled hidden></option>
+                                        <option value="0">Seçilen Durum Koduna Göre Yönlendirme</option>
+                                        <option value="1">Cevaplardaki Durum Koduna Göre Yönlendirme</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <hr class="text-muted">
                         <div class="row mb-5">
                             <div class="col-xl-3 mt-3">

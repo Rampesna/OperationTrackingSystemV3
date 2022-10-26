@@ -87,6 +87,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="create_answer_status_id" class="font-weight-bolder">Cevaba Bağlı Durum</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <select id="create_answer_status_id" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Cevaba Bağlı Durum" aria-hidden="true">
+                                        <option value="6">Rakibe Gitti</option>
+                                        <option value="7">Satıcıya Yönlendirildi</option>
+                                        <option value="10">Bilgi Almak İstiyor</option>
+                                        <option value="14">Mail Atılacak</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">İptal</button>

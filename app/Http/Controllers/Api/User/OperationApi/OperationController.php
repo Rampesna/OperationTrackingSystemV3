@@ -21,6 +21,7 @@ use App\Http\Requests\Api\User\OperationApi\OperationController\GetStaffParamete
 use App\Http\Requests\Api\User\OperationApi\OperationController\SetStaffParameterDeleteRequest;
 use App\Interfaces\Eloquent\ICompanyService;
 use App\Interfaces\OperationApi\IOperationService;
+use App\Models\Eloquent\Employee;
 use App\Traits\Response;
 use Illuminate\Http\Request;
 
@@ -278,6 +279,9 @@ class OperationController extends Controller
     {
         $companyResponse = $this->companyService->getById($request->companyId);
         if ($companyResponse->isSuccess()) {
+            $username = $request->username;
+            $checkUsername = Employee::where('email', 'like', "{$request->username}@%")->first();
+
             $setEmployeeResponse = $this->operationService->SetEmployee(
                 $request->id,
                 $request->companyId,
