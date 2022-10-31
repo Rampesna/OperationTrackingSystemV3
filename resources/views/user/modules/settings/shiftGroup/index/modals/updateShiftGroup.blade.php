@@ -80,7 +80,7 @@
                                             <label for="update_shift_group_employees" class="d-flex align-items-center fs-6 fw-bold mb-2">
                                                 <span class="required">Personeller</span>
                                             </label>
-                                            <select id="update_shift_group_employees" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Personeller" multiple></select>
+                                            <select style="width: 100%" id="update_shift_group_employees" class="form-control form-control-solid" title="Personeller" data-live-search="true" multiple></select>
                                         </div>
                                     </div>
                                     <div class="col-xl-2 mb-5">
