@@ -146,10 +146,9 @@
                 $('#update_shift_group_name').val(response.response.name);
                 updateShiftGroupAddType.val(response.response.add_type);
                 $('#update_shift_group_per_day').val(response.response.per_day).attr('disabled', parseInt(response.response.add_type) === 1);
-                var emps = $.map(response.response.employees, function (item) {
+                updateShiftGroupEmployees.selectpicker('val', $.map(response.response.employees, function (item) {
                     return `${item.id}`;
-                });
-                updateShiftGroupEmployees.selectpicker('val', emps);
+                }));
                 $('#update_shift_group_day1').prop('checked', parseInt(response.response.day1) === 1);
                 $('#update_shift_group_day1_start_time').val(response.response.day1_start_time);
                 $('#update_shift_group_day1_end_time').val(response.response.day1_end_time);
