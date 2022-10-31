@@ -675,7 +675,7 @@ class ShiftService implements IShiftService
 
         foreach ($shiftGroups->getData() as $shiftGroup) {
             $startDayOfMonth = 1;
-            $endDayOfMonth = 6;
+            $endDayOfMonth = date('t', strtotime($month));
 
             for ($day = $startDayOfMonth; $day <= $endDayOfMonth; $day++) {
                 $date = $month . '-' . sprintf('%02d', $day);
