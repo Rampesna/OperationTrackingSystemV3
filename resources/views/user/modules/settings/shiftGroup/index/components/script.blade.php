@@ -24,11 +24,11 @@
     var CreateShiftGroupUnSelectAllEmployeesButton = $('#CreateShiftGroupUnSelectAllEmployeesButton');
 
     CreateShiftGroupSelectAllEmployeesButton.click(function () {
-        createShiftGroupEmployees.selectpicker('selectAll');
+        createShiftGroupEmployees.select2('destroy').find('option').prop('selected', true).end().select2();
     });
 
     CreateShiftGroupUnSelectAllEmployeesButton.click(function () {
-        createShiftGroupEmployees.selectpicker('deselectAll');
+        createShiftGroupEmployees.select2('destroy').find('option').prop('selected', false).end().select2();
     });
 
     createShiftGroupAddType.change(function () {
@@ -54,11 +54,11 @@
     var UpdateShiftGroupUnSelectAllEmployeesButton = $('#UpdateShiftGroupUnSelectAllEmployeesButton');
 
     UpdateShiftGroupSelectAllEmployeesButton.click(function () {
-        updateShiftGroupEmployees.selectpicker('selectAll');
+        updateShiftGroupEmployees.select2('destroy').find('option').prop('selected', true).end().select2();
     });
 
     UpdateShiftGroupUnSelectAllEmployeesButton.click(function () {
-        updateShiftGroupEmployees.selectpicker('deselectAll');
+        updateShiftGroupEmployees.select2('destroy').find('option').prop('selected', false).end().select2();
     });
 
     updateShiftGroupAddType.change(function () {
@@ -79,7 +79,7 @@
         $('#create_shift_group_name').val('');
         createShiftGroupAddType.val('1');
         $('#create_shift_group_per_day').attr('disabled', true).val('');
-        createShiftGroupEmployees.val([]).selectpicker('refresh');
+        createShiftGroupEmployees.select2('destroy').find('option').prop('selected', false).end().select2();
         $('#create_shift_group_day1').prop('checked', true);
         $('#create_shift_group_day1_start_time').val('09:00');
         $('#create_shift_group_day1_end_time').val('18:00');
@@ -146,8 +146,8 @@
                 $('#update_shift_group_name').val(response.response.name);
                 updateShiftGroupAddType.val(response.response.add_type);
                 $('#update_shift_group_per_day').val(response.response.per_day).attr('disabled', parseInt(response.response.add_type) === 1);
-                updateShiftGroupEmployees.selectpicker('val', $.map(response.response.employees, function (item) {
-                    return `${item.id}`;
+                updateShiftGroupEmployees.val($.map(response.response.employees, function (item) {
+                    return item.id;
                 }));
                 $('#update_shift_group_day1').prop('checked', parseInt(response.response.day1) === 1);
                 $('#update_shift_group_day1_start_time').val(response.response.day1_start_time);
@@ -345,8 +345,6 @@
                     <option value="${employee.id}">${employee.name}${employee.job_department ? ` (${employee.job_department.name})` : ``}</option>
                     `);
                 });
-                createShiftGroupEmployees.selectpicker('refresh');
-                updateShiftGroupEmployees.selectpicker('refresh');
             },
             error: function (error) {
                 console.log(error);
