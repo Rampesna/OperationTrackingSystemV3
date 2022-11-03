@@ -253,41 +253,36 @@
         } else if (!emailContentFile) {
             toastr.warning('E-posta İçeriği Boş Olamaz.');
         } else {
-            var input = document.getElementById("update_product_email_content_file");
-            var fReader = new FileReader();
-            fReader.readAsDataURL(input.files[0]);
-            fReader.onloadend = function (event) {
-                var products = [{
-                    id: id,
-                    kodu: code,
-                    adi: name,
-                    durum: status,
-                    epostaBaslik: emailTitle,
-                    epostaIcerik: atob(event.target.result.split(',')[1]),
-                }];
-                $('#loader').show();
-                $('#UpdateProductModal').modal('hide');
-                $.ajax({
-                    type: 'post',
-                    url: '{{ route('user.api.operationApi.surveySystem.setSurveyProduct') }}',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': token
-                    },
-                    data: {
-                        products: products,
-                    },
-                    success: function () {
-                        getProducts();
-                        toastr.success('Ürün Başarıyla Güncellendi.');
-                    },
-                    error: function (error) {
-                        console.log(error);
-                        toastr.error('Ürün Güncellenirken Serviste Bir Hata Oluştu.');
-                        $('#loader').hide();
-                    }
-                });
-            }
+            var data = new FormData();
+            data.append('id', id);
+            data.append('kodu', code);
+            data.append('adi', name);
+            data.append('durum', status);
+            data.append('epostaBaslik', emailTitle);
+            data.append('epostaIcerik', document.getElementById("update_product_email_content_file").files[0]);
+
+            $('#loader').show();
+            $('#UpdateProductModal').modal('hide');
+            $.ajax({
+                contentType: false,
+                processData: false,
+                type: 'post',
+                url: '{{ route('user.api.operationApi.surveySystem.setSurveyProduct') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: data,
+                success: function () {
+                    getProducts();
+                    toastr.success('Ürün Başarıyla Güncellendi.');
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Ürün Güncellenirken Serviste Bir Hata Oluştu.');
+                    $('#loader').hide();
+                }
+            });
         }
     });
 

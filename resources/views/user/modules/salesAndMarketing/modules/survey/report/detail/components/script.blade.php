@@ -216,9 +216,9 @@
                         });
                     });
 
-                    console.log(dataFields);
-                    console.log(columns);
-                    console.log(questions);
+                    // console.log(dataFields);
+                    // console.log(columns);
+                    // console.log(questions);
 
                     var resultArray = [];
                     $.each(response.response, function (i, list) {
@@ -252,6 +252,8 @@
                             });
                         }
                     });
+
+                    console.log(resultArray);
 
                     var source = {
                         localdata: resultArray,

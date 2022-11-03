@@ -793,8 +793,18 @@ class SurveySystemController extends Controller
      */
     public function setSurveyProduct(SetSurveyProductRequest $request)
     {
+        $products = [
+            [
+                'id' => $request->id,
+                'kodu' => $request->kodu,
+                'adi' => $request->adi,
+                'durum' => $request->durum,
+                'epostaBaslik' => $request->epostaBaslik,
+                'epostaIcerik' => file_get_contents($request->file('epostaIcerik')),
+            ]
+        ];
         $setSurveyProductResponse = $this->surveySystemService->SetSurveyProduct(
-            $request->products
+            $products
         );
         if ($setSurveyProductResponse->isSuccess()) {
             return $this->success(

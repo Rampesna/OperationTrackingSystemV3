@@ -109,7 +109,7 @@
                 $.each(response.response, function (i, survey) {
                     setCallDataScanningSurveyId.append($('<option>', {
                         value: survey.id,
-                        text: survey.adi
+                        text: `(${survey.kodu}) - ${survey.adi}`
                     }));
                 });
                 setCallDataScanningSurveyId.val('');

@@ -100,7 +100,7 @@
                         </span>
                     </div>
                     <div class="d-flex flex-column mt-7">
-                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Çağrı Tarama Aktarımı</span>
+                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Script Datası Aktarımı</span>
                     </div>
                 </div>
             </div>

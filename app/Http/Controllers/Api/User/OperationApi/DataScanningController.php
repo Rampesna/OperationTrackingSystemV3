@@ -181,7 +181,7 @@ class DataScanningController extends Controller
             $jobList[] = [
                 'anketId' => intval($request->surveyId),
                 'musteriAdi' => $job[0] ?? '',
-                'musteriTel' => $job[1] ?? '',
+                'musteriTel' => strval($job[1]) ?? '',
                 'yetkili' => $job[2] ?? '',
                 'cariId' => $job[3] ?? '',
             ];

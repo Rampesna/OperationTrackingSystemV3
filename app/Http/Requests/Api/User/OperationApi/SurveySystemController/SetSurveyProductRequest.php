@@ -24,7 +24,7 @@ class SetSurveyProductRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'products' => 'required|array',
+//            'products' => 'required|array',
         ];
     }
 }
