@@ -34,6 +34,7 @@ class JobsSystemController extends Controller
      */
     public function setJobsExcel(SetJobsExcelRequest $request)
     {
+        set_time_limit(86400);
         $file = $request->file('file');
 
         $jobList = [];
@@ -42,11 +43,11 @@ class JobsSystemController extends Controller
         foreach ($jobs[0] as $job) {
             if ($job[0]) {
                 $jobList[] = [
-                    'id' => $job[0],
-                    'oncelik' => $job[1],
-                    'kullaniciYapilacakIslerKodu' => $job[2] ?? 1,
-                    'Turu' => $request->type,
-                    'firmaTuru' => $request->commercialCompanyId,
+                    'id' => intval($job[0]),
+                    'oncelik' => intval($job[1]),
+                    'kullaniciYapilacakIslerKodu' => $job[2] ? intval($job[2]) : 1,
+                    'Turu' => intval($request->type),
+                    'firmaTuru' => intval($request->commercialCompanyId),
                 ];
             }
         }
