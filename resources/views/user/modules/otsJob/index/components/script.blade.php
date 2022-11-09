@@ -214,7 +214,13 @@
                     'Accept': 'application/json',
                     'Authorization': token
                 },
-                data: formData,
+                data: {
+                    id: id,
+                    priority: priority,
+                    code: code,
+                    typeId: typeId,
+                    commercialCompanyId: commercialCompanyId
+                },
                 success: function (response) {
                     console.log(response);
                     SetJobsWithIdButton.attr('disabled', false).html('Aktar');

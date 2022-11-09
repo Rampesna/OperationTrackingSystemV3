@@ -24,6 +24,8 @@ class GetUsersByCompanyIdsRequest extends BaseApiRequest
     public function rules()
     {
         return [
+            'pageIndex' => 'required|integer',
+            'pageSize' => 'required|integer',
             'companyIds' => 'required|array',
         ];
     }
