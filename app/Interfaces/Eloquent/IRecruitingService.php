@@ -10,9 +10,11 @@ interface IRecruitingService extends IEloquentService
      * @param array $companyIds
      * @param int $pageIndex
      * @param int $pageSize
+     * @param string $cancelStatus
      * @param string|null $keyword
      * @param array|null $departmentIds
      * @param array|null $stepIds
+     * @param int|null $cancel
      *
      * @return ServiceResponse
      */
@@ -20,6 +22,7 @@ interface IRecruitingService extends IEloquentService
         array   $companyIds,
         int     $pageIndex,
         int     $pageSize,
+        string  $cancelStatus,
         ?string $keyword = null,
         ?array  $departmentIds = [],
         ?array  $stepIds = []
