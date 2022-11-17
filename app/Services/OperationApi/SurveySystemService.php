@@ -398,6 +398,9 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
      * @param string|null $listCode
      * @param string|null $status
      * @param int|string $isNewMarketingScreen
+     * @param int $isSurvey
+     * @param string|null $cantCallGroupCode
+     * @param string|null $descriptionHtml
      * @param array|null $callList
      *
      * @return ServiceResponse
@@ -459,6 +462,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'uyumCrmListeKod' => $listCode,
             'durum' => $status,
             'scriptAnketMi' => $isSurvey,
+            'yeniPazarlamaEkraniMi' => $isNewMarketingScreen,
             'aranmayacakGrupKodu' => $cantCallGroupCode,
             'aciklamaHtml' => $descriptionHtml,
             'aranacakListe' => $callList
@@ -468,7 +472,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             true,
             'Set Survey',
             200,
-            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body()
         );
     }
 

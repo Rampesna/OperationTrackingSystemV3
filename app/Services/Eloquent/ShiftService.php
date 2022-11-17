@@ -674,8 +674,8 @@ class ShiftService implements IShiftService
         $shifts = collect();
 
         foreach ($shiftGroups->getData() as $shiftGroup) {
-            $startDayOfMonth = 1;
-            $endDayOfMonth = date('t', strtotime($month));
+            $startDayOfMonth = 14;
+            $endDayOfMonth = 20;
 
             for ($day = $startDayOfMonth; $day <= $endDayOfMonth; $day++) {
                 $date = $month . '-' . sprintf('%02d', $day);
@@ -748,16 +748,19 @@ class ShiftService implements IShiftService
                             checkWeeklyEmployees:
                             if ($dayControlVariable != 'day1') {
                                 if ($day == 1) {
-                                    $weeklyEmployees = $this->employeeService->getByIds(
-                                        Shift::where('shift_group_id', $shiftGroup->id)
-                                            ->orderBy('id', 'desc')
-                                            ->whereBetween('start_date', [
-                                                date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 00:00:00',
-                                                date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 23:59:59'
-                                            ])
-                                            ->pluck('employee_id')
-                                            ->toArray()
-                                    )->getData();
+                                    $getList = Shift::where('shift_group_id', $shiftGroup->id)
+                                        ->orderBy('id', 'desc')
+                                        ->whereBetween('start_date', [
+                                            date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 00:00:00',
+                                            date('Y-m-d', strtotime('-1 days', strtotime($date))) . ' 23:59:59'
+                                        ])
+                                        ->pluck('employee_id')
+                                        ->toArray();
+                                    if (count($getList) == 0) {
+                                        goto retryWeekly;
+                                    } else {
+                                        $weeklyEmployees = $this->employeeService->getByIds($getList)->getData();
+                                    }
                                 } else {
                                     $weeklyEmployees = $this->employeeService->getByIds(
                                         $shifts->where('shift_group_id', $shiftGroup->id)
@@ -791,7 +794,14 @@ class ShiftService implements IShiftService
 
                                 if (count($shiftGroupEmployees) < $shiftGroup->per_day) {
                                     $this->shiftGroupEmployeeUseListService->setShiftGroupEmployeesNotUsed($shiftGroup->id);
-                                    goto retryWeekly;
+                                    $weeklyEmployees = $shiftGroupEmployees->random(count($shiftGroupEmployees));
+//                                    return new ServiceResponse(
+//                                        false,
+//                                        'Not enough employees for shift group ' . $shiftGroup->name . ' on ' . $date . '.',
+//                                        400,
+//                                        null,
+//                                    );
+//                                    goto retryWeekly;
                                 } else {
                                     $weeklyEmployees = $shiftGroupEmployees->random($shiftGroup->per_day);
                                 }

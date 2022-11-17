@@ -22,12 +22,6 @@
                                 <div style="width: 500px" id="reader"></div>
                             </div>
                         </div>
-                        <hr class="text-muted">
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <input id="pinCode" type="number" class="form-control form-control-solid onlyNumber" placeholder="Pin Koduyla Ödeme Al" aria-label="Pin Kodu">
-                            </div>
-                        </div>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>

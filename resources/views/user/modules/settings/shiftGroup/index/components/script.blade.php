@@ -339,10 +339,10 @@
                 updateShiftGroupEmployees.empty();
                 $.each(response.response.employees, function (i, employee) {
                     createShiftGroupEmployees.append(`
-                    <option value="${employee.id}">${employee.name}</option>
+                    <option value="${employee.id}">${employee.name}${employee.job_department ? ` (${employee.job_department.name})` : ``}</option>
                     `);
                     updateShiftGroupEmployees.append(`
-                    <option value="${employee.id}">${employee.name}</option>
+                    <option value="${employee.id}">${employee.name}${employee.job_department ? ` (${employee.job_department.name})` : ``}</option>
                     `);
                 });
             },
@@ -352,6 +352,7 @@
             }
         });
     }
+
 
     getCompanies();
     getShiftGroups();

@@ -194,9 +194,11 @@ class RecruitingService implements IRecruitingService
      * @param array $companyIds
      * @param int $pageIndex
      * @param int $pageSize
+     * @param string $cancelStatus
      * @param string|null $keyword
      * @param array|null $departmentIds
      * @param array|null $stepIds
+     * @param int|null $cancel
      *
      * @return ServiceResponse
      */
@@ -204,6 +206,7 @@ class RecruitingService implements IRecruitingService
         array   $companyIds,
         int     $pageIndex,
         int     $pageSize,
+        string  $cancelStatus,
         ?string $keyword = null,
         ?array  $departmentIds = [],
         ?array  $stepIds = []
@@ -214,6 +217,12 @@ class RecruitingService implements IRecruitingService
             'department',
             'step',
         ])->orderBy('id', 'desc')->whereIn('company_id', $companyIds);
+
+        if ($cancelStatus == 'Active') {
+            $recruitings->where('cancel', 0);
+        } else if ($cancelStatus == 'Cancelled') {
+            $recruitings->where('cancel', 1);
+        }
 
         if ($keyword) {
             $recruitings->where(function ($recruitings) use ($keyword) {

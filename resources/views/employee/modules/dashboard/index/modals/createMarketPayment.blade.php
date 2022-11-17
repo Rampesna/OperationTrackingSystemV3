@@ -33,11 +33,7 @@
                                 <div id="qrcode"></div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xl-12 text-center">
-                                <span class="fw-bolder" id="pinCode"></span>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Vazgeç</button>

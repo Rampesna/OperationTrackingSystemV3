@@ -24,7 +24,7 @@ class GetByBranchIdRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'companyId' => 'required|integer'
+            'branchId' => 'required|integer'
         ];
     }
 }

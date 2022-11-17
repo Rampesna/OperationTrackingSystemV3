@@ -19,6 +19,7 @@
 
     var keywordFilter = $('#keyword');
     var stepIdsFilter = $('#stepIds');
+    var cancelStatusFilter = $('#cancelStatus');
 
     var createRecruitingCompanyId = $('#create_recruiting_company_id');
     var updateRecruitingCompanyId = $('#update_recruiting_company_id');
@@ -278,6 +279,7 @@
         var pageSize = pageSizeSelector.val();
         var keyword = keywordFilter.val();
         var stepIds = stepIdsFilter.val();
+        var cancelStatus = cancelStatusFilter.val();
 
         $.ajax({
             type: 'get',
@@ -292,6 +294,7 @@
                 pageSize: pageSize,
                 keyword: keyword,
                 stepIds: stepIds,
+                cancelStatus: cancelStatus
             },
             success: function (response) {
                 recruitings.empty();
@@ -410,6 +413,7 @@
     ClearFilterButton.click(function () {
         keywordFilter.val('');
         stepIdsFilter.val([]).trigger('change');
+        cancelStatusFilter.val('All');
         changePage(1);
     });
 

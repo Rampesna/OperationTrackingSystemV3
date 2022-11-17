@@ -56,6 +56,7 @@ class RecruitingController extends Controller
             $request->companyIds,
             $request->pageIndex,
             $request->pageSize,
+            $request->cancelStatus,
             $request->keyword,
             $request->departmentIds,
             $request->stepIds

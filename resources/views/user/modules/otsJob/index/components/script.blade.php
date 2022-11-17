@@ -109,7 +109,7 @@
                 $.each(response.response, function (i, survey) {
                     setCallDataScanningSurveyId.append($('<option>', {
                         value: survey.id,
-                        text: survey.adi
+                        text: `(${survey.kodu}) - ${survey.adi}`
                     }));
                 });
                 setCallDataScanningSurveyId.val('');
@@ -214,7 +214,13 @@
                     'Accept': 'application/json',
                     'Authorization': token
                 },
-                data: formData,
+                data: {
+                    id: id,
+                    priority: priority,
+                    code: code,
+                    typeId: typeId,
+                    commercialCompanyId: commercialCompanyId
+                },
                 success: function (response) {
                     console.log(response);
                     SetJobsWithIdButton.attr('disabled', false).html('Aktar');

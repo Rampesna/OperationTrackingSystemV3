@@ -28,16 +28,26 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-xl-8 mb-5">
+                        <div class="col-xl-6 mb-5">
                             <div class="form-group">
                                 <label for="keyword">Arayın</label>
                                 <input id="keyword" type="text" class="form-control form-control-solid filterInput" placeholder="Arayın...">
                             </div>
                         </div>
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-3 mb-5">
                             <div class="form-group">
                                 <label for="stepIds">Durum</label>
                                 <select id="stepIds" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Durum" multiple></select>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 mb-5">
+                            <div class="form-group">
+                                <label for="cancelStatus">İptal Durumu</label>
+                                <select id="cancelStatus" class="form-select form-select-solid">
+                                    <option value="All">Tümü</option>
+                                    <option value="Active">Aktifler</option>
+                                    <option value="Cancelled">İptal Edilenler</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-xl-6 mb-5">
