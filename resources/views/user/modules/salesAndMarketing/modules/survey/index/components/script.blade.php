@@ -194,74 +194,36 @@
     }
 
     function createSurvey() {
-        $('#TransactionsModal').modal('hide');
-        $('#create_survey_code').val(createRandomCode());
-        $('#create_survey_name').val('');
-        $('#create_survey_status').val('');
-        $('#create_survey_service_product').val('');
-        $('#create_survey_call_reason').val('');
-        $('#create_survey_tags').val('');
-        $('#create_survey_customer_information_1').val('');
-        $('#create_survey_customer_information_2').val('');
-        $('#create_survey_description').val('');
-        $('#create_survey_opportunity').val('');
-        $('#create_survey_call').val('');
-        $('#create_survey_dial_plan').val('');
-        $('#create_survey_opportunity_redirect_to_seller').val('');
-        $('#create_survey_dial_plan_redirect_to_seller').val('');
-        $('#create_survey_additional_product_opportunity').val('');
-        $('#create_survey_additional_product_call_plan').val('');
-        $('#create_survey_seller_redirection_type').val('');
-        $('#create_survey_job_resource').val('');
-        $('#create_survey_list_code').val('');
-        $('#create_survey_call_list').val('');
-        $('#CreateSurveyModal').modal('show');
+        window.open('{{ route('user.web.salesAndMarketing.modules.survey.create') }}', '_self');
+        // $('#TransactionsModal').modal('hide');
+        // $('#create_survey_code').val(createRandomCode());
+        // $('#create_survey_name').val('');
+        // $('#create_survey_status').val('');
+        // $('#create_survey_service_product').val('');
+        // $('#create_survey_call_reason').val('');
+        // $('#create_survey_tags').val('');
+        // $('#create_survey_customer_information_1').val('');
+        // $('#create_survey_customer_information_2').val('');
+        // $('#create_survey_description').val('');
+        // $('#create_survey_opportunity').val('');
+        // $('#create_survey_call').val('');
+        // $('#create_survey_dial_plan').val('');
+        // $('#create_survey_opportunity_redirect_to_seller').val('');
+        // $('#create_survey_dial_plan_redirect_to_seller').val('');
+        // $('#create_survey_additional_product_opportunity').val('');
+        // $('#create_survey_additional_product_call_plan').val('');
+        // $('#create_survey_seller_redirection_type').val('');
+        // $('#create_survey_job_resource').val('');
+        // $('#create_survey_list_code').val('');
+        // $('#create_survey_call_list').val('');
+        // $('#CreateSurveyModal').modal('show');
     }
 
     function updateSurvey() {
-        $('#loader').show();
-        var id = parseInt($('#selected_survey_id').val());
-        $.ajax({
-            type: 'get',
-            url: '{{ route('user.api.operationApi.surveySystem.getSurveyEdit') }}',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': token
-            },
-            data: {
-                id: id,
-            },
-            success: function (response) {
-                $('#TransactionsModal').modal('hide');
-                $('#update_survey_code').val(response.response.kodu);
-                $('#update_survey_name').val(response.response.adi);
-                $('#update_survey_status').val(response.response.durum);
-                $('#update_survey_service_product').val(response.response.uyumCrmHizmetUrun);
-                $('#update_survey_call_reason').val(response.response.uyumCrmCagriNedeni);
-                $('#update_survey_tags').val(response.response.etiketler);
-                $('#update_survey_customer_information_1').val(response.response.musteriBilgilendirme);
-                $('#update_survey_customer_information_2').val(response.response.musteriBilgilendirme2);
-                $('#update_survey_description').val(response.response.aciklama);
-                $('#update_survey_opportunity').val(response.response.uyumCrmFirsat);
-                $('#update_survey_call').val(response.response.uyumCrmCagri);
-                $('#update_survey_dial_plan').val(response.response.uyumCrmAramaPlani);
-                $('#update_survey_opportunity_redirect_to_seller').val(response.response.uyumCrmFirsatSaticiyaYonlendir);
-                $('#update_survey_dial_plan_redirect_to_seller').val(response.response.uyumCrmAramaPlaniSaticiyaYonlendir);
-                $('#update_survey_additional_product_opportunity').val(response.response.uyumCrmEkUrunFirsat);
-                $('#update_survey_additional_product_call_plan').val(response.response.uyumCrmEkUrunAramaPlani);
-                $('#update_survey_seller_redirection_type').val(response.response.uyumCrmSaticiKoduTurKodu);
-                $('#update_survey_job_resource').val(response.response.uyumCrmIsKaynagi);
-                $('#update_survey_list_code').val(response.response.uyumCrmListeKod);
-                $('#update_survey_call_list').val('');
-                $('#UpdateSurveyModal').modal('show');
-                $('#loader').hide();
-            },
-            error: function (error) {
-                console.log(error);
-                toastr.error('Script Detayı Alınırken Serviste Bir Hata Oluştu');
-                $('#loader').hide();
-            }
-        });
+        // $('#loader').show();
+        var scriptId = parseInt($('#selected_survey_id').val());
+        var scriptCode = parseInt($('#selected_survey_code').val());
+        window.open(`{{ route('user.web.salesAndMarketing.modules.survey.update') }}/${btoa(scriptId)}/${btoa(scriptCode)}`, '_self');
     }
 
     function deleteSurvey() {

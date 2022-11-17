@@ -112,6 +112,8 @@ Route::middleware([
         Route::prefix('modules')->group(function () {
             Route::prefix('survey')->group(function () {
                 Route::get('index', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyController::class, 'index'])->name('user.web.salesAndMarketing.modules.survey.index');
+                Route::get('create', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyController::class, 'create'])->name('user.web.salesAndMarketing.modules.survey.create');
+                Route::get('update/{scriptId?}/{scriptCode?}', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyController::class, 'update'])->name('user.web.salesAndMarketing.modules.survey.update');
                 Route::get('question', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyController::class, 'question'])->name('user.web.salesAndMarketing.modules.survey.question');
                 Route::get('examine', [\App\Http\Controllers\Web\User\SalesAndMarketing\SurveyController::class, 'examine'])->name('user.web.salesAndMarketing.modules.survey.examine');
 

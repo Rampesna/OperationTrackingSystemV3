@@ -153,6 +153,9 @@ interface ISurveySystemService
      * @param string|null $listCode
      * @param string|null $status
      * @param int|string $isNewMarketingScreen
+     * @param int $isSurvey
+     * @param string|null $cantCallGroupCode
+     * @param string|null $descriptionHtml
      * @param array|null $callList
      *
      * @return ServiceResponse
@@ -180,6 +183,9 @@ interface ISurveySystemService
         string|null $listCode,
         string|null $status,
         int|string  $isNewMarketingScreen,
+        int         $isSurvey,
+        string|null $cantCallGroupCode,
+        string|null $descriptionHtml,
         array|null  $callList = []
     ): ServiceResponse;
 

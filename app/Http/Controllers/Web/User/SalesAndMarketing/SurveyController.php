@@ -12,6 +12,19 @@ class SurveyController extends Controller
         return view('user.modules.salesAndMarketing.modules.survey.index.index');
     }
 
+    public function create()
+    {
+        return view('user.modules.salesAndMarketing.modules.survey.create.index');
+    }
+
+    public function update(Request $request)
+    {
+        return view('user.modules.salesAndMarketing.modules.survey.update.index', [
+            'scriptId' => $request->scriptId,
+            'scriptCode' => $request->scriptCode,
+        ]);
+    }
+
     public function question(Request $request)
     {
         return view('user.modules.salesAndMarketing.modules.survey.question.index', [
