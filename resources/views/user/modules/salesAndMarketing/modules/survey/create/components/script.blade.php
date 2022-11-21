@@ -28,7 +28,6 @@
     reGenerateCreateSurveyCode();
 
     CreateSurveyButton.click(function () {
-        var id = null;
         var code = $('#create_survey_code').val();
         var name = $('#create_survey_name').val();
         var status = $('#create_survey_status').val();
