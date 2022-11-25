@@ -802,8 +802,8 @@ class SurveySystemController extends Controller
                 'kodu' => $request->kodu,
                 'adi' => $request->adi,
                 'durum' => $request->durum,
-                'epostaBaslik' => $request->epostaBaslik,
-                'epostaIcerik' => file_get_contents($request->file('epostaIcerik')),
+                'epostaBaslik' => $request->epostaBaslik ?? '',
+                'epostaIcerik' => $request->hasFile('epostaIcerik') ? file_get_contents($request->file('epostaIcerik')) : '',
             ]
         ];
         $setSurveyProductResponse = $this->surveySystemService->SetSurveyProduct(

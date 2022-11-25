@@ -190,45 +190,36 @@
             toastr.warning('Ürün Adı Boş Olamaz.');
         } else if (!status) {
             toastr.warning('Ürün Durumu Seçmediniz!');
-        } else if (!emailTitle) {
-            toastr.warning('E-posta Başlığı Boş Olamaz.');
-        } else if (!emailContentFile) {
-            toastr.warning('E-posta İçeriği Boş Olamaz.');
         } else {
-            var input = document.getElementById("create_product_email_content_file");
-            var fReader = new FileReader();
-            fReader.readAsDataURL(input.files[0]);
-            fReader.onloadend = function (event) {
-                var products = [{
-                    kodu: code,
-                    adi: name,
-                    durum: status,
-                    epostaBaslik: emailTitle,
-                    epostaIcerik: atob(event.target.result.split(',')[1]),
-                }];
-                $('#loader').show();
-                $('#CreateProductModal').modal('hide');
-                $.ajax({
-                    type: 'post',
-                    url: '{{ route('user.api.operationApi.surveySystem.setSurveyProduct') }}',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': token
-                    },
-                    data: {
-                        products: products,
-                    },
-                    success: function () {
-                        getProducts();
-                        toastr.success('Ürün Başarıyla Eklendi.');
-                    },
-                    error: function (error) {
-                        console.log(error);
-                        toastr.error('Ürün Eklenirken Serviste Bir Hata Oluştu.');
-                        $('#loader').hide();
-                    }
-                });
-            }
+            $('#loader').show();
+            var data = new FormData();
+            data.append('kodu', code);
+            data.append('adi', name);
+            data.append('durum', status);
+            data.append('epostaBaslik', emailTitle);
+            data.append('epostaIcerik', emailContentFile);
+
+            $('#CreateProductModal').modal('hide');
+            $.ajax({
+                contentType: false,
+                processData: false,
+                type: 'post',
+                url: '{{ route('user.api.operationApi.surveySystem.setSurveyProduct') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: data,
+                success: function () {
+                    getProducts();
+                    toastr.success('Ürün Başarıyla Eklendi.');
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Ürün Eklenirken Serviste Bir Hata Oluştu.');
+                    $('#loader').hide();
+                }
+            });
         }
     });
 
