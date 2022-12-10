@@ -225,7 +225,7 @@
                         $('#update_employee_ots_status').val(response.response[0].rol).trigger('change');
                         $('#update_employee_web_crm_user_id').val(response.response[0].uyumCrmUserId);
                         $('#update_employee_web_crm_username').val(response.response[0].uyumCrmUserName);
-                        $('#update_employee_web_crm_password').val(response.response[0].uyumCrmPassword);
+                        $('#update_employee_web_crm_password').val(response.response[0].uyumCrmUserPassword);
                         $('#update_employee_progress_crm_username').val(response.response[0].uyumProgressUserName);
                         $('#update_employee_progress_crm_password').val(response.response[0].uyumProgressUserPassword);
                         $('#update_employee_team_code').val(response.response[0].takimKodu);
@@ -1347,7 +1347,7 @@
                                     groupCode: groupCode,
                                     callScanCode: callScanCode,
                                 },
-                                success: function (response) {
+                                success: function () {
                                     $.ajax({
                                         type: 'put',
                                         url: '{{ route('user.api.employee.update') }}',
@@ -1799,7 +1799,7 @@
     });
 
     CreateEmployeeButton.click(function () {
-        var guid = null;
+        // var guid = null;
         var roleId = 1;
         var companyId = createEmployeeCompanyId.val();
         var name = $('#create_employee_name').val();

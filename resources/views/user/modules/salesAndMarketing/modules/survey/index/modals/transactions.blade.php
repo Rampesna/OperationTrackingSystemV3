@@ -165,7 +165,7 @@
                     @endif
                     @if(checkUserPermission(58, $userPermissions))
                     <div class="col-xl-4 mb-5 editingTransaction">
-                        <div onclick="copySurveyt()" class="card py-0 cursor-pointer">
+                        <div onclick="copySurvey()" class="card py-0 cursor-pointer">
                             <div class="card-body">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-1">

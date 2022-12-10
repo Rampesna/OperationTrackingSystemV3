@@ -126,6 +126,7 @@ Route::middleware([
             Route::get('seller', [\App\Http\Controllers\Web\User\SalesAndMarketing\SellerController::class, 'index'])->name('user.web.salesAndMarketing.modules.seller.index');
             Route::get('batchSeller', [\App\Http\Controllers\Web\User\SalesAndMarketing\SellerController::class, 'batchSeller'])->name('user.web.salesAndMarketing.modules.batchSeller.index');
             Route::get('product', [\App\Http\Controllers\Web\User\SalesAndMarketing\ProductController::class, 'index'])->name('user.web.salesAndMarketing.modules.product.index');
+            Route::get('category', [\App\Http\Controllers\Web\User\SalesAndMarketing\CategoryController::class, 'index'])->name('user.web.salesAndMarketing.modules.category.index');
         });
     });
 

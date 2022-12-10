@@ -868,7 +868,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
     {
         $oldSurvey = $this->GetSurveyEdit($surveyId);
         if ($oldSurvey->isSuccess()) {
-            $newSurveyId = $this->SetSurvey(
+            $newSurveyIdResponse = $this->SetSurvey(
                 null,
                 rand(10000, 999999),
                 $name,
@@ -891,11 +891,82 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
                 $oldSurvey->getData()['uyumCrmListeKod'],
                 $oldSurvey->getData()['durum'],
                 $oldSurvey->getData()['yeniPazarlamaEkraniMi'],
+                $oldSurvey->getData()['scriptAnketMi'],
+                $oldSurvey->getData()['aranmayacakGrupKodu'],
+                $oldSurvey->getData()['aciklamaHtml'],
                 []
             );
 
-            if ($newSurveyId->isSuccess()) {
+            $newSurveyId = json_decode($newSurveyIdResponse->getData(), true)['response'];
 
+            $newSurvey = $this->GetSurveyEdit($newSurveyId)->getData();
+
+            if ($newSurveyIdResponse->isSuccess()) {
+                $questions = $this->GetSurveyQuestionsList($surveyCode)->getData();
+
+                foreach ($questions ?? [] as $questionIndex => $question) {
+
+                    if ($question['altSoru'] == 1) {
+                        continue;
+                    }
+
+                    $newQuestionId = $this->SetSurveyQuestions(
+                        null,
+                        $question['soru'],
+                        $question['soruTurKodu'],
+                        $question['ekCevapString'],
+                        $question['siraNo'],
+                        $newSurvey['kodu'],
+                        $question['soruAciklama'],
+                        $question['zorunlumu'],
+                    )->getData();
+
+                    $answers = $this->GetSurveyAnswersList($question['id'])->getData();
+                    foreach ($answers ?? [] as $answerIndex => $answer) {
+
+                        $newAnswerId = $this->SetSurveyAnswers(
+                            null,
+                            $newQuestionId,
+                            $answer['cevap'],
+                            $answer['siraNo'],
+                            $answer['zorunluKolonAdlari']
+                        )->getData();
+
+                        $subQuestions = $this->GetSurveyAnswersConnectList($answer['id'])->getData();
+
+                        foreach ($subQuestions as $subQuestion) {
+                            $getSubQuestion = $this->GetSurveyQuestionEdit($subQuestion['sorularId'])->getData();
+
+                            $newSubQuestionId = $this->SetSurveyQuestions(
+                                null,
+                                $getSubQuestion[0]['soru'],
+                                $getSubQuestion[0]['soruTurKodu'],
+                                $getSubQuestion[0]['ekCevapString'],
+                                $getSubQuestion[0]['siraNo'],
+                                $newSurvey['kodu'],
+                                $getSubQuestion[0]['soruAciklama'],
+                                $getSubQuestion[0]['zorunlumu']
+                            )['response'];
+
+                            $subQuestionAnswerConnectionResponse = $this->SetSurveyAnswersConnect([
+                                [
+                                    'sorularId' => $newSubQuestionId,
+                                    'cevaplarId' => $newAnswerId
+                                ]
+                            ]);
+                        }
+                    }
+                }
+
+                return new ServiceResponse(
+                    true,
+                    'Survey Copied',
+                    200,
+                    [
+                        'newSurveyId' => $newSurveyId,
+                        'newSurveyCode' => $newSurvey['kodu']
+                    ]
+                );
             } else {
                 return $newSurveyId;
             }

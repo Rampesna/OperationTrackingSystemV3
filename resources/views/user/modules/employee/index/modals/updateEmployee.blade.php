@@ -150,6 +150,27 @@
                         <hr class="text-muted">
                         <div class="row mb-5">
                             <div class="col-xl-3 mt-3">
+                                <label for="update_employee_marketing_crm_username" class="font-weight-bolder">Satış CRM Kullanıcı Adı</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <input id="update_employee_marketing_crm_username" type="text" class="form-control form-control-solid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
+                                <label for="update_employee_marketing_crm_password" class="font-weight-bolder">Satış CRM Şifresi</label>
+                            </div>
+                            <div class="col-xl-9">
+                                <div class="form-group">
+                                    <input id="update_employee_marketing_crm_password" type="text" class="form-control form-control-solid">
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="row mb-5">
+                            <div class="col-xl-3 mt-3">
                                 <label for="update_employee_team_code" class="font-weight-bolder">Takım Kodu</label>
                             </div>
                             <div class="col-xl-9">
