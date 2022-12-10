@@ -109,6 +109,8 @@
                         <thead>
                         <tr class="text-start text-dark fw-bolder fs-7 gs-0">
                             <th>#</th>
+                            <th>ID</th>
+                            <th class="hideIfMobile">Oluşturulma Tarihi</th>
                             <th class="hideIfMobile">Bağlantı Türü</th>
                             <th class="hideIfMobile">Bağlantı</th>
                             <th>Başlık</th>

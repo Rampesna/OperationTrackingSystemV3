@@ -312,6 +312,12 @@
                             </div>
                         </td>
                         <td>
+                            #${ticket.id}
+                        </td>
+                        <td>
+                            ${reformatDatetimeTo_DD_MM_YYYY_HH_ii_WithDot(ticket.created_at)}
+                        </td>
+                        <td>
                             ${ticket.relation_type === 'App\\Models\\Eloquent\\Project' ? 'Proje' : ''}
                         </td>
                         <td>
@@ -682,6 +688,7 @@
                     message: message
                 },
                 success: function (response) {
+                    /*
                     $.ajax({
                         type: 'put',
                         url: '{{ route('user.api.ticket.setStatus') }}',
@@ -698,6 +705,7 @@
                             toastr.error('Destek Talebi Durumu Güncellenirken Serviste Bir Sorun Oluştu!');
                         }
                     });
+                    */
                     toastr.success('Mesajınız Başarıyla Oluşturuldu.');
                     var createTicketMessageFilesCount = document.getElementById('create_ticket_message_files').files.length;
                     if (createTicketMessageFilesCount > 0) {
