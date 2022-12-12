@@ -127,6 +127,9 @@ Route::middleware([
             Route::get('batchSeller', [\App\Http\Controllers\Web\User\SalesAndMarketing\SellerController::class, 'batchSeller'])->name('user.web.salesAndMarketing.modules.batchSeller.index');
             Route::get('product', [\App\Http\Controllers\Web\User\SalesAndMarketing\ProductController::class, 'index'])->name('user.web.salesAndMarketing.modules.product.index');
             Route::get('category', [\App\Http\Controllers\Web\User\SalesAndMarketing\CategoryController::class, 'index'])->name('user.web.salesAndMarketing.modules.category.index');
+            Route::get('opponent', [\App\Http\Controllers\Web\User\SalesAndMarketing\OpponentController::class, 'index'])->name('user.web.salesAndMarketing.modules.opponent.index');
+            Route::get('software', [\App\Http\Controllers\Web\User\SalesAndMarketing\SoftwareController::class, 'index'])->name('user.web.salesAndMarketing.modules.software.index');
+            Route::get('integrator', [\App\Http\Controllers\Web\User\SalesAndMarketing\IntegratorController::class, 'index'])->name('user.web.salesAndMarketing.modules.integrator.index');
         });
     });
 
