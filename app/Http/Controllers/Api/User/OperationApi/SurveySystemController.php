@@ -35,6 +35,10 @@ use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySell
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySellerDeleteRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyProductRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\CopySurveyRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyCategoryListRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyOpponentListRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveySoftwareListRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyIntegratorListRequest;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Traits\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -843,6 +847,86 @@ class SurveySystemController extends Controller
             return $this->error(
                 $copySurveyResponse->getMessage(),
                 $copySurveyResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveyCategoryListRequest $request
+     */
+    public function getSurveyCategoryList(GetSurveyCategoryListRequest $request)
+    {
+        $getSurveyCategoryListResponse = $this->surveySystemService->GetSurveyCategoryList();
+        if ($getSurveyCategoryListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyCategoryListResponse->getMessage(),
+                $getSurveyCategoryListResponse->getData(),
+                $getSurveyCategoryListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyCategoryListResponse->getMessage(),
+                $getSurveyCategoryListResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveyOpponentListRequest $request
+     */
+    public function getSurveyOpponentList(GetSurveyOpponentListRequest $request)
+    {
+        $getSurveyOpponentListResponse = $this->surveySystemService->GetSurveyOpponentList();
+        if ($getSurveyOpponentListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyOpponentListResponse->getMessage(),
+                $getSurveyOpponentListResponse->getData(),
+                $getSurveyOpponentListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyOpponentListResponse->getMessage(),
+                $getSurveyOpponentListResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveySoftwareListRequest $request
+     */
+    public function getSurveySoftwareList(GetSurveySoftwareListRequest $request)
+    {
+        $getSurveySoftwareListResponse = $this->surveySystemService->GetSurveySoftwareList();
+        if ($getSurveySoftwareListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveySoftwareListResponse->getMessage(),
+                $getSurveySoftwareListResponse->getData(),
+                $getSurveySoftwareListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveySoftwareListResponse->getMessage(),
+                $getSurveySoftwareListResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveyIntegratorListRequest $request
+     */
+    public function getSurveyIntegratorList(GetSurveyIntegratorListRequest $request)
+    {
+        $getSurveyIntegratorListResponse = $this->surveySystemService->GetSurveyIntegratorList();
+        if ($getSurveyIntegratorListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyIntegratorListResponse->getMessage(),
+                $getSurveyIntegratorListResponse->getData(),
+                $getSurveyIntegratorListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyIntegratorListResponse->getMessage(),
+                $getSurveyIntegratorListResponse->getStatusCode()
             );
         }
     }

@@ -785,6 +785,10 @@ Route::middleware([
             Route::post('setSurveySellerDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveySellerDelete'])->name('user.api.operationApi.surveySystem.setSurveySellerDelete');
             Route::post('setSurveyProduct', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyProduct'])->name('user.api.operationApi.surveySystem.setSurveyProduct');
             Route::post('copySurvey', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'copySurvey'])->name('user.api.operationApi.surveySystem.copySurvey');
+            Route::post('getSurveyCategoryList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyCategoryList'])->name('user.api.operationApi.surveySystem.getSurveyCategoryList');
+            Route::post('getSurveyOpponentList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyOpponentList'])->name('user.api.operationApi.surveySystem.getSurveyOpponentList');
+            Route::post('getSurveySoftwareList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveySoftwareList'])->name('user.api.operationApi.surveySystem.getSurveySoftwareList');
+            Route::post('getSurveyIntegratorList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyIntegratorList'])->name('user.api.operationApi.surveySystem.getSurveyIntegratorList');
         });
 
         Route::prefix('jobsSystem')->group(function () {
