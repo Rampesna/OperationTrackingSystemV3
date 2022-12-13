@@ -54,12 +54,12 @@
                             {name: 'id'},
                             {name: 'kodu'},
                             {name: 'adi'},
+                            {name: 'turKodu'},
                             {name: 'durum'},
-                            {name: 'epostaBaslik'},
                         ]
                 };
                 var dataAdapter = new $.jqx.dataAdapter(source);
-                productsDiv.jqxGrid({
+                categoriesDiv.jqxGrid({
                     width: '100%',
                     height: '600',
                     source: dataAdapter,
@@ -80,13 +80,18 @@
                             width: '5%',
                         },
                         {
-                            text: 'Ürün Kodu',
+                            text: 'Kategori Kodu',
                             dataField: 'kodu',
                             columntype: 'textbox',
                         },
                         {
-                            text: 'Ürün Adı',
+                            text: 'Kategori Adı',
                             dataField: 'adi',
+                            columntype: 'textbox',
+                        },
+                        {
+                            text: 'Kategori Türü',
+                            dataField: 'typeCode',
                             columntype: 'textbox',
                         },
                         {
@@ -94,19 +99,14 @@
                             dataField: 'durum',
                             columntype: 'textbox',
                         },
-                        {
-                            text: 'E-posta Başlığı',
-                            dataField: 'epostaBaslik',
-                            columntype: 'textbox',
-                        },
                     ],
                 });
-                productsDiv.on('rowclick', function (event) {
-                    productsDiv.jqxGrid('selectrow', event.args.rowindex);
-                    var rowindex = productsDiv.jqxGrid('getselectedrowindex');
-                    $('#selected_product_row_index').val(rowindex);
-                    var dataRecord = productsDiv.jqxGrid('getrowdata', rowindex);
-                    $('#selected_product_id').val(dataRecord.id);
+                categoriesDiv.on('rowclick', function (event) {
+                    categoriesDiv.jqxGrid('selectrow', event.args.rowindex);
+                    var rowindex = categoriesDiv.jqxGrid('getselectedrowindex');
+                    $('#selected_category_row_index').val(rowindex);
+                    var dataRecord = categoriesDiv.jqxGrid('getrowdata', rowindex);
+                    $('#selected_category_id').val(dataRecord.id);
                     return false;
                 });
                 $('#loader').hide();
@@ -122,7 +122,7 @@
     getCategories();
 
     function transactions() {
-        var selectedCategoryId = $('#selected_product_id').val();
+        var selectedCategoryId = $('#selected_category_id').val();
         if (!selectedCategoryId) {
             $('.editingTransaction').hide();
         } else {
@@ -133,16 +133,16 @@
 
     function createCategory() {
         $('#TransactionsModal').modal('hide');
-        $('#create_product_code').val('');
-        $('#create_product_name').val('');
-        $('#create_product_status').val('');
-        $('#create_product_email_title').val('');
-        $('#create_product_email_content_file').val('');
+        $('#create_category_code').val('');
+        $('#create_category_name').val('');
+        $('#create_category_status').val('');
+        $('#create_category_email_title').val('');
+        $('#create_category_email_content_file').val('');
         $('#CreateCategoryModal').modal('show');
     }
 
     function updateCategory() {
-        var productId = $('#selected_product_id').val();
+        var categoryId = 1;
         $('#loader').show();
         $.ajax({
             type: 'get',
@@ -152,16 +152,17 @@
                 'Authorization': token
             },
             data: {
-                productId: productId,
+                categoryId: categoryId,
             },
             success: function (response) {
+                console.log(response);
                 $('#TransactionsModal').modal('hide');
-                $('#update_product_code').val(response.response.kodu);
-                $('#update_product_name').val(response.response.adi);
-                $('#update_product_status').val(response.response.durum);
-                $('#update_product_email_title').val(response.response.epostaBaslik);
+                $('#update_category_code').val(response.response.kodu);
+                $('#update_category_name').val(response.response.adi);
+                $('#update_category_status').val(response.response.durum);
+                $('#update_category_email_title').val(response.response.epostaBaslik);
                 $('#selectedCategoryEmailContent').html(response.response.epostaIcerik);
-                $('#update_product_email_content_file').val('');
+                $('#update_category_email_content_file').val('');
                 $('#UpdateCategoryModal').modal('show');
                 $('#loader').hide();
             },
@@ -173,6 +174,8 @@
         });
     }
 
+    updateCategory();
+
     function showCategoryEmailContent() {
         $('#ShowCategoryEmailContentModal').modal('show');
     }
@@ -183,11 +186,11 @@
     }
 
     CreateCategoryButton.click(function () {
-        var code = $('#create_product_code').val();
-        var name = $('#create_product_name').val();
-        var status = $('#create_product_status').val();
-        var emailTitle = $('#create_product_email_title').val();
-        var emailContentFile = $('#create_product_email_content_file')[0].files[0];
+        var code = $('#create_category_code').val();
+        var name = $('#create_category_name').val();
+        var status = $('#create_category_status').val();
+        var emailTitle = $('#create_category_email_title').val();
+        var emailContentFile = $('#create_category_email_content_file')[0].files[0];
 
         if (!code) {
             toastr.warning('Ürün Kodu Boş Olamaz.');
@@ -229,12 +232,12 @@
     });
 
     UpdateCategoryButton.click(function () {
-        var id = $('#selected_product_id').val();
-        var code = $('#update_product_code').val();
-        var name = $('#update_product_name').val();
-        var status = $('#update_product_status').val();
-        var emailTitle = $('#update_product_email_title').val();
-        var emailContentFile = $('#update_product_email_content_file')[0].files[0];
+        var id = $('#selected_category_id').val();
+        var code = $('#update_category_code').val();
+        var name = $('#update_category_name').val();
+        var status = $('#update_category_status').val();
+        var emailTitle = $('#update_category_email_title').val();
+        var emailContentFile = $('#update_category_email_content_file')[0].files[0];
 
         if (!id) {
             toastr.warning('Ürün Seçiminde Hata Var, Sayfayı Yenilemeyi Deneyebilirsiniz.');
@@ -255,7 +258,7 @@
             data.append('adi', name);
             data.append('durum', status);
             data.append('epostaBaslik', emailTitle);
-            data.append('epostaIcerik', document.getElementById("update_product_email_content_file").files[0]);
+            data.append('epostaIcerik', document.getElementById("update_category_email_content_file").files[0]);
 
             $('#loader').show();
             $('#UpdateCategoryModal').modal('hide');

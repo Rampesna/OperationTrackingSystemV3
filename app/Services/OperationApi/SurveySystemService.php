@@ -1231,7 +1231,25 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int      $status
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/SetSurveyCategory";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'id' => $id,
+            'kodu' => $code,
+            'adi' => $name,
+            'turKodu' => $typeCode,
+            'durum' => $status
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Category',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body()
+        );
     }
 
     /**
@@ -1243,7 +1261,21 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int $categoryId
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/GetSurveyCategoryEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'CategoryId' => $categoryId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Category Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
     /**
@@ -1255,7 +1287,21 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int $categoryId
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/SetSurveyCategoryDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'CategoryId' => $categoryId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Category Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
     }
 
     /**
@@ -1293,7 +1339,24 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int      $status
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/SetSurveyOpponent";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'id' => $id,
+            'kodu' => $code,
+            'adi' => $name,
+            'durum' => $status
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Opponent',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body()
+        );
     }
 
     /**
@@ -1305,7 +1368,21 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int $opponentId
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/GetSurveyOpponentEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'OpponentId' => $opponentId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Opponent Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
     /**
@@ -1317,7 +1394,21 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int $opponentId
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/SetSurveyOpponentDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'OpponentId' => $opponentId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Opponent Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
     }
 
     /**
@@ -1355,7 +1446,24 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int      $status
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/SetSurveySoftware";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'id' => $id,
+            'kodu' => $code,
+            'adi' => $name,
+            'durum' => $status
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Software',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body()
+        );
     }
 
     /**
@@ -1367,7 +1475,21 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int $softwareId
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/GetSurveySoftwareEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'SoftwareId' => $softwareId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Software Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
     /**
@@ -1379,7 +1501,21 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int $softwareId
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/SetSurveySoftwareDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'SoftwareId' => $softwareId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Software Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
     }
 
     /**
@@ -1417,7 +1553,24 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int      $status
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/SetSurveyIntegrator";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'id' => $id,
+            'kodu' => $code,
+            'adi' => $name,
+            'durum' => $status
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Integrator',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body()
+        );
     }
 
     /**
@@ -1429,7 +1582,21 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int $integratorId
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/GetSurveyIntegratorEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'IntegratorId' => $integratorId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Integrator Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
     }
 
     /**
@@ -1441,6 +1608,20 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
         int $integratorId
     ): ServiceResponse
     {
+        $endpoint = "SurveySystem/SetSurveyIntegratorDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
 
+        $params = [
+            'IntegratorId' => $integratorId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Integrator Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
     }
 }
