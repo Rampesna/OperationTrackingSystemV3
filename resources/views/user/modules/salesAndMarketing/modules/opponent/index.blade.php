@@ -15,8 +15,14 @@
 
 @section('content')
 
-    <input type="hidden" id="selected_category_row_index">
-    <input type="hidden" id="selected_category_id">
+    @include('user.modules.salesAndMarketing.modules.opponent.modals.transactions')
+
+    @include('user.modules.salesAndMarketing.modules.opponent.modals.createOpponent')
+    @include('user.modules.salesAndMarketing.modules.opponent.modals.updateOpponent')
+    @include('user.modules.salesAndMarketing.modules.opponent.modals.deleteOpponent')
+
+    <input type="hidden" id="selected_opponent_row_index">
+    <input type="hidden" id="selected_opponent_id">
     <div class="row">
         <div class="col-xl-3 mb-5">
             <div class="row">

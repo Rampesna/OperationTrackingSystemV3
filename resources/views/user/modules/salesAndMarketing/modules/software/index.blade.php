@@ -15,8 +15,14 @@
 
 @section('content')
 
-    <input type="hidden" id="selected_category_row_index">
-    <input type="hidden" id="selected_category_id">
+    @include('user.modules.salesAndMarketing.modules.software.modals.transactions')
+
+    @include('user.modules.salesAndMarketing.modules.software.modals.createSoftware')
+    @include('user.modules.salesAndMarketing.modules.software.modals.updateSoftware')
+    @include('user.modules.salesAndMarketing.modules.software.modals.deleteSoftware')
+
+    <input type="hidden" id="selected_software_row_index">
+    <input type="hidden" id="selected_software_id">
     <div class="row">
         <div class="col-xl-3 mb-5">
             <div class="row">

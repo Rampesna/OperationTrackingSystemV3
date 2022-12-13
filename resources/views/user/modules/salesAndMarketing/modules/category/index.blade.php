@@ -15,6 +15,12 @@
 
 @section('content')
 
+    @include('user.modules.salesAndMarketing.modules.category.modals.transactions')
+
+    @include('user.modules.salesAndMarketing.modules.category.modals.createCategory')
+    @include('user.modules.salesAndMarketing.modules.category.modals.updateCategory')
+    @include('user.modules.salesAndMarketing.modules.category.modals.deleteCategory')
+
     <input type="hidden" id="selected_category_row_index">
     <input type="hidden" id="selected_category_id">
     <div class="row">

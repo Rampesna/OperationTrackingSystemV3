@@ -15,8 +15,14 @@
 
 @section('content')
 
-    <input type="hidden" id="selected_category_row_index">
-    <input type="hidden" id="selected_category_id">
+    @include('user.modules.salesAndMarketing.modules.integrator.modals.transactions')
+
+    @include('user.modules.salesAndMarketing.modules.integrator.modals.createIntegrator')
+    @include('user.modules.salesAndMarketing.modules.integrator.modals.updateIntegrator')
+    @include('user.modules.salesAndMarketing.modules.integrator.modals.deleteIntegrator')
+
+    <input type="hidden" id="selected_integrator_row_index">
+    <input type="hidden" id="selected_integrator_id">
     <div class="row">
         <div class="col-xl-3 mb-5">
             <div class="row">

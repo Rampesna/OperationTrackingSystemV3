@@ -296,6 +296,8 @@ class OperationController extends Controller
                 $request->webCrmUserPassword,
                 $request->progressCrmUsername,
                 $request->progressCrmPassword,
+                $request->marketingCrmUsername,
+                $request->marketingCrmPassword,
                 $request->activeJobDescription,
                 $companyResponse->getData()->uyum_crm_company_id,
                 $companyResponse->getData()->uyum_crm_branch_id,

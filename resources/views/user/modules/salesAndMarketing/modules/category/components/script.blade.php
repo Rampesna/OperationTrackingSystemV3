@@ -90,8 +90,8 @@
                             columntype: 'textbox',
                         },
                         {
-                            text: 'Kategori Türü',
-                            dataField: 'typeCode',
+                            text: 'Tür Kodu',
+                            dataField: 'turKodu',
                             columntype: 'textbox',
                         },
                         {
@@ -113,7 +113,7 @@
             },
             error: function (error) {
                 console.log(error);
-                toastr.error('Ürün Listesi Alınırken Serviste Bir Hata Oluştu.');
+                toastr.error('Kategori Listesi Alınırken Serviste Bir Hata Oluştu.');
                 $('#loader').hide();
             }
         });
@@ -135,14 +135,13 @@
         $('#TransactionsModal').modal('hide');
         $('#create_category_code').val('');
         $('#create_category_name').val('');
+        $('#create_category_type_code').val('');
         $('#create_category_status').val('');
-        $('#create_category_email_title').val('');
-        $('#create_category_email_content_file').val('');
         $('#CreateCategoryModal').modal('show');
     }
 
     function updateCategory() {
-        var categoryId = 1;
+        var categoryId = $('#selected_category_id').val();
         $('#loader').show();
         $.ajax({
             type: 'get',
@@ -159,25 +158,17 @@
                 $('#TransactionsModal').modal('hide');
                 $('#update_category_code').val(response.response.kodu);
                 $('#update_category_name').val(response.response.adi);
+                $('#update_category_type_code').val(response.response.turKodu);
                 $('#update_category_status').val(response.response.durum);
-                $('#update_category_email_title').val(response.response.epostaBaslik);
-                $('#selectedCategoryEmailContent').html(response.response.epostaIcerik);
-                $('#update_category_email_content_file').val('');
                 $('#UpdateCategoryModal').modal('show');
                 $('#loader').hide();
             },
             error: function (error) {
                 console.log(error);
-                toastr.error('Ürün Bilgileri Alınırken Serviste Bir Hata Oluştu.');
+                toastr.error('Kategori Bilgileri Alınırken Serviste Bir Hata Oluştu.');
                 $('#loader').hide();
             }
         });
-    }
-
-    updateCategory();
-
-    function showCategoryEmailContent() {
-        $('#ShowCategoryEmailContentModal').modal('show');
     }
 
     function deleteCategory() {
@@ -188,44 +179,48 @@
     CreateCategoryButton.click(function () {
         var code = $('#create_category_code').val();
         var name = $('#create_category_name').val();
+        var typeCode = $('#create_category_type_code').val();
         var status = $('#create_category_status').val();
-        var emailTitle = $('#create_category_email_title').val();
-        var emailContentFile = $('#create_category_email_content_file')[0].files[0];
 
         if (!code) {
-            toastr.warning('Ürün Kodu Boş Olamaz.');
+            toastr.warning('Kategori Kodu Boş Olamaz.');
         } else if (!name) {
-            toastr.warning('Ürün Adı Boş Olamaz.');
+            toastr.warning('Kategori Adı Boş Olamaz.');
+        } else if (!typeCode) {
+            toastr.warning('Tür Kodu Boş Olamaz.');
         } else if (!status) {
-            toastr.warning('Ürün Durumu Seçmediniz!');
+            toastr.warning('Kategori Durumu Seçmediniz!');
         } else {
-            $('#loader').show();
-            var data = new FormData();
-            data.append('kodu', code);
-            data.append('adi', name);
-            data.append('durum', status);
-            data.append('epostaBaslik', emailTitle);
-            data.append('epostaIcerik', emailContentFile);
-
-            $('#CreateCategoryModal').modal('hide');
+            CreateCategoryButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
             $.ajax({
-                contentType: false,
-                processData: false,
                 type: 'post',
                 url: '{{ route('user.api.operationApi.surveySystem.setSurveyCategory') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token
                 },
-                data: data,
+                data: {
+                    code: code,
+                    name: name,
+                    typeCode: typeCode,
+                    status: status,
+                },
                 success: function () {
+                    CreateCategoryButton.attr('disabled', false).html('Oluştur');
+                    $('#CreateCategoryModal').modal('hide');
+                    toastr.success('Kategori Başarıyla Oluşturuldu.');
                     getCategories();
-                    toastr.success('Ürün Başarıyla Eklendi.');
                 },
                 error: function (error) {
+                    CreateCategoryButton.attr('disabled', false).html('Oluştur');
                     console.log(error);
-                    toastr.error('Ürün Eklenirken Serviste Bir Hata Oluştu.');
-                    $('#loader').hide();
+                    if (parseInt(error.status) === 422) {
+                        $.each(error.responseJSON.response, function (i, error) {
+                            toastr.error(error[0]);
+                        });
+                    } else {
+                        toastr.error(error.responseJSON.message);
+                    }
                 }
             });
         }
@@ -235,51 +230,88 @@
         var id = $('#selected_category_id').val();
         var code = $('#update_category_code').val();
         var name = $('#update_category_name').val();
+        var typeCode = $('#update_category_type_code').val();
         var status = $('#update_category_status').val();
-        var emailTitle = $('#update_category_email_title').val();
-        var emailContentFile = $('#update_category_email_content_file')[0].files[0];
 
         if (!id) {
-            toastr.warning('Ürün Seçiminde Hata Var, Sayfayı Yenilemeyi Deneyebilirsiniz.');
+            toastr.warning('Kategori Seçiminde Hata Var, Sayfayı Yenilemeyi Deneyebilirsiniz.');
         } else if (!code) {
-            toastr.warning('Ürün Kodu Boş Olamaz.');
+            toastr.warning('Kategori Kodu Boş Olamaz.');
         } else if (!name) {
-            toastr.warning('Ürün Adı Boş Olamaz.');
+            toastr.warning('Kategori Adı Boş Olamaz.');
+        } else if (!typeCode) {
+            toastr.warning('Tür Kodu Boş Olamaz.');
         } else if (!status) {
-            toastr.warning('Ürün Durumu Seçmediniz!');
-        } else if (!emailTitle) {
-            toastr.warning('E-posta Başlığı Boş Olamaz.');
-        } else if (!emailContentFile) {
-            toastr.warning('E-posta İçeriği Boş Olamaz.');
+            toastr.warning('Kategori Durumu Seçmediniz!');
         } else {
-            var data = new FormData();
-            data.append('id', id);
-            data.append('kodu', code);
-            data.append('adi', name);
-            data.append('durum', status);
-            data.append('epostaBaslik', emailTitle);
-            data.append('epostaIcerik', document.getElementById("update_category_email_content_file").files[0]);
-
-            $('#loader').show();
-            $('#UpdateCategoryModal').modal('hide');
+            UpdateCategoryButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
             $.ajax({
-                contentType: false,
-                processData: false,
                 type: 'post',
                 url: '{{ route('user.api.operationApi.surveySystem.setSurveyCategory') }}',
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': token
                 },
-                data: data,
+                data: {
+                    id: id,
+                    code: code,
+                    name: name,
+                    typeCode: typeCode,
+                    status: status,
+                },
                 success: function () {
+                    UpdateCategoryButton.attr('disabled', false).html('Güncelle');
+                    $('#UpdateCategoryModal').modal('hide');
+                    toastr.success('Kategori Başarıyla Güncellendi.');
                     getCategories();
-                    toastr.success('Ürün Başarıyla Güncellendi.');
                 },
                 error: function (error) {
+                    UpdateCategoryButton.attr('disabled', false).html('Güncelle');
                     console.log(error);
-                    toastr.error('Ürün Güncellenirken Serviste Bir Hata Oluştu.');
-                    $('#loader').hide();
+                    if (parseInt(error.status) === 422) {
+                        $.each(error.responseJSON.response, function (i, error) {
+                            toastr.error(error[0]);
+                        });
+                    } else {
+                        toastr.error(error.responseJSON.message);
+                    }
+                }
+            });
+        }
+    });
+
+    DeleteCategoryButton.click(function () {
+        var categoryId = $('#selected_category_id').val();
+        if (!categoryId) {
+            toastr.warning('Kategori Seçiminde Hata Var, Sayfayı Yenilemeyi Deneyebilirsiniz.');
+        } else {
+            DeleteCategoryButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+            $.ajax({
+                type: 'post',
+                url: '{{ route('user.api.operationApi.surveySystem.setSurveyCategoryDelete') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    categoryId: categoryId,
+                },
+                success: function () {
+                    DeleteCategoryButton.attr('disabled', false).html('Sil');
+                    $('#DeleteCategoryModal').modal('hide');
+                    toastr.success('Kategori Başarıyla Silindi.');
+                    getCategories();
+                },
+                error: function (error) {
+                    DeleteCategoryButton.attr('disabled', false).html('Sil');
+                    console.log(error);
+                    if (parseInt(error.status) === 422) {
+                        $.each(error.responseJSON.response, function (i, error) {
+                            toastr.error(error[0]);
+                        });
+                    } else {
+                        toastr.error(error.responseJSON.message);
+                    }
                 }
             });
         }

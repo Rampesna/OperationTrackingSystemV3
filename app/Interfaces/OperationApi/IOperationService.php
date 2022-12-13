@@ -255,6 +255,8 @@ interface IOperationService
         string  $webCrmPassword,
         string  $progressCrmUsername,
         string  $progressCrmPassword,
+        string  $marketingCrmUsername,
+        string  $marketingCrmPassword,
         ?string $activeJobDescription,
         int     $uyumCrmCompanyId,
         int     $uyumCrmBranchId,

@@ -228,6 +228,8 @@
                         $('#update_employee_web_crm_password').val(response.response[0].uyumCrmUserPassword);
                         $('#update_employee_progress_crm_username').val(response.response[0].uyumProgressUserName);
                         $('#update_employee_progress_crm_password').val(response.response[0].uyumProgressUserPassword);
+                        $('#update_employee_marketing_crm_username').val(response.response[0].uyumPlatformKullaniciAdi);
+                        $('#update_employee_marketing_crm_password').val(response.response[0].uyumPlatformKullaniciSifre);
                         $('#update_employee_team_code').val(response.response[0].takimKodu);
                         $('#update_employee_group_code').val(response.response[0].grupKodu);
                         $('#update_employee_call_scan_code').val(response.response[0].cagriTaramaKodu);
@@ -1279,6 +1281,8 @@
         var webCrmUserPassword = $('#update_employee_web_crm_password').val();
         var progressCrmUsername = $('#update_employee_progress_crm_username').val();
         var progressCrmPassword = $('#update_employee_progress_crm_password').val();
+        var marketingCrmUsername = $('#update_employee_marketing_crm_username').val();
+        var marketingCrmPassword = $('#update_employee_marketing_crm_password').val();
         var teamCode = $('#update_employee_team_code').val();
         var groupCode = $('#update_employee_group_code').val();
         var callScanCode = $('#update_employee_call_scan_code').val();
@@ -1316,6 +1320,10 @@
                             toastr.warning('Progress CRM Kullanıcı Adı Boş Olamaz.');
                         } else if (!progressCrmPassword) {
                             toastr.warning('Progress CRM Şifresi Boş Olamaz.');
+                        } else if (!marketingCrmUsername) {
+                            toastr.warning('Satış CRM Kullanıcı Adı Boş Olamaz.');
+                        } else if (!marketingCrmPassword) {
+                            toastr.warning('Satış CRM Şifre Boş Olamaz.');
                         } else if (!teamCode) {
                             toastr.warning('Takım Kodu Boş Olamaz.');
                         } else if (!groupCode) {
@@ -1343,6 +1351,8 @@
                                     webCrmUserPassword: webCrmUserPassword,
                                     progressCrmUsername: progressCrmUsername,
                                     progressCrmPassword: progressCrmPassword,
+                                    marketingCrmUsername: marketingCrmUsername,
+                                    marketingCrmPassword: marketingCrmPassword,
                                     teamCode: teamCode,
                                     groupCode: groupCode,
                                     callScanCode: callScanCode,
@@ -1814,6 +1824,8 @@
         var webCrmPassword = $('#create_employee_web_crm_password').val();
         var progressCrmUsername = $('#create_employee_progress_crm_username').val();
         var progressCrmPassword = $('#create_employee_progress_crm_password').val();
+        var marketingCrmUsername = $('#create_employee_marketing_crm_username').val();
+        var marketingCrmPassword = $('#create_employee_marketing_crm_password').val();
         var teamCode = $('#create_employee_team_code').val();
         var groupCode = $('#create_employee_group_code').val();
         var callScanCode = $('#create_employee_call_scan_code').val();
@@ -1890,6 +1902,12 @@
                     } else if (!progressCrmPassword) {
                         toastr.warning('Progress CRM Şifresi Boş Olamaz');
                         CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!marketingCrmUsername) {
+                        toastr.warning('Satış CRM Kullanıcı Adı Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
+                    } else if (!marketingCrmPassword) {
+                        toastr.warning('Satış CRM Şifresi Boş Olamaz');
+                        CreateEmployeeWizardStepper.goTo(2);
                     } else if (!teamCode) {
                         toastr.warning('Takım Kodu Boş Olamaz');
                         CreateEmployeeWizardStepper.goTo(2);
@@ -1925,6 +1943,8 @@
                                 webCrmUsername: webCrmUsername,
                                 progressCrmUsername: progressCrmUsername,
                                 progressCrmPassword: progressCrmPassword,
+                                marketingCrmUsername: marketingCrmUsername,
+                                marketingCrmPassword: marketingCrmPassword,
                                 activeJobDescription: ' ',
                                 role: 1,
                                 groupCode: groupCode,
