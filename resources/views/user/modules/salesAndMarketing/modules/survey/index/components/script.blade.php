@@ -281,7 +281,7 @@
     }
 
     CreateSurveyButton.click(function () {
-        var id = null;
+        // var id = null;
         var code = $('#create_survey_code').val();
         var name = $('#create_survey_name').val();
         var status = $('#create_survey_status').val();
@@ -372,7 +372,7 @@
                     'Authorization': token
                 },
                 data: formData,
-                success: function (response) {
+                success: function () {
                     getSurveys();
                     $('#CreateSurveyModal').modal('hide');
                     toastr.success('Script Başarıyla Oluşturuldu');
@@ -567,10 +567,35 @@
             toastr.warning('Yeni Scriptin Adı Boş Olamaz!');
         } else {
             CopySurveyButton.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
-            console.log({
-                id: id,
-                code: code,
-                name: name,
+            $.ajax({
+                type: 'post',
+                url: '{{ route('user.api.operationApi.surveySystem.copySurvey') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    surveyId: id,
+                    surveyCode: code,
+                    name: name,
+                },
+                success: function (response) {
+                    console.log(response);
+                    getSurveys();
+                    $('#CopySurveyModal').modal('hide');
+                    toastr.success('Script Başarıyla Kopyalandı');
+                    CopySurveyButton.prop('disabled', false).html('Kopyala');
+                },
+                error: function (error) {
+                    console.log(error);
+                    if (parseInt(error.status) === 422) {
+                        $.each(error.responseJSON.response, function (i, error) {
+                            toastr.error(error[0]);
+                        });
+                    } else {
+                        toastr.error(error.responseJSON.message);
+                    }
+                }
             });
         }
     });

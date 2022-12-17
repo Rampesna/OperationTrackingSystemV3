@@ -19,10 +19,106 @@
 
     @include('user.modules.project.overview.modals.updateProject')
 
-    <input type="hidden" id="board_id">
-    <input type="hidden" id="task_id">
-    <input type="file" style="display: none" id="taskFile">
-    <div id="boards" class="mt-15"></div>
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Destek Talepleri</h5>
+                    <hr class="text-muted">
+                    <div class="row">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mt-5">İncelenecek</h6>
+                            </div>
+                            <div>
+                                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="fs-4 fw-bolder" id="status_1_count">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mt-5">Devam Ediyor</h6>
+                            </div>
+                            <div>
+                                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="fs-4 fw-bolder" id="status_2_count">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mt-5">İşlem Sonuçlandı</h6>
+                            </div>
+                            <div>
+                                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="fs-4 fw-bolder" id="status_3_count">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mt-5">Tamamlandı</h6>
+                            </div>
+                            <div>
+                                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="fs-4 fw-bolder" id="status_4_count">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mt-5">İptal Edildi</h6>
+                            </div>
+                            <div>
+                                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="fs-4 fw-bolder" id="status_5_count">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 

@@ -1,41 +1,5 @@
 <script>
 
-    const primary = '#6993FF';
-    const success = '#1BC5BD';
-    const info = '#8950FC';
-    const warning = '#FFA800';
-    const danger = '#F64E60';
-    const aqua = '#00fffb';
-    const brown = '#704300';
-    const darkRed = '#b90000';
-
-
-    const boardTaskDistributionChartDiv = "#boardTaskDistributionChartDiv";
-    var boardTaskDistributionChartOptions = {
-        labels: [],
-        series: [],
-        chart: {
-            width: 500,
-            type: 'pie',
-        },
-        colors: [primary, success, warning, danger, info, aqua, darkRed]
-    };
-    var boardTaskDistributionChart = new ApexCharts(document.querySelector(boardTaskDistributionChartDiv), boardTaskDistributionChartOptions);
-    boardTaskDistributionChart.render();
-
-    const managementBoardTaskDistributionChartDiv = "#managementBoardTaskDistributionChartDiv";
-    var managementBoardTaskDistributionChartOptions = {
-        labels: [],
-        series: [],
-        chart: {
-            width: 500,
-            type: 'pie',
-        },
-        colors: [primary, success, warning, danger, info, aqua, darkRed]
-    };
-    var managementBoardTaskDistributionChart = new ApexCharts(document.querySelector(managementBoardTaskDistributionChartDiv), managementBoardTaskDistributionChartOptions);
-    managementBoardTaskDistributionChart.render();
-
     var updateProjectCompanyId = $('#update_project_company_id');
     var updateProjectStatusId = $('#update_project_status_id');
     var updateProjectUserIds = $('#update_project_user_ids');
@@ -189,6 +153,12 @@
 
 <script>
 
+    var status1Span = $('#status_1_count');
+    var status2Span = $('#status_2_count');
+    var status3Span = $('#status_3_count');
+    var status4Span = $('#status_4_count');
+    var status5Span = $('#status_5_count');
+
     function updateProject() {
         var id = parseInt(`{{ $id }}`);
         $.ajax({
@@ -243,6 +213,60 @@
             }
         });
     }
+
+    function getTicketsByRelation() {
+        var relationType = 'App\\Models\\Eloquent\\Project';
+        var relationId = parseInt(`{{ $id }}`);
+        var pageIndex = 0;
+        var pageSize = 99999;
+        var keyword = '';
+        var priorityIds = [];
+        var statusIds = [];
+
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.ticket.getByRelation') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                relationType: relationType,
+                relationId: relationId,
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                keyword: keyword,
+                priorityIds: priorityIds,
+                statusIds: statusIds,
+            },
+            success: function (response) {
+                var status1Count = 0;
+                var status2Count = 0;
+                var status3Count = 0;
+                var status4Count = 0;
+                var status5Count = 0;
+                $.each(response.response.tickets, function (i, ticket) {
+                    if (parseInt(ticket.status_id) === 1) status1Count++;
+                    if (parseInt(ticket.status_id) === 2) status2Count++;
+                    if (parseInt(ticket.status_id) === 3) status3Count++;
+                    if (parseInt(ticket.status_id) === 4) status4Count++;
+                    if (parseInt(ticket.status_id) === 5) status5Count++;
+                });
+                status1Span.text(status1Count);
+                status2Span.text(status2Count);
+                status3Span.text(status3Count);
+                status4Span.text(status4Count);
+                status5Span.text(status5Count);
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Destek Talepleri Alınırken Serviste Bir Sorun Oluştu.');
+                $('#loader').hide();
+            }
+        });
+    }
+
+    getTicketsByRelation();
 
     var UpdateProjectButton = $('#UpdateProjectButton');
 

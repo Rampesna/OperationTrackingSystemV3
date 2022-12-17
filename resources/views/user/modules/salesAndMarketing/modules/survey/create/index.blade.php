@@ -52,19 +52,19 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xl-4 mb-5">
-                            <div class="form-group">
-                                <label class="ms-1">Hizmet/Ürün</label>
-                                <input id="create_survey_service_product" type="text" class="form-control form-control-solid" placeholder="Hizmet/Ürün" aria-label="Hizmet/Ürün">
-                            </div>
-                        </div>
+{{--                        <div class="col-xl-4 mb-5">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="ms-1">Hizmet/Ürün</label>--}}
+{{--                                <input id="create_survey_service_product" type="text" class="form-control form-control-solid" placeholder="Hizmet/Ürün" aria-label="Hizmet/Ürün">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="col-xl-4 mb-5">
                             <div class="form-group">
                                 <label class="ms-1">Çağrı Nedeni</label>
                                 <input id="create_survey_call_reason" type="text" class="form-control form-control-solid" placeholder="Çağrı Nedeni" aria-label="Çağrı Nedeni">
                             </div>
                         </div>
-                        <div class="col-xl-4 mb-5">
+                        <div class="col-xl-8 mb-5">
                             <div class="form-group">
                                 <label class="ms-1">Etiketler</label>
                                 <input id="create_survey_tags" type="text" class="form-control form-control-solid" placeholder="Etiketler" aria-label="Etiketler">
@@ -91,7 +91,7 @@
                         <div class="col-xl-12 mb-5">
                             <div class="form-group">
                                 <label class="ms-1">HTML Açıklama</label>
-                                <textarea id="create_survey_description_html"></textarea>
+                                <textarea id="create_survey_description_html" aria-label="HTML Açıklama"></textarea>
                             </div>
                         </div>
                         <div class="col-xl-6 mb-5">

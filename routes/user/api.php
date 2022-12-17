@@ -785,6 +785,22 @@ Route::middleware([
             Route::post('setSurveySellerDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveySellerDelete'])->name('user.api.operationApi.surveySystem.setSurveySellerDelete');
             Route::post('setSurveyProduct', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyProduct'])->name('user.api.operationApi.surveySystem.setSurveyProduct');
             Route::post('copySurvey', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'copySurvey'])->name('user.api.operationApi.surveySystem.copySurvey');
+            Route::get('getSurveyCategoryList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyCategoryList'])->name('user.api.operationApi.surveySystem.getSurveyCategoryList');
+            Route::post('setSurveyCategory', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyCategory'])->name('user.api.operationApi.surveySystem.setSurveyCategory');
+            Route::get('getSurveyCategoryEdit', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyCategoryEdit'])->name('user.api.operationApi.surveySystem.getSurveyCategoryEdit');
+            Route::post('setSurveyCategoryDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyCategoryDelete'])->name('user.api.operationApi.surveySystem.setSurveyCategoryDelete');
+            Route::get('getSurveyOpponentList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyOpponentList'])->name('user.api.operationApi.surveySystem.getSurveyOpponentList');
+            Route::post('setSurveyOpponent', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyOpponent'])->name('user.api.operationApi.surveySystem.setSurveyOpponent');
+            Route::get('getSurveyOpponentEdit', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyOpponentEdit'])->name('user.api.operationApi.surveySystem.getSurveyOpponentEdit');
+            Route::post('setSurveyOpponentDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyOpponentDelete'])->name('user.api.operationApi.surveySystem.setSurveyOpponentDelete');
+            Route::get('getSurveySoftwareList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveySoftwareList'])->name('user.api.operationApi.surveySystem.getSurveySoftwareList');
+            Route::post('setSurveySoftware', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveySoftware'])->name('user.api.operationApi.surveySystem.setSurveySoftware');
+            Route::get('getSurveySoftwareEdit', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveySoftwareEdit'])->name('user.api.operationApi.surveySystem.getSurveySoftwareEdit');
+            Route::post('setSurveySoftwareDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveySoftwareDelete'])->name('user.api.operationApi.surveySystem.setSurveySoftwareDelete');
+            Route::get('getSurveyIntegratorList', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyIntegratorList'])->name('user.api.operationApi.surveySystem.getSurveyIntegratorList');
+            Route::post('setSurveyIntegrator', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyIntegrator'])->name('user.api.operationApi.surveySystem.setSurveyIntegrator');
+            Route::get('getSurveyIntegratorEdit', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'getSurveyIntegratorEdit'])->name('user.api.operationApi.surveySystem.getSurveyIntegratorEdit');
+            Route::post('setSurveyIntegratorDelete', [\App\Http\Controllers\Api\User\OperationApi\SurveySystemController::class, 'setSurveyIntegratorDelete'])->name('user.api.operationApi.surveySystem.setSurveyIntegratorDelete');
         });
 
         Route::prefix('jobsSystem')->group(function () {

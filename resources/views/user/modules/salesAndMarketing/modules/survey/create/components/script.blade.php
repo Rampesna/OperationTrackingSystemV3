@@ -28,11 +28,11 @@
     reGenerateCreateSurveyCode();
 
     CreateSurveyButton.click(function () {
-        var id = null;
         var code = $('#create_survey_code').val();
         var name = $('#create_survey_name').val();
         var status = $('#create_survey_status').val();
-        var serviceProduct = $('#create_survey_service_product').val();
+        // var serviceProduct = $('#create_survey_service_product').val();
+        var serviceProduct = '';
         var callReason = $('#create_survey_call_reason').val();
         var tags = $('#create_survey_tags').val();
         var customerInformation1 = $('#create_survey_customer_information_1').val();
@@ -149,4 +149,3 @@
     });
 
 </script>
-

@@ -616,8 +616,6 @@
             toastr.warning('Sıra Boş Olamaz!');
         } else if (!answer) {
             toastr.warning('Cevap Boş Olamaz!');
-        } else if (!statusId) {
-            toastr.warning('Cevaba Bağlı Durum Seçimi Boş Olamaz!');
         } else {
             $('#loader').show();
             $('#CreateAnswerModal').modal('hide');

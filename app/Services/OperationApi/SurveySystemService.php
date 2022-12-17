@@ -868,7 +868,7 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
     {
         $oldSurvey = $this->GetSurveyEdit($surveyId);
         if ($oldSurvey->isSuccess()) {
-            $newSurveyId = $this->SetSurvey(
+            $newSurveyIdResponse = $this->SetSurvey(
                 null,
                 rand(10000, 999999),
                 $name,
@@ -891,11 +891,82 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
                 $oldSurvey->getData()['uyumCrmListeKod'],
                 $oldSurvey->getData()['durum'],
                 $oldSurvey->getData()['yeniPazarlamaEkraniMi'],
+                $oldSurvey->getData()['scriptAnketMi'],
+                $oldSurvey->getData()['aranmayacakGrupKodu'],
+                $oldSurvey->getData()['aciklamaHtml'],
                 []
             );
 
-            if ($newSurveyId->isSuccess()) {
+            $newSurveyId = json_decode($newSurveyIdResponse->getData(), true)['response'];
 
+            $newSurvey = $this->GetSurveyEdit($newSurveyId)->getData();
+
+            if ($newSurveyIdResponse->isSuccess()) {
+                $questions = $this->GetSurveyQuestionsList($surveyCode)->getData();
+
+                foreach ($questions ?? [] as $questionIndex => $question) {
+
+                    if ($question['altSoru'] == 1) {
+                        continue;
+                    }
+
+                    $newQuestionId = $this->SetSurveyQuestions(
+                        null,
+                        $question['soru'],
+                        $question['soruTurKodu'],
+                        $question['ekCevapString'],
+                        $question['siraNo'],
+                        $newSurvey['kodu'],
+                        $question['soruAciklama'],
+                        $question['zorunlumu'],
+                    )->getData();
+
+                    $answers = $this->GetSurveyAnswersList($question['id'])->getData();
+                    foreach ($answers ?? [] as $answerIndex => $answer) {
+
+                        $newAnswerId = $this->SetSurveyAnswers(
+                            null,
+                            $newQuestionId,
+                            $answer['cevap'],
+                            $answer['siraNo'],
+                            $answer['zorunluKolonAdlari']
+                        )->getData();
+
+                        $subQuestions = $this->GetSurveyAnswersConnectList($answer['id'])->getData();
+
+                        foreach ($subQuestions as $subQuestion) {
+                            $getSubQuestion = $this->GetSurveyQuestionEdit($subQuestion['sorularId'])->getData();
+
+                            $newSubQuestionId = $this->SetSurveyQuestions(
+                                null,
+                                $getSubQuestion[0]['soru'],
+                                $getSubQuestion[0]['soruTurKodu'],
+                                $getSubQuestion[0]['ekCevapString'],
+                                $getSubQuestion[0]['siraNo'],
+                                $newSurvey['kodu'],
+                                $getSubQuestion[0]['soruAciklama'],
+                                $getSubQuestion[0]['zorunlumu']
+                            )['response'];
+
+                            $subQuestionAnswerConnectionResponse = $this->SetSurveyAnswersConnect([
+                                [
+                                    'sorularId' => $newSubQuestionId,
+                                    'cevaplarId' => $newAnswerId
+                                ]
+                            ]);
+                        }
+                    }
+                }
+
+                return new ServiceResponse(
+                    true,
+                    'Survey Copied',
+                    200,
+                    [
+                        'newSurveyId' => $newSurveyId,
+                        'newSurveyCode' => $newSurvey['kodu']
+                    ]
+                );
             } else {
                 return $newSurveyId;
             }
@@ -1123,6 +1194,434 @@ class SurveySystemService extends OperationApiService implements ISurveySystemSe
             'Get Survey Detail Report',
             200,
             json_decode($response->getBody())->response
+        );
+    }
+
+    public function GetSurveyCategoryList(): ServiceResponse
+    {
+        $endpoint = "SurveySystem/GetSurveyCategoryList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Category List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response']
+        );
+    }
+
+    /**
+     * @param int|null $id
+     * @param string $code
+     * @param string $name
+     * @param string $typeCode
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyCategory(
+        int|null $id,
+        string   $code,
+        string   $name,
+        string   $typeCode,
+        int      $status
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/SetSurveyCategory";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'id' => $id,
+            'kodu' => $code,
+            'adi' => $name,
+            'turKodu' => $typeCode,
+            'durum' => $status
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Category',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body()
+        );
+    }
+
+    /**
+     * @param int $categoryId
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveyCategoryEdit(
+        int $categoryId
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/GetSurveyCategoryEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'CategoryId' => $categoryId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Category Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
+    }
+
+    /**
+     * @param int $categoryId
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyCategoryDelete(
+        int $categoryId
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/SetSurveyCategoryDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'CategoryId' => $categoryId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Category Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
+    }
+
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveyOpponentList(): ServiceResponse
+    {
+        $endpoint = "SurveySystem/GetSurveyOpponentList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Opponent List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response']
+        );
+    }
+
+    /**
+     * @param int|null $id
+     * @param string $code
+     * @param string $name
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyOpponent(
+        int|null $id,
+        string   $code,
+        string   $name,
+        int      $status
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/SetSurveyOpponent";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'id' => $id,
+            'kodu' => $code,
+            'adi' => $name,
+            'durum' => $status
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Opponent',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body()
+        );
+    }
+
+    /**
+     * @param int $opponentId
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveyOpponentEdit(
+        int $opponentId
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/GetSurveyOpponentEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'OpponentId' => $opponentId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Opponent Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
+    }
+
+    /**
+     * @param int $opponentId
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyOpponentDelete(
+        int $opponentId
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/SetSurveyOpponentDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'OpponentId' => $opponentId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Opponent Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
+    }
+
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveySoftwareList(): ServiceResponse
+    {
+        $endpoint = "SurveySystem/GetSurveySoftwareList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Software List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response']
+        );
+    }
+
+    /**
+     * @param int|null $id
+     * @param string $code
+     * @param string $name
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveySoftware(
+        int|null $id,
+        string   $code,
+        string   $name,
+        int      $status
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/SetSurveySoftware";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'id' => $id,
+            'kodu' => $code,
+            'adi' => $name,
+            'durum' => $status
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Software',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body()
+        );
+    }
+
+    /**
+     * @param int $softwareId
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveySoftwareEdit(
+        int $softwareId
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/GetSurveySoftwareEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'SoftwareId' => $softwareId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Software Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
+    }
+
+    /**
+     * @param int $softwareId
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveySoftwareDelete(
+        int $softwareId
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/SetSurveySoftwareDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'SoftwareId' => $softwareId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Software Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
+        );
+    }
+
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveyIntegratorList(): ServiceResponse
+    {
+        $endpoint = "SurveySystem/GetSurveyIntegratorList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Integrator List',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response']
+        );
+    }
+
+    /**
+     * @param int|null $id
+     * @param string $code
+     * @param string $name
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyIntegrator(
+        int|null $id,
+        string   $code,
+        string   $name,
+        int      $status
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/SetSurveyIntegrator";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'id' => $id,
+            'kodu' => $code,
+            'adi' => $name,
+            'durum' => $status
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Integrator',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body()
+        );
+    }
+
+    /**
+     * @param int $integratorId
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveyIntegratorEdit(
+        int $integratorId
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/GetSurveyIntegratorEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'IntegratorId' => $integratorId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get Survey Integrator Edit',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params)['response'][0]
+        );
+    }
+
+    /**
+     * @param int $integratorId
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyIntegratorDelete(
+        int $integratorId
+    ): ServiceResponse
+    {
+        $endpoint = "SurveySystem/SetSurveyIntegratorDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'IntegratorId' => $integratorId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set Survey Integrator Delete',
+            200,
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params)['response']
         );
     }
 }

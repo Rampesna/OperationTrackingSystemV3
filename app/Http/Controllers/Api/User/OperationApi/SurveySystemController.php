@@ -35,6 +35,22 @@ use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySell
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySellerDeleteRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyProductRequest;
 use App\Http\Requests\Api\User\OperationApi\SurveySystemController\CopySurveyRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyCategoryListRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyCategoryRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyCategoryEditRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyCategoryDeleteRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyOpponentListRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyOpponentRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyOpponentEditRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyOpponentDeleteRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveySoftwareListRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySoftwareRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveySoftwareEditRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveySoftwareDeleteRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyIntegratorListRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyIntegratorRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\GetSurveyIntegratorEditRequest;
+use App\Http\Requests\Api\User\OperationApi\SurveySystemController\SetSurveyIntegratorDeleteRequest;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Traits\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -802,8 +818,8 @@ class SurveySystemController extends Controller
                 'kodu' => $request->kodu,
                 'adi' => $request->adi,
                 'durum' => $request->durum,
-                'epostaBaslik' => $request->epostaBaslik,
-                'epostaIcerik' => file_get_contents($request->file('epostaIcerik')),
+                'epostaBaslik' => $request->epostaBaslik ?? '',
+                'epostaIcerik' => $request->hasFile('epostaIcerik') ? file_get_contents($request->file('epostaIcerik')) : '',
             ]
         ];
         $setSurveyProductResponse = $this->surveySystemService->SetSurveyProduct(
@@ -843,6 +859,363 @@ class SurveySystemController extends Controller
             return $this->error(
                 $copySurveyResponse->getMessage(),
                 $copySurveyResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveyCategoryListRequest $request
+     */
+    public function getSurveyCategoryList(GetSurveyCategoryListRequest $request)
+    {
+        $getSurveyCategoryListResponse = $this->surveySystemService->GetSurveyCategoryList();
+        if ($getSurveyCategoryListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyCategoryListResponse->getMessage(),
+                $getSurveyCategoryListResponse->getData(),
+                $getSurveyCategoryListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyCategoryListResponse->getMessage(),
+                $getSurveyCategoryListResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetSurveyCategoryRequest $request
+     */
+    public function setSurveyCategory(SetSurveyCategoryRequest $request)
+    {
+        $setSurveyCategoryResponse = $this->surveySystemService->SetSurveyCategory(
+            $request->id,
+            $request->code,
+            $request->name,
+            $request->typeCode,
+            $request->status
+        );
+        if ($setSurveyCategoryResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyCategoryResponse->getMessage(),
+                $setSurveyCategoryResponse->getData(),
+                $setSurveyCategoryResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyCategoryResponse->getMessage(),
+                $setSurveyCategoryResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveyCategoryEditRequest $request
+     */
+    public function getSurveyCategoryEdit(GetSurveyCategoryEditRequest $request)
+    {
+        $getSurveyCategoryEditResponse = $this->surveySystemService->GetSurveyCategoryEdit(
+            $request->categoryId
+        );
+        if ($getSurveyCategoryEditResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyCategoryEditResponse->getMessage(),
+                $getSurveyCategoryEditResponse->getData(),
+                $getSurveyCategoryEditResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyCategoryEditResponse->getMessage(),
+                $getSurveyCategoryEditResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetSurveyCategoryDeleteRequest $request
+     */
+    public function setSurveyCategoryDelete(SetSurveyCategoryDeleteRequest $request)
+    {
+        $setSurveyCategoryDeleteResponse = $this->surveySystemService->SetSurveyCategoryDelete(
+            $request->categoryId
+        );
+        if ($setSurveyCategoryDeleteResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyCategoryDeleteResponse->getMessage(),
+                $setSurveyCategoryDeleteResponse->getData(),
+                $setSurveyCategoryDeleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyCategoryDeleteResponse->getMessage(),
+                $setSurveyCategoryDeleteResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveyOpponentListRequest $request
+     */
+    public function getSurveyOpponentList(GetSurveyOpponentListRequest $request)
+    {
+        $getSurveyOpponentListResponse = $this->surveySystemService->GetSurveyOpponentList();
+        if ($getSurveyOpponentListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyOpponentListResponse->getMessage(),
+                $getSurveyOpponentListResponse->getData(),
+                $getSurveyOpponentListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyOpponentListResponse->getMessage(),
+                $getSurveyOpponentListResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetSurveyOpponentRequest $request
+     */
+    public function setSurveyOpponent(SetSurveyOpponentRequest $request)
+    {
+        $setSurveyOpponentResponse = $this->surveySystemService->SetSurveyOpponent(
+            $request->id,
+            $request->code,
+            $request->name,
+            $request->status
+        );
+        if ($setSurveyOpponentResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyOpponentResponse->getMessage(),
+                $setSurveyOpponentResponse->getData(),
+                $setSurveyOpponentResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyOpponentResponse->getMessage(),
+                $setSurveyOpponentResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveyOpponentEditRequest $request
+     */
+    public function getSurveyOpponentEdit(GetSurveyOpponentEditRequest $request)
+    {
+        $getSurveyOpponentEditResponse = $this->surveySystemService->GetSurveyOpponentEdit(
+            $request->opponentId
+        );
+        if ($getSurveyOpponentEditResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyOpponentEditResponse->getMessage(),
+                $getSurveyOpponentEditResponse->getData(),
+                $getSurveyOpponentEditResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyOpponentEditResponse->getMessage(),
+                $getSurveyOpponentEditResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetSurveyOpponentDeleteRequest $request
+     */
+    public function setSurveyOpponentDelete(SetSurveyOpponentDeleteRequest $request)
+    {
+        $setSurveyOpponentDeleteResponse = $this->surveySystemService->SetSurveyOpponentDelete(
+            $request->opponentId
+        );
+        if ($setSurveyOpponentDeleteResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyOpponentDeleteResponse->getMessage(),
+                $setSurveyOpponentDeleteResponse->getData(),
+                $setSurveyOpponentDeleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyOpponentDeleteResponse->getMessage(),
+                $setSurveyOpponentDeleteResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveySoftwareListRequest $request
+     */
+    public function getSurveySoftwareList(GetSurveySoftwareListRequest $request)
+    {
+        $getSurveySoftwareListResponse = $this->surveySystemService->GetSurveySoftwareList();
+        if ($getSurveySoftwareListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveySoftwareListResponse->getMessage(),
+                $getSurveySoftwareListResponse->getData(),
+                $getSurveySoftwareListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveySoftwareListResponse->getMessage(),
+                $getSurveySoftwareListResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetSurveySoftwareRequest $request
+     */
+    public function setSurveySoftware(SetSurveySoftwareRequest $request)
+    {
+        $setSurveySoftwareResponse = $this->surveySystemService->SetSurveySoftware(
+            $request->id,
+            $request->code,
+            $request->name,
+            $request->status
+        );
+        if ($setSurveySoftwareResponse->isSuccess()) {
+            return $this->success(
+                $setSurveySoftwareResponse->getMessage(),
+                $setSurveySoftwareResponse->getData(),
+                $setSurveySoftwareResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveySoftwareResponse->getMessage(),
+                $setSurveySoftwareResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveySoftwareEditRequest $request
+     */
+    public function getSurveySoftwareEdit(GetSurveySoftwareEditRequest $request)
+    {
+        $getSurveySoftwareEditResponse = $this->surveySystemService->GetSurveySoftwareEdit(
+            $request->softwareId
+        );
+        if ($getSurveySoftwareEditResponse->isSuccess()) {
+            return $this->success(
+                $getSurveySoftwareEditResponse->getMessage(),
+                $getSurveySoftwareEditResponse->getData(),
+                $getSurveySoftwareEditResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveySoftwareEditResponse->getMessage(),
+                $getSurveySoftwareEditResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetSurveySoftwareDeleteRequest $request
+     */
+    public function setSurveySoftwareDelete(SetSurveySoftwareDeleteRequest $request)
+    {
+        $setSurveySoftwareDeleteResponse = $this->surveySystemService->SetSurveySoftwareDelete(
+            $request->softwareId
+        );
+        if ($setSurveySoftwareDeleteResponse->isSuccess()) {
+            return $this->success(
+                $setSurveySoftwareDeleteResponse->getMessage(),
+                $setSurveySoftwareDeleteResponse->getData(),
+                $setSurveySoftwareDeleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveySoftwareDeleteResponse->getMessage(),
+                $setSurveySoftwareDeleteResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveyIntegratorListRequest $request
+     */
+    public function getSurveyIntegratorList(GetSurveyIntegratorListRequest $request)
+    {
+        $getSurveyIntegratorListResponse = $this->surveySystemService->GetSurveyIntegratorList();
+        if ($getSurveyIntegratorListResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyIntegratorListResponse->getMessage(),
+                $getSurveyIntegratorListResponse->getData(),
+                $getSurveyIntegratorListResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyIntegratorListResponse->getMessage(),
+                $getSurveyIntegratorListResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetSurveyIntegratorRequest $request
+     */
+    public function setSurveyIntegrator(SetSurveyIntegratorRequest $request)
+    {
+        $setSurveyIntegratorResponse = $this->surveySystemService->SetSurveyIntegrator(
+            $request->id,
+            $request->code,
+            $request->name,
+            $request->status
+        );
+        if ($setSurveyIntegratorResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyIntegratorResponse->getMessage(),
+                $setSurveyIntegratorResponse->getData(),
+                $setSurveyIntegratorResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyIntegratorResponse->getMessage(),
+                $setSurveyIntegratorResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetSurveyIntegratorEditRequest $request
+     */
+    public function getSurveyIntegratorEdit(GetSurveyIntegratorEditRequest $request)
+    {
+        $getSurveyIntegratorEditResponse = $this->surveySystemService->GetSurveyIntegratorEdit(
+            $request->integratorId
+        );
+        if ($getSurveyIntegratorEditResponse->isSuccess()) {
+            return $this->success(
+                $getSurveyIntegratorEditResponse->getMessage(),
+                $getSurveyIntegratorEditResponse->getData(),
+                $getSurveyIntegratorEditResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getSurveyIntegratorEditResponse->getMessage(),
+                $getSurveyIntegratorEditResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetSurveyIntegratorDeleteRequest $request
+     */
+    public function setSurveyIntegratorDelete(SetSurveyIntegratorDeleteRequest $request)
+    {
+        $setSurveyIntegratorDeleteResponse = $this->surveySystemService->SetSurveyIntegratorDelete(
+            $request->integratorId
+        );
+        if ($setSurveyIntegratorDeleteResponse->isSuccess()) {
+            return $this->success(
+                $setSurveyIntegratorDeleteResponse->getMessage(),
+                $setSurveyIntegratorDeleteResponse->getData(),
+                $setSurveyIntegratorDeleteResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $setSurveyIntegratorDeleteResponse->getMessage(),
+                $setSurveyIntegratorDeleteResponse->getStatusCode()
             );
         }
     }

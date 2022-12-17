@@ -160,11 +160,7 @@
                 id: ticketId,
             },
             success: function (response) {
-                if (parseInt(response.response.status_id) === 1 || parseInt(response.response.status_id) === 2) {
-                    createTicketMessageArea.show();
-                } else {
-                    createTicketMessageArea.hide();
-                }
+                createTicketMessageArea.show();
                 var fileDownloadUrl = `{{ route('user.web.file.download') }}`;
                 $('#create_ticket_message_ticket_id').val(response.response.id);
                 $('#ticket_messages_ticket_title_input').val(response.response.title);
@@ -238,7 +234,6 @@
                 $('#loader').hide();
             }
         });
-
     }
 
     function deleteTicket(id) {
@@ -416,10 +411,10 @@
                             </div>
                         </td>
                         <td>
-                            ${ticket.relation_type === 'App\\Models\\Eloquent\\Project' ? 'Proje' : ''}
+                            #${ticket.id}
                         </td>
                         <td>
-                            ${ticket.relation ? (ticket.relation.name ? ticket.relation.name : '') : ''}
+                            ${reformatDatetimeTo_DD_MM_YYYY_HH_ii_WithDot(ticket.created_at)}
                         </td>
                         <td>
                             ${ticket.title ?? ''}
@@ -738,6 +733,7 @@
                     message: message
                 },
                 success: function (response) {
+                    /*
                     $.ajax({
                         type: 'put',
                         url: '{{ route('user.api.ticket.setStatus') }}',
@@ -754,6 +750,7 @@
                             toastr.error('Destek Talebi Durumu Güncellenirken Serviste Bir Sorun Oluştu!');
                         }
                     });
+                    */
                     toastr.success('Mesajınız Başarıyla Oluşturuldu.');
                     var createTicketMessageFilesCount = document.getElementById('create_ticket_message_files').files.length;
                     if (createTicketMessageFilesCount > 0) {

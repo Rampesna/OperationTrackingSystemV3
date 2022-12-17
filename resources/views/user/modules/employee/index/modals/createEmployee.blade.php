@@ -123,6 +123,23 @@
                                         </div>
                                     </div>
                                     <hr class="text-muted">
+                                    <div class="col-xl-6 mb-5">
+                                        <div class="form-group">
+                                            <label for="create_employee_marketing_crm_username" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                                <span class="required">Satış CRM Kullanıcı Adı</span>
+                                            </label>
+                                            <input id="create_employee_marketing_crm_username" type="text" class="form-control form-control-solid" placeholder="Satış CRM Kullanıcı Adı" aria-hidden="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 mb-5">
+                                        <div class="form-group">
+                                            <label for="create_employee_marketing_crm_password" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                                <span class="required">Satış CRM Şifresi</span>
+                                            </label>
+                                            <input id="create_employee_marketing_crm_password" type="text" class="form-control form-control-solid" placeholder="Satış CRM Şifresi" aria-hidden="true">
+                                        </div>
+                                    </div>
+                                    <hr class="text-muted">
                                     <div class="col-xl-4 mb-5">
                                         <div class="form-group">
                                             <label for="create_employee_team_code" class="d-flex align-items-center fs-6 fw-bold mb-2">

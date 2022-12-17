@@ -426,4 +426,158 @@ interface ISurveySystemService
         string $endDate,
         array  $companyIds
     ): ServiceResponse;
+
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveyCategoryList(): ServiceResponse;
+
+    /**
+     * @param int|null $id
+     * @param string $code
+     * @param string $name
+     * @param string $typeCode
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyCategory(
+        int|null $id,
+        string   $code,
+        string   $name,
+        string   $typeCode,
+        int      $status
+    ): ServiceResponse;
+
+    /**
+     * @param int $categoryId
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveyCategoryEdit(
+        int $categoryId
+    ): ServiceResponse;
+
+    /**
+     * @param int $categoryId
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyCategoryDelete(
+        int $categoryId
+    ): ServiceResponse;
+
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveyOpponentList(): ServiceResponse;
+
+    /**
+     * @param int|null $id
+     * @param string $code
+     * @param string $name
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyOpponent(
+        int|null $id,
+        string   $code,
+        string   $name,
+        int      $status
+    ): ServiceResponse;
+
+    /**
+     * @param int $opponentId
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveyOpponentEdit(
+        int $opponentId
+    ): ServiceResponse;
+
+    /**
+     * @param int $opponentId
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyOpponentDelete(
+        int $opponentId
+    ): ServiceResponse;
+
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveySoftwareList(): ServiceResponse;
+
+    /**
+     * @param int|null $id
+     * @param string $code
+     * @param string $name
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveySoftware(
+        int|null $id,
+        string   $code,
+        string   $name,
+        int      $status
+    ): ServiceResponse;
+
+    /**
+     * @param int $softwareId
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveySoftwareEdit(
+        int $softwareId
+    ): ServiceResponse;
+
+    /**
+     * @param int $softwareId
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveySoftwareDelete(
+        int $softwareId
+    ): ServiceResponse;
+
+    /**
+     * @return ServiceResponse
+     */
+    public function GetSurveyIntegratorList(): ServiceResponse;
+
+    /**
+     * @param int|null $id
+     * @param string $code
+     * @param string $name
+     * @param int $status
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyIntegrator(
+        int|null $id,
+        string   $code,
+        string   $name,
+        int      $status
+    ): ServiceResponse;
+
+    /**
+     * @param int $integratorId
+     *
+     * @return ServiceResponse
+     */
+    public function GetSurveyIntegratorEdit(
+        int $integratorId
+    ): ServiceResponse;
+
+    /**
+     * @param int $integratorId
+     *
+     * @return ServiceResponse
+     */
+    public function SetSurveyIntegratorDelete(
+        int $integratorId
+    ): ServiceResponse;
 }

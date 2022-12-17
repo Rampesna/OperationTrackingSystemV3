@@ -70,7 +70,8 @@
         var name = $('#update_survey_name').val();
         var status = $('#update_survey_status').val();
         var isNewMarketingScreen = $('#update_survey_is_new_marketing_screen').val();
-        var serviceProduct = $('#update_survey_service_product').val();
+        // var serviceProduct = $('#update_survey_service_product').val();
+        var serviceProduct = '';
         var callReason = $('#update_survey_call_reason').val();
         var tags = $('#update_survey_tags').val();
         var customerInformation1 = $('#update_survey_customer_information_1').val();

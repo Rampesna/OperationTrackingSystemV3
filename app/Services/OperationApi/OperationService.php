@@ -581,6 +581,8 @@ class OperationService extends OperationApiService implements IOperationService
         string  $webCrmPassword,
         string  $progressCrmUsername,
         string  $progressCrmPassword,
+        string  $marketingCrmUsername,
+        string  $marketingCrmPassword,
         ?string $activeJobDescription,
         int     $uyumCrmCompanyId,
         int     $uyumCrmBranchId,
@@ -615,6 +617,8 @@ class OperationService extends OperationApiService implements IOperationService
             'uyumCrmPassword' => $webCrmPassword,
             'uyumProgressUserName' => $progressCrmUsername,
             'uyumProgressUserPassword' => $progressCrmPassword,
+            'uyumSatisCrmUserName' => $marketingCrmUsername,
+            'uyumSatisCrmUserPassword' => $marketingCrmPassword,
             'aktifGorevTanimi' => $activeJobDescription ?? '',
             "uyumCrmCoId" => $uyumCrmCompanyId,
             "uyumCrmBranchId" => $uyumCrmBranchId,
@@ -947,7 +951,7 @@ class OperationService extends OperationApiService implements IOperationService
      * @return ServiceResponse
      */
     public function SetStaffParameter(
-        array  $staffParameters
+        array $staffParameters
     ): ServiceResponse
     {
         $endpoint = "Operation/SetStaffParameter";
