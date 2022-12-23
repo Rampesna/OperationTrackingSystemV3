@@ -69,6 +69,17 @@ Inputmask({
     }
 }).mask(".emailMask");
 
+/*
+* Disable input type datetime-local and date write
+* */
+$('input[type="datetime-local"]').on('keydown paste', function (e) {
+    e.preventDefault();
+});
+$('input[type="date"]').on('keydown paste', function (e) {
+    e.preventDefault();
+});
+
+
 function initializeMoneyInputMask() {
     Inputmask({
         mask: "*{1,20}.*{2,4}",

@@ -305,6 +305,7 @@ Route::middleware([
         Route::put('updateBatch', [\App\Http\Controllers\Api\User\ShiftController::class, 'updateBatch'])->name('user.api.shift.updateBatch');
         Route::put('swapShift', [\App\Http\Controllers\Api\User\ShiftController::class, 'swapShift'])->name('user.api.shift.swapShift');
         Route::post('robot', [\App\Http\Controllers\Api\User\ShiftController::class, 'robot'])->name('user.api.shift.robot');
+        Route::post('newRobot', [\App\Http\Controllers\Api\User\ShiftController::class, 'newRobot'])->name('user.api.shift.newRobot');
         Route::delete('delete', [\App\Http\Controllers\Api\User\ShiftController::class, 'delete'])->name('user.api.shift.delete');
         Route::delete('deleteByIds', [\App\Http\Controllers\Api\User\ShiftController::class, 'deleteByIds'])->name('user.api.shift.deleteByIds');
     });

@@ -175,7 +175,7 @@ class EmployeeService implements IEmployeeService
     {
         return new ServiceResponse(
             true,
-            'Employee found',
+            'Employee by email',
             200,
             Employee::where('email', $email)->first()
         );

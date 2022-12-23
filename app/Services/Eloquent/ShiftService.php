@@ -11,6 +11,7 @@ use App\Models\Eloquent\Shift;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Services\OperationApi\OperationService;
 use App\Services\ServiceResponse;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Carbon;
 
 class ShiftService implements IShiftService
@@ -675,8 +676,16 @@ class ShiftService implements IShiftService
 
         foreach ($shiftGroups->getData() as $shiftGroup) {
             if ($companyId == 1 || $companyId == 2) {
-                $startDayOfMonth = 19;
-                $endDayOfMonth = 25;
+                if ($month == '2022-12') {
+                    $startDayOfMonth = 26;
+                    $endDayOfMonth = 31;
+                } else if ($month == '2023-01') {
+                    $startDayOfMonth = 1;
+                    $endDayOfMonth = 1;
+                } else {
+                    $startDayOfMonth = 1;
+                    $endDayOfMonth = date('t', strtotime($month));
+                }
             } else {
                 $startDayOfMonth = 1;
                 $endDayOfMonth = date('t', strtotime($month));
