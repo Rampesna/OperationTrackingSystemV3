@@ -21,7 +21,7 @@
             ResetPasswordButton.attr('disabled', true);
             $.ajax({
                 type: 'post',
-                url: '{{ route('api.user.resetPassword') }}',
+                url: '{{ route('api.employee.resetPassword') }}',
                 headers: {
                     'Accept': 'application/json',
                 },

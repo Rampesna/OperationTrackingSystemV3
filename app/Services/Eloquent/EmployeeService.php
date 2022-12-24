@@ -837,4 +837,31 @@ class EmployeeService implements IEmployeeService
             return $employee;
         }
     }
+
+    /**
+     * @param int $employeeId
+     * @param string $password
+     *
+     * @return ServiceResponse
+     */
+    public function updatePassword(
+        int    $employeeId,
+        string $password
+    ): ServiceResponse
+    {
+        $employee = $this->getById($employeeId);
+        if ($employee->isSuccess()) {
+            $employee->getData()->password = $password;
+            $employee->getData()->save();
+
+            return new ServiceResponse(
+                true,
+                'Employee password updated',
+                200,
+                $employee->getData()
+            );
+        } else {
+            return $employee;
+        }
+    }
 }

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('authentication')->group(function () {
     Route::post('login', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'login'])->name('employee.api.login');
+    Route::post('sendPasswordResetEmail', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'sendPasswordResetEmail'])->name('api.employee.sendPasswordResetEmail');
+    Route::post('resetPassword', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'resetPassword'])->name('api.employee.resetPassword');
 //    Route::post('register', [\App\Http\Controllers\Api\Employee\EmployeeController::class, 'register'])->name('employee.api.register');
 });
 
