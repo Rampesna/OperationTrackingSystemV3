@@ -224,4 +224,21 @@ interface IUserService extends IEloquentService
     public function getCentralMissions(
         int $userId,
     ): ServiceResponse;
+
+    /**
+     * @param int $userId
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param int|null $isRead
+     * @param string|null $keyword
+     *
+     * @return ServiceResponse
+     */
+    public function getNotifications(
+        int     $userId,
+        int     $pageIndex,
+        int     $pageSize,
+        ?int    $isRead = null,
+        ?string $keyword = null
+    ): ServiceResponse;
 }

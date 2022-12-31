@@ -663,4 +663,54 @@ class UserService implements IUserService
             return $user;
         }
     }
+
+    /**
+     * @param int $userId
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param int|null $isRead
+     * @param string|null $keyword
+     *
+     * @return ServiceResponse
+     */
+    public function getNotifications(
+        int     $userId,
+        int     $pageIndex,
+        int     $pageSize,
+        ?int    $isRead = null,
+        ?string $keyword = null
+    ): ServiceResponse
+    {
+        $user = $this->getById($userId);
+        if ($user->isSuccess()) {
+            $notifications = $user->getData()->notifications();
+
+            if ($isRead) {
+                $notifications = $notifications->where('is_read', $isRead);
+            }
+
+            if ($keyword) {
+                $notifications = $notifications->where(function ($notifications) use ($keyword) {
+                    $notifications->where('heading', 'like', '%' . $keyword . '%')
+                        ->orWhere('message', 'like', '%' . $keyword . '%');
+                });
+            }
+
+            return new ServiceResponse(
+                true,
+                'User notifications',
+                200,
+                [
+                    'totalCount' => $notifications->count(),
+                    'pageIndex' => $pageIndex,
+                    'pageSize' => $pageSize,
+                    'notifications' => $pageSize == -1 ?
+                        $notifications->get() :
+                        $notifications->skip($pageSize * $pageIndex)->take($pageSize)->get()
+                ]
+            );
+        } else {
+            return $user;
+        }
+    }
 }

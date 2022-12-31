@@ -694,6 +694,7 @@ Route::middleware([
     });
 
     Route::prefix('notification')->group(function () {
+        Route::get('getByRelation', [\App\Http\Controllers\Api\User\NotificationController::class, 'getByRelation'])->name('user.api.notification.getByRelation');
         Route::post('sendBatch', [\App\Http\Controllers\Api\User\NotificationController::class, 'sendBatch'])->name('user.api.notification.sendBatch');
         Route::post('sendForPenalty', [\App\Http\Controllers\Api\User\NotificationController::class, 'sendForPenalty'])->name('user.api.notification.sendForPenalty');
     });
