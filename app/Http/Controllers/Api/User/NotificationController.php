@@ -28,6 +28,33 @@ class NotificationController extends Controller
     }
 
     /**
+     * @param GetByRelationRequest $request
+     */
+    public function getByRelation(GetByRelationRequest $request)
+    {
+        $getByRelationResponse = $this->notificationService->getByRelation(
+            $request->relationType,
+            $request->relationId,
+            $request->pageIndex,
+            $request->pageSize,
+            $request->keyword
+        );
+
+        if ($getByRelationResponse->isSuccess()) {
+            return $this->success(
+                $getByRelationResponse->getMessage(),
+                $getByRelationResponse->getData(),
+                $getByRelationResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByRelationResponse->getMessage(),
+                $getByRelationResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
      * @param SendBatchRequest $request
      */
     public function sendBatch(SendBatchRequest $request)

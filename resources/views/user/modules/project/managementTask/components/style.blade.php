@@ -34,4 +34,8 @@
     .opacity-60 {
         opacity: 60%;
     }
+
+    .kanban-container{
+        flex-wrap: inherit;
+    }
 </style>

@@ -463,7 +463,7 @@
             data: {
                 companyIds: companyIds,
                 pageIndex: 0,
-                pageSize: 1000,
+                pageSize: 10000,
                 leave: 0
             },
             success: function (response) {
@@ -630,6 +630,9 @@
                                     </div>
                                     <div class="fs-6 fw-bold text-muted">
                                         <i class="fas fa-headset"></i><span class="ms-3">${employee.santral_code ?? '--'}</span>
+                                    </div>
+                                    <div class="fs-6 fw-bold text-muted">
+                                        <span class="fw-bolder">Yapılacak İş Kodu: </span><span>${employee.operationEmployee ? `${employee.operationEmployee.yapilacakIslerKodu ?? ``}` : ``}</span>
                                     </div>
                                 </div>
                                 <div class="separator separator-dashed my-5"></div>
@@ -1305,7 +1308,7 @@
                     email: email,
                 },
                 success: function (response) {
-                    if (parseInt(response.response.id) !== parseInt(id)) {
+                    if (response.response != null && parseInt(response.response.id) !== parseInt(id)) {
                         toastr.warning('Bu E-Posta Adresi Kullanılamaz!');
                     } else {
                         if (!otsStatus) {

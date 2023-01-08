@@ -6,14 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Employee\EmployeeController\LoginRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\RegisterRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetProfileRequest;
+use App\Http\Requests\Api\Employee\EmployeeController\ResetPasswordRequest;
+use App\Http\Requests\Api\Employee\EmployeeController\SendPasswordResetEmailRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SwapThemeRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetMarketPaymentsRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\GetPositionsRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\SetDeviceTokenRequest;
 use App\Http\Requests\Api\Employee\EmployeeController\UpdatePasswordRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
+use App\Interfaces\Eloquent\IPasswordResetService;
+use App\Mail\Employee\ForgotPasswordEmail;
 use App\Traits\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class EmployeeController extends Controller
 {
@@ -52,6 +57,79 @@ class EmployeeController extends Controller
             return $this->error(
                 $employee->getMessage(),
                 $employee->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SendPasswordResetEmailRequest $request
+     * @param IPasswordResetService $request
+     */
+    public function sendPasswordResetEmail(
+        SendPasswordResetEmailRequest $request,
+        IPasswordResetService         $passwordResetService
+    )
+    {
+        $employee = $this->employeeService->getByEmail($request->email);
+        if ($employee->isSuccess()) {
+            $checkPasswordReset = $passwordResetService->checkPasswordReset(
+                'App\\Models\\Eloquent\\Employee',
+                $employee->getData()->id,
+                date('Y-m-d H:i:s', strtotime('-1 hour'))
+            );
+
+            if ($checkPasswordReset->isSuccess()) {
+                return $this->error('You can not send another password reset email for the same employee within an hour', 406);
+            }
+
+            $passwordReset = $passwordResetService->create(
+                'App\\Models\\Eloquent\\Employee',
+                $employee->getData()->id
+            );
+
+            Mail::to($employee->getData()->email)->send(new ForgotPasswordEmail($passwordReset->getData()->token));
+
+            return $this->success('Password reset email sent successfully', []);
+        } else {
+            return $this->error(
+                $employee->getMessage(),
+                $employee->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param ResetPasswordRequest $request
+     * @param IPasswordResetService $request
+     */
+    public function resetPassword(
+        ResetPasswordRequest  $request,
+        IPasswordResetService $passwordResetService
+    )
+    {
+        $passwordReset = $passwordResetService->getByToken($request->resetPasswordToken);
+        if ($passwordReset->isSuccess()) {
+            $employee = $this->employeeService->getById($passwordReset->getData()->relation_id);
+            if ($employee->isSuccess()) {
+                $passwordResetService->setUsed(
+                    $passwordReset->getData()->id
+                );
+                $this->employeeService->updatePassword(
+                    $employee->getData()->id,
+                    bcrypt($request->newPassword)
+                );
+
+                return $this->success('Password reset successfully', []);
+            } else {
+                return $this->error(
+                    $employee->getMessage(),
+                    $employee->getStatusCode()
+                );
+            }
+        } else {
+            return $this->error(
+                $passwordReset->getMessage(),
+                $passwordReset->getStatusCode()
             );
         }
     }
@@ -197,16 +275,16 @@ class EmployeeController extends Controller
      */
     public function updatePassword(UpdatePasswordRequest $request)
     {
-        $user = $this->employeeService->getById($request->user()->id);
-        if ($user->isSuccess()) {
-            if (Hash::check($request->oldPassword, $user->getData()->password)) {
-                $user->getData()->password = bcrypt($request->newPassword);
-                $user->getData()->save();
+        $employee = $this->employeeService->getById($request->user()->id);
+        if ($employee->isSuccess()) {
+            if (Hash::check($request->oldPassword, $employee->getData()->password)) {
+                $employee->getData()->password = bcrypt($request->newPassword);
+                $employee->getData()->save();
 
                 return $this->success(
                     'Password updated successfully',
-                    $user->getData(),
-                    $user->getStatusCode()
+                    $employee->getData(),
+                    $employee->getStatusCode()
                 );
             } else {
                 return $this->error(
@@ -216,8 +294,8 @@ class EmployeeController extends Controller
             }
         } else {
             return $this->error(
-                $user->getMessage(),
-                $user->getStatusCode()
+                $employee->getMessage(),
+                $employee->getStatusCode()
             );
         }
     }

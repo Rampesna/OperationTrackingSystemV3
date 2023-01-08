@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('relation_id');
             $table->string('heading');
             $table->text('message');
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -296,4 +296,15 @@ interface IEmployeeService extends IEloquentService
     public function getPositions(
         int $employeeId
     ): ServiceResponse;
+
+    /**
+     * @param int $employeeId
+     * @param string $password
+     *
+     * @return ServiceResponse
+     */
+    public function updatePassword(
+        int    $employeeId,
+        string $password
+    ): ServiceResponse;
 }
