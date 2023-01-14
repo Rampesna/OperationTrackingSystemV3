@@ -663,7 +663,7 @@ class ShiftService implements IShiftService
     {
         $allCompanies = $this->companyService->getAll()->getData();
         foreach ($allCompanies as $company) {
-            if ($company->saturday_permit_service === 1) {
+            if (intval($company->saturday_permit_service) == 1) {
                 $this->saturdayPermitService->robot(
                     $month,
                     $company->id
