@@ -99,11 +99,17 @@ class ProjectService implements IProjectService
     public function getByProjectIds(
         array   $projectIds,
         ?array  $statusIds = [],
-        ?string $keyword = null
+        ?string $keyword = null,
+        ?array  $ticketStatusIds = [],
     ): ServiceResponse
     {
         $projects = Project::with([
-            'status'
+            'status',
+            'tickets' => function ($tickets) use ($ticketStatusIds) {
+                $tickets->when($ticketStatusIds, function ($tickets) use ($ticketStatusIds) {
+                    $tickets->whereIn('status_id', $ticketStatusIds);
+                });;
+            }
         ])->whereIn('id', $projectIds);
 
         if ($statusIds && count($statusIds) > 0) {

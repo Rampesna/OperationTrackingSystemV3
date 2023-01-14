@@ -136,6 +136,32 @@ class TicketService implements ITicketService
     }
 
     /**
+     * @param string $relationType
+     * @param int $relationId
+     *
+     * @return ServiceResponse
+     */
+    public function getAllByRelation(
+        string $relationType,
+        int    $relationId
+    ): ServiceResponse
+    {
+        $tickets = Ticket::with([
+            'creator',
+            'priority',
+            'transactionStatus',
+            'status',
+        ])->orderBy('id', 'desc')->where('relation_type', $relationType)->where('relation_id', $relationId);
+
+        return new ServiceResponse(
+            true,
+            'Tickets',
+            200,
+            $tickets->get()
+        );
+    }
+
+    /**
      * @param string $creatorType
      * @param int $creatorId
      * @param int $pageIndex

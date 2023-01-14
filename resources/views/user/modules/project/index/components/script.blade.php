@@ -111,6 +111,7 @@
         $('#loader').show();
         var keyword = keywordFilter.val();
         var statusIds = statusIdsFilter.val();
+        var ticketStatusIds = [1,2];
 
         $.ajax({
             type: 'get',
@@ -122,6 +123,7 @@
             data: {
                 keyword: keyword,
                 statusIds: statusIds,
+                ticketStatusIds: ticketStatusIds
             },
             success: function (response) {
                 var imageUrl = '{{ asset('assets/media/svg/brand-logos/xing-icon.svg') }}';
@@ -131,14 +133,21 @@
                     projectsRow.append(`
                     <div class="col-md-6 col-xl-4 mb-5">
                         <div class="card border-hover-primary">
-                            <div class="card-header border-0 pt-9">
+                            <div class="card-header border-0 pt-9 d-flex">
                                 <div class="card-title m-0">
                                     <a ${overviewPermission === 'true' ? `href="${overviewRoute}"` : ``} class="symbol symbol-50px w-50px bg-light">
                                         <img src="${imageUrl}" alt="image" class="p-3">
                                     </a>
                                 </div>
-                                <div class="card-toolbar">
-                                    <span class="badge badge-light-${project.status ? project.status.color : 'info'} fw-bolder me-auto px-4 py-3">${project.status ? project.status.name : 'Test'}</span>
+                                <div class="row">
+                                    <div class="col-xl-12 p-0 m-0">
+                                        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="fs-4 fw-bolder" id="waitingTicketsCount_${project.id}">${project.tickets.length}</div>
+                                            </div>
+                                            <div class="fw-bold fs-6 text-gray-400">Bekleyen Talepler</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body p-9">

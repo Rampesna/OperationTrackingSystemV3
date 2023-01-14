@@ -49,6 +49,16 @@
                         <textarea id="ticket_messages_ticket_notes_input" class="form-control form-control-solid" rows="4" aria-label="Notlar" disabled></textarea>
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-xl-3 mt-3">
+                        <span class="fw-bolder">Talep Durumu</span>
+                    </div>
+                    <div class="col-xl-9">
+                        <select id="ticket_messages_ticket_status_id_input" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Talep Durumu" aria-label="Talep Durumu">
+
+                        </select>
+                    </div>
+                </div>
                 <hr class="text-muted">
                 <div class="row mt-3">
                     <div class="col-xl-3 mt-3">

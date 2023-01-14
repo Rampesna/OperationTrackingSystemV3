@@ -457,6 +457,7 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\TicketController::class, 'getAll'])->name('user.api.ticket.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\TicketController::class, 'getById'])->name('user.api.ticket.getById');
         Route::get('getByRelation', [\App\Http\Controllers\Api\User\TicketController::class, 'getByRelation'])->name('user.api.ticket.getByRelation');
+        Route::get('getAllByRelation', [\App\Http\Controllers\Api\User\TicketController::class, 'getAllByRelation'])->name('user.api.ticket.getAllByRelation');
         Route::get('getByCreator', [\App\Http\Controllers\Api\User\TicketController::class, 'getByCreator'])->name('user.api.ticket.getByCreator');
         Route::post('create', [\App\Http\Controllers\Api\User\TicketController::class, 'create'])->name('user.api.ticket.create');
         Route::put('update', [\App\Http\Controllers\Api\User\TicketController::class, 'update'])->name('user.api.ticket.update');

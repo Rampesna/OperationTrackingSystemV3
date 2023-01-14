@@ -42,7 +42,8 @@ class ProjectController extends Controller
         $getByUserIdResponse = $this->projectService->getByProjectIds(
             $request->user()->projects()->pluck('id')->toArray(),
             $request->statusIds,
-            $request->keyword
+            $request->keyword,
+            $request->ticketStatusIds
         );
         if ($getByUserIdResponse->isSuccess()) {
             return $this->success(

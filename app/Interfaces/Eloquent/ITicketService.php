@@ -28,6 +28,17 @@ interface ITicketService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param string $relationType
+     * @param int $relationId
+     *
+     * @return ServiceResponse
+     */
+    public function getAllByRelation(
+        string $relationType,
+        int    $relationId
+    ): ServiceResponse;
+
+    /**
      * @param string $creatorType
      * @param int $creatorId
      * @param int $pageIndex

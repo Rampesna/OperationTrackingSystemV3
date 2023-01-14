@@ -1,3 +1,27 @@
+<script src="{{ asset('assets/jqwidgets/jqxcore.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxbuttons.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxscrollbar.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxlistbox.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxdropdownlist.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxmenu.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.selection.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.columnsreorder.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.columnsresize.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.filter.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.sort.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxdata.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.pager.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxnumberinput.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxwindow.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxdata.export.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.export.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxexport.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqxgrid.grouping.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/globalization/globalize.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jqgrid-localization.js') }}"></script>
+<script src="{{ asset('assets/jqwidgets/jszip.min.js') }}"></script>
+
 <script>
 
     function getProject() {
@@ -72,14 +96,21 @@
 
 <script>
 
+    function controlMobile() {
+        if (detectMobile()) {
+            $('#ticketMessagesDrawer').attr('data-kt-drawer-width', '90%');
+        } else {
+            $('#ticketMessagesDrawer').attr('data-kt-drawer-width', '900px');
+        }
+    }
+
+    controlMobile();
+
     var tickets = $('#tickets');
     var ticketMessagesRow = $('#ticketMessagesRow');
     var createTicketMessageArea = $('#createTicketMessageArea');
+    var projectTicketsDiv = $('#projectTickets');
 
-    var page = $('#page');
-    var pageUpButton = $('#pageUp');
-    var pageDownButton = $('#pageDown');
-    var pageSizeSelector = $('#pageSize');
     var FilterButton = $('#FilterButton');
     var ClearFilterButton = $('#ClearFilterButton');
 
@@ -92,6 +123,7 @@
     var DeleteTicketButton = $('#DeleteTicketButton');
     var ticketMessagesDrawerButton = $('#ticketMessagesDrawerButton');
     var CreateTicketMessageButton = $('#CreateTicketMessageButton');
+    var DownloadExcelButton = $('#DownloadExcelButton');
 
     var updateTicketRelationType = $('#update_ticket_relation_type');
     var updateTicketRelationId = $('#update_ticket_relation_id');
@@ -100,21 +132,14 @@
 
     var ticketMessagesTicketFiles = $('#ticket_messages_ticket_files');
     var ticketMessagesTicketTaskIdInput = $('#ticket_messages_ticket_task_id_input');
+    var ticketMessagesTicketStatusIdInput = $('#ticket_messages_ticket_status_id_input');
     var ticketMessagesTicketTransactionStatusIdInput = $('#ticket_messages_ticket_transaction_status_id_input');
 
-    function controlMobile() {
-        if (detectMobile()) {
-            $('#ticketMessagesDrawer').attr('data-kt-drawer-width', '90%');
-        } else {
-            $('#ticketMessagesDrawer').attr('data-kt-drawer-width', '900px');
-        }
-    }
-
-    controlMobile();
-
-    function updateTicket(id) {
+    function updateTicket() {
         $('#loader').show();
-        $('#update_ticket_id').val(id);
+        $('#TransactionsModal').modal('hide');
+        var ticketId = $('#selected_ticket_id').val();
+        $('#update_ticket_id').val(ticketId);
         $.ajax({
             type: 'get',
             url: '{{ route('user.api.ticket.getById') }}',
@@ -123,7 +148,7 @@
                 'Authorization': token
             },
             data: {
-                id: id,
+                id: ticketId,
             },
             success: function (response) {
                 updateTicketRelationType.val(response.response.relation_type);
@@ -147,8 +172,10 @@
         });
     }
 
-    function getTicketMessages(ticketId, drawer = 0) {
+    function getTicketMessages(drawer = 0) {
         $('#loader').show();
+        $('#TransactionsModal').modal('hide');
+        var ticketId = $('#selected_ticket_id').val();
         $.ajax({
             type: 'get',
             url: '{{ route('user.api.ticket.getById') }}',
@@ -172,6 +199,7 @@
                 $('#ticket_messages_ticket_requested_end_date_input').val(response.response.requested_end_date);
                 $('#ticket_messages_ticket_todo_end_date_input').val(response.response.todo_end_date);
                 ticketMessagesTicketTransactionStatusIdInput.val(response.response.ticket_transaction_status_id).select2();
+                ticketMessagesTicketStatusIdInput.val(response.response.status_id).select2();
                 ticketMessagesTicketTaskIdInput.val(response.response.task_id).select2();
                 ticketMessagesTicketFiles.empty();
                 $.each(response.response.files, function (i, file) {
@@ -236,8 +264,10 @@
         });
     }
 
-    function deleteTicket(id) {
-        $('#delete_ticket_id').val(id);
+    function deleteTicket() {
+        var ticketId = $('#selected_ticket_id').val();
+        $('#delete_ticket_id').val(ticketId);
+        $('#TransactionsModal').modal('hide');
         $('#DeleteTicketModal').modal('show');
     }
 
@@ -354,6 +384,10 @@
                         value: ticketStatus.id,
                         text: ticketStatus.name
                     }));
+                    ticketMessagesTicketStatusIdInput.append($('<option>', {
+                        value: ticketStatus.id,
+                        text: ticketStatus.name
+                    }));
                 });
             },
             error: function (error) {
@@ -367,15 +401,10 @@
         tickets.html(`<tr><td colspan="9" class="text-center fw-bolder"><i class="fa fa-lg fa-spinner fa-spin"></i></td></tr>`);
         var relationType = 'App\\Models\\Eloquent\\Project';
         var relationId = parseInt(`{{ $id }}`);
-        var pageIndex = parseInt(page.html()) - 1;
-        var pageSize = pageSizeSelector.val();
-        var keyword = keywordFilter.val();
-        var priorityIds = priorityIdFilter.val();
-        var statusIds = statusIdFilter.val();
 
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.ticket.getByRelation') }}',
+            url: '{{ route('user.api.ticket.getAllByRelation') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
@@ -383,65 +412,136 @@
             data: {
                 relationType: relationType,
                 relationId: relationId,
-                pageIndex: pageIndex,
-                pageSize: pageSize,
-                keyword: keyword,
-                priorityIds: priorityIds,
-                statusIds: statusIds,
             },
             success: function (response) {
-                tickets.empty();
-                $('#totalCountSpan').text(response.response.totalCount);
-                $('#startCountSpan').text(parseInt(((pageIndex) * pageSize)) + 1);
-                $('#endCountSpan').text(parseInt(parseInt(((pageIndex) * pageSize)) + 1) + parseInt(pageSize) > response.response.totalCount ? response.response.totalCount : parseInt(((pageIndex) * pageSize)) + 1 + parseInt(pageSize));
-                $.each(response.response.tickets, function (i, ticket) {
-                    tickets.append(`
-                    <tr>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary btn-icon btn-sm" type="button" id="${ticket.id}_Dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-th"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="${ticket.id}_Dropdown" style="width: 175px">
-                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="updateTicket(${ticket.id})" title="Düzenle"><i class="fas fa-edit me-2 text-primary"></i> <span class="text-dark">Düzenle</span></a>
-                                    <a class="dropdown-item cursor-pointer mb-2 py-3 ps-6" onclick="getTicketMessages(${ticket.id})" title="İncele"><i class="fas fa-eye me-2 text-info"></i> <span class="text-dark">İncele</span></a>
-                                    <hr class="text-muted">
-                                    <a class="dropdown-item cursor-pointer py-3 ps-6" onclick="deleteTicket(${ticket.id})" title="Sil"><i class="fas fa-trash-alt me-3 text-danger"></i> <span class="text-dark">Sil</span></a>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            #${ticket.id}
-                        </td>
-                        <td>
-                            ${reformatDatetimeTo_DD_MM_YYYY_HH_ii_WithDot(ticket.created_at)}
-                        </td>
-                        <td>
-                            ${ticket.title ?? ''}
-                        </td>
-                        <td>
-                            <span class="badge badge-${ticket.priority ? ticket.priority.color : 'secondary'}">${ticket.priority ? ticket.priority.name : ''}</span>
-                        </td>
-                        <td>
-                            <span class="badge badge-${ticket.status ? ticket.status.color : 'secondary'}">${ticket.status ? ticket.status.name : '--'}</span>
-                        </td>
-                        <td>
-                            <span class="badge badge-secondary">${ticket.transaction_status ? ticket.transaction_status.name : ''}</span>
-                        </td>
-                        <td class="hideIfMobile">
-                            ${ticket.source ?? ''}
-                        </td>
-                        <td class="hideIfMobile">
-                            ${ticket.requested_end_date ? reformatDatetimeToDateForHuman(ticket.requested_end_date) : ''}
-                        </td>
-                        <td class="hideIfMobile">
-                            ${ticket.todo_end_date ? reformatDatetimeToDateForHuman(ticket.todo_end_date) : ''}
-                        </td>
-                    </tr>
-                    `);
-                });
 
-                checkScreen();
+                let data = [];
+                $.each(response.response, function (i, ticket) {
+                    data.push({
+                        id: ticket.id,
+                        created_at: ticket.created_at,
+                        creator: ticket.creator.name,
+                        subject: ticket.subject ? ticket.subject.name : '',
+                        title: ticket.title,
+                        priority: ticket.priority.name,
+                        status: ticket.status.name,
+                        transactionStatus: ticket.subject ? ticket.transaction_status.name : '',
+                        source: ticket.source,
+                        requestedEndDate: ticket.requested_end_date ? reformatDatetimeToDatetimeForHuman(ticket.requested_end_date) : '',
+                        todoEndDate: ticket.todo_end_date ? reformatDatetimeToDatetimeForHuman(ticket.todo_end_date) : '',
+                    });
+                });
+                var source = {
+                    localdata: data,
+                    datatype: "array",
+                    datafields:
+                        [
+                            {name: 'id', type: 'integer'},
+                            {name: 'created_at', type: 'string'},
+                            {name: 'creator', type: 'string'},
+                            {name: 'subject', type: 'string'},
+                            {name: 'title', type: 'string'},
+                            {name: 'priority', type: 'string'},
+                            {name: 'status', type: 'string'},
+                            {name: 'transactionStatus', type: 'string'},
+                            {name: 'source', type: 'string'},
+                            {name: 'requestedEndDate', type: 'string'},
+                            {name: 'todoEndDate', type: 'string'},
+                        ]
+                };
+                var dataAdapter = new $.jqx.dataAdapter(source);
+                projectTicketsDiv.jqxGrid({
+                    width: '100%',
+                    height: '600',
+                    source: dataAdapter,
+                    columnsresize: true,
+                    groupable: true,
+                    theme: jqxGridGlobalTheme,
+                    filterable: true,
+                    showfilterrow: true,
+                    pageable: false,
+                    sortable: true,
+                    pagesizeoptions: ['10', '20', '50', '1000'],
+                    localization: getLocalization('tr'),
+                    columns: [
+                        {
+                            text: '#',
+                            dataField: 'id',
+                            columntype: 'textbox',
+                            width: '3%'
+
+                        },
+                        {
+                            text: 'Oluşturulma Tarihi',
+                            dataField: 'created_at',
+                            columntype: 'textbox',
+                            width: '5%'
+                        },
+                        {
+                            text: 'Talep Sahibi',
+                            dataField: 'creator',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'Konu',
+                            dataField: 'subject',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'Başlık',
+                            dataField: 'title',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'Öncelik',
+                            dataField: 'priority',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'Durum',
+                            dataField: 'status',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'Görev Durumu',
+                            dataField: 'transactionStatus',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'Talep Kaynağı',
+                            dataField: 'source',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'İstenilen Temin Tarihi',
+                            dataField: 'requestedEndDate',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'Yapılacak Temin Tarihi',
+                            dataField: 'todoEndDate',
+                            columntype: 'textbox',
+                            width: '10%'
+                        }
+                    ],
+                });
+                projectTicketsDiv.on('rowclick', function (event) {
+                    projectTicketsDiv.jqxGrid('selectrow', event.args.rowindex);
+                    var rowindex = projectTicketsDiv.jqxGrid('getselectedrowindex');
+                    $('#selected_ticket_row_index').val(rowindex);
+                    var dataRecord = projectTicketsDiv.jqxGrid('getrowdata', rowindex);
+                    $('#selected_ticket_id').val(dataRecord.id);
+                    return false;
+                });
+                projectTicketsDiv.jqxGrid('sortby', 'id', 'desc');
 
                 if (response.response.totalCount <= (pageIndex + 1) * pageSize) {
                     pageUpButton.attr('disabled', true);
@@ -533,29 +633,6 @@
         }
     });
 
-    function changePage(newPage) {
-        if (newPage === 1) {
-            pageDownButton.attr('disabled', true);
-        } else {
-            pageDownButton.attr('disabled', false);
-        }
-
-        page.html(newPage);
-        getTicketsByRelation();
-    }
-
-    pageUpButton.click(function () {
-        changePage(parseInt(page.html()) + 1);
-    });
-
-    pageDownButton.click(function () {
-        changePage(parseInt(page.html()) - 1);
-    });
-
-    pageSizeSelector.change(function () {
-        changePage(1);
-    });
-
     FilterButton.click(function () {
         changePage(1);
     });
@@ -585,6 +662,31 @@
             error: function (error) {
                 console.log(error);
                 toastr.error('Görev Durumu Güncellenirken Serviste Bir Sorun Oluştu!');
+            }
+        });
+    });
+
+    ticketMessagesTicketStatusIdInput.change(function () {
+        var ticketId = $('#selected_ticket_id').val();
+        var statusId = $(this).val();
+
+        $.ajax({
+            type: 'put',
+            url: '{{ route('user.api.ticket.setStatus') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                ticketId: ticketId,
+                statusId: statusId
+            },
+            success: function () {
+                getTicketsByRelation();
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Talep Durumu Güncellenirken Serviste Bir Sorun Oluştu!');
             }
         });
     });
@@ -774,7 +876,7 @@
                             data: data,
                             success: function () {
                                 toastr.success('Mesajınıza Ait Dosyalarınız Başarıyla Yüklendi!');
-                                getTicketMessages(ticketId, 1);
+                                getTicketMessages(1);
                                 CreateTicketMessageButton.attr('disabled', false).html(`Cevapla`);
                             },
                             error: function (error) {
@@ -784,7 +886,7 @@
                             }
                         });
                     } else {
-                        getTicketMessages(ticketId, 1);
+                        getTicketMessages(1);
                         CreateTicketMessageButton.attr('disabled', false).html(`Cevapla`);
                     }
                     $('#create_ticket_message_message').val('');
@@ -798,6 +900,24 @@
                 }
             });
         }
+    });
+
+    DownloadExcelButton.click(function () {
+        projectTicketsDiv.jqxGrid('exportdata', 'xlsx', 'Talepler');
+    });
+
+    function transactions() {
+        $('#TransactionsModal').modal('show');
+    }
+
+    $('body').on('contextmenu', function () {
+        var ticketId = $('#selected_ticket_id').val();
+        if (ticketId) {
+            transactions();
+        } else {
+            toastr.warning('İşlem yapabilmek için lütfen bir ticket seçin!');
+        }
+        return false;
     });
 
 </script>

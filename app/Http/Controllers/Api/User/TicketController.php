@@ -7,6 +7,7 @@ use App\Interfaces\Eloquent\ITicketService;
 use App\Http\Requests\Api\User\TicketController\GetAllRequest;
 use App\Http\Requests\Api\User\TicketController\GetByIdRequest;
 use App\Http\Requests\Api\User\TicketController\GetByRelationRequest;
+use App\Http\Requests\Api\User\TicketController\GetAllByRelationRequest;
 use App\Http\Requests\Api\User\TicketController\GetByCreatorRequest;
 use App\Http\Requests\Api\User\TicketController\CreateRequest;
 use App\Http\Requests\Api\User\TicketController\UpdateRequest;
@@ -88,6 +89,29 @@ class TicketController extends Controller
             $request->keyword,
             $request->priorityIds,
             $request->statusIds
+        );
+        if ($getByRelationResponse->isSuccess()) {
+            return $this->success(
+                $getByRelationResponse->getMessage(),
+                $getByRelationResponse->getData(),
+                $getByRelationResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getByRelationResponse->getMessage(),
+                $getByRelationResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetAllByRelationRequest $request
+     */
+    public function getAllByRelation(GetAllByRelationRequest $request)
+    {
+        $getByRelationResponse = $this->ticketService->getAllByRelation(
+            $request->relationType,
+            $request->relationId
         );
         if ($getByRelationResponse->isSuccess()) {
             return $this->success(

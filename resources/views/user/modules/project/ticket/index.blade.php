@@ -19,6 +19,7 @@
 
     @include('user.modules.project.ticket.drawers.ticketMessages')
 
+    @include('user.modules.project.ticket.modals.transactions')
     @include('user.modules.project.ticket.modals.updateTicket')
     @include('user.modules.project.ticket.modals.deleteTicket')
 
@@ -38,13 +39,13 @@
                         <div class="col-xl-3 mb-5">
                             <div class="form-group">
                                 <label for="priorityId">Talep Önceliği</label>
-                                <select id="priorityId" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Talep Önceliği" multiple></select>
+                                <select id="priorityId" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Talep Önceliği" data-close-on-select="false" multiple></select>
                             </div>
                         </div>
                         <div class="col-xl-3 mb-5">
                             <div class="form-group">
                                 <label for="statusId">Talep Durumu</label>
-                                <select id="statusId" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Talep Durumu" multiple></select>
+                                <select id="statusId" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Talep Durumu" data-close-on-select="false" multiple></select>
                             </div>
                         </div>
                         <div class="col-xl-6 mb-5">
@@ -61,67 +62,29 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-6 mb-5">
+                            <div class="row">
+                                <div class="col-xl-6"></div>
+                                <div class="col-xl-6">
+                                    <div class="form-group d-grid">
+                                        <button class="btn btn-success mt-6" id="DownloadExcelButton">
+                                            <i class="fa fa-file-excel"></i> Excel İndir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <br>
+    <input type="hidden" id="selected_ticket_id">
+    <input type="hidden" id="selected_ticket_row_index">
     <div class="row">
         <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body pt-0">
-                    <br>
-                    <div class="row">
-                        <div class="col-xl-1">
-                            <div class="form-group">
-                                <label>
-                                    <select data-control="select2" id="pageSize" data-hide-search="true" class="form-select border-0">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-xl-11 text-end">
-                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark" id="pageDown" disabled>
-                                <i class="fas fa-angle-left"></i>
-                            </button>
-                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark cursor-default" disabled>
-                                <span class="text-muted" id="page">1</span>
-                            </button>
-                            <button class="btn btn-sm btn-icon bg-transparent bg-hover-opacity-0 text-dark" id="pageUp">
-                                <i class="fas fa-angle-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <hr class="text-muted">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5">
-                        <thead>
-                        <tr class="text-start text-dark fw-bolder fs-7 gs-0">
-                            <th>#</th>
-                            <th>ID</th>
-                            <th>Oluşturulma Tarihi</th>
-                            <th>Başlık</th>
-                            <th>Öncelik</th>
-                            <th>Durum</th>
-                            <th>Görev Durumu</th>
-                            <th class="hideIfMobile">Talep Kaynağı</th>
-                            <th class="hideIfMobile">İstenilen Temin Zamanı</th>
-                            <th class="hideIfMobile">Yapılacak Temin Zamanı</th>
-                        </tr>
-                        </thead>
-                        <tbody class="fw-bold text-gray-600" id="tickets"></tbody>
-                    </table>
-                    <hr class="text-muted">
-                    <div class="row">
-                        <div class="col-xl-12 text-end">
-                            <span class="text-muted">Toplam <span id="totalCountSpan">%</span> Kayıttan <span id="startCountSpan">%</span> - <span id="endCountSpan">%</span> Arasındakiler Gösteriliyor</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="projectTickets"></div>
         </div>
     </div>
 
