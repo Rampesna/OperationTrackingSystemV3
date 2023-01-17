@@ -128,7 +128,7 @@
                 },
                 data: formData,
                 success: function () {
-                    toastr.success('Script Başarıyla Oluşturuldu');
+                    toastr.success('Script Başarıyla Oluşturuldu, Yönlendiriliyorsunuz...');
                     setTimeout(function () {
                         window.open(`{{ route('user.web.salesAndMarketing.modules.survey.index') }}`, '_self');
                     }, 1000);

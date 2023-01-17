@@ -533,6 +533,7 @@
                         {name: 'cariId'},
                         {name: 'musteriAdi'},
                         {name: 'gorusmeNotlari'},
+                        {name: 'uyumCrmSaticiKodlari'},
                     ]
                 };
                 var dataAdapter = new $.jqx.dataAdapter(source);
@@ -575,6 +576,11 @@
                         {
                             text: 'Görüşme Notları',
                             dataField: 'gorusmeNotlari',
+                            columntype: 'textbox',
+                        },
+                        {
+                            text: 'UyumCrm Satıcı Kodu',
+                            dataField: 'uyumCrmSaticiKodlari',
                             columntype: 'textbox',
                         }
                     ]

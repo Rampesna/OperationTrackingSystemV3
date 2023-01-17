@@ -121,6 +121,15 @@ class SurveySystemController extends Controller
      */
     public function setSurvey(SetSurveyRequest $request)
     {
+        $callListFromFile = $request->file('callList') ? Excel::toCollection(null, $request->file('callList'))[0] : [];
+        $callList = [];
+        foreach ($callListFromFile as $key => $value) {
+            if (gettype($value[0]) == 'integer') {
+                $callList[] = [
+                    'cariId' => $value[0],
+                ];
+            }
+        }
         $setSurveyResponse = $this->surveySystemService->SetSurvey(
             $request->id ? intval($request->id) : null,
             intval($request->code),
@@ -147,11 +156,7 @@ class SurveySystemController extends Controller
             $request->isSurvey,
             $request->cantCallGroupCode,
             $request->descriptionHtml,
-            $request->file('callList') ? Excel::toCollection(null, $request->file('callList'))->map(function ($row) {
-                return [
-                    'cariId' => $row[0],
-                ];
-            })->toArray() : []
+            $callList
         );
         if ($setSurveyResponse->isSuccess()) {
             return $this->success(
