@@ -676,8 +676,8 @@ class ShiftService implements IShiftService
 
         foreach ($shiftGroups->getData() as $shiftGroup) {
             if ($companyId == 1 || $companyId == 2) {
-                $startDayOfMonth = 16;
-                $endDayOfMonth = 22;
+                $startDayOfMonth = 23;
+                $endDayOfMonth = 29;
             } else {
                 $startDayOfMonth = 1;
                 $endDayOfMonth = date('t', strtotime($month));
