@@ -15,6 +15,10 @@
 
 @section('content')
 
+    @include('user.modules.performance.prCard.modals.createPrCard')
+    @include('user.modules.performance.prCard.modals.updatePrCard')
+    <input type="hidden" id="selected_pr_cards_id">
+    <input type="hidden" id="selected_pr_cards_name">
     <div class="row">
         <div class="col-xl-12 mb-5">
             <div class="card">
@@ -23,7 +27,6 @@
                         <div class="col-xl-6 mb-5">
                             <div class="form-group mb-5">
                                 <select id="jobDepartments" class="form-select form-select-solid" data-control="select2" data-placeholder="Departman Seçimi" data-minimum-results-for-search="Infinity" aria-label="Çalışma Durumu">
-
                                 </select>
                             </div>
                         </div>
@@ -41,7 +44,7 @@
                                 <div class="col-xl-6"></div>
                                 <div class="col-xl-6 mb-5">
                                     <div class="form-group d-grid">
-                                        <button class="btn btn-success" onclick="createPrCard()">Yeni Kart Oluştur</button>
+                                        <button class="btn btn-success" onclick="createPrCardModal()">Yeni Kart Oluştur</button>
                                     </div>
                                 </div>
                             </div>

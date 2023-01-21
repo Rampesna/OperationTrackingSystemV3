@@ -702,6 +702,8 @@ Route::middleware([
 
     Route::prefix('prCard')->group(function () {
         Route::get('getByJobDepartmentId', [\App\Http\Controllers\Api\User\PrCardController::class, 'getByJobDepartmentId'])->name('user.api.prCard.getByJobDepartmentId');
+        Route::post('create', [\App\Http\Controllers\Api\User\PrCardController::class, 'create'])->name('user.api.prCard.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\PrCardController::class, 'update'])->name('user.api.prCard.update');
     });
 
     Route::prefix('operationApi')->group(function () {

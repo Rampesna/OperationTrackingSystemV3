@@ -36,12 +36,14 @@ class PRCardService implements IPRCardService
      */
     public function create(
         string $name,
+        int    $jobDepartmentId,
     ): ServiceResponse
     {
         $prCard = new PRCard();
         $prCard->name = $name;
         $prCard->code = md5(Str::random(32));
         $prCard->version = 1;
+        $prCard->job_department_id = $jobDepartmentId;
         $prCard->save();
 
         Schema::create('pr_card_' . $prCard->code . '_' . 1, function ($table) {
@@ -77,7 +79,24 @@ class PRCardService implements IPRCardService
         int $id
     ): ServiceResponse
     {
-
+        $prCard = PRCard::with([
+            'jobDepartment'
+        ])->find($id);
+        if ($prCard) {
+            return new ServiceResponse(
+                true,
+                'PR Card by id',
+                200,
+                $prCard
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'PR Card not found',
+                404,
+                [],
+            );
+        }
     }
 
     /**
@@ -90,5 +109,36 @@ class PRCardService implements IPRCardService
     ): ServiceResponse
     {
 
+    }
+
+    public function update(int $id, string $name,): ServiceResponse
+    {
+        $prCard = $this->getById($id);
+        if ($prCard->isSuccess()) {
+            $prCard->getData()->name = $name;
+            $prCard->getData()->version = $prCard->getData()->version + 1;
+            $prCard->getData()->save();
+
+            Schema::create('pr_card_' . $prCard->getData()->code . '_' . $prCard->getData()->version, function ($table) {
+                $table->increments('id');
+                $table->dateTime('date');
+                $table->bigInteger('employee_id');
+                $table->tinyInteger('worked_day_count');
+                $table->timestamps();
+            });
+            return new ServiceResponse(
+                true,
+                'PR Card updated successfully',
+                200,
+                $prCard
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'PR Card not found',
+                404,
+                [],
+            );
+        }
     }
 }

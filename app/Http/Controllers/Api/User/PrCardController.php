@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\PrCardController\CreateRequest;
 use App\Http\Requests\Api\User\PrCardController\GetByJobDepartmentIdRequest;
+use \App\Http\Requests\Api\User\PrCardController\UpdateRequest;
 use App\Interfaces\Eloquent\IPRCardService;
 use App\Traits\Response;
 
@@ -45,4 +47,52 @@ class PrCardController extends Controller
             );
         }
     }
+
+    /**
+     * @param CreateRequest $request
+     */
+    public function create(CreateRequest $request)
+    {
+        $createResponse = $this->prCardService->create(
+            $request->name,
+            $request->jobDepartmentId,
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
+            );
+        }
+    }
+
+
+    /**
+     * @param UpdateRequest $request
+     */
+    public function update(UpdateRequest $request)
+    {
+        $updateResponse = $this->prCardService->update(
+            $request->id,
+            $request->name,
+        );
+        if ($updateResponse->isSuccess()) {
+            return $this->success(
+                $updateResponse->getMessage(),
+                $updateResponse->getData(),
+                $updateResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $updateResponse->getMessage(),
+                $updateResponse->getStatusCode()
+            );
+        }
+    }
+
 }

@@ -22,5 +22,11 @@ interface IPRCardService extends IEloquentService
      */
     public function create(
         string $name,
+        int $jobDepartmentId,
+    ): ServiceResponse;
+
+    public function update(
+        int $id,
+        string $name,
     ): ServiceResponse;
 }
