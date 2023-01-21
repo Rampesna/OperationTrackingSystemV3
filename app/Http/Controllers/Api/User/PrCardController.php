@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\PrCardController\CreateRequest;
+use App\Http\Requests\Api\User\PrCardController\GetAllRequest;
 use App\Http\Requests\Api\User\PrCardController\GetByJobDepartmentIdRequest;
 use \App\Http\Requests\Api\User\PrCardController\UpdateRequest;
 use App\Interfaces\Eloquent\IPRCardService;
@@ -94,5 +95,26 @@ class PrCardController extends Controller
             );
         }
     }
+
+    /**
+     * @param int $id
+     */
+    public function getAll(GetAllRequest $request)
+    {
+        $getAllResponse = $this->prCardService->getAll();
+        if ($getAllResponse->isSuccess()) {
+            return $this->success(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getData(),
+                $getAllResponse->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $getAllResponse->getMessage(),
+                $getAllResponse->getStatusCode()
+            );
+        }
+    }
+
 
 }

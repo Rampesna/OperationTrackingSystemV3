@@ -67,7 +67,16 @@ class PRCardService implements IPRCardService
      */
     public function getAll(): ServiceResponse
     {
+        $prCards = PRCard::with([
+            'jobDepartment'
+        ])->get();
 
+        return new ServiceResponse(
+            true,
+            'PR Cards fetched successfully',
+            200,
+            $prCards
+        );
     }
 
     /**

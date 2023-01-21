@@ -14,7 +14,54 @@
 @endsection
 
 @section('content')
+    @include('user.modules.performance.prCritter.modals.transactions')
+    @include('user.modules.performance.prCritter.modals.updatePrCritter')
+    @include('user.modules.performance.prCritter.modals.createPrCritter')
+    <input type="hidden" id="selected_pr_cards_id">
+    <input type="hidden" id="selected_pr_critter_id">
 
+    <div class="row">
+        <div class="col-xl-12 mb-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-6 mb-5">
+                            <div class="form-group mb-5">
+                                <select id="prCritters" class="form-select form-select-solid" data-control="select2" data-placeholder="Kart Seçimi" data-minimum-results-for-search="Infinity" aria-label="Kart Seçimi">
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 mb-5">
+                            <div class="row">
+                                <div class="col-xl-6 mb-5">
+                                    <div class="form-group d-grid">
+                                        <button class="btn btn-primary" onclick="getPrCritterByCardId()">Kriteleri Getir</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 mb-5">
+                            <div class="row">
+                                <div class="col-xl-6"></div>
+                                <div class="col-xl-6 mb-5">
+                                    <div class="form-group d-grid">
+                                        <button class="btn btn-success" onclick="createPrCritterModal()">Kriter Oluştur</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xl-12">
+            <div id="prCrittersDiv"></div>
+        </div>
+    </div>
 
 
 @endsection
