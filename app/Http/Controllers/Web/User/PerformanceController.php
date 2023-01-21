@@ -10,4 +10,14 @@ class PerformanceController extends Controller
     {
         return view('user.modules.performance.index.index');
     }
+
+    public function prCard()
+    {
+        return view('user.modules.performance.prCard.index');
+    }
+
+    public function prCritter()
+    {
+        return view('user.modules.performance.prCritter.index');
+    }
 }

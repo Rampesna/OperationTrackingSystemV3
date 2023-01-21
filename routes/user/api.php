@@ -700,6 +700,10 @@ Route::middleware([
         Route::post('sendForPenalty', [\App\Http\Controllers\Api\User\NotificationController::class, 'sendForPenalty'])->name('user.api.notification.sendForPenalty');
     });
 
+    Route::prefix('prCard')->group(function () {
+        Route::get('getByJobDepartmentId', [\App\Http\Controllers\Api\User\PrCardController::class, 'getByJobDepartmentId'])->name('user.api.prCard.getByJobDepartmentId');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

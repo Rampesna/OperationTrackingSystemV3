@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Employee;
+use App\Services\Eloquent\PRCalculate;
+use App\Services\Eloquent\PRCardService;
+use App\Services\Eloquent\PRCritterService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ladumor\OneSignal\OneSignal;
@@ -28,6 +31,62 @@ class HomeController extends Controller
         }
 
         return view('home.modules.index.index');
+    }
+
+    public function abc()
+    {
+//        $prCardService = new PRCardService;
+//        $card1 = $prCardService->create('Teknik Ekip Kriterleri');
+//        $card2 = $prCardService->create('Pazarlama Ekibi Kriterleri');
+//
+//        $prCritterService = new PRCritterService;
+//        $prCritterService->create(
+//            $card1->getData()->id,
+//            1,
+//            'Test',
+//            50,
+//            70,
+//            75,
+//            80,
+//            100,
+//            100,
+//            25
+//        );
+//
+//        $prCritterService->create(
+//            $card1->getData()->id,
+//            1,
+//            'Test 2',
+//            8,
+//            70,
+//            10,
+//            80,
+//            12,
+//            100,
+//            20
+//        );
+//
+//        $prCritterService->update(
+//            1,
+//            1,
+//            'Test V2',
+//            30,
+//            70,
+//            50,
+//            80,
+//            90,
+//            100,
+//            20
+//        );
+
+        $prCalculateService = new PRCalculate;
+        $response = $prCalculateService->calculate(
+            1,
+            '2022-12-01',
+            0
+        );
+
+        return $response->getData();
     }
 
     function sampling($chars, $size, $combinations = array())

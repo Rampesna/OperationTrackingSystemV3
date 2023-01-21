@@ -50,6 +50,7 @@ use App\Interfaces\Eloquent\IPermitService;
 use App\Interfaces\Eloquent\IPermitTypeService;
 use App\Interfaces\Eloquent\IPersonalAccessTokenService;
 use App\Interfaces\Eloquent\IPositionService;
+use App\Interfaces\Eloquent\IPRCardService;
 use App\Interfaces\Eloquent\IProjectJobService;
 use App\Interfaces\Eloquent\IProjectJobTypeService;
 use App\Interfaces\Eloquent\IProjectLandingCustomerService;
@@ -149,6 +150,7 @@ use App\Services\Eloquent\PermitService;
 use App\Services\Eloquent\PermitTypeService;
 use App\Services\Eloquent\PersonalAccessTokenService;
 use App\Services\Eloquent\PositionService;
+use App\Services\Eloquent\PRCardService;
 use App\Services\Eloquent\ProjectJobService;
 use App\Services\Eloquent\ProjectJobTypeService;
 use App\Services\Eloquent\ProjectLandingCustomerService;
@@ -295,6 +297,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IUserTypeService::class, UserTypeService::class);
         $this->app->bind(IKnowledgeBaseQuestionService::class, KnowledgeBaseQuestionService::class);
         $this->app->bind(IKnowledgeBaseQuestionCategoryService::class, KnowledgeBaseQuestionCategoryService::class);
+        $this->app->bind(IPRCardService::class, PRCardService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

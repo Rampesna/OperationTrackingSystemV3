@@ -168,6 +168,8 @@ Route::middleware([
 
     Route::prefix('performance')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\PerformanceController::class, 'index'])->name('user.web.performance.index');
+        Route::get('prCard', [\App\Http\Controllers\Web\User\PerformanceController::class, 'prCard'])->name('user.web.performance.prCard');
+        Route::get('prCritter', [\App\Http\Controllers\Web\User\PerformanceController::class, 'prCritter'])->name('user.web.performance.prCritter');
     });
 
     Route::prefix('qualityAssessment')->middleware([
