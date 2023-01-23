@@ -33,12 +33,17 @@
     var GetPrCardsButton = $('#GetPrCardsButton');
 
     var jobDepartmentsInput = $('#jobDepartments');
+    var createPrCardButton = $('#createPrCardButton');
+    var create_pr_card_name = $('#create_pr_card_name');
+    var update_pr_card_name = $('#update_pr_card_name');
+    var pr_cards_count = 0;
 
-    function createPrCard() {
+    function createPrCardModal() {
         if (!jobDepartmentsInput.val()) {
             toastr.warning('Lütften kart oluşturmadan önce bir departman seçiniz');
         } else {
-            toastr.info('Lütfen bekleyin...');
+
+            $('#CreatePrCardModal').modal('show');
         }
     }
 
@@ -97,6 +102,7 @@
                         version: prCard.version,
                     });
                 });
+                pr_cards_count = prCards.length;
                 var source = {
                     localdata: prCards,
                     datatype: "array",
@@ -155,11 +161,13 @@
                     var rowindex = prCardsDiv.jqxGrid('getselectedrowindex');
                     $('#selected_survey_row_index').val(rowindex);
                     var dataRecord = prCardsDiv.jqxGrid('getrowdata', rowindex);
-                    $('#selected_survey_id').val(dataRecord.id);
+                    $('#selected_pr_cards_id').val(dataRecord.id);
+                    $('#selected_pr_cards_name').val(dataRecord.name);
                     $('#selected_survey_code').val(dataRecord.kodu);
                     return false;
                 });
                 prCardsDiv.jqxGrid('sortby', 'id', 'desc');
+
             },
             error: function (error) {
                 console.log(error);
@@ -186,6 +194,91 @@
 
     GetPrCardsButton.click(function () {
         getPrCardsByJobDepartmentId();
+    });
+
+    function createPrCard() {
+
+
+        if (!create_pr_card_name.val()) {
+            toastr.warning('Lütfen kart adı giriniz');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '{{ route('user.api.prCard.create') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    name: create_pr_card_name.val(),
+                    jobDepartmentId: jobDepartmentsInput.val(),
+                },
+                success: function (response) {
+                    create_pr_card_name.val('');
+                    $('#CreatePrCardModal').modal('hide');
+                    toastr.success(response.message);
+                    getPrCardsByJobDepartmentId();
+                },
+                error: function (error) {
+                    console.log(error);
+                    if (parseInt(error.status) === 422) {
+                        $.each(error.responseJSON.response, function (i, error) {
+                            toastr.error(error[0]);
+                        });
+                    } else {
+                        toastr.error(error.responseJSON.message);
+                    }
+                }
+            });
+        }
+    }
+
+    function updatePrCard(){
+        if (!update_pr_card_name.val()) {
+            toastr.warning('Lütfen kart adı giriniz');
+        } else {
+            $.ajax({
+                type: 'put',
+                url: '{{ route('user.api.prCard.update') }}',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token
+                },
+                data: {
+                    id: $('#selected_pr_cards_id').val(),
+                    name: update_pr_card_name.val(),
+                },
+                success: function (response) {
+                    update_pr_card_name.val('');
+                    $('#UpdatePrCardModal').modal('hide');
+                    toastr.success(response.message);
+                    getPrCardsByJobDepartmentId();
+                    $('#selected_pr_cards_name').val('');
+                },
+                error: function (error) {
+                    console.log(error);
+                    if (parseInt(error.status) === 422) {
+                        $.each(error.responseJSON.response, function (i, error) {
+                            toastr.error(error[0]);
+                        });
+                    } else {
+                        toastr.error(error.responseJSON.message);
+                    }
+                }
+            });
+        }
+    }
+
+
+    $('body').on('contextmenu', function () {
+        var selected_pr_cards_name = $('#selected_pr_cards_name').val()
+        if (selected_pr_cards_name && pr_cards_count > 0) {
+            update_pr_card_name.val(selected_pr_cards_name);
+            $('#UpdatePrCardModal').modal('show');
+        } else {
+           toastr.warning('Lütfen kart seçiniz');
+        }
+        return false;
     });
 
 </script>

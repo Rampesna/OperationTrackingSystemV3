@@ -11,11 +11,13 @@
 
     var keywordFilter = $('#keyword');
     var leaveFilter = $('#leave');
+    var filterButton = $('#FilterButton');
+    var clearFilterButton = $('#ClearFilterButton');
+    var pageIndex = parseInt(page.html()) - 1;
 
     function getEmployeesByCompanyIds() {
         $('#loader').show();
         var companyIds = SelectedCompanies.val();
-        var pageIndex = parseInt(page.html()) - 1;
         var pageSize = pageSizeSelector.val();
         var keyword = keywordFilter.val();
         var leave = leaveFilter.val();
@@ -78,6 +80,19 @@
     getEmployeesByCompanyIds();
 
     SelectedCompanies.change(function () {
+        getEmployeesByCompanyIds();
+    });
+
+    filterButton.click(function () {
+       getEmployeesByCompanyIds();
+    });
+
+    console.log(pageIndex);
+    clearFilterButton.click(function () {
+        keywordFilter.val('');
+        leaveFilter.val(0);
+        pageIndex = 0;
+        page.html(1);
         getEmployeesByCompanyIds();
     });
 
