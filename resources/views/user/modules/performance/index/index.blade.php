@@ -15,9 +15,10 @@
 
 @section('content')
 
+    @include('user.modules.performance.index.modals.prCalculate')
     <div class="row">
         <a href="#" class="col-xl-2 col-6 cursor-pointer mb-5">
-            <div class="card h-lg-100">
+            <div class="card h-lg-100" onclick="prCalculateModalShow()">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">
                         <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
@@ -67,7 +68,7 @@
                 </div>
             </div>
         </a>
-        <a href="#" class="col-xl-2 col-6 cursor-pointer mb-5">
+        <a href="{{route('user.web.performance.prResult')}}" class="col-xl-2 col-6 cursor-pointer mb-5">
             <div class="card h-lg-100">
                 <div class="card-body d-flex justify-content-between align-items-center flex-column">
                     <div class="m-0">

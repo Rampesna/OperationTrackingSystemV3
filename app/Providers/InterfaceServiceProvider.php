@@ -50,6 +50,8 @@ use App\Interfaces\Eloquent\IPermitService;
 use App\Interfaces\Eloquent\IPermitTypeService;
 use App\Interfaces\Eloquent\IPersonalAccessTokenService;
 use App\Interfaces\Eloquent\IPositionService;
+use App\Interfaces\Eloquent\IPRCalculate;
+use App\Interfaces\Eloquent\IPrResultService;
 use App\Interfaces\Eloquent\IPRCardService;
 use App\Interfaces\Eloquent\IPRCritterService;
 use App\Interfaces\Eloquent\IProjectJobService;
@@ -151,6 +153,7 @@ use App\Services\Eloquent\PermitService;
 use App\Services\Eloquent\PermitTypeService;
 use App\Services\Eloquent\PersonalAccessTokenService;
 use App\Services\Eloquent\PositionService;
+use App\Services\Eloquent\PRCalculate;
 use App\Services\Eloquent\PRCardService;
 use App\Services\Eloquent\PRCritterService;
 use App\Services\Eloquent\ProjectJobService;
@@ -159,6 +162,7 @@ use App\Services\Eloquent\ProjectLandingCustomerService;
 use App\Services\Eloquent\ProjectService;
 use App\Services\Eloquent\ProjectStatusService;
 use App\Services\Eloquent\ProjectVersionService;
+use App\Services\Eloquent\PrResultService;
 use App\Services\Eloquent\PunishmentCategoryService;
 use App\Services\Eloquent\PunishmentService;
 use App\Services\Eloquent\PurchaseItemService;
@@ -301,6 +305,8 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IKnowledgeBaseQuestionCategoryService::class, KnowledgeBaseQuestionCategoryService::class);
         $this->app->bind(IPRCardService::class, PRCardService::class);
         $this->app->bind(IPRCritterService::class, PRCritterService::class);
+        $this->app->bind(IPRCalculate::class, PRCalculate::class);
+        $this->app->bind(IPrResultService::class, PrResultService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

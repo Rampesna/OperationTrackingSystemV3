@@ -79,13 +79,15 @@ class PRCalculate implements IPRCalculate
                     }
 
                     $resultList->push([
-                        'date' => $date,
+                        'date' => $data->date,
                         'employee_id' => $employee->id,
                         $critter->column_code . '_' . $critter->version => $result,
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ]);
                 }
+
+
 
                 if (!Schema::hasTable('pr_card_results_' . $prCard->code . '_' . $prCard->version)) {
 //                    Schema::create('pr_result_' . $prCard->code . '_' . $prCard->version, function ($table) {
@@ -116,25 +118,17 @@ class PRCalculate implements IPRCalculate
                     DB::table('pr_card_results_' . $prCard->code . '_' . $prCard->version)->insert($resultList->toArray());
                 } else {
                     DB::table('pr_card_results_' . $prCard->code . '_' . $prCard->version)->insert([
-                        'date' => $date,
+                        'date' => date('Y-m-d H:i:s', strtotime($date)),
                         'employee_id' => $employee->id,
-                        $critter->column_code . '_' . $critter->version => $resultList->sum($critter->column_code . '_' . $critter->version) / $resultList->count(),
+                        $critter->column_code . '_' . $critter->version => $resultList->count() == 0 ? 0 : $resultList->sum($critter->column_code . '_' . $critter->version) / $resultList->count(),
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ]);
                 }
 
-                return new ServiceResponse(
-                    true,
-                    'success',
-                    200,
-                    $resultList
-                );
-
             }
 
         }
-
 
         return new ServiceResponse(
             true,
@@ -142,5 +136,25 @@ class PRCalculate implements IPRCalculate
             200,
             null
         );
+    }
+
+    public function getAll(): ServiceResponse
+    {
+        // TODO: Implement getAll() method.
+    }
+
+    public function getById(int $id): ServiceResponse
+    {
+        // TODO: Implement getById() method.
+    }
+
+    public function delete(int $id): ServiceResponse
+    {
+        // TODO: Implement delete() method.
+    }
+
+    public function getResult(int $prCardId, string $date): ServiceResponse
+    {
+        // TODO: Implement getResult() method.
     }
 }

@@ -14,4 +14,9 @@ class PRCard extends Model
     {
         return $this->belongsTo(JobDepartment::class);
     }
+
+    public function prCritters()
+    {
+        return $this->hasMany(PRCritter::class);
+    }
 }

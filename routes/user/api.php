@@ -714,6 +714,14 @@ Route::middleware([
         Route::delete('delete', [\App\Http\Controllers\Api\User\PrCritterController::class, 'delete'])->name('user.api.prCritter.delete');
     });
 
+    Route::prefix('prCalculate')->group(function () {
+        Route::post('calculate', [\App\Http\Controllers\Api\User\PrCalculateController::class, 'calculate'])->name('user.api.prCalculate.calculate');
+    });
+
+    Route::prefix('prResult')->group(function () {
+        Route::post('getResult', [\App\Http\Controllers\Api\User\PrResultController::class, 'getResult'])->name('user.api.prResult.getResult');
+    });
+
     Route::prefix('operationApi')->group(function () {
         Route::prefix('operation')->group(function () {
             Route::get('getUserList', [\App\Http\Controllers\Api\User\OperationApi\OperationController::class, 'getUserList'])->name('user.api.operationApi.operation.getUserList');

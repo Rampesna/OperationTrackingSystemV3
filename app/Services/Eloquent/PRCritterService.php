@@ -102,6 +102,15 @@ class PRCritterService implements IPRCritterService
         float  $generalPercent
     ): ServiceResponse
     {
+        $prGeneralPercentSum = PRCritter::where('p_r_card_id', $prCardId)->sum('general_percent');
+        if ($prGeneralPercentSum + $generalPercent > 100) {
+            return new ServiceResponse(
+                false,
+                'Sum of general percent of all critters cannot be more than 100',
+                400,
+                null
+            );
+        }
         $prCritter = new PRCritter();
         $prCritter->p_r_card_id = $prCardId;
         $prCritter->column_code = str_replace('-', '_', Str::uuid());
@@ -157,6 +166,15 @@ class PRCritterService implements IPRCritterService
         $prCritter = $this->getById($id);
         if ($prCritter->isSuccess()) {
             $prCritter = $prCritter->getData();
+            $prGeneralPercentSum = PRCritter::where('p_r_card_id', $prCritter->p_r_card_id)->sum('general_percent');
+            if ($prGeneralPercentSum + $generalPercent > 100) {
+                return new ServiceResponse(
+                    false,
+                    'Sum of general percent of all critters cannot be more than 100',
+                    400,
+                    null
+                );
+            }
             $prCritter->name = $name;
             $prCritter->min_target = $minTarget;
             $prCritter->min_target_percent = $minTargetPercent;
@@ -172,6 +190,13 @@ class PRCritterService implements IPRCritterService
             Schema::table('pr_card_' . $prCard->code . '_' . $prCard->version, function ($table) use ($prCritter) {
                 $table->string($prCritter->column_code . '_' . $prCritter->version)->nullable();
             });
+
+            if (Schema::hasTable('pr_card_results_' . $prCard->code . '_' . $prCard->version)) {
+                Schema::table('pr_card_results_' . $prCard->code . '_' . $prCard->version, function ($table) use ($prCritter) {
+                    $table->string($prCritter->column_code . '_' . $prCritter->version)->nullable();
+                });
+            }
+
             return new ServiceResponse(
                 true,
                 'PR Critter updated successfully',
