@@ -702,6 +702,24 @@ Route::middleware([
 
     Route::prefix('prCard')->group(function () {
         Route::get('getByJobDepartmentId', [\App\Http\Controllers\Api\User\PrCardController::class, 'getByJobDepartmentId'])->name('user.api.prCard.getByJobDepartmentId');
+        Route::post('create', [\App\Http\Controllers\Api\User\PrCardController::class, 'create'])->name('user.api.prCard.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\PrCardController::class, 'update'])->name('user.api.prCard.update');
+        Route::get('getAll', [\App\Http\Controllers\Api\User\PrCardController::class, 'getAll'])->name('user.api.prCard.getAll');
+    });
+    Route::prefix('prCritter')->group(function () {
+        Route::post('getAllByCardId', [\App\Http\Controllers\Api\User\PrCritterController::class, 'getAllByCardId'])->name('user.api.prCritter.getAllByCardId');
+        Route::get('getById', [\App\Http\Controllers\Api\User\PrCritterController::class, 'getById'])->name('user.api.prCritter.getById');
+        Route::put('update', [\App\Http\Controllers\Api\User\PrCritterController::class, 'update'])->name('user.api.prCritter.update');
+        Route::post('create', [\App\Http\Controllers\Api\User\PrCritterController::class, 'create'])->name('user.api.prCritter.create');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\PrCritterController::class, 'delete'])->name('user.api.prCritter.delete');
+    });
+
+    Route::prefix('prCalculate')->group(function () {
+        Route::post('calculate', [\App\Http\Controllers\Api\User\PrCalculateController::class, 'calculate'])->name('user.api.prCalculate.calculate');
+    });
+
+    Route::prefix('prResult')->group(function () {
+        Route::post('getResult', [\App\Http\Controllers\Api\User\PrResultController::class, 'getResult'])->name('user.api.prResult.getResult');
     });
 
     Route::prefix('operationApi')->group(function () {

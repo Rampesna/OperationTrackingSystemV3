@@ -20,4 +20,8 @@ class PerformanceController extends Controller
     {
         return view('user.modules.performance.prCritter.index');
     }
+    public function prResult()
+    {
+        return view('user.modules.performance.prResult.index');
+    }
 }

@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class PRCritterService implements IPRCritterService
 {
+
+
     /**
      * @return ServiceResponse
      */
@@ -24,6 +26,7 @@ class PRCritterService implements IPRCritterService
             PRCritter::all()
         );
     }
+
 
     /**
      * @param int $id
@@ -76,7 +79,6 @@ class PRCritterService implements IPRCritterService
 
     /**
      * @param int $prCardId
-     * @param int $jobDepartmentId
      * @param string $name
      * @param float $minTarget
      * @param float $minTargetPercent
@@ -90,7 +92,6 @@ class PRCritterService implements IPRCritterService
      */
     public function create(
         int    $prCardId,
-        int    $jobDepartmentId,
         string $name,
         float  $minTarget,
         float  $minTargetPercent,
@@ -101,10 +102,18 @@ class PRCritterService implements IPRCritterService
         float  $generalPercent
     ): ServiceResponse
     {
+        $prGeneralPercentSum = PRCritter::where('p_r_card_id', $prCardId)->sum('general_percent');
+        if ($prGeneralPercentSum + $generalPercent > 100) {
+            return new ServiceResponse(
+                false,
+                'Sum of general percent of all critters cannot be more than 100',
+                400,
+                null
+            );
+        }
         $prCritter = new PRCritter();
         $prCritter->p_r_card_id = $prCardId;
         $prCritter->column_code = str_replace('-', '_', Str::uuid());
-        $prCritter->job_department_id = $jobDepartmentId;
         $prCritter->name = $name;
         $prCritter->min_target = $minTarget;
         $prCritter->min_target_percent = $minTargetPercent;
@@ -117,22 +126,9 @@ class PRCritterService implements IPRCritterService
 
         $prCard = PRCard::where('id', $prCardId)->first();
 
-        Schema::table('pr_card_' . $prCard->code . '_' . 1, function ($table) use ($prCritter) {
-            $table->string($prCritter->column_code . '_' . $prCritter->version)->nullable();
+        Schema::table('pr_card_' . $prCard->code . '_' . $prCard->version, function ($table) use ($prCritter) {
+            $table->string($prCritter->column_code . '_' . 1)->nullable();
         });
-
-//        DB::select('CREATE TABLE IF NOT EXISTS `pr_critter_' . $prCritter->code . '_' . 1 . '` (
-//            `id` int(11) NOT NULL AUTO_INCREMENT,
-//            `date` datetime NOT NULL,
-//            `employee_id` bigint(20) NOT NULL,
-//            `worked_day_count` tinyint NOT NULL,
-//            `version` smallint NOT NULL,
-//            `column_name` varchar(255) NOT NULL,
-//            `data` varchar(255) NOT NULL,
-//            `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-//            `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-//            PRIMARY KEY (`id`))');
-
 
         return new ServiceResponse(
             true,
@@ -144,7 +140,6 @@ class PRCritterService implements IPRCritterService
 
     /**
      * @param int $id
-     * @param int $jobDepartmentId
      * @param string $name
      * @param float $minTarget
      * @param float $minTargetPercent
@@ -158,7 +153,6 @@ class PRCritterService implements IPRCritterService
      */
     public function update(
         int    $id,
-        int    $jobDepartmentId,
         string $name,
         float  $minTarget,
         float  $minTargetPercent,
@@ -172,7 +166,15 @@ class PRCritterService implements IPRCritterService
         $prCritter = $this->getById($id);
         if ($prCritter->isSuccess()) {
             $prCritter = $prCritter->getData();
-            $prCritter->job_department_id = $jobDepartmentId;
+            $prGeneralPercentSum = PRCritter::where('p_r_card_id', $prCritter->p_r_card_id)->sum('general_percent');
+            if ($prGeneralPercentSum + $generalPercent > 100) {
+                return new ServiceResponse(
+                    false,
+                    'Sum of general percent of all critters cannot be more than 100',
+                    400,
+                    null
+                );
+            }
             $prCritter->name = $name;
             $prCritter->min_target = $minTarget;
             $prCritter->min_target_percent = $minTargetPercent;
@@ -189,17 +191,11 @@ class PRCritterService implements IPRCritterService
                 $table->string($prCritter->column_code . '_' . $prCritter->version)->nullable();
             });
 
-//            DB::select('CREATE TABLE IF NOT EXISTS `pr_critter_' . $prCritter->code . '_' . $prCritter->version . '` (
-//            `id` int(11) NOT NULL AUTO_INCREMENT,
-//            `date` datetime NOT NULL,
-//            `employee_id` bigint(20) NOT NULL,
-//            `worked_day_count` tinyint NOT NULL,
-//            `version` smallint NOT NULL,
-//            `column_name` varchar(255) NOT NULL,
-//            `data` varchar(255) NOT NULL,
-//            `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-//            `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-//            PRIMARY KEY (`id`))');
+            if (Schema::hasTable('pr_card_results_' . $prCard->code . '_' . $prCard->version)) {
+                Schema::table('pr_card_results_' . $prCard->code . '_' . $prCard->version, function ($table) use ($prCritter) {
+                    $table->string($prCritter->column_code . '_' . $prCritter->version)->nullable();
+                });
+            }
 
             return new ServiceResponse(
                 true,
@@ -210,5 +206,17 @@ class PRCritterService implements IPRCritterService
         } else {
             return $prCritter;
         }
+    }
+
+    public function getAllByCardId(int $prCardId): ServiceResponse
+    {
+        $prCritters = PRCritter::where('p_r_card_id', $prCardId)->get();
+
+        return new ServiceResponse(
+            true,
+            'PR Critters fetched successfully',
+            200,
+            $prCritters
+        );
     }
 }

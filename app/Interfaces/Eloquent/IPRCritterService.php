@@ -8,7 +8,6 @@ interface IPRCritterService extends IEloquentService
 {
     /**
      * @param int $prCardId
-     * @param int $jobDepartmentId
      * @param string $name
      * @param float $minTarget
      * @param float $minTargetPercent
@@ -22,7 +21,6 @@ interface IPRCritterService extends IEloquentService
      */
     public function create(
         int    $prCardId,
-        int    $jobDepartmentId,
         string $name,
         float  $minTarget,
         float  $minTargetPercent,
@@ -35,7 +33,6 @@ interface IPRCritterService extends IEloquentService
 
     /**
      * @param int $id
-     * @param int $jobDepartmentId
      * @param string $name
      * @param float $minTarget
      * @param float $minTargetPercent
@@ -49,7 +46,6 @@ interface IPRCritterService extends IEloquentService
      */
     public function update(
         int    $id,
-        int    $jobDepartmentId,
         string $name,
         float  $minTarget,
         float  $minTargetPercent,
@@ -59,4 +55,12 @@ interface IPRCritterService extends IEloquentService
         float  $maxTargetPercent,
         float  $generalPercent
     ): ServiceResponse;
+
+
+    /**
+     * @param int $prCardId
+     *
+     * @return ServiceResponse
+     */
+    public function getAllByCardId(int $prCardId): ServiceResponse;
 }
