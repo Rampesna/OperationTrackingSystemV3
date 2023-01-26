@@ -326,6 +326,7 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\User\FileQueesController::class, 'create'])->name('user.api.fileQuees.create');
         Route::put('update', [\App\Http\Controllers\Api\User\FileQueesController::class, 'update'])->name('user.api.fileQuees.update');
         Route::delete('delete', [\App\Http\Controllers\Api\User\FileQueesController::class, 'delete'])->name('user.api.fileQuees.delete');
+        Route::post('getByUploader', [\App\Http\Controllers\Api\User\FileQueesController::class, 'getByUploader'])->name('user.api.fileQuees.getByUploader');
     });
 
     Route::prefix('project')->group(function () {

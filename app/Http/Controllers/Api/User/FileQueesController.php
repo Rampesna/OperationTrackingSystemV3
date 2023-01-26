@@ -7,6 +7,7 @@ use App\Http\Requests\Api\User\FileQueesController\CreateRequest;
 use App\Http\Requests\Api\User\FileQueesController\DeleteRequest;
 use App\Http\Requests\Api\User\FileQueesController\GetAllRequest;
 use App\Http\Requests\Api\User\FileQueesController\GetByIdRequest;
+use App\Http\Requests\Api\User\FileQueesController\GetByUploaderRequest;
 use App\Http\Requests\Api\User\FileQueesController\UpdateRequest;
 use App\Interfaces\Eloquent\IFileQueesService;
 use App\Traits\Response;
@@ -142,6 +143,31 @@ class FileQueesController extends Controller
     public function delete(DeleteRequest $request)
     {
         $response = $this->fileQueesService->delete($request->id);
+        if ($response->isSuccess()) {
+            return $this->success(
+                $response->getMessage(),
+                $response->getData(),
+                $response->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $response->getMessage(),
+                $response->getStatusCode()
+            );
+        }
+    }
+
+    public function getByUploader(GetByUploaderRequest $request)
+    {
+        $response = $this->fileQueesService->getByUploader(
+            $request->uploaderId,
+            $request->uploaderType,
+            $request->keyword,
+            $request->startDate,
+            $request->endDate,
+            $request->statusIds,
+            $request->transactionTypeIds,
+        );
         if ($response->isSuccess()) {
             return $this->success(
                 $response->getMessage(),
