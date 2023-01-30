@@ -186,6 +186,7 @@
                 uploaderId: masterAuthId,
             },
             success: function (response) {
+                jobFileListNav.empty();
                 if(response.response){
                     $.each(response.response, function (i, jobFile) {
                         if(jobFile.status_id == 1){
@@ -220,6 +221,9 @@
         });
     }
     getJobFilesNav();
+    setInterval(function () {
+        getJobFilesNav();
+    }, 30000);
 
 </script>
 
