@@ -321,12 +321,12 @@ Route::middleware([
     });
 
     Route::prefix('fileQuees')->group(function () {
-        Route::get('getAll', [\App\Http\Controllers\Api\User\FileQueesController::class, 'getAll'])->name('user.api.fileQuees.getAll');
-        Route::get('getById', [\App\Http\Controllers\Api\User\FileQueesController::class, 'getById'])->name('user.api.fileQuees.getById');
-        Route::post('create', [\App\Http\Controllers\Api\User\FileQueesController::class, 'create'])->name('user.api.fileQuees.create');
-        Route::put('update', [\App\Http\Controllers\Api\User\FileQueesController::class, 'update'])->name('user.api.fileQuees.update');
-        Route::delete('delete', [\App\Http\Controllers\Api\User\FileQueesController::class, 'delete'])->name('user.api.fileQuees.delete');
-        Route::post('getByUploader', [\App\Http\Controllers\Api\User\FileQueesController::class, 'getByUploader'])->name('user.api.fileQuees.getByUploader');
+        Route::get('getAll', [\App\Http\Controllers\Api\User\FileQueesController::class, 'getAll'])->name('user.api.fileQuee.getAll');
+        Route::get('getById', [\App\Http\Controllers\Api\User\FileQueesController::class, 'getById'])->name('user.api.fileQuee.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\FileQueesController::class, 'create'])->name('user.api.fileQuee.create');
+//        Route::put('update', [\App\Http\Controllers\Api\User\FileQueesController::class, 'update'])->name('user.api.fileQuee.update');
+//        Route::delete('delete', [\App\Http\Controllers\Api\User\FileQueesController::class, 'delete'])->name('user.api.fileQuee.delete');
+        Route::get('getByUploader', [\App\Http\Controllers\Api\User\FileQueesController::class, 'getByUploader'])->name('user.api.fileQuee.getByUploader');
     });
 
     Route::prefix('project')->group(function () {

@@ -10,6 +10,7 @@ use App\Http\Requests\Api\User\FileQueesController\GetByIdRequest;
 use App\Http\Requests\Api\User\FileQueesController\GetByUploaderRequest;
 use App\Http\Requests\Api\User\FileQueesController\UpdateRequest;
 use App\Interfaces\Eloquent\IFileQueesService;
+use App\Models\Eloquent\User;
 use App\Traits\Response;
 
 /**
@@ -83,43 +84,11 @@ class FileQueesController extends Controller
     public function create(CreateRequest $request)
     {
         $response = $this->fileQueesService->create(
-            $request->fileName,
-            $request->fileS3Path,
+            $request->file('file'),
             $request->transactionTypeId,
-            $request->statusId,
-            $request->uploaderId,
-            $request->uploaderType
-
-        );
-        if ($response->isSuccess()) {
-            return $this->success(
-                $response->getMessage(),
-                $response->getData(),
-                $response->getStatusCode()
-            );
-        } else {
-            return $this->error(
-                $response->getMessage(),
-                $response->getStatusCode()
-            );
-        }
-    }
-
-
-    /**
-     * @param UpdateRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(UpdateRequest $request)
-    {
-        $response = $this->fileQueesService->update(
-            $request->id,
-            $request->fileName,
-            $request->fileS3Path,
-            $request->transactionTypeId,
-            $request->statusId,
-            $request->uploaderId,
-            $request->uploaderType
+            $request->user()->id,
+            User::class,
+            $request->props
         );
         if ($response->isSuccess()) {
             return $this->success(
@@ -160,8 +129,8 @@ class FileQueesController extends Controller
     public function getByUploader(GetByUploaderRequest $request)
     {
         $response = $this->fileQueesService->getByUploader(
-            $request->uploaderId,
-            $request->uploaderType,
+            $request->user()->id,
+            User::class,
             $request->keyword,
             $request->startDate,
             $request->endDate,

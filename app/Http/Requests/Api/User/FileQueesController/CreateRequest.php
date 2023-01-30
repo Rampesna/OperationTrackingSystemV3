@@ -24,12 +24,9 @@ class CreateRequest extends BaseApiRequest
     public function rules()
     {
         return [
-            'fileName' => 'required|string',
-            'fileS3Path' => 'required|string',
+            'file' => 'required|file',
             'transactionTypeId' => 'required|integer',
-            'statusId' => 'required|integer',
-            'uploaderId' => 'required|integer',
-            'uploaderType' => 'required|string',
+            'props' => 'nullable|string',
         ];
     }
 }

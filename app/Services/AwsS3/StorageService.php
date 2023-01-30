@@ -10,15 +10,18 @@ class StorageService extends AwsS3Service implements IStorageService
     /**
      * @param mixed $file
      * @param string $filePath
+     * @param string|null $fileName
      */
     public function store(
-        mixed  $file,
-        string $filePath
+        mixed   $file,
+        string  $filePath,
+        ?string $fileName = null
     ): ServiceResponse
     {
-        $response = $this->getClient()->putObject([
+        $key = $filePath . ($fileName ?? $file->getFilename());
+        $this->getClient()->putObject([
             'Bucket' => $this->getBucket(),
-            'Key' => $filePath . $file->getClientOriginalName(),
+            'Key' => $key,
             'Body' => fopen($file->getPath() . '/' . $file->getFilename(), 'r'),
             'ACL' => 'public-read'
         ]);
@@ -27,7 +30,7 @@ class StorageService extends AwsS3Service implements IStorageService
             true,
             'File uploaded',
             200,
-            $filePath . $file->getClientOriginalName()
+            $key
         );
     }
 

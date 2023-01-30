@@ -27,6 +27,7 @@ use App\Interfaces\Eloquent\IEmployeeQualityAssessmentService;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IEmployeeSuggestionService;
 use App\Interfaces\Eloquent\IEvaluationParameterService;
+use App\Interfaces\Eloquent\IFileQueesService;
 use App\Interfaces\Eloquent\IFileService;
 use App\Interfaces\Eloquent\IFoodListCheckService;
 use App\Interfaces\Eloquent\IFoodListService;
@@ -130,6 +131,7 @@ use App\Services\Eloquent\EmployeeQualityAssessmentService;
 use App\Services\Eloquent\EmployeeService;
 use App\Services\Eloquent\EmployeeSuggestionService;
 use App\Services\Eloquent\EvaluationParameterService;
+use App\Services\Eloquent\FileQueesService;
 use App\Services\Eloquent\FileService;
 use App\Services\Eloquent\FoodListCheckService;
 use App\Services\Eloquent\FoodListService;
@@ -307,6 +309,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IPRCritterService::class, PRCritterService::class);
         $this->app->bind(IPRCalculate::class, PRCalculate::class);
         $this->app->bind(IPrResultService::class, PrResultService::class);
+        $this->app->bind(IFileQueesService::class, FileQueesService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

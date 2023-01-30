@@ -12,21 +12,19 @@ interface IFileQueesService extends IEloquentService
 {
 
     /**
-     * @param string $fileName
-     * @param string $fileS3Path
+     * @param mixed $file
      * @param int $transactionTypeId
-     * @param int $statusId
      * @param int $uploaderId
      * @param string $uploaderType
+     * @param string|null $props
      * @return ServiceResponse
      */
     public function create(
-        string $fileName,
-        string $fileS3Path,
-        int    $transactionTypeId,
-        int    $statusId,
-        int    $uploaderId,
-        string $uploaderType
+        mixed   $file,
+        int     $transactionTypeId,
+        int     $uploaderId,
+        string  $uploaderType,
+        ?string $props
     ): ServiceResponse;
 
     /**
@@ -37,16 +35,18 @@ interface IFileQueesService extends IEloquentService
      * @param int $statusId
      * @param int $uploaderId
      * @param string $uploaderType
+     * @param string|null $props
      * @return ServiceResponse
      */
     public function update(
-        int    $id,
-        string $fileName,
-        string $fileS3Path,
-        int    $transactionTypeId,
-        int    $statusId,
-        int    $uploaderId,
-        string $uploaderType
+        int     $id,
+        string  $fileName,
+        string  $fileS3Path,
+        int     $transactionTypeId,
+        int     $statusId,
+        int     $uploaderId,
+        string  $uploaderType,
+        ?string $props
     ): ServiceResponse;
 
     /**
@@ -60,13 +60,13 @@ interface IFileQueesService extends IEloquentService
      * @return ServiceResponse
      */
     public function getByUploader(
-        int $uploaderId,
-        string $uploaderType,
+        int     $uploaderId,
+        string  $uploaderType,
         ?string $keyword,
         ?string $startDate,
         ?string $endDate,
-        ?array $statusIds,
-        ?array $transactionTypeIds
+        ?array  $statusIds,
+        ?array  $transactionTypeIds
     ): ServiceResponse;
 
 }

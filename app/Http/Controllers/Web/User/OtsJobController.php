@@ -8,6 +8,6 @@ class OtsJobController extends Controller
 {
     public function index()
     {
-        return view('user.modules.otsJob.index.index');
+        return view('user.modules.otsJob.index2.index');
     }
 }

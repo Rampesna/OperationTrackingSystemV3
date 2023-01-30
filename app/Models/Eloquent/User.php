@@ -107,4 +107,9 @@ class User extends Authenticatable
     {
         return $this->morphMany(Notification::class, 'relation');
     }
+
+    public function fileQuee()
+    {
+        return $this->morphMany(FileQuee::class, 'uploader');
+    }
 }

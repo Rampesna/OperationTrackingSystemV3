@@ -2,8 +2,9 @@
 
 namespace App\Services\Eloquent;
 
+use App\Interfaces\AwsS3\IStorageService;
 use App\Interfaces\Eloquent\IFileQueesService;
-use App\Models\Eloquent\FileQuees;
+use App\Models\Eloquent\FileQuee;
 use App\Services\ServiceResponse;
 
 /**
@@ -11,34 +12,58 @@ use App\Services\ServiceResponse;
  */
 class FileQueesService implements IFileQueesService
 {
+    /**
+     * @var $storageService IStorageService
+     */
+    private $storageService;
+
+    public function __construct(IStorageService $storageService)
+    {
+        $this->storageService = $storageService;
+    }
 
     /**
-     * @param string $fileName
-     * @param string $fileS3Path
+     * @param mixed $file
      * @param int $transactionTypeId
-     * @param int $statusId
      * @param int $uploaderId
      * @param string $uploaderType
+     * @param string|null $props
      * @return ServiceResponse
      */
     public function create(
-        string $fileName,
-        string $fileS3Path,
-        int    $transactionTypeId,
-        int    $statusId,
-        int    $uploaderId,
-        string $uploaderType
+        mixed   $file,
+        int     $transactionTypeId,
+        int     $uploaderId,
+        string  $uploaderType,
+        ?string $props
     ): ServiceResponse
     {
-        $file = new FileQuees();
-        $file->file_name = $fileName;
-        $file->file_s3_path = $fileS3Path;
-        $file->transaction_type_id = $transactionTypeId;
-        $file->status_id = $statusId;
-        $file->uploader_id = $uploaderId;
-        $file->uploader_type = $uploaderType;
-        $file->save();
-        return new ServiceResponse(true, "File Quees Created", 200, $file);
+        $fileName = strtotime(now()) . '_' . $file->getClientOriginalName();
+        $awsResponse = $this->storageService->store(
+            $file,
+            'fileQueues/' . $transactionTypeId . '/' . explode('\\', $uploaderType)[count(explode('\\', $uploaderType)) - 1] . '/' . $uploaderId . '/',
+            $fileName
+        );
+
+        if ($awsResponse->isSuccess()) {
+            $fileQuee = new FileQuee();
+            $fileQuee->file_name = $fileName;
+            $fileQuee->file_s3_path = $awsResponse->getData();
+            $fileQuee->transaction_type_id = $transactionTypeId;
+            $fileQuee->status_id = 1;
+            $fileQuee->uploader_id = $uploaderId;
+            $fileQuee->uploader_type = $uploaderType;
+            $fileQuee->props = $props;
+            $fileQuee->save();
+            return new ServiceResponse(
+                true,
+                "File Quees Created",
+                201,
+                $fileQuee
+            );
+        } else {
+            return $awsResponse;
+        }
     }
 
     /**
@@ -46,7 +71,7 @@ class FileQueesService implements IFileQueesService
      */
     public function getAll(): ServiceResponse
     {
-        $files = FileQuees::all();
+        $files = FileQuee::all();
         return new ServiceResponse(true, "File Quees Fetched", 200, $files);
     }
 
@@ -56,7 +81,7 @@ class FileQueesService implements IFileQueesService
      */
     public function getById(int $id): ServiceResponse
     {
-        $file = FileQuees::find($id);
+        $file = FileQuee::find($id);
         if ($file) {
             return new ServiceResponse(true, "File Quees Fetched", 200, $file);
         }
@@ -78,14 +103,26 @@ class FileQueesService implements IFileQueesService
         }
     }
 
+    /**
+     * @param int $id
+     * @param string $fileName
+     * @param string $fileS3Path
+     * @param int $transactionTypeId
+     * @param int $statusId
+     * @param int $uploaderId
+     * @param string $uploaderType
+     * @param string|null $props
+     * @return ServiceResponse
+     */
     public function update(
-        int    $id,
-        string $fileName,
-        string $fileS3Path,
-        int    $transactionTypeId,
-        int    $statusId,
-        int    $uploaderId,
-        string $uploaderType
+        int     $id,
+        string  $fileName,
+        string  $fileS3Path,
+        int     $transactionTypeId,
+        int     $statusId,
+        int     $uploaderId,
+        string  $uploaderType,
+        ?string $props
     ): ServiceResponse
     {
         $file = $this->getById($id);
@@ -96,6 +133,7 @@ class FileQueesService implements IFileQueesService
             $file->getData()->status_id = $statusId;
             $file->getData()->uploader_id = $uploaderId;
             $file->getData()->uploader_type = $uploaderType;
+            $file->getData()->props = $props;
             $file->getData()->save();
             return new ServiceResponse(true, "File Quees Updated", 200, $file->getData());
         } else {
@@ -104,20 +142,20 @@ class FileQueesService implements IFileQueesService
     }
 
     public function getByUploader(
-        int $uploaderId,
-        string $uploaderType,
+        int     $uploaderId,
+        string  $uploaderType,
         ?string $keyword,
         ?string $startDate,
         ?string $endDate,
-        ?array $statusIds,
-        ?array $transactionTypeIds
+        ?array  $statusIds,
+        ?array  $transactionTypeIds
     ): ServiceResponse
     {
         return new ServiceResponse(
             true,
             "File Quees Fetched",
             200,
-            FileQuees::where('uploader_id', $uploaderId)
+            FileQuee::where('uploader_id', $uploaderId)
                 ->where('uploader_type', $uploaderType)
                 ->when($keyword, function ($query, $keyword) {
                     return $query->where('file_name', 'like', '%' . $keyword . '%');
