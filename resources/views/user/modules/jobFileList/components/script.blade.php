@@ -48,7 +48,7 @@
                     jobFiles.push({
                         id: jobFile.id,
                         file_name: jobFile.file_name,
-                        status: jobFile.status.name,
+                        status: `<span class="badge badge-light-${jobFile.status.color}">${jobFile.status.name}</span>`,
                         transaction: jobFile.transaction.name,
                     });
                 });
@@ -102,7 +102,7 @@
                     ],
                 });
 
-                jobFiles.jqxGrid('sortby', 'id', 'desc');
+                jobFileUploadDiv.jqxGrid('sortby', 'id', 'desc');
 
             },
             error: function (error) {

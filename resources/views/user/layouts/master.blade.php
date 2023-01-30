@@ -69,6 +69,7 @@
     var jqxGridGlobalTheme = 'metro';
     var baseAssetUrl = '{{ asset('') }}';
     var jobFileListNav = $('#jobFileListNav');
+    var jobFileListBlink = $('#jobFileListBlink');
 
     SelectedCompanies.selectpicker();
 
@@ -186,24 +187,28 @@
                 uploaderId: masterAuthId,
             },
             success: function (response) {
+                var waitingFileUploads = response.response.filter(function (fileUpload) {
+                    if (fileUpload.status_id === 1 || fileUpload.status_id === 2) {
+                        return fileUpload;
+                    }
+                });
                 jobFileListNav.empty();
-                if(response.response){
-                    $.each(response.response, function (i, jobFile) {
-                        if(jobFile.status_id == 1){
-                            jobFileListNav.append(`
-                    <div class="d-flex flex-stack py-4">
-                         <div class="d-flex align-items-center me-2">
-                            <a href="#" class="text-gray-800 text-hover-primary fw-bold">${jobFile.file_name}</a>
-                         </div>
-                        <span class="w-70px badge badge-light-warning me-4">${jobFile.status.name}</span>
-                     </div>
-                    `)
-                        }
+                if (waitingFileUploads.length > 0) {
+                    $.each(waitingFileUploads, function (i, jobFile) {
+                        jobFileListNav.append(`
+                            <div class="d-flex flex-stack py-4">
+                                 <div class="d-flex align-items-center me-2">
+                                    <a href="#" class="text-gray-800 text-hover-primary fw-bold">${jobFile.file_name}</a>
+                                 </div>
+                                <span class="w-70px badge badge-light-${jobFile.status.color} me-4">${jobFile.status.name}</span>
+                             </div>
+                            `);
                     });
-                }else{
+                } else {
+                    jobFileListBlink.hide();
                     jobFileListNav.append(`
                       <div class="d-flex flex-stack py-4">
-                          <h5 class="text-success">Sırada bekleyen işlem yok!</h5>
+                          <span class="fs-sm-4 text-success">Sırada bekleyen işlem yok!</span>
                       </div>
                     `)
                 }
