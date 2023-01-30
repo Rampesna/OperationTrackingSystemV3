@@ -68,6 +68,7 @@
     var SelectedCompanies = $('#SelectedCompanies');
     var jqxGridGlobalTheme = 'metro';
     var baseAssetUrl = '{{ asset('') }}';
+    var jobFileListNav = $('#jobFileListNav');
 
     SelectedCompanies.selectpicker();
 
@@ -169,6 +170,60 @@
             }
         });
     });
+
+
+
+    function getJobFilesNav() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.fileQuee.getByUploader') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                uploaderType: 'App\\Models\\Eloquent\\User',
+                uploaderId: masterAuthId,
+            },
+            success: function (response) {
+                jobFileListNav.empty();
+                if(response.response){
+                    $.each(response.response, function (i, jobFile) {
+                        if(jobFile.status_id == 1){
+                            jobFileListNav.append(`
+                    <div class="d-flex flex-stack py-4">
+                         <div class="d-flex align-items-center me-2">
+                            <a href="#" class="text-gray-800 text-hover-primary fw-bold">${jobFile.file_name}</a>
+                         </div>
+                        <span class="w-70px badge badge-light-warning me-4">${jobFile.status.name}</span>
+                     </div>
+                    `)
+                        }
+                    });
+                }else{
+                    jobFileListNav.append(`
+                      <div class="d-flex flex-stack py-4">
+                          <h5 class="text-success">Sırada bekleyen işlem yok!</h5>
+                      </div>
+                    `)
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                if (parseInt(error.status) === 422) {
+                    $.each(error.responseJSON.response, function (i, error) {
+                        toastr.error(error[0]);
+                    });
+                } else {
+                    toastr.error(error.responseJSON.message);
+                }
+            }
+        });
+    }
+    getJobFilesNav();
+    setInterval(function () {
+        getJobFilesNav();
+    }, 30000);
 
 </script>
 

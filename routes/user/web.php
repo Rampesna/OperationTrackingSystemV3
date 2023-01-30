@@ -91,6 +91,12 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\OtsJobController::class, 'index'])->name('user.web.otsJob.index');
     });
 
+    Route::prefix('jobFileUploading')->middleware([
+        'CheckUserPermission:3'
+    ])->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\JobFileUploadingController::class, 'index'])->name('user.web.jobFileUploading.index');
+    });
+
     Route::prefix('santralMonitoring')->middleware([
         'CheckUserPermission:4'
     ])->group(function () {
