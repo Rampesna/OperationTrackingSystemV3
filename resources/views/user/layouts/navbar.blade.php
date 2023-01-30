@@ -27,11 +27,11 @@
                 <div class="d-flex align-items-center ms-1 ms-lg-3">
                     <label for="SelectedCompanies"></label>
                     <select id="SelectedCompanies" class="selectpicker" data-placeholder="Firma Seçimi" multiple>
-
                     </select>
                 </div>
+
                 <div class="d-flex align-items-center ms-1 ms-lg-3">
-                    <div class="btn btn-icon btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px position-relative" id="kt_drawer_chat_toggle">
+                    <div class="btn btn-icon btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px position-relative" id="kt_drawer_chat_toggle" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                         <span class="svg-icon svg-icon-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <path opacity="0.3" d="M12 22C13.6569 22 15 20.6569 15 19C15 17.3431 13.6569 16 12 16C10.3431 16 9 17.3431 9 19C9 20.6569 10.3431 22 12 22Z" fill="black"></path>
@@ -40,7 +40,47 @@
                         </span>
                         <span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
                     </div>
+                    <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px" data-kt-menu="true">
+                        <!--begin::Heading-->
+                        <div class="d-flex flex-column bgi-no-repeat rounded-top">
+                            <!--begin::Title-->
+                            <h3 class="text-white fw-bold px-9 mt-10 mb-6">Yükleme İşlemleri
+                            <!--end::Tabs-->
+                        </div>
+                        <!--end::Heading-->
+                        <!--begin::Tab content-->
+                        <div class="tab-content">
+
+                            <!--end::Tab panel-->
+                            <!--begin::Tab panel-->
+                            <div class="tab-pane fade show active" id="kt_topbar_notifications_1" role="tabpanel">
+                                <!--begin::Items-->
+                                <div class="scroll-y mh-325px my-5 px-8" id="jobFileListNav">
+
+
+
+                                </div>
+                                <!--end::Items-->
+                                <!--begin::View more-->
+                                <div class="py-3 text-center border-top">
+                                    <a href="{{ route('user.web.jobFileUploading.index') }}" class="btn btn-color-gray-600 btn-active-color-primary">Tümünü Göster
+                                        <span class="svg-icon svg-icon-5">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+												<rect opacity="0.5" x="18" y="13" width="13" height="2" rx="1" transform="rotate(-180 18 13)" fill="black" />
+												<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="black" />
+											</svg>
+										 </span>
+                                       </a>
+                                </div>
+                                <!--end::View more-->
+                            </div>
+                            <!--end::Tab panel-->
+                        </div>
+                        <!--end::Tab content-->
+                    </div>
                 </div>
+
+
                 <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
                     <div class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                         <img src="{{ asset('assets/media/logos/avatar.png') }}" alt="user" />

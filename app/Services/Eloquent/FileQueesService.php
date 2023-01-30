@@ -171,8 +171,8 @@ class FileQueesService implements IFileQueesService
                 })
                 ->when($transactionTypeIds, function ($query, $transactionTypeIds) {
                     return $query->whereIn('transaction_type_id', $transactionTypeIds);
-                })
-                ->get()
+                })->with('status')->with('transaction')->orderBy('id', 'desc')->get()
+
         );
     }
 }
