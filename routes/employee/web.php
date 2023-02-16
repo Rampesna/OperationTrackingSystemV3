@@ -45,4 +45,8 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\Employee\KnowledgeBaseController::class, 'index'])->name('employee.web.knowledgeBase.index');
         Route::get('question/{id?}', [\App\Http\Controllers\Web\Employee\KnowledgeBaseController::class, 'question'])->name('employee.web.knowledgeBase.question');
     });
+
+    Route::prefix('earthquakeInformation')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\Employee\EarthquakeInformationController::class, 'index'])->name('employee.web.earthquakeInformation.index');
+    });
 });

@@ -354,6 +354,10 @@ Route::middleware([
         Route::get('category', [\App\Http\Controllers\Web\User\KnowledgeBaseController::class, 'category'])->name('user.web.knowledgeBase.category');
     });
 
+    Route::prefix('earthquakeInformation')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\EarthquakeInformationController::class, 'index'])->name('user.web.earthquakeInformation.index');
+    });
+
     Route::prefix('notification')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\NotificationController::class, 'index'])->name('user.web.notification.index');
     });

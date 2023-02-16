@@ -709,6 +709,10 @@ Route::middleware([
         Route::post('sendForPenalty', [\App\Http\Controllers\Api\User\NotificationController::class, 'sendForPenalty'])->name('user.api.notification.sendForPenalty');
     });
 
+    Route::prefix('earthquakeInformation')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'getAll'])->name('user.api.earthquakeInformation.getAll');
+    });
+
     Route::prefix('prCard')->group(function () {
         Route::get('getByJobDepartmentId', [\App\Http\Controllers\Api\User\PrCardController::class, 'getByJobDepartmentId'])->name('user.api.prCard.getByJobDepartmentId');
         Route::post('create', [\App\Http\Controllers\Api\User\PrCardController::class, 'create'])->name('user.api.prCard.create');

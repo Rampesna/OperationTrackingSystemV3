@@ -22,6 +22,7 @@ use App\Interfaces\Eloquent\IDeviceCategoryService;
 use App\Interfaces\Eloquent\IDevicePackageService;
 use App\Interfaces\Eloquent\IDeviceService;
 use App\Interfaces\Eloquent\IDeviceStatusService;
+use App\Interfaces\Eloquent\IEarthquakeInformationService;
 use App\Interfaces\Eloquent\IEmployeePersonalInformationService;
 use App\Interfaces\Eloquent\IEmployeeQualityAssessmentService;
 use App\Interfaces\Eloquent\IEmployeeService;
@@ -126,6 +127,7 @@ use App\Services\Eloquent\DeviceCategoryService;
 use App\Services\Eloquent\DevicePackageService;
 use App\Services\Eloquent\DeviceService;
 use App\Services\Eloquent\DeviceStatusService;
+use App\Services\Eloquent\EarthquakeInformationService;
 use App\Services\Eloquent\EmployeePersonalInformationService;
 use App\Services\Eloquent\EmployeeQualityAssessmentService;
 use App\Services\Eloquent\EmployeeService;
@@ -310,6 +312,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IPRCalculate::class, PRCalculate::class);
         $this->app->bind(IPrResultService::class, PrResultService::class);
         $this->app->bind(IFileQueesService::class, FileQueesService::class);
+        $this->app->bind(IEarthquakeInformationService::class, EarthquakeInformationService::class);
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

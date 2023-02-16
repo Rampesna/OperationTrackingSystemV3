@@ -90,6 +90,11 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\Employee\MarketPaymentController::class, 'create'])->name('employee.api.marketPayment.create');
     });
 
+    Route::prefix('earthquakeInformation')->group(function () {
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\Employee\EarthquakeInformationController::class, 'getByEmployeeId'])->name('employee.api.earthquakeInformation.getByEmployeeId');
+        Route::put('update', [\App\Http\Controllers\Api\Employee\EarthquakeInformationController::class, 'update'])->name('employee.api.earthquakeInformation.update');
+    });
+
     Route::prefix('operationApi')->group(function () {
 
         Route::prefix('personReport')->group(function () {
