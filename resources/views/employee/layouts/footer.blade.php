@@ -15,7 +15,7 @@
 <div id="mobileFooter" style="display: none; margin-top: 75px">
     <div class="{{ auth()->user()->theme() == 1 ? 'mobileFooterDark' : 'mobileFooter' }} py-5 px-3">
         <div class="row h-50px">
-            <a href="#" class="col-3 text-dark text-center">
+            <a href="{{ route('employee.web.dashboard.index') }}" class="col-3 text-dark text-center">
                 <span class="svg-icon {{ request()->segment(2) == 'dashboard' ? 'svg-icon-primary' : '' }} svg-icon-2qx">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path opacity="0.3" d="M18 10V20C18 20.6 18.4 21 19 21C19.6 21 20 20.6 20 20V10H18Z" fill="black"/>
@@ -31,43 +31,34 @@
                 <br>
                 <span class="text-dark">Anasayfa</span>
             </a>
-            <a href="#" class="col-2 text-dark text-center">
-                <span class="svg-icon {{ request()->segment(1) == 'company' ? 'svg-icon-primary' : '' }} svg-icon-2qx">
+            <a href="{{ route('employee.web.profile.index') }}" class="col-3 text-dark text-center">
+                <span class="svg-icon {{ request()->segment(2) == 'profile' ? 'svg-icon-primary' : '' }} svg-icon-2qx">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z" fill="black"/>
-                        <path opacity="0.3" d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z" fill="black"/>
+                        <path opacity="0.3" d="M22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2C17.5 2 22 6.5 22 12ZM12 7C10.3 7 9 8.3 9 10C9 11.7 10.3 13 12 13C13.7 13 15 11.7 15 10C15 8.3 13.7 7 12 7Z" fill="black"/>
+                        <path d="M12 22C14.6 22 17 21 18.7 19.4C17.9 16.9 15.2 15 12 15C8.8 15 6.09999 16.9 5.29999 19.4C6.99999 21 9.4 22 12 22Z" fill="black"/>
                     </svg>
                 </span>
                 <br>
-                <span class="text-dark">Cariler</span>
+                <span class="text-dark">Profilim</span>
             </a>
-            <div class="btn-group d-grid col-2 text-dark text-center">
-                <button id="QuickActionsButton" class="btn btn-icon btn-circle btn-primary mt-n10" style="width: 50px; height: 50px">
-                    <span style="font-size: 30px">
-                        +
-                    </span>
-                </button>
-            </div>
-            <a href="#" class="col-2 text-dark">
-                <span class="svg-icon {{ request()->segment(1) == 'invoice' ? 'svg-icon-primary' : '' }} svg-icon-2qx">
+            <a href="{{ route('employee.web.performance.index') }}" class="col-3 text-dark">
+                <span class="svg-icon {{ request()->segment(2) == 'performance' ? 'svg-icon-primary' : '' }} svg-icon-2qx">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path opacity="0.3" d="M18 22C19.7 22 21 20.7 21 19C21 18.5 20.9 18.1 20.7 17.7L15.3 6.30005C15.1 5.90005 15 5.5 15 5C15 3.3 16.3 2 18 2H6C4.3 2 3 3.3 3 5C3 5.5 3.1 5.90005 3.3 6.30005L8.7 17.7C8.9 18.1 9 18.5 9 19C9 20.7 7.7 22 6 22H18Z" fill="black"/>
-                        <path d="M18 2C19.7 2 21 3.3 21 5H9C9 3.3 7.7 2 6 2H18Z" fill="black"/>
-                        <path d="M9 19C9 20.7 7.7 22 6 22C4.3 22 3 20.7 3 19H9Z" fill="black"/>
+                        <path opacity="0.3" d="M14 3V21H10V3C10 2.4 10.4 2 11 2H13C13.6 2 14 2.4 14 3ZM7 14H5C4.4 14 4 14.4 4 15V21H8V15C8 14.4 7.6 14 7 14Z" fill="black"/>
+                        <path d="M21 20H20V8C20 7.4 19.6 7 19 7H17C16.4 7 16 7.4 16 8V20H3C2.4 20 2 20.4 2 21C2 21.6 2.4 22 3 22H21C21.6 22 22 21.6 22 21C22 20.4 21.6 20 21 20Z" fill="black"/>
                     </svg>
                 </span>
                 <br>
-                <span class="text-dark">Faturalar</span>
+                <span class="text-dark">Performans</span>
             </a>
-            <a href="#" class="col-3 text-dark text-center">
-                <span class="svg-icon {{ request()->segment(1) == 'transaction' ? 'svg-icon-primary' : '' }} svg-icon-2qx">
+            <a href="{{ route('employee.web.earthquakeInformation.index') }}" class="col-3 text-dark text-center">
+                <span class="svg-icon {{ request()->segment(2) == 'earthquakeInformation' ? 'svg-icon-primary' : '' }} svg-icon-2qx">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M22 7H2V11H22V7Z" fill="black"/>
-                        <path opacity="0.3" d="M21 19H3C2.4 19 2 18.6 2 18V6C2 5.4 2.4 5 3 5H21C21.6 5 22 5.4 22 6V18C22 18.6 21.6 19 21 19ZM14 14C14 13.4 13.6 13 13 13H5C4.4 13 4 13.4 4 14C4 14.6 4.4 15 5 15H13C13.6 15 14 14.6 14 14ZM16 15.5C16 16.3 16.7 17 17.5 17H18.5C19.3 17 20 16.3 20 15.5C20 14.7 19.3 14 18.5 14H17.5C16.7 14 16 14.7 16 15.5Z" fill="black"/>
+                        <path d="M18.3721 4.65439C17.6415 4.23815 16.8052 4 15.9142 4C14.3444 4 12.9339 4.73924 12.003 5.89633C11.0657 4.73913 9.66 4 8.08626 4C7.19611 4 6.35789 4.23746 5.62804 4.65439C4.06148 5.54462 3 7.26056 3 9.24232C3 9.81001 3.08941 10.3491 3.25153 10.8593C4.12155 14.9013 9.69287 20 12.0034 20C14.2502 20 19.875 14.9013 20.7488 10.8593C20.9109 10.3491 21 9.81001 21 9.24232C21.0007 7.26056 19.9383 5.54462 18.3721 4.65439Z" fill="black"/>
                     </svg>
                 </span>
                 <br>
-                <span class="text-dark">Gelir & Gider</span>
+                <span class="text-dark">Deprem Bilg.</span>
             </a>
         </div>
     </div>

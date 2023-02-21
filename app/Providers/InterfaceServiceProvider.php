@@ -81,6 +81,8 @@ use App\Interfaces\Eloquent\IShiftGroupEmployeeUseListService;
 use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
 use App\Interfaces\Eloquent\ISubTaskService;
+use App\Interfaces\Eloquent\ITargetStatusService;
+use App\Interfaces\Eloquent\ITargetTypeService;
 use App\Interfaces\Eloquent\ITaskPriorityService;
 use App\Interfaces\Eloquent\ITaskService;
 use App\Interfaces\Eloquent\ITicketMessageService;
@@ -107,6 +109,7 @@ use App\Interfaces\OperationApi\ISpecialReportService;
 use App\Interfaces\OperationApi\ISurveySystemService;
 use App\Interfaces\OperationApi\ITvScreenService;
 use App\Models\Eloquent\OvertimeType;
+use App\Models\Eloquent\TargetStatus;
 use App\Services\AwsS3\StorageService;
 use App\Services\Eloquent\AcademyEducationLessonService;
 use App\Services\Eloquent\AcademyEducationPlanParticipantService;
@@ -186,6 +189,8 @@ use App\Services\Eloquent\ShiftGroupEmployeeUseListService;
 use App\Services\Eloquent\ShiftGroupService;
 use App\Services\Eloquent\ShiftService;
 use App\Services\Eloquent\SubTaskService;
+use App\Services\Eloquent\TargetStatusService;
+use App\Services\Eloquent\TargetTypeService;
 use App\Services\Eloquent\TaskPriorityService;
 use App\Services\Eloquent\TaskService;
 use App\Services\Eloquent\TicketMessageService;
@@ -312,7 +317,10 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IPRCalculate::class, PRCalculate::class);
         $this->app->bind(IPrResultService::class, PrResultService::class);
         $this->app->bind(IFileQueesService::class, FileQueesService::class);
+        $this->app->bind(ITargetTypeService::class, TargetTypeService::class);
+        $this->app->bind(ITargetStatusService::class, TargetStatusService::class);
         $this->app->bind(IEarthquakeInformationService::class, EarthquakeInformationService::class);
+
 
         // OperationApiServices
         $this->app->bind(IDataScanningService::class, DataScanningService::class);

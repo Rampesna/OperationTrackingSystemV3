@@ -27,9 +27,9 @@
                 </div>
                 <div class="card-body border-top p-9">
                     <div class="row mb-6">
-                        <label for="city_id" class="col-lg-3 col-form-label fw-bold fs-6">Şuanda Hangi Şehirdesiniz</label>
+                        <label for="city" class="col-lg-3 col-form-label fw-bold fs-6">Şuanda Hangi Şehirdesiniz</label>
                         <div class="col-lg-9">
-                            <select id="city_id" class="form-select form-select-solid" data-control="select2" data-placeholder="Şuanda Hangi Şehirdesiniz">
+                            <select id="city" class="form-select form-select-solid" data-control="select2" data-placeholder="Şuanda Hangi Şehirdesiniz">
                                 <option value="Adana">Adana</option>
                                 <option value="Adıyaman">Adıyaman</option>
                                 <option value="Afyonkarahisar">Afyonkarahisar</option>
@@ -121,11 +121,12 @@
                         </div>
                     </div>
                     <div class="row mb-6">
-                        <label for="home_status" class="col-lg-3 col-form-label fw-bold fs-6">Evinizin Durumu</label>
+                        <label for="home_status" class="col-lg-3 col-form-label fw-bold fs-6">Malatyadaki Evinizin Durumu</label>
                         <div class="col-lg-9">
-                            <select id="home_status" class="form-select form-select-solid" data-control="select2" data-placeholder="Evinizin Durumu">
+                            <select id="home_status" class="form-select form-select-solid" data-control="select2" data-placeholder="Malatyadaki Evinizin Durumu">
                                 <option disabled selected hidden></option>
                                 <option value="Belirsiz">Belirsiz</option>
+                                <option value="Yıkıldı">Yıkıldı</option>
                                 <option value="Az Hasarlı">Az Hasarlı</option>
                                 <option value="Orta Hasarlı">Orta Hasarlı</option>
                                 <option value="Ağır Hasarlı">Ağır Hasarlı</option>
@@ -144,13 +145,31 @@
                         </div>
                     </div>
                     <div class="row mb-6">
-                        <label for="work_status" class="col-lg-3 col-form-label fw-bold fs-6">Çalışma Durumunuz</label>
+                        <label for="working_status" class="col-lg-3 col-form-label fw-bold fs-6">Şuanda Çalışıyor Musunuz?</label>
                         <div class="col-lg-9">
-                            <select id="work_status" class="form-select form-select-solid" data-control="select2" data-placeholder="Çalışma Durumunuz" data-minimum-results-for-search="Infinity">
+                            <select id="working_status" class="form-select form-select-solid" data-control="select2" data-placeholder="Şuanda Çalışıyor Musunuz?" data-minimum-results-for-search="Infinity">
                                 <option value="" selected hidden disabled></option>
-                                <option value="Çalışamam">Çalışamam</option>
-                                <option value="Çalışabilirim">Çalışabilirim</option>
+                                <option value="Evet">Evet</option>
+                                <option value="Hayır">Hayır</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-6">
+                        <label for="working_address" class="col-lg-3 col-form-label fw-bold fs-6">Hangi Ofiste Çalışıyorsunuz?</label>
+                        <div class="col-lg-9">
+                            <input id="working_address" type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Hangi Ofiste Çalışıyorsunuz?">
+                        </div>
+                    </div>
+                    <div class="row mb-6">
+                        <label for="working_department" class="col-lg-3 col-form-label fw-bold fs-6">Hangi Kuyrukta/Departmanda Çalışıyorsunuz?</label>
+                        <div class="col-lg-9">
+                            <input id="working_department" type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Hangi Kuyrukta/Departmanda Çalışıyorsunuz?">
+                        </div>
+                    </div>
+                    <div class="row mb-6">
+                        <label for="workable_date" class="col-lg-3 col-form-label fw-bold fs-6">Hangi Tarihte Çalışmaya Başlayabilirsiniz</label>
+                        <div class="col-lg-9">
+                            <input id="workable_date" type="date" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0">
                         </div>
                     </div>
                     <div class="row mb-6">
@@ -181,6 +200,12 @@
                                 <option value="Yok">Yok</option>
                                 <option value="Var">Var</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-6">
+                        <label for="general_notes" class="col-lg-3 col-form-label fw-bold fs-6">Genel Notlar</label>
+                        <div class="col-lg-9">
+                            <textarea rows="5" id="general_notes" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Genel Notlar"></textarea>
                         </div>
                     </div>
                 </div>

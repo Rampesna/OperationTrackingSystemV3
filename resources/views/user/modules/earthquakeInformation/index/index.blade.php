@@ -14,6 +14,17 @@
 
 @section('content')
 
+    @include('user.modules.earthquakeInformation.index.modals.createEarthquakeInformation')
+    @include('user.modules.earthquakeInformation.index.modals.updateEarthquakeInformation')
+
+    <input type="hidden" id="selected_employee_row_index">
+    <input type="hidden" id="selected_employee_id">
+    <div class="row">
+        <div class="col-xl-12 text-end">
+            <button class="btn btn-success" onclick="createEarthquakeInformation()">Yeni Kayıt Ekle</button>
+        </div>
+    </div>
+    <hr>
     <div class="row">
         <div class="col-xl-12">
             <div id="earthquakeInformations"></div>

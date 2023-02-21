@@ -711,6 +711,10 @@ Route::middleware([
 
     Route::prefix('earthquakeInformation')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'getAll'])->name('user.api.earthquakeInformation.getAll');
+        Route::get('checkIfExists', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'checkIfExists'])->name('user.api.earthquakeInformation.checkIfExists');
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'getByEmployeeId'])->name('user.api.earthquakeInformation.getByEmployeeId');
+        Route::post('create', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'create'])->name('user.api.earthquakeInformation.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'update'])->name('user.api.earthquakeInformation.update');
     });
 
     Route::prefix('prCard')->group(function () {
@@ -777,6 +781,11 @@ Route::middleware([
         Route::prefix('personReport')->group(function () {
             Route::get('getPersonAppointmentReport', [\App\Http\Controllers\Api\User\OperationApi\PersonReportController::class, 'getPersonAppointmentReport'])->name('user.api.operationApi.personReport.getPersonAppointmentReport');
             Route::get('getPersonnelAchievementRanking', [\App\Http\Controllers\Api\User\OperationApi\PersonReportController::class, 'getPersonnelAchievementRanking'])->name('user.api.operationApi.personReport.getPersonnelAchievementRanking');
+        });
+
+        Route::prefix('targets')->group(function () {
+            Route::get('types/getAll', [\App\Http\Controllers\Api\User\TargetTypeController::class, 'getAll'])->name('user.api.targets.types.getAll');
+            Route::get('status/getAll', [\App\Http\Controllers\Api\User\TargetStatusController::class, 'getAll'])->name('user.api.targets.status.getAll');
         });
 
         Route::prefix('dataScanning')->group(function () {

@@ -113,7 +113,6 @@
                         <span class="menu-title">Deprem Bilgilerim</span>
                     </span>
                 </a>
-
             </div>
         </div>
     </div>

@@ -3,7 +3,6 @@
 namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IEarthquakeInformationService;
-use App\Interfaces\Eloquent\IEloquentService;
 use App\Models\Eloquent\EarthquakeInformation;
 use App\Services\ServiceResponse;
 
@@ -76,6 +75,31 @@ class EarthquakeInformationService implements IEarthquakeInformationService
     /**
      * @param int $employeeId
      */
+    public function checkIfExists(
+        int $employeeId
+    ): ServiceResponse
+    {
+        $earthquakeInformation = EarthquakeInformation::where('employee_id', $employeeId)->first();
+        if ($earthquakeInformation) {
+            return new ServiceResponse(
+                true,
+                'Earthquake information exists',
+                200,
+                $earthquakeInformation
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                'Earthquake information does not exist',
+                404,
+                null
+            );
+        }
+    }
+
+    /**
+     * @param int $employeeId
+     */
     public function getByEmployeeId(
         int $employeeId
     ): ServiceResponse
@@ -104,83 +128,113 @@ class EarthquakeInformationService implements IEarthquakeInformationService
 
     /**
      * @param int $employeeId
-     * @param int $cityId
-     * @param string $address
-     * @param int $homeStatus
-     * @param bool $familyHealthStatus
-     * @param bool $workStatus
-     * @param bool $computerStatus
-     * @param bool $internetStatus
-     * @param bool $headphoneStatus
+     * @param string|null $city
+     * @param string|null $address
+     * @param string|null $homeStatus
+     * @param string|null $familyHealthStatus
+     * @param string|null $workingStatus
+     * @param string|null $workingAddress
+     * @param string|null $workingDepartment
+     * @param string|null $workableDate
+     * @param string|null $computerStatus
+     * @param string|null $internetStatus
+     * @param string|null $headphoneStatus
+     * @param string|null $generalNotes
+     *
+     * @return ServiceResponse
      */
     public function create(
-        int    $employeeId,
-        int    $cityId,
-        string $address,
-        int    $homeStatus,
-        bool   $familyHealthStatus,
-        bool   $workStatus,
-        bool   $computerStatus,
-        bool   $internetStatus,
-        bool   $headphoneStatus
-    ): ServiceResponse
-    {
-        $earthquakeInformation = new EarthquakeInformation;
-        $earthquakeInformation->employee_id = $employeeId;
-        $earthquakeInformation->city_id = $cityId;
-        $earthquakeInformation->address = $address;
-        $earthquakeInformation->home_status = $homeStatus;
-        $earthquakeInformation->family_health_status = $familyHealthStatus;
-        $earthquakeInformation->work_status = $workStatus;
-        $earthquakeInformation->computer_status = $computerStatus;
-        $earthquakeInformation->internet_status = $internetStatus;
-        $earthquakeInformation->headphone_status = $headphoneStatus;
-        $earthquakeInformation->save();
-
-        return new ServiceResponse(
-            true,
-            'Earthquake information created',
-            200,
-            $earthquakeInformation
-        );
-    }
-
-    /**
-     * @param int $id
-     * @param int $employeeId
-     * @param int $cityId
-     * @param string $address
-     * @param int $homeStatus
-     * @param bool $familyHealthStatus
-     * @param bool $workStatus
-     * @param bool $computerStatus
-     * @param bool $internetStatus
-     * @param bool $headphoneStatus
-     */
-    public function update(
         int         $employeeId,
-        string|null $cityId,
+        string|null $city,
         string|null $address,
         string|null $homeStatus,
         string|null $familyHealthStatus,
-        string|null $workStatus,
+        string|null $workingStatus,
+        string|null $workingAddress,
+        string|null $workingDepartment,
+        string|null $workableDate,
         string|null $computerStatus,
         string|null $internetStatus,
-        string|null $headphoneStatus
+        string|null $headphoneStatus,
+        string|null $generalNotes
     ): ServiceResponse
     {
         $earthquakeInformation = $this->getByEmployeeId($employeeId);
         if ($earthquakeInformation->isSuccess()) {
             $earthquakeInformation = $earthquakeInformation->getData();
-            $earthquakeInformation->employee_id = $employeeId;
-            $earthquakeInformation->city_id = $cityId;
+            $earthquakeInformation->city = $city;
             $earthquakeInformation->address = $address;
             $earthquakeInformation->home_status = $homeStatus;
             $earthquakeInformation->family_health_status = $familyHealthStatus;
-            $earthquakeInformation->work_status = $workStatus;
+            $earthquakeInformation->working_status = $workingStatus;
+            $earthquakeInformation->working_address = $workingAddress;
+            $earthquakeInformation->working_department = $workingDepartment;
+            $earthquakeInformation->workable_date = $workableDate;
             $earthquakeInformation->computer_status = $computerStatus;
             $earthquakeInformation->internet_status = $internetStatus;
             $earthquakeInformation->headphone_status = $headphoneStatus;
+            $earthquakeInformation->general_notes = $generalNotes;
+            $earthquakeInformation->save();
+
+            return new ServiceResponse(
+                true,
+                'Earthquake information created',
+                200,
+                $earthquakeInformation
+            );
+        } else {
+            return $earthquakeInformation;
+        }
+    }
+
+    /**
+     * @param int $employeeId
+     * @param string|null $city
+     * @param string|null $address
+     * @param string|null $homeStatus
+     * @param string|null $familyHealthStatus
+     * @param string|null $workingStatus
+     * @param string|null $workingAddress
+     * @param string|null $workingDepartment
+     * @param string|null $workableDate
+     * @param string|null $computerStatus
+     * @param string|null $internetStatus
+     * @param string|null $headphoneStatus
+     * @param string|null $generalNotes
+     *
+     * @return ServiceResponse
+     */
+    public function update(
+        int         $employeeId,
+        string|null $city,
+        string|null $address,
+        string|null $homeStatus,
+        string|null $familyHealthStatus,
+        string|null $workingStatus,
+        string|null $workingAddress,
+        string|null $workingDepartment,
+        string|null $workableDate,
+        string|null $computerStatus,
+        string|null $internetStatus,
+        string|null $headphoneStatus,
+        string|null $generalNotes
+    ): ServiceResponse
+    {
+        $earthquakeInformation = $this->getByEmployeeId($employeeId);
+        if ($earthquakeInformation->isSuccess()) {
+            $earthquakeInformation = $earthquakeInformation->getData();
+            $earthquakeInformation->city = $city;
+            $earthquakeInformation->address = $address;
+            $earthquakeInformation->home_status = $homeStatus;
+            $earthquakeInformation->family_health_status = $familyHealthStatus;
+            $earthquakeInformation->working_status = $workingStatus;
+            $earthquakeInformation->working_address = $workingAddress;
+            $earthquakeInformation->working_department = $workingDepartment;
+            $earthquakeInformation->workable_date = $workableDate;
+            $earthquakeInformation->computer_status = $computerStatus;
+            $earthquakeInformation->internet_status = $internetStatus;
+            $earthquakeInformation->headphone_status = $headphoneStatus;
+            $earthquakeInformation->general_notes = $generalNotes;
             $earthquakeInformation->save();
 
             return new ServiceResponse(

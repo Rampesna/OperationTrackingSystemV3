@@ -1,9 +1,9 @@
 <script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
 <script src="{{ asset('assets/plugins/custom/fullcalendar/locales-all-min.js') }}"></script>
 <script src="{{ asset('assets/plugins/custom/qrcode/creator.js') }}"></script>
-<script src="{{ asset('assets/ejDiagram/ej.web.all.min.js') }}"></script>
+{{--<script src="{{ asset('assets/ejDiagram/ej.web.all.min.js') }}"></script>--}}
 <script>
-
+    /*
     var constraints = ej.datavisualization.Diagram.NodeConstraints.Default | ej.datavisualization.Diagram.NodeConstraints.AspectRatio;
     var palettes = [
         {
@@ -684,6 +684,8 @@
             }
         }
     }
+
+    */
 </script>
 
 <script>

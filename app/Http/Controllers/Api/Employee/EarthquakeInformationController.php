@@ -54,14 +54,18 @@ class EarthquakeInformationController extends Controller
     {
         $response = $this->earthquakeInformationService->update(
             $request->user()->id,
-            $request->cityId,
+            $request->city,
             $request->address,
             $request->homeStatus,
             $request->familyHealthStatus,
-            $request->workStatus,
+            $request->workingStatus,
+            $request->workingAddress,
+            $request->workingDepartment,
+            $request->workableDate,
             $request->computerStatus,
             $request->internetStatus,
-            $request->headphoneStatus
+            $request->headphoneStatus,
+            $request->generalNotes
         );
         if ($response->isSuccess()) {
             return $this->success(

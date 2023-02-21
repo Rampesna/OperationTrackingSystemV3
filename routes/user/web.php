@@ -136,6 +136,7 @@ Route::middleware([
             Route::get('opponent', [\App\Http\Controllers\Web\User\SalesAndMarketing\OpponentController::class, 'index'])->name('user.web.salesAndMarketing.modules.opponent.index');
             Route::get('software', [\App\Http\Controllers\Web\User\SalesAndMarketing\SoftwareController::class, 'index'])->name('user.web.salesAndMarketing.modules.software.index');
             Route::get('integrator', [\App\Http\Controllers\Web\User\SalesAndMarketing\IntegratorController::class, 'index'])->name('user.web.salesAndMarketing.modules.integrator.index');
+            Route::get('targets', [\App\Http\Controllers\Web\User\SalesAndMarketing\TargetsController::class, 'index'])->name('user.web.salesAndMarketing.modules.targets.index');
         });
     });
 
