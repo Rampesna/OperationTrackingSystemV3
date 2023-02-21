@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\EarthquakeInformationController\GetAllRequest;
+use App\Http\Requests\Api\User\EarthquakeInformationController\GetByCompanyIdsRequest;
+use App\Http\Requests\Api\User\EarthquakeInformationController\GetUnregisteredByCompanyIdsRequest;
 use App\Http\Requests\Api\User\EarthquakeInformationController\CheckIfExistsRequest;
 use App\Http\Requests\Api\User\EarthquakeInformationController\GetByEmployeeIdRequest;
 use App\Http\Requests\Api\User\EarthquakeInformationController\CreateRequest;
@@ -34,6 +36,50 @@ class EarthquakeInformationController extends Controller
     public function getAll(GetAllRequest $request)
     {
         $response = $this->earthquakeInformationService->getAll();
+        if ($response->isSuccess()) {
+            return $this->success(
+                $response->getMessage(),
+                $response->getData(),
+                $response->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $response->getMessage(),
+                $response->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetByCompanyIdsRequest $request
+     */
+    public function getByCompanyIds(GetByCompanyIdsRequest $request)
+    {
+        $response = $this->earthquakeInformationService->getByCompanyIds(
+            $request->companyIds
+        );
+        if ($response->isSuccess()) {
+            return $this->success(
+                $response->getMessage(),
+                $response->getData(),
+                $response->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $response->getMessage(),
+                $response->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetUnregisteredByCompanyIdsRequest $request
+     */
+    public function getUnregisteredByCompanyIds(GetUnregisteredByCompanyIdsRequest $request)
+    {
+        $response = $this->earthquakeInformationService->getUnregisteredByCompanyIds(
+            $request->companyIds
+        );
         if ($response->isSuccess()) {
             return $this->success(
                 $response->getMessage(),

@@ -357,6 +357,7 @@ Route::middleware([
 
     Route::prefix('earthquakeInformation')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\EarthquakeInformationController::class, 'index'])->name('user.web.earthquakeInformation.index');
+        Route::get('employee', [\App\Http\Controllers\Web\User\EarthquakeInformationController::class, 'employee'])->name('user.web.earthquakeInformation.employee');
     });
 
     Route::prefix('notification')->group(function () {

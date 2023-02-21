@@ -4,6 +4,7 @@ namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IEarthquakeInformationService;
 use App\Models\Eloquent\EarthquakeInformation;
+use App\Models\Eloquent\Employee;
 use App\Services\ServiceResponse;
 
 class EarthquakeInformationService implements IEarthquakeInformationService
@@ -95,6 +96,54 @@ class EarthquakeInformationService implements IEarthquakeInformationService
                 null
             );
         }
+    }
+
+    /**
+     * @param array $companyIds
+     */
+    public function getByCompanyIds(
+        array $companyIds
+    ): ServiceResponse
+    {
+        $employees = Employee::whereIn('company_id', $companyIds)->where('leave', 0)->get();
+        $earthquakeInformations = EarthquakeInformation::with([
+            'employee'
+        ])->whereIn('employee_id', $employees->pluck('id')->toArray())->get();
+
+        return new ServiceResponse(
+            true,
+            'Earthquake informations',
+            200,
+            $earthquakeInformations
+        );
+    }
+
+    /**
+     * @param array $companyIds
+     */
+    public function getUnregisteredByCompanyIds(
+        array $companyIds
+    ): ServiceResponse
+    {
+        $unregisteredEmployees = collect();
+        $employees = Employee::whereIn('company_id', $companyIds)->where('leave', 0)->get();
+        $earthquakeInformations = EarthquakeInformation::all();
+
+        foreach ($employees as $employee) {
+            $employeeEarthquakeInformation = $earthquakeInformations->where('employee_id', $employee->id)->first();
+            if (!$employeeEarthquakeInformation) {
+                $unregisteredEmployees->push($employee);
+            } else if ($employeeEarthquakeInformation->city == '' || $employeeEarthquakeInformation->city == null) {
+                $unregisteredEmployees->push($employee);
+            }
+        }
+
+        return new ServiceResponse(
+            true,
+            'Unregistered employees',
+            200,
+            $unregisteredEmployees
+        );
     }
 
     /**

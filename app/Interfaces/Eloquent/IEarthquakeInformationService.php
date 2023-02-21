@@ -14,6 +14,20 @@ interface IEarthquakeInformationService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param array $companyIds
+     */
+    public function getByCompanyIds(
+        array $companyIds
+    ): ServiceResponse;
+
+    /**
+     * @param array $companyIds
+     */
+    public function getUnregisteredByCompanyIds(
+        array $companyIds
+    ): ServiceResponse;
+
+    /**
      * @param int $employeeId
      */
     public function getByEmployeeId(

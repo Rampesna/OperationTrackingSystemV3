@@ -711,6 +711,8 @@ Route::middleware([
 
     Route::prefix('earthquakeInformation')->group(function () {
         Route::get('getAll', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'getAll'])->name('user.api.earthquakeInformation.getAll');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'getByCompanyIds'])->name('user.api.earthquakeInformation.getByCompanyIds');
+        Route::get('getUnregisteredByCompanyIds', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'getUnregisteredByCompanyIds'])->name('user.api.earthquakeInformation.getUnregisteredByCompanyIds');
         Route::get('checkIfExists', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'checkIfExists'])->name('user.api.earthquakeInformation.checkIfExists');
         Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'getByEmployeeId'])->name('user.api.earthquakeInformation.getByEmployeeId');
         Route::post('create', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'create'])->name('user.api.earthquakeInformation.create');

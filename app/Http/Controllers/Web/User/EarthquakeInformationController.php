@@ -10,4 +10,9 @@ class EarthquakeInformationController extends Controller
     {
         return view('user.modules.earthquakeInformation.index.index');
     }
+
+    public function employee()
+    {
+        return view('user.modules.earthquakeInformation.employee.index');
+    }
 }

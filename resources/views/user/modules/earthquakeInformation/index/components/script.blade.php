@@ -34,6 +34,10 @@
     var UpdateEarthquakeInformationButton = $('#UpdateEarthquakeInformationButton');
     var DownloadExcelButton = $('#DownloadExcelButton');
 
+    function goToUnRegistereds() {
+        window.location.href = '{{ route('user.web.earthquakeInformation.employee') }}';
+    }
+
     function transactions() {
         var selectedEmployeeId = $('#selected_employee_id').val();
         if (!selectedEmployeeId) {
@@ -139,14 +143,17 @@
     }
 
     function getEarthquakeInformations() {
+        var companyIds = SelectedCompanies.val();
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.earthquakeInformation.getAll') }}',
+            url: '{{ route('user.api.earthquakeInformation.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
-            data: {},
+            data: {
+                companyIds: companyIds,
+            },
             success: function (response) {
                 let informations = response.response.map(function (item) {
                     return {
@@ -197,7 +204,7 @@
                     theme: jqxGridGlobalTheme,
                     filterable: true,
                     showfilterrow: true,
-                    pageable: false,
+                    pageable: true,
                     sortable: true,
                     pagesizeoptions: ['10', '20', '50', '1000'],
                     localization: getLocalization('tr'),
