@@ -18,6 +18,7 @@
     function getEmployeesByCompanyIds() {
         $('#loader').show();
         var companyIds = SelectedCompanies.val();
+        var pageIndex = parseInt(page.html()) - 1;
         var pageSize = pageSizeSelector.val();
         var keyword = keywordFilter.val();
         var leave = leaveFilter.val();
