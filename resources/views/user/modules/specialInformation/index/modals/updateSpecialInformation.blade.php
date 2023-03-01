@@ -131,6 +131,7 @@
                                     <option value="Çalışıyor">Çalışıyor</option>
                                     <option value="Ücresiz İzinde">Ücresiz İzinde</option>
                                     <option value="Yıllık İzinde">Yıllık İzinde</option>
+                                    <option value="Beklemede">Beklemede</option>
                                     <option value="İstifa Etti">İstifa Etti</option>
                                 </select>
                             </div>
