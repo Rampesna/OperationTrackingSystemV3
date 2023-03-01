@@ -438,6 +438,10 @@
         }, 500);
     }
 
+    function updateEarthquakeInformation(employeeId, employeeGuid, employeeName) {
+        window.open(`{{ route('user.web.employee.specialInformation') }}/${employeeId}`, '_blank');
+    }
+
     function leaveEmployee(employeeId, employeeGuid, employeeName) {
         $('#leave_employee_employee_id').val(employeeId);
         $('#leave_employee_employee_guid').val(employeeGuid);
@@ -599,6 +603,10 @@
                                              <a onclick="updateEmployeeJobDepartment(${employee.id}, '${employee.name}')" class="menu-link px-3">Departman</a>
                                          </div>
                                          ` : ``}
+                                         <hr>
+                                         <div class="menu-item px-3">
+                                             <a onclick="updateEarthquakeInformation(${employee.id}, ${employee.guid}, '${employee.name}')" class="menu-link px-3">Özel Bilgiler</a>
+                                         </div>
                                          ${leaveEmployeePermission === 'true' ? `
                                          <hr>
                                          <div class="menu-item px-3 pb-3">

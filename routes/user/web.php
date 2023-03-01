@@ -25,6 +25,7 @@ Route::middleware([
 
     Route::prefix('employee')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\EmployeeController::class, 'index'])->name('user.web.employee.index')->middleware('CheckUserPermission:1');
+        Route::get('specialInformation/{id?}', [\App\Http\Controllers\Web\User\EmployeeController::class, 'specialInformation'])->name('user.web.employee.specialInformation')->middleware('CheckUserPermission:1');
     });
 
     Route::prefix('report')->middleware([
@@ -358,6 +359,11 @@ Route::middleware([
     Route::prefix('earthquakeInformation')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\EarthquakeInformationController::class, 'index'])->name('user.web.earthquakeInformation.index');
         Route::get('employee', [\App\Http\Controllers\Web\User\EarthquakeInformationController::class, 'employee'])->name('user.web.earthquakeInformation.employee');
+    });
+
+    Route::prefix('specialInformation')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\SpecialInformationController::class, 'index'])->name('user.web.specialInformation.index');
+        Route::get('employee', [\App\Http\Controllers\Web\User\SpecialInformationController::class, 'employee'])->name('user.web.specialInformation.employee');
     });
 
     Route::prefix('notification')->group(function () {

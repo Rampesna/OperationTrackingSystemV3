@@ -101,7 +101,7 @@
                         <span class="menu-title">Bilgi Bankası</span>
                     </span>
                 </a>
-                <a href="{{ route('employee.web.earthquakeInformation.index') }}" class="menu-item {{ request()->segment(2) == 'earthquakeInformation' ? 'show' : '' }}">
+                <a href="{{ route('employee.web.specialInformation.index') }}" class="menu-item {{ request()->segment(2) == 'specialInformation' ? 'show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <span class="svg-icon svg-icon-1">
@@ -110,7 +110,7 @@
                                 </svg>
                             </span>
                         </span>
-                        <span class="menu-title">Deprem Bilgilerim</span>
+                        <span class="menu-title">Özel Bilgilerim</span>
                     </span>
                 </a>
             </div>

@@ -36,10 +36,7 @@
     function getDataScanSummaryList() {
         var startDate = $('#startDate').val();
         var endDate = $('#endDate').val();
-        var companyIds = [];
-        $.each(SelectedCompanies.val(), function (i, SelectedCompany) {
-            companyIds.push(parseInt(SelectedCompany));
-        });
+        var companyIds = SelectedCompanies.val();
 
         if (!startDate) {
             toastr.warning('Başlangıç Tarihi Seçiniz.');

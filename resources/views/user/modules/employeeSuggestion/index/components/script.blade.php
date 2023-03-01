@@ -46,15 +46,17 @@
         var pageIndex = parseInt(page.html()) - 1;
         var pageSize = pageSizeSelector.val();
         var keyword = keywordFilter.val();
+        var companyIds = SelectedCompanies.val();
 
         $.ajax({
             type: 'get',
-            url: '{{ route('user.api.employeeSuggestion.index') }}',
+            url: '{{ route('user.api.employeeSuggestion.getByCompanyIds') }}',
             headers: {
                 'Accept': 'application/json',
                 'Authorization': token
             },
             data: {
+                companyIds: companyIds,
                 pageIndex: pageIndex,
                 pageSize: pageSize,
                 keyword: keyword,

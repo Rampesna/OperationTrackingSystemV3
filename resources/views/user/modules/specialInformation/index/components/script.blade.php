@@ -28,10 +28,10 @@
         $('#loader').hide();
     });
 
-    var earthquakeInformationsDiv = $('#earthquakeInformations');
+    var specialInformationsDiv = $('#specialInformations');
 
-    var CreateEarthquakeInformationButton = $('#CreateEarthquakeInformationButton');
-    var UpdateEarthquakeInformationButton = $('#UpdateEarthquakeInformationButton');
+    var CreateSpecialInformationButton = $('#CreateSpecialInformationButton');
+    var UpdateSpecialInformationButton = $('#UpdateSpecialInformationButton');
     var DownloadExcelButton = $('#DownloadExcelButton');
 
     function goToUnRegistereds() {
@@ -43,7 +43,7 @@
         if (!selectedEmployeeId) {
             toastr.warning('Seçim Yapmadınız!');
         } else {
-            updateEarthquakeInformation();
+            updateSpecialInformation();
         }
     }
 
@@ -62,14 +62,14 @@
                 leave: 0,
             },
             success: function (response) {
-                $('#create_earthquake_information_employee_id').empty();
-                $('#update_earthquake_information_employee_id').empty();
+                $('#create_special_information_employee_id').empty();
+                $('#update_special_information_employee_id').empty();
                 $.each(response.response.employees, function (i, employee) {
-                    $('#create_earthquake_information_employee_id').append(`<option value="${employee.id}">${employee.name}</option>`);
-                    $('#update_earthquake_information_employee_id').append(`<option value="${employee.id}">${employee.name}</option>`);
+                    $('#create_special_information_employee_id').append(`<option value="${employee.id}">${employee.name}</option>`);
+                    $('#update_special_information_employee_id').append(`<option value="${employee.id}">${employee.name}</option>`);
                 });
-                $('#create_earthquake_information_employee_id').val('').select2();
-                $('#update_earthquake_information_employee_id').val('').select2();
+                $('#create_special_information_employee_id').val('').select2();
+                $('#update_special_information_employee_id').val('').select2();
             },
             error: function (error) {
                 console.log(error);
@@ -86,24 +86,23 @@
 
     getEmployeesByCompanyIds();
 
-    function createEarthquakeInformation() {
-        $('#create_earthquake_information_employee_id').val('').select2();
-        $('#create_earthquake_information_city').val('').select2();
-        $('#create_earthquake_information_address').val('');
-        $('#create_earthquake_information_home_status').val('').select2();
-        $('#create_earthquake_information_family_health_status').val('').select2();
-        $('#create_earthquake_information_working_status').val('').select2();
-        $('#create_earthquake_information_working_address').val('');
-        $('#create_earthquake_information_working_department').val('');
-        $('#create_earthquake_information_workable_date').val('');
-        $('#create_earthquake_information_computer_status').val('').select2();
-        $('#create_earthquake_information_internet_status').val('').select2();
-        $('#create_earthquake_information_headphone_status').val('').select2();
-        $('#create_earthquake_information_general_notes').val('');
-        $('#CreateEarthquakeInformationModal').modal('show');
+    function createSpecialInformation() {
+        $('#create_special_information_employee_id').val('').select2();
+        $('#create_special_information_city').val('').select2();
+        $('#create_special_information_current_office').val('').select2();
+        $('#create_special_information_address').val('');
+        $('#create_special_information_working_status').val('').select2();
+        $('#create_special_information_general_status').val('').select2();
+        $('#create_special_information_general_equipment_status').val('').select2();
+        $('#create_special_information_computer_status').val('').select2();
+        $('#create_special_information_internet_status').val('').select2();
+        $('#create_special_information_headphone_status').val('').select2();
+        $('#create_special_information_workable_date').val('');
+        $('#create_special_information_general_notes').val('');
+        $('#CreateSpecialInformationModal').modal('show');
     }
 
-    function updateEarthquakeInformation() {
+    function updateSpecialInformation() {
         $.ajax({
             type: 'get',
             url: '{{ route('user.api.specialInformation.getByEmployeeId') }}',
@@ -115,19 +114,18 @@
                 employeeId: $('#selected_employee_id').val()
             },
             success: function (response) {
-                $('#update_earthquake_information_city').val(response.response.city).select2();
-                $('#update_earthquake_information_address').val(response.response.address);
-                $('#update_earthquake_information_home_status').val(response.response.home_status).select2();
-                $('#update_earthquake_information_family_health_status').val(response.response.family_health_status).select2();
-                $('#update_earthquake_information_working_status').val(response.response.working_status).select2();
-                $('#update_earthquake_information_working_address').val(response.response.working_address);
-                $('#update_earthquake_information_working_department').val(response.response.working_department);
-                $('#update_earthquake_information_workable_date').val(response.response.workable_date);
-                $('#update_earthquake_information_computer_status').val(response.response.computer_status).select2();
-                $('#update_earthquake_information_internet_status').val(response.response.internet_status).select2();
-                $('#update_earthquake_information_headphone_status').val(response.response.headphone_status).select2();
-                $('#update_earthquake_information_general_notes').val(response.response.general_notes);
-                $('#UpdateEarthquakeInformationModal').modal('show');
+                $('#update_special_information_city').val(response.response.city).select2();
+                $('#update_special_information_current_office').val(response.response.current_office).select2();
+                $('#update_special_information_address').val(response.response.address);
+                $('#update_special_information_working_status').val(response.response.working_status).select2();
+                $('#update_special_information_general_status').val(response.response.general_status).select2();
+                $('#update_special_information_general_equipment_status').val(response.response.general_equipment_status).select2();
+                $('#update_special_information_computer_status').val(response.response.computer_status).select2();
+                $('#update_special_information_internet_status').val(response.response.internet_status).select2();
+                $('#update_special_information_headphone_status').val(response.response.headphone_status).select2();
+                $('#update_special_information_workable_date').val(response.response.workable_date);
+                $('#update_special_information_general_notes').val(response.response.general_notes);
+                $('#UpdateSpecialInformationModal').modal('show');
             },
             error: function (error) {
                 console.log(error);
@@ -142,7 +140,7 @@
         });
     }
 
-    function getEarthquakeInformations() {
+    function getSpecialInformations() {
         var companyIds = SelectedCompanies.val();
         $.ajax({
             type: 'get',
@@ -160,16 +158,15 @@
                         employee_id: item.employee ? item.employee.id : '',
                         employee: item.employee ? item.employee.name : '',
                         city: item.city ?? '',
+                        current_office: item.current_office ?? '',
                         address: item.address ?? '',
-                        home_status: item.home_status ?? '',
-                        family_health_status: item.family_health_status ?? '',
                         working_status: item.working_status ?? '',
-                        working_address: item.working_address ?? '',
-                        working_department: item.working_department ?? '',
-                        workable_date: item.workable_date ?? '',
+                        general_status: item.general_status ?? '',
+                        general_equipment_status: item.general_equipment_status ?? '',
                         computer_status: item.computer_status ?? '',
                         internet_status: item.internet_status ?? '',
                         headphone_status: item.headphone_status ?? '',
+                        workable_date: item.workable_date ?? '',
                         general_notes: item.general_notes ?? '',
                     };
                 });
@@ -181,21 +178,20 @@
                             {name: 'employee_id', type: 'string'},
                             {name: 'employee', type: 'string'},
                             {name: 'city', type: 'string'},
+                            {name: 'current_office', type: 'string'},
                             {name: 'address', type: 'string'},
-                            {name: 'home_status', type: 'string'},
-                            {name: 'family_health_status', type: 'string'},
                             {name: 'working_status', type: 'string'},
-                            {name: 'working_address', type: 'string'},
-                            {name: 'working_department', type: 'string'},
-                            {name: 'workable_date', type: 'string'},
+                            {name: 'general_status', type: 'string'},
+                            {name: 'general_equipment_status', type: 'string'},
                             {name: 'computer_status', type: 'string'},
                             {name: 'internet_status', type: 'string'},
                             {name: 'headphone_status', type: 'string'},
+                            {name: 'workable_date', type: 'string'},
                             {name: 'general_notes', type: 'string'},
                         ]
                 };
                 var dataAdapter = new $.jqx.dataAdapter(source);
-                earthquakeInformationsDiv.jqxGrid({
+                specialInformationsDiv.jqxGrid({
                     width: '100%',
                     height: '600',
                     source: dataAdapter,
@@ -222,68 +218,62 @@
                             width: '10%'
                         },
                         {
-                            text: 'Şehir',
+                            text: 'Şuanda Bulunduğu Şehir',
                             dataField: 'city',
                             columntype: 'textbox',
                             width: '10%'
                         },
                         {
-                            text: 'Adres',
+                            text: 'Şuanda Bulunduğu Ofis',
+                            dataField: 'current_office',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'Şuanda Bulunduğ Adres',
                             dataField: 'address',
                             columntype: 'textbox',
                             width: '10%'
                         },
                         {
-                            text: 'Malatyadaki Ev Durumu',
-                            dataField: 'home_status',
-                            columntype: 'textbox',
-                            width: '10%'
-                        },
-                        {
-                            text: 'Ailede Vefat Var Mı?',
-                            dataField: 'family_health_status',
-                            columntype: 'textbox',
-                            width: '10%'
-                        },
-                        {
-                            text: 'Şuanda Çalışıyor Mu?',
+                            text: 'İş Durumu',
                             dataField: 'working_status',
                             columntype: 'textbox',
                             width: '10%'
                         },
                         {
-                            text: 'Şuanda Nerede Çalışıyor?',
-                            dataField: 'working_address',
+                            text: 'Genel Durum',
+                            dataField: 'general_status',
                             columntype: 'textbox',
                             width: '10%'
                         },
                         {
-                            text: 'Hangi Kuyruk/Departmanda Çalışıyor?',
-                            dataField: 'working_department',
+                            text: 'Genel Ekipman Durumu',
+                            dataField: 'general_equipment_status',
                             columntype: 'textbox',
                             width: '10%'
                         },
                         {
-                            text: 'Hangi Tarihte Çalışmaya Başlayabilir?',
-                            dataField: 'workable_date',
-                            columntype: 'textbox',
-                            width: '10%'
-                        },
-                        {
-                            text: 'Bilgisayar Durumu',
+                            text: 'Bilgisayar',
                             dataField: 'computer_status',
                             columntype: 'textbox',
                             width: '10%'
                         },
                         {
-                            text: 'İnternet Durumu',
+                            text: 'İnternet',
                             dataField: 'internet_status',
                             columntype: 'textbox',
                             width: '10%'
                         },
                         {
-                            text: 'Kulaklık Durumu',
+                            text: 'Kulaklık',
                             dataField: 'headphone_status',
+                            columntype: 'textbox',
+                            width: '10%'
+                        },
+                        {
+                            text: 'İşe Başlama Tarihi',
+                            dataField: 'workable_date',
                             columntype: 'textbox',
                             width: '10%'
                         },
@@ -295,15 +285,15 @@
                         }
                     ],
                 });
-                earthquakeInformationsDiv.on('rowclick', function (event) {
-                    earthquakeInformationsDiv.jqxGrid('selectrow', event.args.rowindex);
-                    var rowindex = earthquakeInformationsDiv.jqxGrid('getselectedrowindex');
+                specialInformationsDiv.on('rowclick', function (event) {
+                    specialInformationsDiv.jqxGrid('selectrow', event.args.rowindex);
+                    var rowindex = specialInformationsDiv.jqxGrid('getselectedrowindex');
                     $('#selected_employee_row_index').val(rowindex);
-                    var dataRecord = earthquakeInformationsDiv.jqxGrid('getrowdata', rowindex);
+                    var dataRecord = specialInformationsDiv.jqxGrid('getrowdata', rowindex);
                     $('#selected_employee_id').val(dataRecord.employee_id);
                     return false;
                 });
-                earthquakeInformationsDiv.jqxGrid('sortby', 'id', 'desc');
+                specialInformationsDiv.jqxGrid('sortby', 'id', 'desc');
                 $('#DownloadExcelButtonArea').show();
             },
             error: function (error) {
@@ -319,27 +309,25 @@
         });
     }
 
-    getEarthquakeInformations();
+    getSpecialInformations();
 
-    CreateEarthquakeInformationButton.click(function () {
-        var employeeId = $('#create_earthquake_information_employee_id').val();
-        var city = $('#create_earthquake_information_city').val();
-        var address = $('#create_earthquake_information_address').val();
-        var homeStatus = $('#create_earthquake_information_home_status').val();
-        var familyHealthStatus = $('#create_earthquake_information_family_health_status').val();
-        var workingStatus = $('#create_earthquake_information_working_status').val();
-        var workingAddress = $('#create_earthquake_information_working_address').val();
-        var workingDepartment = $('#create_earthquake_information_working_department').val();
-        var workableDate = $('#create_earthquake_information_workable_date').val();
-        var computerStatus = $('#create_earthquake_information_computer_status').val();
-        var internetStatus = $('#create_earthquake_information_internet_status').val();
-        var headphoneStatus = $('#create_earthquake_information_headphone_status').val();
-        var generalNotes = $('#create_earthquake_information_general_notes').val();
-
+    CreateSpecialInformationButton.click(function () {
+        var employeeId = $('#create_special_information_employee_id').val();
+        var city = $('#create_special_information_city').val();
+        var currentOffice = $('#create_special_information_current_office').val();
+        var address = $('#create_special_information_address').val();
+        var workingStatus = $('#create_special_information_working_status').val();
+        var generalStatus = $('#create_special_information_general_status').val();
+        var generalEquipmentStatus = $('#create_special_information_general_equipment_status').val();
+        var computerStatus = $('#create_special_information_computer_status').val();
+        var internetStatus = $('#create_special_information_internet_status').val();
+        var headphoneStatus = $('#create_special_information_headphone_status').val();
+        var workableDate = $('#create_special_information_workable_date').val();
+        var generalNotes = $('#create_special_information_general_notes').val();
         if (!employeeId) {
             toastr.warning('Personel Seçmediniz!');
         } else {
-            CreateEarthquakeInformationButton.attr('disabled', true).html(`<i class="fa fa-spinner fa-spin"></i>`);
+            CreateSpecialInformationButton.attr('disabled', true).html(`<i class="fa fa-spinner fa-spin"></i>`);
             $.ajax({
                 type: 'get',
                 url: '{{ route('user.api.specialInformation.checkIfExists') }}',
@@ -351,8 +339,8 @@
                     employeeId: employeeId,
                 },
                 success: function () {
-                    toastr.warning('Bu personel için zaten deprem bilgisi kaydı yapılmış!');
-                    CreateEarthquakeInformationButton.attr('disabled', false).html(`Oluştur`);
+                    toastr.warning('Bu personel için zaten özel bilgi kaydı yapılmış!');
+                    CreateSpecialInformationButton.attr('disabled', false).html(`Oluştur`);
                 },
                 error: function (error) {
                     console.log(error);
@@ -360,7 +348,7 @@
                         $.each(error.responseJSON.response, function (i, error) {
                             toastr.error(error[0]);
                         });
-                        CreateEarthquakeInformationButton.attr('disabled', false).html(`Oluştur`);
+                        CreateSpecialInformationButton.attr('disabled', false).html(`Oluştur`);
                     } else if (parseInt(error.status) === 404) {
                         $.ajax({
                             type: 'post',
@@ -372,27 +360,26 @@
                             data: {
                                 employeeId: employeeId,
                                 city: city,
+                                currentOffice: currentOffice,
                                 address: address,
-                                homeStatus: homeStatus,
-                                familyHealthStatus: familyHealthStatus,
                                 workingStatus: workingStatus,
-                                workingAddress: workingAddress,
-                                workingDepartment: workingDepartment,
-                                workableDate: workableDate,
+                                generalStatus: generalStatus,
+                                generalEquipmentStatus: generalEquipmentStatus,
                                 computerStatus: computerStatus,
                                 internetStatus: internetStatus,
                                 headphoneStatus: headphoneStatus,
-                                generalNotes: generalNotes
+                                workableDate: workableDate,
+                                generalNotes: generalNotes,
                             },
                             success: function () {
                                 toastr.success('Başarıyla Oluşturuldu!');
-                                CreateEarthquakeInformationButton.attr('disabled', false).html(`Oluştur`);
-                                $('#CreateEarthquakeInformationModal').modal('hide');
-                                getEarthquakeInformations();
+                                CreateSpecialInformationButton.attr('disabled', false).html(`Oluştur`);
+                                $('#CreateSpecialInformationModal').modal('hide');
+                                getSpecialInformations();
                             },
                             error: function (error) {
                                 console.log(error);
-                                CreateEarthquakeInformationButton.attr('disabled', false).html(`Oluştur`);
+                                CreateSpecialInformationButton.attr('disabled', false).html(`Oluştur`);
                                 if (parseInt(error.status) === 422) {
                                     $.each(error.responseJSON.response, function (i, error) {
                                         toastr.error(error[0]);
@@ -404,29 +391,28 @@
                         });
                     } else {
                         toastr.error(error.responseJSON.message);
-                        CreateEarthquakeInformationButton.attr('disabled', false).html(`Oluştur`);
+                        CreateSpecialInformationButton.attr('disabled', false).html(`Oluştur`);
                     }
                 }
             });
         }
     });
 
-    UpdateEarthquakeInformationButton.click(function () {
+    UpdateSpecialInformationButton.click(function () {
         var employeeId = $('#selected_employee_id').val();
-        var city = $('#update_earthquake_information_city').val();
-        var address = $('#update_earthquake_information_address').val();
-        var homeStatus = $('#update_earthquake_information_home_status').val();
-        var familyHealthStatus = $('#update_earthquake_information_family_health_status').val();
-        var workingStatus = $('#update_earthquake_information_working_status').val();
-        var workingAddress = $('#update_earthquake_information_working_address').val();
-        var workingDepartment = $('#update_earthquake_information_working_department').val();
-        var workableDate = $('#update_earthquake_information_workable_date').val();
-        var computerStatus = $('#update_earthquake_information_computer_status').val();
-        var internetStatus = $('#update_earthquake_information_internet_status').val();
-        var headphoneStatus = $('#update_earthquake_information_headphone_status').val();
-        var generalNotes = $('#update_earthquake_information_general_notes').val();
+        var city = $('#update_special_information_city').val();
+        var currentOffice = $('#update_special_information_current_office').val();
+        var address = $('#update_special_information_address').val();
+        var workingStatus = $('#update_special_information_working_status').val();
+        var generalStatus = $('#update_special_information_general_status').val();
+        var generalEquipmentStatus = $('#update_special_information_general_equipment_status').val();
+        var computerStatus = $('#update_special_information_computer_status').val();
+        var internetStatus = $('#update_special_information_internet_status').val();
+        var headphoneStatus = $('#update_special_information_headphone_status').val();
+        var workableDate = $('#update_special_information_workable_date').val();
+        var generalNotes = $('#update_special_information_general_notes').val();
 
-        UpdateEarthquakeInformationButton.attr('disabled', true).html(`<i class="fa fa-spinner fa-spin"></i>`);
+        UpdateSpecialInformationButton.attr('disabled', true).html(`<i class="fa fa-spinner fa-spin"></i>`);
         $.ajax({
             type: 'put',
             url: '{{ route('user.api.specialInformation.update') }}',
@@ -437,27 +423,26 @@
             data: {
                 employeeId: employeeId,
                 city: city,
+                currentOffice: currentOffice,
                 address: address,
-                homeStatus: homeStatus,
-                familyHealthStatus: familyHealthStatus,
                 workingStatus: workingStatus,
-                workingAddress: workingAddress,
-                workingDepartment: workingDepartment,
-                workableDate: workableDate,
+                generalStatus: generalStatus,
+                generalEquipmentStatus: generalEquipmentStatus,
                 computerStatus: computerStatus,
                 internetStatus: internetStatus,
                 headphoneStatus: headphoneStatus,
-                generalNotes: generalNotes
+                workableDate: workableDate,
+                generalNotes: generalNotes,
             },
             success: function () {
                 toastr.success('Başarıyla Güncellendi!');
-                UpdateEarthquakeInformationButton.attr('disabled', false).html(`Güncelle`);
-                $('#UpdateEarthquakeInformationModal').modal('hide');
-                getEarthquakeInformations();
+                UpdateSpecialInformationButton.attr('disabled', false).html(`Güncelle`);
+                $('#UpdateSpecialInformationModal').modal('hide');
+                getSpecialInformations();
             },
             error: function (error) {
                 console.log(error);
-                UpdateEarthquakeInformationButton.attr('disabled', false).html(`Güncelle`);
+                UpdateSpecialInformationButton.attr('disabled', false).html(`Güncelle`);
                 if (parseInt(error.status) === 422) {
                     $.each(error.responseJSON.response, function (i, error) {
                         toastr.error(error[0]);
@@ -470,7 +455,7 @@
     });
 
     DownloadExcelButton.click(function () {
-        earthquakeInformationsDiv.jqxGrid('exportdata', 'xlsx', 'Deprem Bilgileri');
+        specialInformationsDiv.jqxGrid('exportdata', 'xlsx', 'Personel Özel Bilgileri');
     });
 
     $('body').on('contextmenu', function () {

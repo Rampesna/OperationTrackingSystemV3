@@ -47,6 +47,10 @@ Route::middleware([
     });
 
     Route::prefix('earthquakeInformation')->group(function () {
-        Route::get('index', [\App\Http\Controllers\Web\Employee\EarthquakeInformationController::class, 'index'])->name('employee.web.earthquakeInformation.index');
+//        Route::get('index', [\App\Http\Controllers\Web\Employee\EarthquakeInformationController::class, 'index'])->name('employee.web.specialInformation.index');
+    });
+
+    Route::prefix('specialInformation')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\Employee\SpecialInformationController::class, 'index'])->name('employee.web.specialInformation.index');
     });
 });

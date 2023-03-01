@@ -3,6 +3,7 @@
 namespace App\Services\Eloquent;
 
 use App\Interfaces\Eloquent\IEmployeeSuggestionService;
+use App\Models\Eloquent\Employee;
 use App\Models\Eloquent\EmployeeSuggestion;
 use App\Services\ServiceResponse;
 
@@ -18,6 +19,44 @@ class EmployeeSuggestionService implements IEmployeeSuggestionService
             'All employee suggestions',
             200,
             EmployeeSuggestion::all()
+        );
+    }
+
+    /**
+     * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     *
+     * @return ServiceResponse
+     */
+    public function getByCompanyIds(
+        array   $companyIds,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword = null
+    ): ServiceResponse
+    {
+        $employeeIds = Employee::whereIn('company_id', $companyIds)->pluck('id')->toArray();
+        $employeeSuggestions = EmployeeSuggestion::with([
+            'employee'
+        ])->whereIn('employee_id', $employeeIds);
+        if ($keyword) {
+            $employeeSuggestions = $employeeSuggestions->where('subject', 'like', '%' . $keyword . '%');
+        }
+
+        return new ServiceResponse(
+            true,
+            'Employee suggestions',
+            200,
+            [
+                'totalCount' => $employeeSuggestions->count(),
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'employeeSuggestions' => $employeeSuggestions->skip($pageSize * $pageIndex)
+                    ->take($pageSize)
+                    ->get()
+            ]
         );
     }
 

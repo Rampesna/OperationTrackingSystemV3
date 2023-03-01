@@ -91,6 +91,7 @@
     }
 
     function setEmployees(employees) {
+        console.log(employees)
         var totalEmployeeCount = 0;
         var activeEmployeeCount = 0;
         var requirementBreakEmployee = 0;
@@ -104,30 +105,39 @@
             totalEmployeeCount++;
 
             var bgColor = 'darkgreen';
+            var statusName = '';
 
-            if (parseInt(employee.durumKodu) === 1) {
+            if (parseInt(employee.durumAdi) === 1) {
                 bgColor = 'darkgreen';
+                statusName = 'Çalışıyor';
                 activeEmployeeCount++;
-            } else if (parseInt(employee.durumKodu) === 2) {
+            } else if (parseInt(employee.durumAdi) === 2) {
                 bgColor = 'dodgerblue';
+                statusName = 'Molada';
                 requirementBreakEmployee++;
-            } else if (parseInt(employee.durumKodu) === 3) {
+            } else if (parseInt(employee.durumAdi) === 3) {
                 bgColor = 'rebeccapurple';
+                statusName = 'Molada';
                 lunchBreakEmployeeCount++;
-            } else if (parseInt(employee.durumKodu) === 4) {
+            } else if (parseInt(employee.durumAdi) === 4) {
                 bgColor = 'orangered';
+                statusName = 'Molada';
                 assignmentBreakEmployeeCount++;
-            } else if (parseInt(employee.durumKodu) === 5) {
+            } else if (parseInt(employee.durumAdi) === 5) {
                 bgColor = 'orangered';
+                statusName = 'Molada';
                 assignmentBreakEmployeeCount++;
-            } else if (parseInt(employee.durumKodu) === 6) {
+            } else if (parseInt(employee.durumAdi) === 6) {
                 bgColor = 'gray';
+                statusName = 'İş Sonu';
                 endOfWorkEmployeeCount++;
-            } else if (parseInt(employee.durumKodu) === 7) {
+            } else if (parseInt(employee.durumAdi) === 7) {
                 bgColor = 'orangered';
+                statusName = 'Molada';
                 assignmentBreakEmployeeCount++;
-            } else if (parseInt(employee.durumKodu) === 8) {
+            } else if (parseInt(employee.durumAdi) === 8) {
                 bgColor = 'orangered';
+                statusName = 'Molada';
                 assignmentBreakEmployeeCount++;
             } else {
                 bgColor = 'red';
@@ -143,7 +153,7 @@
                 <div class="d-flex align-items-center rounded p-5 mb-7" style="background-color: ${bgColor}">
                     <div class="flex-grow-1 me-2">
                         <span class="text-white fw-bolder fs-3">${employeeName}</span>
-                        <span class="text-white fw-bold d-block">${employee.durumAdi}</span>
+                        <span class="text-white fw-bold d-block">${statusName} (${employee.gorev})</span>
                     </div>
                     <span class="fw-bolder text-white py-1">${employee.molaSuresi ?? '--'}</span>
                 </div>

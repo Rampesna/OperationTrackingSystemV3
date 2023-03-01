@@ -22,6 +22,21 @@ interface IEmployeeSuggestionService extends IEloquentService
     ): ServiceResponse;
 
     /**
+     * @param array $companyIds
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @param string|null $keyword
+     *
+     * @return ServiceResponse
+     */
+    public function getByCompanyIds(
+        array   $companyIds,
+        int     $pageIndex,
+        int     $pageSize,
+        ?string $keyword = null
+    ): ServiceResponse;
+
+    /**
      * @param int $pageIndex
      * @param int $pageSize
      * @param string|null $keyword

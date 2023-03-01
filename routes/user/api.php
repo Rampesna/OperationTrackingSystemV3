@@ -578,6 +578,7 @@ Route::middleware([
 
     Route::prefix('employeeSuggestion')->group(function () {
         Route::get('index', [\App\Http\Controllers\Api\User\EmployeeSuggestionController::class, 'index'])->name('user.api.employeeSuggestion.index');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\EmployeeSuggestionController::class, 'getByCompanyIds'])->name('user.api.employeeSuggestion.getByCompanyIds');
         Route::get('getById', [\App\Http\Controllers\Api\User\EmployeeSuggestionController::class, 'getById'])->name('user.api.employeeSuggestion.getById');
     });
 
@@ -717,6 +718,16 @@ Route::middleware([
         Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'getByEmployeeId'])->name('user.api.earthquakeInformation.getByEmployeeId');
         Route::post('create', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'create'])->name('user.api.earthquakeInformation.create');
         Route::put('update', [\App\Http\Controllers\Api\User\EarthquakeInformationController::class, 'update'])->name('user.api.earthquakeInformation.update');
+    });
+
+    Route::prefix('specialInformation')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\SpecialInformationController::class, 'getAll'])->name('user.api.specialInformation.getAll');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\SpecialInformationController::class, 'getByCompanyIds'])->name('user.api.specialInformation.getByCompanyIds');
+        Route::get('getUnregisteredByCompanyIds', [\App\Http\Controllers\Api\User\SpecialInformationController::class, 'getUnregisteredByCompanyIds'])->name('user.api.specialInformation.getUnregisteredByCompanyIds');
+        Route::get('checkIfExists', [\App\Http\Controllers\Api\User\SpecialInformationController::class, 'checkIfExists'])->name('user.api.specialInformation.checkIfExists');
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\SpecialInformationController::class, 'getByEmployeeId'])->name('user.api.specialInformation.getByEmployeeId');
+        Route::post('create', [\App\Http\Controllers\Api\User\SpecialInformationController::class, 'create'])->name('user.api.specialInformation.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\SpecialInformationController::class, 'update'])->name('user.api.specialInformation.update');
     });
 
     Route::prefix('prCard')->group(function () {
