@@ -35,6 +35,8 @@
 
     /////////////////////////////////////////////////////////////////////////////////
 
+    var DownloadExcelEmployeeReportButton = $('#DownloadExcelEmployeeReportButton');
+
     var UpdateEmployeeButton = $('#UpdateEmployeeButton');
 
     var UpdateEmployeeQueuesRow = $('#UpdateEmployeeQueuesRow');
@@ -249,6 +251,10 @@
                 $('#loader').hide();
             }
         });
+    }
+
+    function skillInventory(id) {
+        window.open(`{{ route('user.web.employee.skillInventory') }}/${id}`, '_blank');
     }
 
     function updateEmployeeQueues(employeeId, employeeName) {
@@ -573,6 +579,10 @@
                                          </div>
                                          <hr>
                                          ` : ``}
+                                         <div class="menu-item px-3">
+                                             <a onclick="skillInventory(${employee.id})" class="menu-link px-3">Beveri Envanteri</a>
+                                         </div>
+                                         <hr>
                                          ${updateEmployeeQueuesPermission === 'true' ? `
                                          <div class="menu-item px-3">
                                              <a onclick="updateEmployeeQueues(${employee.id}, '${employee.name}')" class="menu-link px-3">Çağrı Kuyrukları</a>
@@ -2094,6 +2104,10 @@
                 }
             });
         }
+    });
+
+    DownloadExcelEmployeeReportButton.click(function () {
+        employeesGridDiv.jqxGrid('exportdata', 'xlsx', `Personel Raporu`);
     });
 
 </script>

@@ -730,6 +730,16 @@ Route::middleware([
         Route::put('update', [\App\Http\Controllers\Api\User\SpecialInformationController::class, 'update'])->name('user.api.specialInformation.update');
     });
 
+    Route::prefix('employeeSkillInventory')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\EmployeeSkillInventoryController::class, 'getAll'])->name('user.api.employeeSkillInventory.getAll');
+        Route::get('getByCompanyIds', [\App\Http\Controllers\Api\User\EmployeeSkillInventoryController::class, 'getByCompanyIds'])->name('user.api.employeeSkillInventory.getByCompanyIds');
+        Route::get('getUnregisteredByCompanyIds', [\App\Http\Controllers\Api\User\EmployeeSkillInventoryController::class, 'getUnregisteredByCompanyIds'])->name('user.api.employeeSkillInventory.getUnregisteredByCompanyIds');
+        Route::get('checkIfExists', [\App\Http\Controllers\Api\User\EmployeeSkillInventoryController::class, 'checkIfExists'])->name('user.api.employeeSkillInventory.checkIfExists');
+        Route::get('getByEmployeeId', [\App\Http\Controllers\Api\User\EmployeeSkillInventoryController::class, 'getByEmployeeId'])->name('user.api.employeeSkillInventory.getByEmployeeId');
+        Route::post('create', [\App\Http\Controllers\Api\User\EmployeeSkillInventoryController::class, 'create'])->name('user.api.employeeSkillInventory.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\EmployeeSkillInventoryController::class, 'update'])->name('user.api.employeeSkillInventory.update');
+    });
+
     Route::prefix('prCard')->group(function () {
         Route::get('getByJobDepartmentId', [\App\Http\Controllers\Api\User\PrCardController::class, 'getByJobDepartmentId'])->name('user.api.prCard.getByJobDepartmentId');
         Route::post('create', [\App\Http\Controllers\Api\User\PrCardController::class, 'create'])->name('user.api.prCard.create');

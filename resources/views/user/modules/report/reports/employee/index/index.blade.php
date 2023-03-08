@@ -96,6 +96,22 @@
             </div>
         </a>
         @endif
+        <a href="{{ route('user.web.report.employee.employeeSkillInventory.index') }}" class="col-xl-2 col-6 cursor-pointer mb-5">
+            <div class="card h-lg-100">
+                <div class="card-body d-flex justify-content-between align-items-center flex-column">
+                    <div class="m-0">
+                    <span class="svg-icon svg-icon-2hx svg-icon-gray-600">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.0079 2.6L15.7079 7.2L21.0079 8.4C21.9079 8.6 22.3079 9.7 21.7079 10.4L18.1079 14.4L18.6079 19.8C18.7079 20.7 17.7079 21.4 16.9079 21L12.0079 18.8L7.10785 21C6.20785 21.4 5.30786 20.7 5.40786 19.8L5.90786 14.4L2.30785 10.4C1.70785 9.7 2.00786 8.6 3.00786 8.4L8.30785 7.2L11.0079 2.6C11.3079 1.8 12.5079 1.8 13.0079 2.6Z" fill="currentColor"/>
+                        </svg>
+                    </span>
+                    </div>
+                    <div class="d-flex flex-column mt-7">
+                        <span class="fw-bold fs-5 text-gray-800 lh-1 ls-n2">Beceri Envanteri Raporu</span>
+                    </div>
+                </div>
+            </div>
+        </a>
 
     </div>
 

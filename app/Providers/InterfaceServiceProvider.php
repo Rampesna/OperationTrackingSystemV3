@@ -26,6 +26,7 @@ use App\Interfaces\Eloquent\IEarthquakeInformationService;
 use App\Interfaces\Eloquent\IEmployeePersonalInformationService;
 use App\Interfaces\Eloquent\IEmployeeQualityAssessmentService;
 use App\Interfaces\Eloquent\IEmployeeService;
+use App\Interfaces\Eloquent\IEmployeeSkillInventoryService;
 use App\Interfaces\Eloquent\IEmployeeSuggestionService;
 use App\Interfaces\Eloquent\IEvaluationParameterService;
 use App\Interfaces\Eloquent\IFileQueesService;
@@ -135,6 +136,7 @@ use App\Services\Eloquent\EarthquakeInformationService;
 use App\Services\Eloquent\EmployeePersonalInformationService;
 use App\Services\Eloquent\EmployeeQualityAssessmentService;
 use App\Services\Eloquent\EmployeeService;
+use App\Services\Eloquent\EmployeeSkillInventoryService;
 use App\Services\Eloquent\EmployeeSuggestionService;
 use App\Services\Eloquent\EvaluationParameterService;
 use App\Services\Eloquent\FileQueesService;
@@ -323,6 +325,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(ITargetStatusService::class, TargetStatusService::class);
         $this->app->bind(IEarthquakeInformationService::class, EarthquakeInformationService::class);
         $this->app->bind(ISpecialInformationService::class, SpecialInformationService::class);
+        $this->app->bind(IEmployeeSkillInventoryService::class, EmployeeSkillInventoryService::class);
 
 
         // OperationApiServices

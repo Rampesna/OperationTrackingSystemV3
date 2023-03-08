@@ -18,4 +18,11 @@ class EmployeeController extends Controller
             'employeeId' => $request->id,
         ]);
     }
+
+    public function skillInventory(Request $request)
+    {
+        return view('user.modules.employee.skillInventory.index.index', [
+            'employeeId' => $request->id,
+        ]);
+    }
 }

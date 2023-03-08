@@ -19,6 +19,8 @@
                 </div>
                 <hr class="text-muted">
                 <div id="employeesGrid"></div>
+                <hr class="text-muted">
+                <button type="button" class="btn btn-primary" id="DownloadExcelEmployeeReportButton">Excel İndir</button>
             </div>
         </div>
     </div>

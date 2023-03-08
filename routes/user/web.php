@@ -26,6 +26,7 @@ Route::middleware([
     Route::prefix('employee')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\EmployeeController::class, 'index'])->name('user.web.employee.index')->middleware('CheckUserPermission:1');
         Route::get('specialInformation/{id?}', [\App\Http\Controllers\Web\User\EmployeeController::class, 'specialInformation'])->name('user.web.employee.specialInformation')->middleware('CheckUserPermission:1');
+        Route::get('skillInventory/{id?}', [\App\Http\Controllers\Web\User\EmployeeController::class, 'skillInventory'])->name('user.web.employee.skillInventory')->middleware('CheckUserPermission:1');
     });
 
     Route::prefix('report')->middleware([
@@ -70,6 +71,10 @@ Route::middleware([
 
             Route::prefix('jobDepartment')->middleware(['CheckUserPermission:36'])->group(function () {
                 Route::get('index', [\App\Http\Controllers\Web\User\Reports\EmployeeReports\JobDepartmentReportController::class, 'index'])->name('user.web.report.employee.jobDepartment.index');
+            });
+
+            Route::prefix('employeeSkillInventory')->middleware(['CheckUserPermission:36'])->group(function () {
+                Route::get('index', [\App\Http\Controllers\Web\User\Reports\EmployeeReports\EmployeeSkillInventoryController::class, 'index'])->name('user.web.report.employee.employeeSkillInventory.index');
             });
 
             Route::prefix('overtimeStartEnd')->middleware(['CheckUserPermission:204'])->group(function () {
