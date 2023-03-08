@@ -580,7 +580,7 @@
                                          <hr>
                                          ` : ``}
                                          <div class="menu-item px-3">
-                                             <a onclick="skillInventory(${employee.id})" class="menu-link px-3">Beveri Envanteri</a>
+                                             <a onclick="skillInventory(${employee.id})" class="menu-link px-3">Beceri Envanteri</a>
                                          </div>
                                          <hr>
                                          ${updateEmployeeQueuesPermission === 'true' ? `
