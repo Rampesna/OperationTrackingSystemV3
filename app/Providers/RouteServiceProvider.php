@@ -29,46 +29,32 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware([
-                'web',
-                'ssl'
-            ])->group(base_path('routes/web.php'));
+            Route::middleware('web')
+                ->group(base_path('routes/web.php'));
 
             Route::prefix('api/user')
-                ->middleware([
-                    'api',
-                    'ssl'
-                ])->group(base_path('routes/user/api.php'));
+                ->middleware('api')
+                ->group(base_path('routes/user/api.php'));
 
             Route::prefix('user')
-                ->middleware([
-                    'web',
-                    'ssl'
-                ])->group(base_path('routes/user/web.php'));
+                ->middleware('web')
+                ->group(base_path('routes/user/web.php'));
 
             Route::prefix('api/employee')
-                ->middleware([
-                    'api',
-                    'ssl'
-                ])->group(base_path('routes/employee/api.php'));
+                ->middleware('api')
+                ->group(base_path('routes/employee/api.php'));
 
             Route::prefix('employee')
-                ->middleware([
-                    'web',
-                    'ssl'
-                ])->group(base_path('routes/employee/web.php'));
+                ->middleware('web')
+                ->group(base_path('routes/employee/web.php'));
 
             Route::prefix('api/market')
-                ->middleware([
-                    'api',
-                    'ssl'
-                ])->group(base_path('routes/market/api.php'));
+                ->middleware('api')
+                ->group(base_path('routes/market/api.php'));
 
             Route::prefix('market')
-                ->middleware([
-                    'web',
-                    'ssl'
-                ])->group(base_path('routes/market/web.php'));
+                ->middleware('web')
+                ->group(base_path('routes/market/web.php'));
         });
     }
 
