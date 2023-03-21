@@ -311,7 +311,9 @@ class OperationController extends Controller
                 $request->callScanCode,
                 $request->santralCode,
                 $request->tasks ?? [],
-                $request->workTasks ?? []
+                $request->workTasks ?? [],
+                $request->uyumSatisApiCrmUserName,
+                $request->uyumSatisApiCrmUserPassword
             );
             if ($setEmployeeResponse->isSuccess()) {
                 return $this->success(

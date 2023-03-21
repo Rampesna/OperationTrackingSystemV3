@@ -43,6 +43,8 @@ class SetEmployeeRequest extends BaseApiRequest
 //            'teamLeadAssistant' => 'required',
             'callScanCode' => 'required',
             'santralCode' => 'required',
+//            'uyumSatisApiCrmUserName' => 'required',
+//            'uyumSatisApiCrmUserPassword' => 'required',
         ];
     }
 }

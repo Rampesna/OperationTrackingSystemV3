@@ -596,7 +596,9 @@ class OperationService extends OperationApiService implements IOperationService
         ?string $callScanCode,
         string  $santralCode,
         array   $taskList = [],
-        array   $workTaskList = []
+        array   $workTaskList = [],
+        int|null $uyumSatisApiCrmUserName,
+        int|null $uyumSatisApiCrmUserPassword
     ): ServiceResponse
     {
         $endpoint = "Operation/SetEmployee";
@@ -633,7 +635,9 @@ class OperationService extends OperationApiService implements IOperationService
             'kullaniciMail' => $email,
             'dahili' => $santralCode,
             'taskList' => $taskList,
-            'workTaskList' => $workTaskList
+            'workTaskList' => $workTaskList,
+            'uyumSatisApiCrmUserName' => $uyumSatisApiCrmUserName,
+            'uyumSatisApiCrmUserPassword' => $uyumSatisApiCrmUserPassword
         ];
 
         return new ServiceResponse(

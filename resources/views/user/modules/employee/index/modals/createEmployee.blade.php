@@ -140,6 +140,23 @@
                                         </div>
                                     </div>
                                     <hr class="text-muted">
+                                    <div class="col-xl-6 mb-5">
+                                        <div class="form-group">
+                                            <label for="create_employee_uyum_satis_api_crm_username" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                                <span class="required">Satış CRM Api Kullanıcı Adı</span>
+                                            </label>
+                                            <input id="create_employee_uyum_satis_api_crm_username" type="text" class="form-control form-control-solid" placeholder="Satış CRM Api Kullanıcı Adı" aria-hidden="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 mb-5">
+                                        <div class="form-group">
+                                            <label for="create_employee_uyum_satis_api_crm_user_password" class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                                <span class="required">Satış CRM Api Şifresi</span>
+                                            </label>
+                                            <input id="create_employee_uyum_satis_api_crm_user_password" type="text" class="form-control form-control-solid" placeholder="Satış CRM Api Şifresi" aria-hidden="true">
+                                        </div>
+                                    </div>
+                                    <hr class="text-muted">
                                     <div class="col-xl-4 mb-5">
                                         <div class="form-group">
                                             <label for="create_employee_team_code" class="d-flex align-items-center fs-6 fw-bold mb-2">

@@ -270,7 +270,9 @@ interface IOperationService
         ?string $callScanCode,
         string  $santralCode,
         array   $taskList = [],
-        array   $workTaskList = []
+        array   $workTaskList = [],
+        int|null $uyumSatisApiCrmUserName,
+        int|null $uyumSatisApiCrmUserPassword
     ): ServiceResponse;
 
     /**

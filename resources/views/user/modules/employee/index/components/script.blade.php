@@ -160,6 +160,8 @@
         $('#create_employee_web_crm_password').val('');
         $('#create_employee_progress_crm_username').val('');
         $('#create_employee_progress_crm_password').val('');
+        $('#create_employee_uyum_satis_api_crm_username').val('');
+        $('#create_employee_uyum_satis_api_crm_user_password').val('');
         $('.createEmployeeTaskCheckbox').prop('checked', false);
         $('.createEmployeeWorkTaskCheckbox').prop('checked', false);
         $('.createEmployeeGroupTaskCheckbox').prop('checked', false);
@@ -222,7 +224,7 @@
                         guid: response.response.guid,
                     },
                     success: function (response) {
-                        console.log(response);
+                        // console.log(response);
                         $('#update_employee_guid').val(response.response[0].id);
                         $('#update_employee_ots_status').val(response.response[0].rol).trigger('change');
                         $('#update_employee_web_crm_user_id').val(response.response[0].uyumCrmUserId);
@@ -235,6 +237,8 @@
                         $('#update_employee_team_code').val(response.response[0].takimKodu);
                         $('#update_employee_group_code').val(response.response[0].grupKodu);
                         $('#update_employee_call_scan_code').val(response.response[0].cagriTaramaKodu);
+                        $('#update_employee_uyum_satis_api_crm_username').val(response.response[0].uyumCrmApiUserName);
+                        $('#update_employee_uyum_satis_api_crm_user_password').val(response.response[0].uyumCrmApiUserPassword);
                         $('#UpdateEmployeeModal').modal('show');
                         $('#loader').hide();
                     },
@@ -1307,6 +1311,8 @@
         var teamCode = $('#update_employee_team_code').val();
         var groupCode = $('#update_employee_group_code').val();
         var callScanCode = $('#update_employee_call_scan_code').val();
+        var uyumSatisApiCrmUserName = $('#update_employee_uyum_satis_api_crm_username').val();
+        var uyumSatisApiCrmUserPassword = $('#update_employee_uyum_satis_api_crm_user_password').val();
 
         if (!id || !guid || !companyId) {
             toastr.warning('Personel Seçiminde Bir Sorun Var. Ekranı Yenileyip Tekrar Deneyin.');
@@ -1377,6 +1383,8 @@
                                     teamCode: teamCode,
                                     groupCode: groupCode,
                                     callScanCode: callScanCode,
+                                    uyumSatisApiCrmUserName: uyumSatisApiCrmUserName,
+                                    uyumSatisApiCrmUserPassword: uyumSatisApiCrmUserPassword
                                 },
                                 success: function () {
                                     $.ajax({
@@ -1850,6 +1858,8 @@
         var teamCode = $('#create_employee_team_code').val();
         var groupCode = $('#create_employee_group_code').val();
         var callScanCode = $('#create_employee_call_scan_code').val();
+        var uyumSatisApiCrmUserName = $('#create_employee_uyum_satis_api_crm_username').val();
+        var uyumSatisApiCrmUserPassword = $('#create_employee_uyum_satis_api_crm_user_password').val();
 
         var tasks = [];
         var createEmployeeTaskCheckboxes = $('.createEmployeeTaskCheckbox:checked');
@@ -1976,6 +1986,8 @@
                                 santralCode: santralCode,
                                 tasks: tasks,
                                 workTasks: workTasks,
+                                uyumSatisApiCrmUserName: uyumSatisApiCrmUserName,
+                                uyumSatisApiCrmUserPassword: uyumSatisApiCrmUserPassword,
                             },
                             success: function (response) {
                                 $.ajax({
