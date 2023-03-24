@@ -282,6 +282,10 @@ class OperationController extends Controller
             $username = $request->username;
             $checkUsername = Employee::where('email', 'like', "{$request->username}@%")->first();
 
+            if ($checkUsername) {
+                return $this->error('Bu kullanıcı adı zaten kullanımda. Lütfen farklı bir kullanıcı adı giriniz.', 400);
+            }
+
             $setEmployeeResponse = $this->operationService->SetEmployee(
                 $request->id,
                 $request->companyId,

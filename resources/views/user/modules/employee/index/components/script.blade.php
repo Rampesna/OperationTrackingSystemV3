@@ -2036,13 +2036,13 @@
                                                     },
                                                     error: function (error) {
                                                         console.log(error);
-                                                        toastr.error('Personele Ait İlk Vardiyalar Oluşturulurken Serviste Bir Sorun Oluştu!');
+                                                        toastr.error(error.responseJSON.message);
                                                     }
                                                 });
                                             },
                                             error: function (error) {
                                                 console.log(error);
-                                                toastr.error('Cumartesi İzin Servisi Hatalı Çalıştı ve Personele Ait İlk Vardiyalar Oluşturulamadı!');
+                                                toastr.error(error.responseJSON.message);
                                             }
                                         });
                                         $.ajax({
@@ -2058,7 +2058,7 @@
                                             },
                                             error: function (error) {
                                                 console.log(error);
-                                                toastr.error('Personel Grup Görevleri Atamaları Yapılırken Serviste Bir Sorun Oluştu! Lütfen Yazılım Ekibiyle iletişime geçin.');
+                                                toastr.error(error.responseJSON.message);
                                             }
                                         });
                                         $.ajax({
@@ -2080,7 +2080,7 @@
                                             error: function (error) {
                                                 console.log(error);
                                                 $('#loader').hide();
-                                                toastr.error('Personel Vardiya Grubu Atalamarı Yapılırken Serviste Hata Oluştu.');
+                                                toastr.error(error.responseJSON.message);
                                             }
                                         });
                                     },
@@ -2097,14 +2097,14 @@
                                                 }
                                             });
                                         } else {
-                                            toastr.error('Personel Oluşturulurken Serviste Bir Sorun Oluştu. Lütfen Geliştirici Ekibiyle İletişime Geçin.');
+                                            toastr.error(error.responseJSON.message);
                                         }
                                     }
                                 });
                             },
                             error: function (error) {
                                 console.log(error);
-                                toastr.error('Personel OTS Sisteminde Oluşturulurken Serviste Bir Sorun Oluştu! Lütfen Yazılım Ekibi ile iletişime geçin.');
+                                toastr.error(error.responseJSON.message);
                                 $('#loader').hide();
                             }
                         });
@@ -2112,7 +2112,7 @@
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('E-posta Kontrolü Yapılırken Serviste Bir Hata Oluştu. Lütfen Geliştirici Ekibi İle İletişime Geçin.');
+                    toastr.error(error.responseJSON.message);
                 }
             });
         }

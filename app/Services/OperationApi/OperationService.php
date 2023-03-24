@@ -564,6 +564,8 @@ class OperationService extends OperationApiService implements IOperationService
      * @param string $santralCode
      * @param array $taskList {}
      * @param array $workTaskList {}
+     * @param string|null $uyumSatisApiCrmUserName
+     * @param string|null $uyumSatisApiCrmUserPassword
      *
      * @return ServiceResponse
      */
@@ -597,8 +599,8 @@ class OperationService extends OperationApiService implements IOperationService
         string  $santralCode,
         array   $taskList = [],
         array   $workTaskList = [],
-        int|null $uyumSatisApiCrmUserName,
-        int|null $uyumSatisApiCrmUserPassword
+        string|null $uyumSatisApiCrmUserName,
+        string|null $uyumSatisApiCrmUserPassword
     ): ServiceResponse
     {
         $endpoint = "Operation/SetEmployee";
