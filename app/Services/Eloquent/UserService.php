@@ -189,7 +189,7 @@ class UserService implements IUserService
         ?int   $exceptId = null
     ): ServiceResponse
     {
-        $user = User::where('email', $email);
+        $user = User::withTrashed()->where('email', $email);
 
         if ($exceptId) {
             $user->where('id', '!=', $exceptId);
