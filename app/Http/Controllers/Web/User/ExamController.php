@@ -22,4 +22,15 @@ class ExamController extends Controller
             ]);
         }
     }
+
+    public function question(Request $request)
+    {
+        if (!$request->examId) {
+            abort(404);
+        } else {
+            return view('user.modules.exam.question.index', [
+                'examId' => $request->examId
+            ]);
+        }
+    }
 }

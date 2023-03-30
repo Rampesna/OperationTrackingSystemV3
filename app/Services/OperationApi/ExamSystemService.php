@@ -74,7 +74,7 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             true,
             'Get questions list',
             200,
-            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'get', $headers, $parameters)['response']
         );
     }
 
@@ -186,18 +186,98 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
     }
 
     /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
+    public function GetExamEdit(
+        int $examId
+    ): ServiceResponse
+    {
+        $endpoint = "ExamSystem/GetExamEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'ExamId' => $examId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get exam result list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
+    }
+
+    /**
+     * @param int $questionId
+     *
+     * @return ServiceResponse
+     */
+    public function GetQuestionsEdit(
+        int $questionId
+    ): ServiceResponse
+    {
+        $endpoint = "ExamSystem/GetQuestionsEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'QuestionId' => $questionId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get exam result list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
+    }
+
+    /**
+     * @param int $questionOptionId
+     *
+     * @return ServiceResponse
+     */
+    public function GetQuestionOptionsEdit(
+        int $questionOptionId
+    ): ServiceResponse
+    {
+        $endpoint = "ExamSystem/GetQuestionOptionsEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'QuestionOptionsId' => $questionOptionId
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Get exam result list',
+            200,
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+        );
+    }
+
+    /**
      * @param string $name
      * @param string $description
-     * @param string $time
+     * @param string $duration
      * @param string $date
+     * @param mixed|null $id
      *
      * @return ServiceResponse
      */
     public function SetExams(
         string $name,
         string $description,
-        string $time,
-        string $date
+        string $duration,
+        string $date,
+        mixed  $id = null
     ): ServiceResponse
     {
         $endpoint = "ExamSystem/SetExams";
@@ -206,12 +286,11 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
         ];
 
         $parameters = [
-            'body' => [
-                'sinavAdi' => $name,
-                'sinavAciklamasi' => $description,
-                'sinavSuresi' => $time,
-                'sinavTarihi' => $date
-            ]
+            'id' => $id,
+            'sinavAdi' => $name,
+            'sinavAciklamasi' => $description,
+            'sinavSuresi' => $duration,
+            'sinavTarihi' => $date
         ];
 
         return new ServiceResponse(
@@ -219,6 +298,87 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             'Set exams',
             200,
             $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+        );
+    }
+
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
+    public function SetExamDelete(
+        int $examId
+    ): ServiceResponse
+    {
+        $endpoint = "ExamSystem/SetExamDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'examId' => $examId,
+        ];
+
+        return new ServiceResponse(
+            true,
+            'Set exams delete',
+            200,
+//            $parameters
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $parameters)['response']
+        );
+    }
+
+    /**
+     * @param int $questionId
+     *
+     * @return ServiceResponse
+     */
+    public function SetQuestionsDelete(
+        int $questionId
+    ): ServiceResponse
+    {
+        $endpoint = "ExamSystem/SetQuestionsDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'questionsId' => $questionId,
+        ];
+
+        return new ServiceResponse(
+            true,
+            'SetQuestionsDelete',
+            200,
+//            $parameters
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $parameters)['response']
+        );
+    }
+
+    /**
+     * @param int $questionOptionId
+     *
+     * @return ServiceResponse
+     */
+    public function SetQuestionOptionsDelete(
+        int $questionOptionId
+    ): ServiceResponse
+    {
+        $endpoint = "ExamSystem/SetQuestionOptionsDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'questionOptionsId' => $questionOptionId,
+        ];
+
+        return new ServiceResponse(
+            true,
+            'SetQuestionsDelete',
+            200,
+//            $parameters
+            $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $parameters)['response']
         );
     }
 
@@ -260,20 +420,22 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
     }
 
     /**
+     * @param int|null $id
      * @param int $examId
      * @param string $question
      * @param int $questionType
      * @param int $order
-     * @param string $image
+     * @param string|null $image
      *
      * @return ServiceResponse
      */
     public function SetQuestions(
-        int    $examId,
-        string $question,
-        int    $questionType,
-        int    $order,
-        string $image
+        int|null    $id,
+        int         $examId,
+        string      $question,
+        int         $questionType,
+        int         $order,
+        string|null $image = null
     ): ServiceResponse
     {
         $endpoint = "ExamSystem/SetQuestions";
@@ -282,24 +444,25 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
         ];
 
         $parameters = [
-            'body' => [
-                'sinavId' => $examId,
-                'soru' => $question,
-                'soruTuru' => $questionType,
-                'siraNo' => $order,
-                'resim' => $image
-            ]
+            'id' => $id,
+            'sinavId' => $examId,
+            'soru' => $question,
+            'soruTuru' => $questionType,
+            'siraNo' => $order,
+            'resim' => $image
         ];
 
         return new ServiceResponse(
             true,
             'Set questions',
             200,
+//            $parameters
             $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
         );
     }
 
     /**
+     * @param mixed $id
      * @param int $questionId
      * @param string $answer
      * @param int $orderNumber
@@ -307,29 +470,30 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
      * @return ServiceResponse
      */
     public function SetQuestionOptions(
+        mixed  $id,
         int    $questionId,
         string $answer,
-        int    $orderNumber
+        int    $order
     ): ServiceResponse
     {
-        $endpoint = "ExamSystem/SetQuestions";
+        $endpoint = "ExamSystem/SetQuestionOptions";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
         $parameters = [
-            'body' => [
-                'soruId' => $questionId,
-                'cevap' => $answer,
-                'siraNo' => $orderNumber
-            ]
+            'id' => $id,
+            'soruId' => $questionId,
+            'cevap' => $answer,
+            'siraNo' => $order
         ];
 
         return new ServiceResponse(
             true,
             'Set question options',
             200,
-            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+//            $parameters
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)->body()
         );
     }
 

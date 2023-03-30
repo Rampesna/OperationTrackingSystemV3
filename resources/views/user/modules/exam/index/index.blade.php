@@ -16,6 +16,10 @@
 @section('content')
 
     @include('user.modules.exam.index.modals.transactions')
+    @include('user.modules.exam.index.modals.result')
+    @include('user.modules.exam.index.modals.createExam')
+    @include('user.modules.exam.index.modals.updateExam')
+    @include('user.modules.exam.index.modals.deleteExam')
 
     <input type="hidden" id="selected_exam_id">
     <div class="row">

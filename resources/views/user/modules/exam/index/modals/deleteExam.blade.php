@@ -1,5 +1,5 @@
-<div class="modal fade show" id="ReadingModal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
-    <div class="modal-dialog modal-fullscreen">
+<div class="modal fade show" id="DeleteExamModal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered mw-900px">
         <div class="modal-content rounded">
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -14,29 +14,14 @@
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <div class="form fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="mb-13 text-center">
-                        <h1 class="mb-3">Sınav Değerlendir</h1>
+                        <h1 class="mb-3">Sınav Sil</h1>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-                        <table class="table table-responsive" id="examResultReadingReplyListRow">
-                            <thead>
-                            <tr>
-                                <th class="fw-bolder">Soru</th>
-                                <th class="fw-bolder">Cevap</th>
-                                <th class="fw-bolder">Sonuç</th>
-                            </tr>
-                            </thead>
-                            <tbody id="examResultReadingReplyListTableBody">
-                            <tr>
-                                <td>Soru Test İçeriği...</td>
-                                <td>Cevap Test İçeriği...</td>
-                                <td>Doğru/Yanlış</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <p class="text-center">Bu Sınavı Silmek İstediğinize Emin Misiniz?</p>
                     </div>
                     <div class="text-center">
                         <button type="button" data-bs-dismiss="modal" class="btn btn-light me-3">Kapat</button>
-                        <button type="button" class="btn btn-success" id="ReadingButton">Kaydet</button>
+                        <button type="button" class="btn btn-danger me-3" id="DeleteExamButton">Sil</button>
                     </div>
                 </div>
             </div>

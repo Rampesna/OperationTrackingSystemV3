@@ -337,6 +337,7 @@ Route::middleware([
     ])->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\User\ExamController::class, 'index'])->name('user.web.exam.index');
         Route::get('employee/{examId?}', [\App\Http\Controllers\Web\User\ExamController::class, 'employee'])->name('user.web.exam.employee');
+        Route::get('question/{examId?}', [\App\Http\Controllers\Web\User\ExamController::class, 'question'])->name('user.web.exam.question');
     });
 
     Route::prefix('settings')->middleware([

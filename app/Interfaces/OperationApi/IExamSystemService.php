@@ -69,18 +69,74 @@ interface IExamSystemService
     ): ServiceResponse;
 
     /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
+    public function GetExamEdit(
+        int $examId
+    ): ServiceResponse;
+
+    /**
+     * @param int $questionId
+     *
+     * @return ServiceResponse
+     */
+    public function GetQuestionsEdit(
+        int $questionId
+    ): ServiceResponse;
+
+    /**
+     * @param int $questionOptionId
+     *
+     * @return ServiceResponse
+     */
+    public function GetQuestionOptionsEdit(
+        int $questionOptionId
+    ): ServiceResponse;
+
+    /**
      * @param string $name
      * @param string $description
-     * @param string $time
+     * @param string $duration
      * @param string $date
+     * @param mixed|null $id
      *
      * @return ServiceResponse
      */
     public function SetExams(
         string $name,
         string $description,
-        string $time,
-        string $date
+        string $duration,
+        string $date,
+        mixed  $id = null
+    ): ServiceResponse;
+
+    /**
+     * @param int $examId
+     *
+     * @return ServiceResponse
+     */
+    public function SetExamDelete(
+        int $examId
+    ): ServiceResponse;
+
+    /**
+     * @param int $questionId
+     *
+     * @return ServiceResponse
+     */
+    public function SetQuestionsDelete(
+        int $questionId
+    ): ServiceResponse;
+
+    /**
+     * @param int $questionOptionId
+     *
+     * @return ServiceResponse
+     */
+    public function SetQuestionOptionsDelete(
+        int $questionOptionId
     ): ServiceResponse;
 
     /**
@@ -99,33 +155,37 @@ interface IExamSystemService
     ): ServiceResponse;
 
     /**
+     * @param int|null $id
      * @param int $examId
      * @param string $question
      * @param int $questionType
      * @param int $order
-     * @param string $image
+     * @param string|null $image
      *
      * @return ServiceResponse
      */
     public function SetQuestions(
-        int    $examId,
-        string $question,
-        int    $questionType,
-        int    $order,
-        string $image
+        int|null    $id,
+        int         $examId,
+        string      $question,
+        int         $questionType,
+        int         $order,
+        string|null $image = null
     ): ServiceResponse;
 
     /**
+     * @param mixed $id
      * @param int $questionId
      * @param string $answer
-     * @param int $orderNumber
+     * @param int $order
      *
      * @return ServiceResponse
      */
     public function SetQuestionOptions(
-        int    $questionId,
-        string $answer,
-        int    $orderNumber
+        mixed $id,
+        int        $questionId,
+        string     $answer,
+        int        $order
     ): ServiceResponse;
 
     /**

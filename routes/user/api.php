@@ -885,6 +885,19 @@ Route::middleware([
             Route::get('getExamList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getExamList'])->name('user.api.operationApi.examSystem.getExamList');
             Route::get('getExamResultReadingList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getExamResultReadingList'])->name('user.api.operationApi.examSystem.getExamResultReadingList');
             Route::get('getExamResultReadingReplyList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getExamResultReadingReplyList'])->name('user.api.operationApi.examSystem.getExamResultReadingReplyList');
+            Route::post('setExamResultReadingReply', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setExamResultReadingReply'])->name('user.api.operationApi.examSystem.setExamResultReadingReply');
+            Route::get('getExamResultList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getExamResultList'])->name('user.api.operationApi.examSystem.getExamResultList');
+            Route::get('getExamEdit', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getExamEdit'])->name('user.api.operationApi.examSystem.getExamEdit');
+            Route::get('getQuestionsEdit', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getQuestionsEdit'])->name('user.api.operationApi.examSystem.getQuestionsEdit');
+            Route::get('getQuestionOptionsEdit', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getQuestionOptionsEdit'])->name('user.api.operationApi.examSystem.getQuestionOptionsEdit');
+            Route::post('setExams', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setExams'])->name('user.api.operationApi.examSystem.setExams');
+            Route::post('setExamDelete', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setExamDelete'])->name('user.api.operationApi.examSystem.setExamDelete');
+            Route::post('setQuestionsDelete', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setQuestionsDelete'])->name('user.api.operationApi.examSystem.setQuestionsDelete');
+            Route::post('setQuestionOptionsDelete', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setQuestionOptionsDelete'])->name('user.api.operationApi.examSystem.setQuestionOptionsDelete');
+            Route::get('getQuestionsList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getQuestionsList'])->name('user.api.operationApi.examSystem.getQuestionsList');
+            Route::get('getQuestionOptionsList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getQuestionOptionsList'])->name('user.api.operationApi.examSystem.getQuestionOptionsList');
+            Route::post('setQuestions', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setQuestions'])->name('user.api.operationApi.examSystem.setQuestions');
+            Route::post('setQuestionOptions', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setQuestionOptions'])->name('user.api.operationApi.examSystem.setQuestionOptions');
         });
     });
 

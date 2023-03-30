@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <title>@yield('title'){{ config('app.name') }}</title>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.png') }}"/>
