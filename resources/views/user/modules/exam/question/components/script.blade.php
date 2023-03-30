@@ -338,7 +338,7 @@
     getExamQuestions();
 
     CreateQuestionButton.click(function () {
-        var id = null;
+        var id = '';
         var question = $('#create_question_question').val();
         var typeId = $('#create_question_type').val();
         var order = $('#create_question_order').val();

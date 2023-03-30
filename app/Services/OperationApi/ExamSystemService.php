@@ -420,7 +420,7 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
     }
 
     /**
-     * @param int|null $id
+     * @param mixed $id
      * @param int $examId
      * @param string $question
      * @param int $questionType
@@ -430,7 +430,7 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
      * @return ServiceResponse
      */
     public function SetQuestions(
-        int|null    $id,
+        mixed       $id,
         int         $examId,
         string      $question,
         int         $questionType,

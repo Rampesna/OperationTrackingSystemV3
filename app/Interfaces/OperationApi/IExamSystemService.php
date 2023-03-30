@@ -155,7 +155,7 @@ interface IExamSystemService
     ): ServiceResponse;
 
     /**
-     * @param int|null $id
+     * @param mixed $id
      * @param int $examId
      * @param string $question
      * @param int $questionType
@@ -165,7 +165,7 @@ interface IExamSystemService
      * @return ServiceResponse
      */
     public function SetQuestions(
-        int|null    $id,
+        mixed       $id,
         int         $examId,
         string      $question,
         int         $questionType,
@@ -182,10 +182,10 @@ interface IExamSystemService
      * @return ServiceResponse
      */
     public function SetQuestionOptions(
-        mixed $id,
-        int        $questionId,
-        string     $answer,
-        int        $order
+        mixed  $id,
+        int    $questionId,
+        string $answer,
+        int    $order
     ): ServiceResponse;
 
     /**

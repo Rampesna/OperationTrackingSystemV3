@@ -356,7 +356,7 @@ class ExamSystemController extends Controller
     public function setQuestions(SetQuestionsRequest $request)
     {
         $setQuestionsResponse = $this->examSystemService->SetQuestions(
-            $request->id,
+            $request->id ?? '',
             $request->examId,
             $request->question,
             $request->questionType,
