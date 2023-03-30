@@ -27,11 +27,44 @@
     var examsDiv = $('#exams');
     var examResultListRow = $('#examResultListRow');
     var selectedExamTransactionsDiv = $('#selectedExamTransactionsDiv');
+    var examEmployeeConnectionsSelection = $('#exam_employee_connections');
 
     var CreateExamButton = $('#CreateExamButton');
     var UpdateExamButton = $('#UpdateExamButton');
     var DeleteExamButton = $('#DeleteExamButton');
+    var ExamEmployeeConnectionButton = $('#ExamEmployeeConnectionButton');
     var DownloadResultExcelButton = $('#DownloadResultExcelButton');
+
+    function getEmployeesByCompanyIds() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.employee.getByCompanyIds') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                companyIds: SelectedCompanies.val(),
+                pageIndex: 0,
+                pageSize: 1000,
+                leave: 0
+            },
+            success: function (response) {
+                examEmployeeConnectionsSelection.empty();
+                $.each(response.response.employees, function (i, employee) {
+                    examEmployeeConnectionsSelection.append(`
+                        <option value="${employee.guid}">${employee.name}</option>
+                    `);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                toastr.error('Personeller Alınırken Serviste Bir Sorun Oluştu! Lütfen Geliştiri Ekibi İle İletişime Geçin!');
+            }
+        });
+    }
+
+    getEmployeesByCompanyIds();
 
     function transactions() {
         var examId = $('#selected_exam_id').val();
@@ -104,6 +137,41 @@
     function examEmployees() {
         var examId = $('#selected_exam_id').val();
         window.location.href = `{{ route('user.web.exam.employee') }}/${examId}`;
+    }
+
+    function examEmployeeConnections() {
+        var examId = $('#selected_exam_id').val();
+        $('#TransactionsModal').modal('hide');
+        $('#loader').show();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('user.api.operationApi.examSystem.getExamPersonConnectList') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                examId: examId,
+            },
+            success: function (response) {
+                $('#loader').hide();
+                examEmployeeConnectionsSelection.val(response.response.map(function (item) {
+                    return item.kullanicilarId;
+                }));
+                $('#ExamEmployeeConnectionModal').modal('show');
+            },
+            error: function (error) {
+                console.log(error);
+                $('#loader').hide();
+                if (parseInt(error.status) === 422) {
+                    $.each(error.responseJSON.response, function (i, error) {
+                        toastr.error(error[0]);
+                    });
+                } else {
+                    toastr.error(error.responseJSON.message);
+                }
+            }
+        });
     }
 
     function examResultList() {
@@ -243,7 +311,7 @@
                 examsDiv.on('rowclick', function (event) {
                     examsDiv.jqxGrid('selectrow', event.args.rowindex);
                     var rowindex = examsDiv.jqxGrid('getselectedrowindex');
-                    $('#selected_survey_row_index').val(rowindex);
+                    $('#selected_exam_row_index').val(rowindex);
                     var dataRecord = examsDiv.jqxGrid('getrowdata', rowindex);
                     $('#selected_exam_id').val(dataRecord.id);
                     return false;
@@ -387,6 +455,52 @@
                     toastr.error(error.responseJSON.message);
                 }
                 DeleteExamButton.attr('disabled', false).html('Sil');
+            }
+        });
+    });
+
+    ExamEmployeeConnectionButton.click(function () {
+        ExamEmployeeConnectionButton.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+        var list = [];
+        var examId = $('#selected_exam_id').val();
+        var employeeGuids = examEmployeeConnectionsSelection.val();
+        var examDuration = examsDiv.jqxGrid('getrowdata', $('#selected_exam_row_index').val()).sinavSuresi;
+
+        $.each(employeeGuids, function (i, employeeGuid) {
+            list.push({
+                kullaniciId: employeeGuid,
+                sinavId: examId,
+                kalanSure: examDuration,
+                durum: 1
+            });
+        });
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('user.api.operationApi.examSystem.setExamPersonConnect') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {
+                list: list,
+            },
+            success: function (response) {
+                ExamEmployeeConnectionButton.attr('disabled', false).html('Kaydet');
+                console.log(response);
+                toastr.success('Katılımcılar Güncellendi');
+                $('#ExamEmployeeConnectionModal').modal('hide');
+            },
+            error: function (error) {
+                console.log(error);
+                ExamEmployeeConnectionButton.attr('disabled', false).html('Kaydet');
+                if (parseInt(error.status) === 422) {
+                    $.each(error.responseJSON.response, function (i, error) {
+                        toastr.error(error[0]);
+                    });
+                } else {
+                    toastr.error(error.responseJSON.message);
+                }
             }
         });
     });

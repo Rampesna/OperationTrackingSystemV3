@@ -20,6 +20,8 @@ use App\Http\Requests\Api\User\OperationApi\ExamSystemController\GetQuestionsLis
 use App\Http\Requests\Api\User\OperationApi\ExamSystemController\GetQuestionOptionsListRequest;
 use App\Http\Requests\Api\User\OperationApi\ExamSystemController\SetQuestionsRequest;
 use App\Http\Requests\Api\User\OperationApi\ExamSystemController\SetQuestionOptionsRequest;
+use App\Http\Requests\Api\User\OperationApi\ExamSystemController\GetExamPersonConnectListRequest;
+use App\Http\Requests\Api\User\OperationApi\ExamSystemController\SetExamPersonConnectRequest;
 use App\Traits\Response;
 
 class ExamSystemController extends Controller
@@ -398,6 +400,50 @@ class ExamSystemController extends Controller
             return $this->error(
                 $setQuestionsResponse->getMessage(),
                 $setQuestionsResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param GetExamPersonConnectListRequest $request
+     */
+    public function getExamPersonConnectList(GetExamPersonConnectListRequest $request)
+    {
+        $response = $this->examSystemService->GetExamPersonConnectList(
+            $request->examId
+        );
+        if ($response->isSuccess()) {
+            return $this->success(
+                $response->getMessage(),
+                $response->getData(),
+                $response->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $response->getMessage(),
+                $response->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param SetExamPersonConnectRequest $request
+     */
+    public function setExamPersonConnect(SetExamPersonConnectRequest $request)
+    {
+        $response = $this->examSystemService->SetExamPersonConnect(
+            $request->list
+        );
+        if ($response->isSuccess()) {
+            return $this->success(
+                $response->getMessage(),
+                $response->getData(),
+                $response->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $response->getMessage(),
+                $response->getStatusCode()
             );
         }
     }

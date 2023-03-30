@@ -140,18 +140,17 @@ interface IExamSystemService
     ): ServiceResponse;
 
     /**
-     * @param int $userId
-     * @param int $examId
-     * @param int $remainingTime
-     * @param int $status
+     * @param array $list {
+     * @type string $kullaniciId
+     * @type string $sinavId
+     * @type string $kalanSure
+     * @type string $durum
+     * }
      *
      * @return ServiceResponse
      */
     public function SetExamPersonConnect(
-        int $userId,
-        int $examId,
-        int $remainingTime,
-        int $status
+        array $list
     ): ServiceResponse;
 
     /**

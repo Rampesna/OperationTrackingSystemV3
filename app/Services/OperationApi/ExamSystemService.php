@@ -41,14 +41,14 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
         ];
 
         $parameters = [
-            'ExamId' => $examId
+            'examId' => $examId
         ];
 
         return new ServiceResponse(
             true,
             'Get exam person connect list',
             200,
-            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response']
+            $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters)['response'] ?? []
         );
     }
 
@@ -383,18 +383,17 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
     }
 
     /**
-     * @param int $userId
-     * @param int $examId
-     * @param int $remainingTime
-     * @param int $status
+     * @param array $list {
+     * @type string $kullaniciId
+     * @type string $sinavId
+     * @type string $kalanSure
+     * @type string $durum
+     * }
      *
      * @return ServiceResponse
      */
     public function SetExamPersonConnect(
-        int $userId,
-        int $examId,
-        int $remainingTime,
-        int $status
+        array $list
     ): ServiceResponse
     {
         $endpoint = "ExamSystem/SetExamPersonConnect";
@@ -402,20 +401,11 @@ class ExamSystemService extends OperationApiService implements IExamSystemServic
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        $parameters = [
-            'body' => [
-                'kullaniciId' => $userId,
-                'sinavId' => $examId,
-                'kalanSure' => $remainingTime,
-                'durum' => $status
-            ]
-        ];
-
         return new ServiceResponse(
             true,
             'Set exam person connect',
             200,
-            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters)['response']
+            $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list)['response']
         );
     }
 

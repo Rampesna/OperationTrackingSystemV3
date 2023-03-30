@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-xl-8">
                                 <div class="form-group">
-                                    <input id="update_exam_date" type="date" class="form-control form-control-solid" placeholder="Sınav Tarihi">
+                                    <input id="update_exam_date" type="datetime-local" class="form-control form-control-solid" placeholder="Sınav Tarihi">
                                 </div>
                             </div>
                         </div>

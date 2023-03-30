@@ -898,6 +898,8 @@ Route::middleware([
             Route::get('getQuestionOptionsList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getQuestionOptionsList'])->name('user.api.operationApi.examSystem.getQuestionOptionsList');
             Route::post('setQuestions', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setQuestions'])->name('user.api.operationApi.examSystem.setQuestions');
             Route::post('setQuestionOptions', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setQuestionOptions'])->name('user.api.operationApi.examSystem.setQuestionOptions');
+            Route::get('getExamPersonConnectList', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'getExamPersonConnectList'])->name('user.api.operationApi.examSystem.getExamPersonConnectList');
+            Route::post('setExamPersonConnect', [\App\Http\Controllers\Api\User\OperationApi\ExamSystemController::class, 'setExamPersonConnect'])->name('user.api.operationApi.examSystem.setExamPersonConnect');
         });
     });
 
