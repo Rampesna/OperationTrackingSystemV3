@@ -19,6 +19,10 @@
     var UpdateUserRoleButton = $('#UpdateUserRoleButton');
     var DeleteUserRoleButton = $('#DeleteUserRoleButton');
 
+    function onlyUnique(value, index, array) {
+        return array.indexOf(value) === index;
+    }
+
     function setUserPermissionsTree(userPermissions, selectedNodeUserPermissions) {
         var list = [];
         $.each(userPermissions, function (i, userPermission) {
@@ -118,12 +122,14 @@
                     var selectedNodes = jsTreeSelector.jstree(true).get_selected('full',true);
                     $.each(selectedNodes, function (i, selectedNode) {
                         nodes.push(parseInt(selectedNode.id));
-                        if (selectedNode.parent !== '#') {
-                            if ($.inArray(parseInt(selectedNode.parent), nodes) === -1) {
-                                nodes.push(parseInt(selectedNode.parent));
-                            }
+                        if (selectedNode.parent != '#') {
+                            nodes.push(parseInt(selectedNode.parent));
+                            // if ($.inArray(parseInt(selectedNode.parent), nodes) == -1) {
+                            //     nodes.push(parseInt(selectedNode.parent));
+                            // }
                         }
                     });
+                    nodes = nodes.filter(onlyUnique);
                     setUserRoleUserPermissions(nodes);
                 });
 
