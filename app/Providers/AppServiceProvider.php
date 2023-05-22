@@ -33,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
 
 //        URL::forceScheme('https');
 
+        URL::forceScheme('https');
+
         View::composer([
             'user.modules.*'
         ], UserPermissionsComposer::class);

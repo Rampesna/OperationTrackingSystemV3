@@ -27,6 +27,10 @@ Route::middleware([
         Route::get('index', [\App\Http\Controllers\Web\User\EmployeeController::class, 'index'])->name('user.web.employee.index')->middleware('CheckUserPermission:1');
         Route::get('specialInformation/{id?}', [\App\Http\Controllers\Web\User\EmployeeController::class, 'specialInformation'])->name('user.web.employee.specialInformation')->middleware('CheckUserPermission:1');
         Route::get('skillInventory/{id?}', [\App\Http\Controllers\Web\User\EmployeeController::class, 'skillInventory'])->name('user.web.employee.skillInventory')->middleware('CheckUserPermission:1');
+
+        Route::prefix('info')->group(function () {
+            Route::get('index/{id?}', [\App\Http\Controllers\Web\User\Employee\InfoController::class, 'index'])->name('user.web.employee.info.index');
+        });
     });
 
     Route::prefix('report')->middleware([

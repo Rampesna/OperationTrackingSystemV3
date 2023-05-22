@@ -19,7 +19,15 @@
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <div class="row mb-5">
-                            <select id="create_shift_employees" class="form-select form-select-solid select2Input" data-control="select2" data-placeholder="Personeller" aria-label="Personeller" multiple></select>
+                            <div class="input-group flex-nowrap">
+                                <button id="createShiftSelectAllEmployeesButton" class="btn btn-sm btn-success btn-icon">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <select id="create_shift_employees" class="form-select form-select-solid select2Input" data-control="select2" data-close-on-select="false" data-placeholder="Personeller" aria-label="Personeller" multiple></select>
+                                <button id="createShiftUnselectAllEmployeesButton" class="btn btn-sm btn-danger btn-icon">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
                         <hr>
                         <div class="row mb-5">

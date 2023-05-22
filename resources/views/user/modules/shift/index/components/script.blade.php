@@ -29,6 +29,8 @@
     var DeleteShiftButton = $('#DeleteShiftButton');
     var DeleteMultipleButton = $('#DeleteMultipleButton');
     var SwapShiftButton = $('#SwapShiftButton');
+    var createShiftSelectAllEmployeesButton = $('#createShiftSelectAllEmployeesButton');
+    var createShiftUnselectAllEmployeesButton = $('#createShiftUnselectAllEmployeesButton');
 
     function getJobDepartments() {
         var companyIds = SelectedCompanies.val();
@@ -1114,6 +1116,16 @@
     $('body').on('contextmenu', function () {
         transactions();
         return false;
+    });
+
+    createShiftSelectAllEmployeesButton.click(function () {
+        createShiftEmployees.val($("#create_shift_employees option").map(function () {
+            return $(this).val();
+        })).trigger("change");
+    });
+
+    createShiftUnselectAllEmployeesButton.click(function () {
+        createShiftEmployees.val(null).trigger("change");
     });
 
 </script>
