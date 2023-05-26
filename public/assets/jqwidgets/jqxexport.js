@@ -4,7 +4,7 @@
    window.jqxToDash = function(value) {
 	return value.split(/(?=[A-Z])/).join('-').toLowerCase();
   }
-		
+
   class DataExporter {
     constructor(exportDetails, groupBy, filterBy, conditionalFormatting) {
         const that = this;
@@ -1259,7 +1259,7 @@ ${that.getRowStyle()}${that.getColumnStyle()}
                                 return a.getTime() - b.getTime();
                             };
                         }
-                   
+
 
                         break;
                 }
@@ -3488,7 +3488,7 @@ ${attr.formula}        </cfRule>
 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="x14ac x16r2 xr" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" xmlns:x16r2="http://schemas.microsoft.com/office/spreadsheetml/2015/02/main" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision">${numFmts.xml}<fonts count="${fonts.collection.length}" x14ac:knownFonts="1">${fonts.xml}</fonts><fills count="${fills.collection.length}">${fills.xml}</fills><borders count="2"><border><left/><right/><top/><bottom/></border><border><left style="hair"/><right style="hair"/><top style="hair"/><bottom style="hair"/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="${cellXfs.collection.length}">${cellXfs.xml}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>${that.conditionalFormattingXLSX.styles}<dxfs count="0"/><tableStyles count="0" defaultTableStyle="TableStyleMedium2" defaultPivotStyle="PivotStyleLight16"/><extLst><ext uri="{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}" xmlns:x14="http://schemas.microsoft.com/office/spreadsheetml/2009/9/main"><x14:slicerStyles defaultSlicerStyle="SlicerStyleLight1"/></ext><ext uri="{9260A510-F301-46a8-8635-F512D64BE5F5}" xmlns:x15="http://schemas.microsoft.com/office/spreadsheetml/2010/11/main"><x15:timelineStyles defaultTimelineStyle="TimeSlicerStyleLight1"/></ext></extLst></styleSheet>`;
     }
   }
-  
+
 	if ($.jqx && $.jqx.dataAdapter) {
 		$.jqx.dataAdapter.DataExporter = DataExporter;
 	}

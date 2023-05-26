@@ -29,7 +29,7 @@ Route::middleware([
         Route::get('skillInventory/{id?}', [\App\Http\Controllers\Web\User\EmployeeController::class, 'skillInventory'])->name('user.web.employee.skillInventory')->middleware('CheckUserPermission:1');
 
         Route::prefix('info')->group(function () {
-            Route::get('index/{id?}', [\App\Http\Controllers\Web\User\Employee\InfoController::class, 'index'])->name('user.web.employee.info.index');
+            Route::get('stats/{id?}', [\App\Http\Controllers\Web\User\Employee\InfoController::class, 'stats'])->name('user.web.employee.info.stats');
         });
     });
 

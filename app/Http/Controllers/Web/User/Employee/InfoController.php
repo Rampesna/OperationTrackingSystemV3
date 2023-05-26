@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class InfoController extends Controller
 {
-    public function index(Request $request)
+    public function stats(Request $request)
     {
-        return view('user.modules.employee.info.index.index', [
+        return view('user.modules.employee.info.stats.index', [
             'employeeId' => $request->id
         ]);
     }

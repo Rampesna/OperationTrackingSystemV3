@@ -14,11 +14,13 @@
 
 @section('content')
 
+    @include('user.modules.employee.layouts.overview')
+
     <div class="row">
         <div class="col-xl-6">
             <div class="row">
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-primary card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-primary card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -30,12 +32,12 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px" id="totalCallCountSpan">--</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Toplam Çağrı</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Toplam Çağrı</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-info card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-info card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -47,12 +49,12 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px" id="incomingCallCountSpan">--</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Gelen Çağrı</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Gelen Çağrı</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-dark-75 card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-dark-75 card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -64,12 +66,12 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px" id="outgoingCallCountSpan">--</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Giden Çağrı</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Giden Çağrı</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-danger card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-danger card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -81,12 +83,12 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px" id="missedCallCountSpan">--</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Cevapsız Çağrı</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Cevapsız Çağrı</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-success card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-success card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -98,12 +100,12 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 18px" id="totalCallTimeSpan">00:00:00</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Toplam Konuşma</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Toplam Konuşma</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-warning card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-warning card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -115,7 +117,7 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 22px" id="callProductivitySpan">0%</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Çağrı Verimliliği</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Çağrı Verimliliği</span>
                         </div>
                     </div>
                 </div>
@@ -138,7 +140,7 @@
         <div class="col-xl-6">
             <div class="row">
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-dark-75 card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-dark-75 card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -150,13 +152,13 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px" id="activitiesCountSpan">--</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Açılan Faaliyet</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px" id="activitiesEmployeeCountSpan"></span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Açılan Faaliyet</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px" id="activitiesEmployeeCountSpan"></span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-success card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-success card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -168,13 +170,13 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px" id="jobCompletesCountSpan">--</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Tamamlanan İş</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px" id="jobCompletesEmployeeCountSpan"></span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Tamamlanan İş</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px" id="jobCompletesEmployeeCountSpan"></span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-warning card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-warning card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -186,23 +188,23 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 20px" id="usedBreakDurationSpan">--</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Kullanılan Mola</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px" id="usedBreakPercentSpan"></span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Kullanılan Mola</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px" id="usedBreakPercentSpan"></span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-dark-75 card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-dark-75 card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="card-title font-weight-bolder text-white mt-n5 mb-0 mt-6 d-block" style="font-size: 12px">Faaliyet:<span class="ml-1" style="font-size: 24px" id="jobProductivityActivityPercentSpan"></span></span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 12px">Tamamlanan:<span class="ml-1" style="font-size: 24px" id="jobProductivityJobCompletePercentSpan"></span></span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 12px">Ortalama:<span class="ml-1" style="font-size: 24px" id="jobProductivityAveragePercentSpan"></span></span>
-                            <span class="font-weight-bold text-white float-right"  style="font-size: 20px">İş Verimliliği</span>
+                            <span class="font-weight-bold text-white float-right" style="font-size: 20px">İş Verimliliği</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-info card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-info card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -213,12 +215,12 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" id="permitDurationSpan">--</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Kullanılan İzin</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Kullanılan İzin</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
-                    <div class="card card-custom bg-info card-stretch gutter-b" style="height: 200px">
+                    <div class="card card-custom bg-info card-stretch gutter-b mb-5" style="height: 200px">
                         <div class="card-body cursor-pointer">
                             <span class="svg-icon svg-icon-3x svg-icon-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
@@ -232,7 +234,7 @@
                                 </svg>
                             </span>
                             <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" id="overtimeDurationSpan">--</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">Fazla Mesai</span>
+                            <span class="font-weight-bold text-white" style="font-size: 20px">Fazla Mesai</span>
                         </div>
 
                     </div>
@@ -258,9 +260,9 @@
 @endsection
 
 @section('customStyles')
-    @include('user.modules.employee.info.index.components.style')
+    @include('user.modules.employee.info.stats.components.style')
 @endsection
 
 @section('customScripts')
-    @include('user.modules.employee.info.index.components.script')
+    @include('user.modules.employee.info.stats.components.script')
 @endsection

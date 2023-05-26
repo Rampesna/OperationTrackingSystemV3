@@ -96,7 +96,7 @@
                 }
 
                 that._groupBy = [].concat(value);
-              
+
                 if ( that.isInitialized ) {
                     updateGrouping();
                 }
@@ -252,7 +252,7 @@
         that.clear();
 
         const completed = () => {
-       
+
 
             that._onBindingComplete();
         }
@@ -1782,7 +1782,7 @@
             let value = '';
 
             dataField.dataType = dataField.type;
-            
+
             if ( undefined === dataField || dataField === null ) {
                 continue;
             }

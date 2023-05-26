@@ -481,7 +481,7 @@
                 leave: 0
             },
             success: function (response) {
-                var employeeInfoRoute = '{{ route('user.web.employee.info.index') }}';
+                var employeeInfoRoute = '{{ route('user.web.employee.info.stats') }}';
                 var employees = response.response.employees;
                 var operationEmployees = [];
 
@@ -630,7 +630,7 @@
                                       </ul>
                                 </div>
                                 <div class="card-toolbar">
-                                    <a href="${employeeInfoRoute} type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    <a href="${employeeInfoRoute}/${employee.id}" target="_blank" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                         <span class="svg-icon svg-icon-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                                 <path opacity="0.3" d="M17.7 5.59999C16.7 5.19999 15.5 5.50003 14.8 6.20003L10.2 10.8C9.5 11.5 8.4 11.8 7.5 11.5L5.10001 10.8V18.9H20.1V6.40004L17.7 5.59999Z" fill="black"/>
