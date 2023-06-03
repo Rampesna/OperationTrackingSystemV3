@@ -14,6 +14,7 @@
 
 @section('content')
 
+
     <div class="row">
         <div class="col-xl-5">
             <div class="card">
