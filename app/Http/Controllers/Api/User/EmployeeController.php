@@ -17,7 +17,7 @@ use App\Http\Requests\Api\User\EmployeeController\GetByEmailRequest;
 use App\Http\Requests\Api\User\EmployeeController\UpdateJobDepartmentRequest;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Interfaces\Eloquent\IJobDepartmentService;
-use App\Services\OperationApi\OperationService;
+use App\Services\QuizApp\UserService as QuizAppUserService;
 use App\Traits\Response;
 
 class EmployeeController extends Controller
@@ -267,7 +267,7 @@ class EmployeeController extends Controller
     /**
      * @param CreateRequest $request
      */
-    public function create(CreateRequest $request)
+    public function create(CreateRequest $request, QuizAppUserService $quizAppUserService)
     {
         if (!in_array($request->companyId, $request->user()->companies->pluck('id')->toArray())) {
             return $this->error('Unauthorized', 401);
@@ -286,6 +286,12 @@ class EmployeeController extends Controller
             $request->password
         );
         if ($createResponse->isSuccess()) {
+            $quizAppUserService->create(
+                $request->name,
+                $request->email,
+                $request->password
+            );
+
             return $this->success(
                 $createResponse->getMessage(),
                 $createResponse->getData(),
