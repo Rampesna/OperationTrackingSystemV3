@@ -3,695 +3,230 @@
 <script src="{{ asset('assets/plugins/custom/qrcode/creator.js') }}"></script>
 {{--<script src="{{ asset('assets/ejDiagram/ej.web.all.min.js') }}"></script>--}}
 <script>
-    /*
-    var constraints = ej.datavisualization.Diagram.NodeConstraints.Default | ej.datavisualization.Diagram.NodeConstraints.AspectRatio;
-    var palettes = [
-        {
-            name: "Şekiller",
-            expanded: true,
-            items: [
-                //add the flow shapes to the symbol palette
-                {
-                    name: "Terminator",
-                    width: 40,
-                    height: 20,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Terminator,
-                    ports: [
-                        {name: "Terminator" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Terminator" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "Terminator" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "Terminator" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}}
-                    ]
-                },
-                {
-                    name: "process",
-                    width: 40,
-                    height: 20,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Process,
-                    ports: [{
-                        name: "process" + ej.datavisualization.Diagram.Util.randomId(),
-                        constraints: ej.datavisualization.Diagram.PortConstraints.Connect | ej.datavisualization.Diagram.PortConstraints.ConnectOnDrag,
-                        offset: {x: 0, y: 0.5}
-                    }, {
-                        name: "process" + ej.datavisualization.Diagram.Util.randomId(),
-                        offset: {x: 0, y: 0.3},
-                        constraints: ej.datavisualization.Diagram.PortConstraints.Connect | ej.datavisualization.Diagram.PortConstraints.ConnectOnDrag,
-                    }, {
-                        name: "Rectangle" + ej.datavisualization.Diagram.Util.randomId(),
-                        offset: {x: 0, y: 0.7},
-                        constraints: ej.datavisualization.Diagram.PortConstraints.Connect | ej.datavisualization.Diagram.PortConstraints.ConnectOnDrag,
-                    },
-                        {
-                            name: "process" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {y: 0, x: 0.5},
-                            constraints: ej.datavisualization.Diagram.PortConstraints.Connect | ej.datavisualization.Diagram.PortConstraints.ConnectOnDrag,
-                        }, {
-                            name: "process" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {y: 0, x: 0.3},
-                            constraints: ej.datavisualization.Diagram.PortConstraints.Connect | ej.datavisualization.Diagram.PortConstraints.ConnectOnDrag,
-                        }, {
-                            name: "Rectangle" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {y: 0, x: 0.7},
-                            constraints: ej.datavisualization.Diagram.PortConstraints.Connect | ej.datavisualization.Diagram.PortConstraints.ConnectOnDrag,
-                        },
-                        {
-                            name: "process" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0.5}
-                        }, {
-                            name: "process" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0.3}
-                        }, {name: "Rectangle" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.7}},
-                        {
-                            name: "process" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {y: 1, x: 0.5}
-                        }, {
-                            name: "process" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {y: 1, x: 0.3}
-                        }, {name: "Rectangle" + ej.datavisualization.Diagram.Util.randomId(), offset: {y: 1, x: 0.7}}]
-                },
-                {
-                    name: "Decision",
-                    width: 40,
-                    height: 35,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Decision,
-                    ports: [{name: "Decision" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "Decision" + ej.datavisualization.Diagram.Util.randomId(), offset: {y: 0, x: 0.5}},
-                        {name: "Decision" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "Decision" + ej.datavisualization.Diagram.Util.randomId(), offset: {y: 1, x: 0.5}}]
-                },
-                {
-                    name: "Sort",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Sort,
-                    ports: [
-                        {name: "Sort" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Sort" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "Sort" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "Sort" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                    ]
-                },
-                {
-                    name: "Document",
-                    width: 40,
-                    height: 30,
-                    offsetX: 20,
-                    offsetY: 15,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Document,
-                    ports: [{name: "Document" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0}},
-                        {name: "Document" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Document" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0}},
-                        {name: "Document" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "Document" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 1}},
-                        {name: "Document" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "Document" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 1}},
-                        {name: "Document" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}}]
-                },
-                {
-                    name: "MultiDocument",
-                    width: 40,
-                    height: 30,
-                    offsetX: 20,
-                    offsetY: 15,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.MultiDocument,
-                    ports: [
-                        {name: "MultiDocument" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "MultiDocument" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0}},
-                        {name: "MultiDocument" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "MultiDocument" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0}},
-                        {name: "MultiDocument" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "MultiDocument" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 1}},
-                        {name: "MultiDocument" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "MultiDocument" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 1}}]
-                },
-                {
-                    name: "DirectData",
-                    width: 40,
-                    height: 30,
-                    offsetX: 20,
-                    offsetY: 15,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.DirectData,
-                    ports: [
-                        {name: "DirectData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.1, y: 0}},
-                        {name: "DirectData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "DirectData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.9, y: 0}},
-                        {name: "DirectData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.9, y: 1}},
-                        {name: "DirectData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "DirectData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.1, y: 1}},
-                        {name: "DirectData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "DirectData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                    ]
-                },
-                {
-                    name: "SequentialData",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.SequentialData,
-                    ports: [
-                        {name: "SequentialData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "SequentialData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "SequentialData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "SequentialData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {
-                            name: "SequentialData" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.152, y: 0.15}
-                        },
-                        {
-                            name: "SequentialData" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.815, y: 0.15}
-                        },
-                        {
-                            name: "SequentialData" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.815, y: 0.85}
-                        },
-                        {
-                            name: "SequentialData" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.152, y: 0.85}
-                        },
-                        {name: "SequentialData" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 1}},
-                    ]
-                },
-                {
-                    name: "PaperTap",
-                    width: 40,
-                    height: 30,
-                    offsetX: 20,
-                    offsetY: 15,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.PaperTap,
-                    ports: [
-                        {name: "PaperTap" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "PaperTap" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0.1}},
-                        {name: "PaperTap" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.1}},
-                        {name: "PaperTap" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "PaperTap" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.9}},
-                        {name: "PaperTap" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0.9}},
-                        {name: "PaperTap" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.9}},
-                        {name: "PaperTap" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.1}},
-                    ]
-                },
+    // helper functions
+    const PI2 = Math.PI * 2
+    const random = (min, max) => Math.random() * (max - min + 1) + min | 0
+    const timestamp = _ => new Date().getTime()
 
-                {
-                    name: "Collate",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Collate,
-                    ports: [
-                        {name: "Collate" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0}},
-                        {name: "Collate" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Collate" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0}},
-                        {name: "Collate" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 1}},
-                        {name: "Collate" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "Collate" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 1}}]
-                },
-                {
-                    name: "Summing_Junction",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.SummingJunction,
-                    constraints: constraints,
-                    ports: [
-                        {
-                            name: "Summing_Junction" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.5, y: 0}
-                        },
-                        {
-                            name: "Summing_Junction" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0.5}
-                        },
-                        {
-                            name: "Summing_Junction" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.5, y: 1}
-                        },
-                        {
-                            name: "Summing_Junction" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0, y: 0.5}
-                        },
-                        {
-                            name: "Summing_Junction" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.152, y: 0.15}
-                        },
-                        {
-                            name: "Summing_Junction" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.852, y: 0.15}
-                        },
-                        {
-                            name: "Summing_Junction" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.852, y: 0.85}
-                        },
-                        {
-                            name: "Summing_Junction" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.152, y: 0.85}
-                        }
+    // container
+    class Birthday {
+        constructor() {
+            this.resize()
 
-                    ]
-                },
-                {
-                    name: "Or",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Or,
-                    ports: [
-                        {name: "Or" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Or" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "Or" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "Or" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "Or" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.152, y: 0.15}},
-                        {name: "Or" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.852, y: 0.15}},
-                        {name: "Or" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.852, y: 0.85}},
-                        {name: "Or" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.152, y: 0.85}}
-                    ]
-                },
-                {
-                    name: "InternalStorage",
-                    width: 40,
-                    height: 40,
-                    offsetX: 40,
-                    offsetY: 15,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.InternalStorage,
-                    ports: [
-                        {name: "InternalStorage" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0}},
-                        {
-                            name: "InternalStorage" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.5, y: 0}
-                        },
-                        {name: "InternalStorage" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0}},
-                        {
-                            name: "InternalStorage" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0.5}
-                        },
-                        {name: "InternalStorage" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 1}},
-                        {
-                            name: "InternalStorage" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.5, y: 1}
-                        },
-                        {name: "InternalStorage" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 1}},
-                        {
-                            name: "InternalStorage" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0, y: 0.5}
-                        },
-                    ]
-                },
-                {
-                    name: "PredefinedProcess",
-                    width: 40,
-                    height: 30,
-                    offsetX: 20,
-                    offsetY: 15,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.PreDefinedProcess,
-                    ports: [
-                        {
-                            name: "PredefinedProcess" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0, y: 0}
-                        },
-                        {
-                            name: "PredefinedProcess" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.5, y: 0}
-                        },
-                        {
-                            name: "PredefinedProcess" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0}
-                        },
-                        {
-                            name: "PredefinedProcess" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0.5}
-                        },
-                        {
-                            name: "PredefinedProcess" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 1}
-                        },
-                        {
-                            name: "PredefinedProcess" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.5, y: 1}
-                        },
-                        {
-                            name: "PredefinedProcess" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0, y: 1}
-                        },
-                        {
-                            name: "PredefinedProcess" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0, y: 0.5}
-                        }
-                    ]
-                },
-                {
-                    name: "Extract",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Extract,
-                    ports: [
-                        {name: "Extract" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Extract" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 1}},
-                        {name: "Extract" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "Extract" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 1}}
-                    ]
-                },
-                {
-                    name: "Merge",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Merge,
-                    ports: [
-                        {name: "Merge" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0}},
-                        {name: "Merge" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}},
-                        {name: "Merge" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Merge" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0}}
-                    ]
-                },
-                {
-                    name: "Off_Page_Reference",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.OffPageReference,
-                    ports: [
-                        {
-                            name: "Off_Page_Reference" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0, y: 0}
-                        },
-                        {
-                            name: "Off_Page_Reference" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.5, y: 1}
-                        },
-                        {
-                            name: "Off_Page_Reference" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0, y: 0.5}
-                        },
-                        {
-                            name: "Off_Page_Reference" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.5, y: 0}
-                        },
-                        {
-                            name: "Off_Page_Reference" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0}
-                        },
-                        {
-                            name: "Off_Page_Reference" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0.5}
-                        }
-                    ]
-                },
-                {
-                    name: "Sequential_Access_Storage",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.SequentialAccessStorage,
-                    ports: [
-                        {
-                            name: "Sequential_Access_Storage" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.45, y: 0}
-                        },
-                        {
-                            name: "Sequential_Access_Storage" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 1}
-                        },
-                        {
-                            name: "Sequential_Access_Storage" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0, y: 0.5}
-                        },
-                        {
-                            name: "Sequential_Access_Storage" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0.5}
-                        },
-                        {
-                            name: "Sequential_Access_Storage" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.45, y: 1}
-                        }
-                    ]
-                },
-                {
-                    name: "ManualOperation",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.ManualOperation,
-                    ports: [
-                        {
-                            name: "ManualOperation" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0.5, y: 0}
-                        },
-                        {
-                            name: "ManualOperation" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 0, y: 0.5}
-                        },
-                        {
-                            name: "ManualOperation" + ej.datavisualization.Diagram.Util.randomId(),
-                            offset: {x: 1, y: 0.5}
-                        },
-                        {name: "ManualOperation" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}}
-                    ]
-                },
-                {
-                    name: "Annotation1",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Annotation1,
-                    ports: [
-                        {name: "Annotation1" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Annotation1" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "Annotation1" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "Annotation1" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}}
-                    ]
-                },
-                {
-                    name: "Annotation2",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Annotation2,
-                    ports: [
-                        {name: "Annotation2" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Annotation2" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "Annotation2" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "Annotation2" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}}
-                    ]
-                },
-                {
-                    name: "Data",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Data,
-                    ports: [
-                        {name: "Data" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Data" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "Data" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "Data" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}}
-                    ]
-                },
-                {
-                    name: "Card",
-                    width: 40,
-                    height: 40,
-                    offsetX: 20,
-                    offsetY: 20,
-                    type: "flow",
-                    shape: ej.datavisualization.Diagram.FlowShapes.Card,
-                    ports: [
-                        {name: "Card" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 0}},
-                        {name: "Card" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0, y: 0.5}},
-                        {name: "Card" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 1, y: 0.5}},
-                        {name: "Card" + ej.datavisualization.Diagram.Util.randomId(), offset: {x: 0.5, y: 1}}
-                    ]
-                },
-            ]
-        },
-        {
-            name: " Bağlantılar",
-            expanded: true,
-            items: [
-                //add the connectors to the symbol palette
-                {
-                    name: "Link1",
-                    segments: [{type: "orthogonal"}],
-                    sourcePoint: {x: 0, y: 0},
-                    targetPoint: {x: 40, y: 40},
-                    targetDecorator: {shape: "arrow", borderColor: "#A9A9A9", fillColor: "#A9A9A9"},
-                    lineWidth: 2,
-                    lineColor: "#A9A9A9"
-                },
-                {
-                    name: "Link21",
-                    segments: [{type: "straight"}],
-                    sourcePoint: {x: 0, y: 0},
-                    targetPoint: {x: 40, y: 40},
-                    targetDecorator: {shape: "arrow", borderColor: "#A9A9A9", fillColor: "#A9A9A9"},
-                    lineWidth: 2,
-                    lineColor: "#A9A9A9"
-                },
-            ],
+            // create a lovely place to store the firework
+            this.fireworks = []
+            this.counter = 0
+
         }
-    ];
 
-    var margin = {"left": 0, "top": 0, "right": 0, "bottom": 0};
-    var FlowShapes = ej.datavisualization.Diagram.FlowShapes;
-    var nodes = [];
+        resize() {
+            this.width = canvas.width = window.innerWidth
+            let center = this.width / 2 | 0
+            this.spawnA = center - center / 4 | 0
+            this.spawnB = center + center / 4 | 0
 
-    var connectors = [];
+            this.height = canvas.height = window.innerHeight
+            this.spawnC = this.height * .1
+            this.spawnD = this.height * .5
 
-    if (!(ej.browserInfo().name === "msie" && Number(ej.browserInfo().version) < 9)) {
-        jQuery(function () {
-            $("#symbolpalette").ejSymbolPalette({
-                diagramId: "diagram",
-                palettes: palettes,
-                width: "100%",
-                height: "100%",
-                paletteItemWidth: 50,
-                paletteItemHeight: 50,
-                previewWidth: 100,
-                previewHeight: 100,
-                showPaletteItemText: false,
-                defaultSettings: {
-                    node: {
-                        fillColor: "white"
-                    },
-                }
-            });
-            $("#diagram").ejDiagram({
-                width: "100%",
-                height: "600px",
-                nodes: nodes,
-                nodeCollectionChange: nodeCollectionChange,
-                pageSettings: {
-                    scrollLimit: "diagram"
-                },
-                defaultSettings: {
-                    node: {
-                        borderColor: "#1BA0E2", fillColor: "#1BA0E2", labels: [
-                            {
-                                "fontColor": "white"
-                            }
-                        ],
-                        ports: [
-                            {
-                                name: "port1",
-                                offset: {
-                                    x: 0,
-                                    y: 0.2
-                                }
-                            },
-                            {
-                                name: "port2",
-                                offset: {
-                                    y: 0,
-                                    x: 0.2
-                                }
-                            },
-                            {
-                                name: "port3",
-                                offset: {
-                                    x: 1,
-                                    y: 0.2
-                                }
-                            },
-                            {
-                                name: "port4",
-                                offset: {
-                                    y: 1,
-                                    x: 0.2
-                                }
-                            }
-                        ]
-                    },
-                    connector: {
-                        lineColor: "#606060",
-                        labels: [
-                            {
-                                "fillColor": "white"
-                            }
-                        ]
-                    },
-                },
-                connectors: connectors,
-                enableContextMenu: false
-            });
-
-        });
-    } else {
-        alert("Diagram will not be supported in IE Version < 9");
-    }
-
-    function nodeCollectionChange(args) {
-        if (args.state === "changing" && args.elementType === "node") {
-            args.element.fillColor = "#1BA0E2";
         }
-    }
 
-    function diagramFitToPage(id, preventScaling) {
-        if (id && window) {
-            if (ej.isMobile() && ej.isDevice()) {
-                var diagram = $("#" + id).ejDiagram("instance");
-                diagram.fitToPage("width", "content");
-                if (!preventScaling) {
-                    var viewPort = ej.datavisualization.Diagram.ScrollUtil._viewPort(diagram, true);
-                    var bounds = diagram._getDigramBounds("content");
-                    var scale = {x: viewPort.width / bounds.width, y: viewPort.height / bounds.height};
-                    $("#" + id).ejDiagram({height: $("#" + id).height() * Math.min(scale.x, scale.y)});
-                    if (window.location.hostname) {
-                        var iframe = top.document.getElementById('samplefile');
-                        if (iframe) iframe.style.minHeight = $("#" + id).height() + "px";
-                    }
-                }
+        onClick(evt) {
+            let x = evt.clientX || evt.touches && evt.touches[0].pageX
+            let y = evt.clientY || evt.touches && evt.touches[0].pageY
+
+            let count = random(3,5)
+            for(let i = 0; i < count; i++) this.fireworks.push(new Firework(
+                random(this.spawnA, this.spawnB),
+                this.height,
+                x,
+                y,
+                random(0, 260),
+                random(30, 110)))
+
+            this.counter = -1
+
+        }
+
+        update(delta) {
+            ctx.globalCompositeOperation = 'hard-light'
+            ctx.fillStyle = `rgba(20,20,20,${ 7 * delta })`
+            ctx.fillRect(0, 0, this.width, this.height)
+
+            ctx.globalCompositeOperation = 'lighter'
+            for (let firework of this.fireworks) firework.update(delta)
+
+            // if enough time passed... create new new firework
+            this.counter += delta * 3 // each second
+            if (this.counter >= 1) {
+                this.fireworks.push(new Firework(
+                    random(this.spawnA, this.spawnB),
+                    this.height,
+                    random(0, this.width),
+                    random(this.spawnC, this.spawnD),
+                    random(0, 360),
+                    random(30, 110)))
+                this.counter = 0
             }
+
+            // remove the dead fireworks
+            if (this.fireworks.length > 1000) this.fireworks = this.fireworks.filter(firework => !firework.dead)
+
         }
     }
 
-    */
+    class Firework {
+        constructor(x, y, targetX, targetY, shade, offsprings) {
+            this.dead = false
+            this.offsprings = offsprings
+
+            this.x = x
+            this.y = y
+            this.targetX = targetX
+            this.targetY = targetY
+
+            this.shade = shade
+            this.history = []
+        }
+        update(delta) {
+            if (this.dead) return
+
+            let xDiff = this.targetX - this.x
+            let yDiff = this.targetY - this.y
+            if (Math.abs(xDiff) > 3 || Math.abs(yDiff) > 3) { // is still moving
+                this.x += xDiff * 2 * delta
+                this.y += yDiff * 2 * delta
+
+                this.history.push({
+                    x: this.x,
+                    y: this.y
+                })
+
+                if (this.history.length > 20) this.history.shift()
+
+            } else {
+                if (this.offsprings && !this.madeChilds) {
+
+                    let babies = this.offsprings / 2
+                    for (let i = 0; i < babies; i++) {
+                        let targetX = this.x + this.offsprings * Math.cos(PI2 * i / babies) | 0
+                        let targetY = this.y + this.offsprings * Math.sin(PI2 * i / babies) | 0
+
+                        birthday.fireworks.push(new Firework(this.x, this.y, targetX, targetY, this.shade, 0))
+
+                    }
+
+                }
+                this.madeChilds = true
+                this.history.shift()
+            }
+
+            if (this.history.length === 0) this.dead = true
+            else if (this.offsprings) {
+                for (let i = 0; this.history.length > i; i++) {
+                    let point = this.history[i]
+                    ctx.beginPath()
+                    ctx.fillStyle = 'hsl(' + this.shade + ',100%,' + i + '%)'
+                    ctx.arc(point.x, point.y, 1, 0, PI2, false)
+                    ctx.fill()
+                }
+            } else {
+                ctx.beginPath()
+                ctx.fillStyle = 'hsl(' + this.shade + ',100%,50%)'
+                ctx.arc(this.x, this.y, 1, 0, PI2, false)
+                ctx.fill()
+            }
+
+        }
+    }
+
+    let canvas = document.getElementById('birthday')
+    let ctx = canvas.getContext('2d')
+
+    let then = timestamp()
+
+    let birthday = new Birthday
+    window.onresize = () => birthday.resize()
+    document.onclick = evt => birthday.onClick(evt)
+    document.ontouchstart = evt => birthday.onClick(evt)
+
+    ;(function loop(){
+        requestAnimationFrame(loop)
+
+        let now = timestamp()
+        let delta = now - then
+
+        then = now
+        birthday.update(delta / 250)
+
+    })();
 </script>
 
 <script>
 
+    function isBirthdayToday(dateString) {
+        var today = new Date();
+
+        var parts = dateString.split("-");
+        var year = parseInt(parts[0]);
+        var month = parseInt(parts[1]) - 1;
+        var day = parseInt(parts[2]);
+
+        var birthday = new Date(year, month, day);
+
+        if (
+            birthday.getDate() === today.getDate() &&
+            birthday.getMonth() === today.getMonth()
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function checkBirthday() {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('employee.api.getProfile') }}',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': token
+            },
+            data: {},
+            success: function (response) {
+                if (isBirthdayToday(response.response.birth_date)) {
+                    $('#happyBirthdayImage').show();
+                    $('#happyBirthday').html(`İyi ki doğdun ${response.response.name.split(' ')[0]}!`);
+                    setTimeout(function () {
+                        document.body.style.overflow = 'hidden';
+                        $('#birthday').fadeIn(250);
+                        happyBirthdayDiv.fadeIn(250);
+                        setTimeout(function () {
+                            document.body.style.overflow = 'auto';
+                            $('#birthday').fadeOut(250);
+                            happyBirthdayDiv.fadeOut(250);
+                        }, 4000);
+                    }, 100);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                if (parseInt(error.status) === 422) {
+                    $.each(error.responseJSON.response, function (i, error) {
+                        toastr.error(error[0]);
+                    });
+                } else {
+                    toastr.error(error.responseJSON.message);
+                }
+            }
+        });
+    }
+
+    var happyBirthdayDiv = $('#happyBirthday');
+
     $(document).ready(function () {
         $('#loader').hide();
+        checkBirthday();
     });
 
     var createPermitTypeId = $('#create_permit_type_id');
@@ -1761,5 +1296,11 @@
             }
         });
     }
+
+</script>
+
+<script>
+
+
 
 </script>

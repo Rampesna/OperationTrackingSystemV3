@@ -77,6 +77,7 @@ class EmployeeService implements IEmployeeService
     ): ServiceResponse
     {
         $employee = Employee::with([
+            'personalInformation',
             'jobDepartment',
             'company',
         ])->find($id);
@@ -96,6 +97,7 @@ class EmployeeService implements IEmployeeService
                     'santral_code' => $employee->santral_code,
                     'device_token' => $employee->device_token,
                     'theme' => $employee->theme,
+                    'birth_date' => $employee->personalInformation->birth_date,
                     'jobDepartment' => [
                         'id' => $employee->jobDepartment->id,
                         'name' => $employee->jobDepartment->name,

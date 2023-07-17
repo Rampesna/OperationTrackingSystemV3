@@ -14,6 +14,8 @@
 
 @section('content')
 
+    <h1 id="happyBirthday" style="display: none"></h1>
+
     @include('employee.modules.dashboard.index.modals.createPermit')
     @include('employee.modules.dashboard.index.modals.updatePermit')
     @include('employee.modules.dashboard.index.modals.createOvertime')

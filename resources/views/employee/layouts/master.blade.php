@@ -26,7 +26,10 @@
 <body id="kt_body" class="header-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed"
       style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
 
+
 <div id="loader"></div>
+<canvas id="birthday" style="z-index: 999999; display: none"></canvas>
+
 
 <div class="d-flex flex-column flex-root" id="rootDocument">
     <div class="page d-flex flex-row flex-column-fluid">
