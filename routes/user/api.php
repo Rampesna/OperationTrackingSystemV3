@@ -8,6 +8,8 @@ Route::prefix('authentication')->group(function () {
     Route::post('resetPassword', [\App\Http\Controllers\Api\User\UserController::class, 'resetPassword'])->name('api.user.resetPassword');
 });
 
+Route::get('checkBirthdays', [\App\Http\Controllers\Api\Global\BirthdayController::class, 'checkBirthdays']);
+
 Route::middleware([
     'auth:user_api',
     'UserCheckSuspend'
