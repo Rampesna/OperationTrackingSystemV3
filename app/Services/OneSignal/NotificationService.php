@@ -31,6 +31,12 @@ class NotificationService implements INotificationService
                 'en' => $message,
                 'tr' => $message,
             ],
+//            'big_picture' => asset('assets/media/misc/birthdayCard.jpg'),
+//            'chrome_web_image' => asset('assets/media/misc/birthdayCard.jpg'),
+//            'firefox_icon' => asset('assets/media/misc/birthdayCard.jpg'),
+//            'chrome_icon' => asset('assets/media/misc/birthdayCard.jpg'),
+//            'chrome_big_picture' => asset('assets/media/misc/birthdayCard.jpg'),
+//            'adm_small_icon ' => asset('assets/media/misc/birthdayCard.jpg'),
         ], $message);
 
         return new ServiceResponse(

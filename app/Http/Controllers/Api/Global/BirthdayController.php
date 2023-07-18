@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\Eloquent\IEmployeeService;
 use App\Http\Requests\Api\Global\BirthdayController\CheckBirthdaysRequest;
 use App\Interfaces\OneSignal\INotificationService;
+use App\Mail\Employee\HappyBirthdayEmail;
+use App\Mail\User\WelcomeEmail;
 use App\Services\OneSignal\NotificationService;
 use App\Traits\Response;
+use Illuminate\Support\Facades\Mail;
 
 class BirthdayController extends Controller
 {
@@ -31,10 +34,11 @@ class BirthdayController extends Controller
      */
     public function checkBirthdays(CheckBirthdaysRequest $request)
     {
+        $list = [];
         $response = $this->employeeService->getByCompanyIdsWithPersonalInformation(
             0,
             1000,
-            [1,2]
+            [1, 2]
         );
 
         if ($response->isSuccess()) {
@@ -46,16 +50,20 @@ class BirthdayController extends Controller
                         date('m-d', strtotime(now()))
                     ) {
                         if ($employee->device_token) {
+                            $exploded = explode(' ', $employee->name);
+                            $name = $exploded[0];
                             $list[] = [
                                 [$employee->device_token],
-                                'İyi ki doğdun ' . ucwords($employee->name) . '!',
+                                ' 🎉🎉🎉 ' . 'İyi ki doğdun ' . ucwords($name) . ' 🎉🎉🎉 ',
                                 'Ayssoft ailesi olarak doğum gününüzü kutlar, sağlık mutluluk ve başarı dolu nice yıllar dileriz.'
                             ];
                             $notificationService->sendNotification(
                                 [$employee->device_token],
-                                'İyi ki doğdun ' . ucwords($employee->name) . '!',
+                                ' 🎉🎉🎉 ' . 'İyi ki doğdun ' . ucwords($name) . ' 🎉🎉🎉 ',
                                 'Ayssoft ailesi olarak doğum gününüzü kutlar, sağlık mutluluk ve başarı dolu nice yıllar dileriz.'
                             );
+
+                            Mail::to($employee->email)->send(new HappyBirthdayEmail(ucwords($name)));
                         }
                     }
                 }
