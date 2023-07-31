@@ -458,7 +458,7 @@ class PermitService implements IPermitService
                     'totalCount' => $permits->count(),
                     'pageIndex' => $pageIndex,
                     'pageSize' => $pageSize,
-                    'permits' => $permits->skip($pageSize * $pageIndex)
+                    'permits' => $pageSize == -1 ? $permits->get() : $permits->skip($pageSize * $pageIndex)
                         ->take($pageSize)
                         ->get()
                 ]

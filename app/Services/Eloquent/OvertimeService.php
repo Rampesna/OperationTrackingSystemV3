@@ -301,7 +301,7 @@ class OvertimeService implements IOvertimeService
                     'totalCount' => $overtimes->count(),
                     'pageIndex' => $pageIndex,
                     'pageSize' => $pageSize,
-                    'overtimes' => $overtimes->skip($pageSize * $pageIndex)
+                    'overtimes' => $pageSize == -1 ? $overtimes->get() : $overtimes->skip($pageSize * $pageIndex)
                         ->take($pageSize)
                         ->get()
                 ]
