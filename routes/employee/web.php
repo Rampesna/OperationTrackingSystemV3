@@ -53,4 +53,8 @@ Route::middleware([
     Route::prefix('specialInformation')->group(function () {
         Route::get('index', [\App\Http\Controllers\Web\Employee\SpecialInformationController::class, 'index'])->name('employee.web.specialInformation.index');
     });
+
+    Route::prefix('socialEvent')->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\Employee\SocialEventController::class, 'index'])->name('employee.web.socialEvent.index');
+    });
 });

@@ -1386,7 +1386,8 @@
                                     uyumSatisApiCrmUserName: uyumSatisApiCrmUserName,
                                     uyumSatisApiCrmUserPassword: uyumSatisApiCrmUserPassword
                                 },
-                                success: function () {
+                                success: function (response) {
+                                    console.log(response);
                                     $.ajax({
                                         type: 'put',
                                         url: '{{ route('user.api.employee.update') }}',

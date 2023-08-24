@@ -81,6 +81,7 @@ use App\Interfaces\Eloquent\ISaturdayPermitService;
 use App\Interfaces\Eloquent\IShiftGroupEmployeeUseListService;
 use App\Interfaces\Eloquent\IShiftGroupService;
 use App\Interfaces\Eloquent\IShiftService;
+use App\Interfaces\Eloquent\ISocialEventService;
 use App\Interfaces\Eloquent\ISpecialInformationService;
 use App\Interfaces\Eloquent\ISubTaskService;
 use App\Interfaces\Eloquent\ITargetStatusService;
@@ -191,6 +192,7 @@ use App\Services\Eloquent\SaturdayPermitService;
 use App\Services\Eloquent\ShiftGroupEmployeeUseListService;
 use App\Services\Eloquent\ShiftGroupService;
 use App\Services\Eloquent\ShiftService;
+use App\Services\Eloquent\SocialEventService;
 use App\Services\Eloquent\SpecialInformationService;
 use App\Services\Eloquent\SubTaskService;
 use App\Services\Eloquent\TargetStatusService;
@@ -326,6 +328,7 @@ class InterfaceServiceProvider extends ServiceProvider
         $this->app->bind(IEarthquakeInformationService::class, EarthquakeInformationService::class);
         $this->app->bind(ISpecialInformationService::class, SpecialInformationService::class);
         $this->app->bind(IEmployeeSkillInventoryService::class, EmployeeSkillInventoryService::class);
+        $this->app->bind(ISocialEventService::class, SocialEventService::class);
 
 
         // OperationApiServices

@@ -132,4 +132,8 @@ Route::middleware([
     Route::prefix('notification')->group(function () {
         Route::get('index', [\App\Http\Controllers\Api\Employee\NotificationController::class, 'index'])->name('employee.api.notification.index');
     });
+
+    Route::prefix('socialEvent')->group(function () {
+        Route::get('getAllByDateOrderedWithImages', [\App\Http\Controllers\Api\Employee\SocialEventController::class, 'getAllByDateOrderedWithImages'])->name('employee.api.socialEvent.getAllByDateOrderedWithImages');
+    });
 });

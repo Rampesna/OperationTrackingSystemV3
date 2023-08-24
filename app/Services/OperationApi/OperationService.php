@@ -597,8 +597,8 @@ class OperationService extends OperationApiService implements IOperationService
         ?int    $followerLeaderAssistant,
         ?string $callScanCode,
         string  $santralCode,
-        array   $taskList = [],
-        array   $workTaskList = [],
+        array   $taskList,
+        array   $workTaskList,
         string|null $uyumSatisApiCrmUserName,
         string|null $uyumSatisApiCrmUserPassword
     ): ServiceResponse
@@ -647,7 +647,8 @@ class OperationService extends OperationApiService implements IOperationService
             'Set employee',
             200,
             [
-                'guid' => $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']
+                'guid' => $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body(),
+                'params' => $params
             ]
         );
     }

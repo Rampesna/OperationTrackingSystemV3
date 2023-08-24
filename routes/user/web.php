@@ -261,6 +261,12 @@ Route::middleware([
         Route::get('report', [\App\Http\Controllers\Web\User\FoodListController::class, 'report'])->name('user.web.foodList.report');
     });
 
+    Route::prefix('socialEvent')->middleware([
+
+    ])->group(function () {
+        Route::get('index', [\App\Http\Controllers\Web\User\SocialEventController::class, 'index'])->name('user.web.socialEvent.index');
+    });
+
     Route::prefix('project')->middleware([
         'CheckUserPermission:15'
     ])->group(function () {

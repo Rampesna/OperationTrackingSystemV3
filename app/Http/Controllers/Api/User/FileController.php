@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\AwsS3\IStorageService;
 use App\Interfaces\Eloquent\IFileService;
 use App\Http\Requests\Api\User\FileController\GetAllRequest;
+use App\Http\Requests\Api\User\FileController\CreateBatchRequest;
 use App\Http\Requests\Api\User\FileController\UploadRequest;
 use App\Http\Requests\Api\User\FileController\UploadBatchRequest;
 use App\Http\Requests\Api\User\FileController\DownloadRequest;
@@ -100,6 +101,37 @@ class FileController extends Controller
                 $getByRelationResponse->getStatusCode()
             );
         }
+    }
+
+    /**
+     * @param CreateBatchRequest $request
+     */
+    public function createBatch(CreateBatchRequest $request)
+    {
+        foreach ($request->fileList as $file) {
+            $createResponse = $this->fileService->create(
+                $request->user()->id,
+                'App\\Models\\Eloquent\\User',
+                $file['relationId'],
+                $file['relationType'],
+                $file['type'],
+                $file['icon'],
+                $file['name'],
+                $file['path']
+            );
+            if (!$createResponse->isSuccess()) {
+                return $this->error(
+                    $createResponse->getMessage(),
+                    $createResponse->getStatusCode()
+                );
+            }
+        }
+
+        return $this->success(
+            'Files created successfully',
+            [],
+            201
+        );
     }
 
     /**

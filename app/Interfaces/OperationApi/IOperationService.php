@@ -271,8 +271,8 @@ interface IOperationService
         ?int    $followerLeaderAssistant,
         ?string $callScanCode,
         string  $santralCode,
-        array   $taskList = [],
-        array   $workTaskList = [],
+        array   $taskList,
+        array   $workTaskList,
         string|null $uyumSatisApiCrmUserName,
         string|null $uyumSatisApiCrmUserPassword
     ): ServiceResponse;

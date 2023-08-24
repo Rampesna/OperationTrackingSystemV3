@@ -316,6 +316,7 @@ Route::middleware([
         Route::get('getAll', [\App\Http\Controllers\Api\User\FileController::class, 'getAll'])->name('user.api.file.getAll');
         Route::get('getById', [\App\Http\Controllers\Api\User\FileController::class, 'getById'])->name('user.api.file.getById');
         Route::get('getByRelation', [\App\Http\Controllers\Api\User\FileController::class, 'getByRelation'])->name('user.api.file.getByRelation');
+        Route::post('createBatch', [\App\Http\Controllers\Api\User\FileController::class, 'createBatch'])->name('user.api.file.createBatch');
         Route::post('upload', [\App\Http\Controllers\Api\User\FileController::class, 'upload'])->name('user.api.file.upload');
         Route::post('uploadBatch', [\App\Http\Controllers\Api\User\FileController::class, 'uploadBatch'])->name('user.api.file.uploadBatch');
         Route::get('download', [\App\Http\Controllers\Api\User\FileController::class, 'download'])->name('user.api.file.download');
@@ -704,6 +705,16 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'create'])->name('user.api.knowledgeBaseQuestionCategory.create');
         Route::put('update', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'update'])->name('user.api.knowledgeBaseQuestionCategory.update');
         Route::delete('delete', [\App\Http\Controllers\Api\User\KnowledgeBaseQuestionCategoryController::class, 'delete'])->name('user.api.knowledgeBaseQuestionCategory.delete');
+    });
+
+    Route::prefix('socialEvent')->group(function () {
+        Route::get('getAll', [\App\Http\Controllers\Api\User\SocialEventController::class, 'getAll'])->name('user.api.socialEvent.getAll');
+        Route::get('index', [\App\Http\Controllers\Api\User\SocialEventController::class, 'index'])->name('user.api.socialEvent.index');
+        Route::get('getAllByDateOrdered', [\App\Http\Controllers\Api\User\SocialEventController::class, 'getAllByDateOrdered'])->name('user.api.socialEvent.getAllByDateOrdered');
+        Route::get('getById', [\App\Http\Controllers\Api\User\SocialEventController::class, 'getById'])->name('user.api.socialEvent.getById');
+        Route::post('create', [\App\Http\Controllers\Api\User\SocialEventController::class, 'create'])->name('user.api.socialEvent.create');
+        Route::put('update', [\App\Http\Controllers\Api\User\SocialEventController::class, 'update'])->name('user.api.socialEvent.update');
+        Route::delete('delete', [\App\Http\Controllers\Api\User\SocialEventController::class, 'delete'])->name('user.api.socialEvent.delete');
     });
 
     Route::prefix('notification')->group(function () {
