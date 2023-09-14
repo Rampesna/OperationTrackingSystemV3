@@ -642,13 +642,15 @@ class OperationService extends OperationApiService implements IOperationService
             'uyumSatisApiCrmUserPassword' => $uyumSatisApiCrmUserPassword
         ];
 
+        $responseBody = $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body();
+        $decodedResponse = json_decode($responseBody);
+
         return new ServiceResponse(
             true,
             'Set employee',
             200,
             [
-                'guid' => $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)->body(),
-                'params' => $params
+                'guid' => $decodedResponse->response,
             ]
         );
     }
