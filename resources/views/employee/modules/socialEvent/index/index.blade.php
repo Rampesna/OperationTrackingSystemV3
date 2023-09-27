@@ -43,9 +43,9 @@
                                     <p class="text-muted">
                                         {{ $socialEvent->description }}
                                     </p>
-                                    <div class="min-w-750px py-3 mb-5">
+                                    <div class="min-w-750px py-3 mb-5 gallery">
                                         @foreach($socialEvent->images as $image)
-                                            <a data-fslightbox="lightbox-basic" href="{{ $image->path }}">
+                                            <a href="{{ $image->path }}">
                                                 <img class="me-5 mb-5 rounded-3" src="{{ $image->path }}" alt="{{ $image->name }}" width="100" height="100">
                                             </a>
                                         @endforeach
