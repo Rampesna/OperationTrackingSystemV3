@@ -1,3 +1,5 @@
+<script src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
+
 <script>
 
     $(document).ready(function () {
@@ -68,6 +70,6 @@
         });
     }
 
-    getSocialEvents();
+    // getSocialEvents();
 
 </script>

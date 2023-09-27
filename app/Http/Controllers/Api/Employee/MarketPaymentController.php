@@ -18,21 +18,11 @@ class MarketPaymentController extends Controller
     private $marketPaymentService;
 
     /**
-     * @var $employeeService
-     */
-    private $employeeService;
-
-    /**
      * @param IMarketPaymentService $marketPaymentService
-     * @param IEmployeeService $employeeService
      */
-    public function __construct(
-        IMarketPaymentService $marketPaymentService,
-        IEmployeeService      $employeeService
-    )
+    public function __construct(IMarketPaymentService $marketPaymentService,)
     {
         $this->marketPaymentService = $marketPaymentService;
-        $this->employeeService = $employeeService;
     }
 
     /**
@@ -40,41 +30,26 @@ class MarketPaymentController extends Controller
      */
     public function create(CreateRequest $request)
     {
-        $employee = $this->employeeService->getById($request->user()->id);
-        if ($employee->isSuccess()) {
-            if ($employee->getData()->suspend == 1) {
-                return $this->error(
-                    'Your account is suspended',
-                    403
-                );
-            } else {
-                $createResponse = $this->marketPaymentService->create(
-                    null,
-                    null,
-                    $request->user()->id,
-                    'App\Models\Eloquent\Employee',
-                    $request->amount,
-                    str_pad(mt_rand(0, 99999999), 8, '0', STR_PAD_LEFT),
-                    1,
-                    0
-                );
-                if ($createResponse->isSuccess()) {
-                    return $this->success(
-                        $createResponse->getMessage(),
-                        $createResponse->getData(),
-                        $createResponse->getStatusCode()
-                    );
-                } else {
-                    return $this->error(
-                        $createResponse->getMessage(),
-                        $createResponse->getStatusCode()
-                    );
-                }
-            }
+        $createResponse = $this->marketPaymentService->create(
+            null,
+            null,
+            $request->user()->id,
+            'App\Models\Eloquent\Employee',
+            $request->amount,
+            str_pad(mt_rand(0, 99999999), 8, '0', STR_PAD_LEFT),
+            1,
+            0
+        );
+        if ($createResponse->isSuccess()) {
+            return $this->success(
+                $createResponse->getMessage(),
+                $createResponse->getData(),
+                $createResponse->getStatusCode()
+            );
         } else {
             return $this->error(
-                $employee->getMessage(),
-                $employee->getStatusCode()
+                $createResponse->getMessage(),
+                $createResponse->getStatusCode()
             );
         }
     }
