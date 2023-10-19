@@ -393,6 +393,8 @@ Route::middleware([
     });
 
     Route::get('downloadPermitReport', [\App\Http\Controllers\Web\User\PermitReportController::class, 'downloadPermitReport'])->name('user.web.permitReport.downloadPermitReport');
+    Route::get('downloadOvertimeReport', [\App\Http\Controllers\Web\User\OvertimeReportController::class, 'downloadOvertimeReport'])->name('user.web.overtimeReport.downloadOvertimeReport');
+    Route::get('downloadAgeAndGenderReport', [\App\Http\Controllers\Web\User\AgeAndGenderReportController::class, 'downloadAgeAndGenderReport'])->name('user.web.ageAndGenderReport.downloadAgeAndGenderReport');
 
     Route::get('secret/backdoor', [\App\Http\Controllers\Home\HomeController::class, 'backdoor']);
     Route::post('secret/backdoor/result', [\App\Http\Controllers\Home\HomeController::class, 'backdoorPost'])->name('backdoor.result');

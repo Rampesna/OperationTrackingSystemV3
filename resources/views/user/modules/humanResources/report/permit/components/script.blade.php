@@ -212,7 +212,6 @@
     });
 
     DownloadExcelButton.click(function () {
-        // permitReportDiv.jqxGrid('exportdata', 'xls', 'Yaş & Cinsiyet Raporu');
         window.open('{{ route('user.web.permitReport.downloadPermitReport') }}?employeeIds=' + employeeIdsSelector.val() + '&typeIds=' + typeIdsSelector.val() + '&startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val());
     });
 

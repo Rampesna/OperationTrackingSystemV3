@@ -23,7 +23,6 @@ class PermitReportController extends Controller
 
     public function downloadPermitReport(Request $request)
     {
-
         $employeeIds = explode(',', $request->employeeIds);
         $typeIds = explode(',', $request->typeIds);
         $startDate = $request->startDate;

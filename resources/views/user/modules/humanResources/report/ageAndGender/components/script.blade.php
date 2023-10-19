@@ -124,7 +124,7 @@
     getEmployeesByCompanyIdsWithPersonalInformation();
 
     DownloadExcelButton.click(function () {
-        ageAndGenderReportDiv.jqxGrid('exportdata', 'xls', 'Yaş & Cinsiyet Raporu');
+        window.open('{{ route('user.web.ageAndGenderReport.downloadAgeAndGenderReport') }}?companyIds=' + SelectedCompanies.val())
     });
 
     SelectedCompanies.change(function () {

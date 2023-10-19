@@ -82,6 +82,7 @@
     var jobDepartmentFilterer = $('#jobDepartmentFilterer');
 
     var createEmployeeCompanyId = $('#create_employee_company_id');
+    var updateEmployeeCompanyId = $('#update_employee_company_id');
     var createEmployeeTasksRow = $('#createEmployeeTasks');
     var createEmployeeWorkTasksRow = $('#createEmployeeWorkTasks');
     var createEmployeeGroupTasksRow = $('#createEmployeeGroupTasks');
@@ -799,8 +800,10 @@
             data: {},
             success: function (response) {
                 createEmployeeCompanyId.empty();
+                updateEmployeeCompanyId.empty();
                 $.each(response.response, function (i, company) {
                     createEmployeeCompanyId.append(`<option value="${company.id}">${company.title}</option>`);
+                    updateEmployeeCompanyId.append(`<option value="${company.id}">${company.title}</option>`);
                 });
             },
             error: function (error) {

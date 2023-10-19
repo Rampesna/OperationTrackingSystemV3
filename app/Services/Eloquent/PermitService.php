@@ -357,35 +357,37 @@ class PermitService implements IPermitService
         foreach ($employees as $employee) {
             $position = Position::orderBy('start_date', 'desc')->where('employee_id', $employee->id)->where('end_date', null)->first();
 
-            $startYear = intval(date('Y', strtotime($position->start_date)));
-            $endYear = date('2000-m-d', strtotime($position->start_date)) < date('2000-m-d') ? intval(date('Y')) + 1 : intval(date('Y'));
+            if ($position) {
+                $startYear = intval(date('Y', strtotime($position->start_date)));
+                $endYear = date('2000-m-d', strtotime($position->start_date)) < date('2000-m-d') ? intval(date('Y')) + 1 : intval(date('Y'));
 
-            for ($yearCounter = $startYear; $yearCounter <= $endYear; $yearCounter++) {
-                $start = $yearCounter . date('-m-d', strtotime($position->start_date));
-                $end = Carbon::createFromDate($start)->addYear()->toDateString();
-                $permits = Permit::where('employee_id', $employee->id)->whereIn('type_id', $permitTypeIds)->
-                where(function ($permits) use ($start, $end) {
-                    $permits->whereBetween('start_date', [
-                        $start,
-                        $end
-                    ])->orWhereBetween('end_date', [
-                        $start,
-                        $end
-                    ])->orWhere(function ($permits) use ($start, $end) {
-                        $permits->where('start_date', '<=', $start)->where('end_date', '>=', $end);
-                    });
-                })->get();
-                $totalMinutes = 0;
-                foreach ($permits as $permit) {
-                    $totalMinutes += calculateMinutes($permit->start_date, $permit->end_date);
+                for ($yearCounter = $startYear; $yearCounter <= $endYear; $yearCounter++) {
+                    $start = $yearCounter . date('-m-d', strtotime($position->start_date));
+                    $end = Carbon::createFromDate($start)->addYear()->toDateString();
+                    $permits = Permit::where('employee_id', $employee->id)->whereIn('type_id', $permitTypeIds)->
+                    where(function ($permits) use ($start, $end) {
+                        $permits->whereBetween('start_date', [
+                            $start,
+                            $end
+                        ])->orWhereBetween('end_date', [
+                            $start,
+                            $end
+                        ])->orWhere(function ($permits) use ($start, $end) {
+                            $permits->where('start_date', '<=', $start)->where('end_date', '>=', $end);
+                        });
+                    })->get();
+                    $totalMinutes = 0;
+                    foreach ($permits as $permit) {
+                        $totalMinutes += calculateMinutes($permit->start_date, $permit->end_date);
+                    }
+
+                    $days = intval($totalMinutes / 480);
+
+                    $annualPermitList[] = [
+                        'name' => $employee->name,
+                        'date' => Carbon::createFromDate($end)->addDays($days)->toDateString(),
+                    ];
                 }
-
-                $days = intval($totalMinutes / 480);
-
-                $annualPermitList[] = [
-                    'name' => $employee->name,
-                    'date' => Carbon::createFromDate($end)->addDays($days)->toDateString(),
-                ];
             }
         }
 

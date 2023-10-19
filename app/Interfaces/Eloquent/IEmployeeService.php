@@ -281,6 +281,13 @@ interface IEmployeeService extends IEloquentService
 
     /**
      * @param int $employeeId
+     */
+    public function reActivate(
+        int    $employeeId
+    ): ServiceResponse;
+
+    /**
+     * @param int $employeeId
      *
      * @return ServiceResponse
      */

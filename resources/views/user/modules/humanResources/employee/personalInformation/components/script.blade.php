@@ -4,6 +4,8 @@
 
     var employeeId = `{{ $id }}`;
 
+    var reActivateEmployeeButton = $('#reActivateEmployeeButton');
+
     var employeeImageSpan = $('#employeeImageSpan');
     var employeeNameSpan = $('#employeeNameSpan');
     var employeeIdentitySpan = $('#employeeIdentitySpan');
@@ -22,12 +24,13 @@
                 id: employeeId,
             },
             success: function (response) {
-                employee = response;
-                if (response.response.image) employeeImageSpan.attr('src', `${baseAssetUrl}${response.response.image}`);
-                employeeNameSpan.html(response.response.name);
-                employeeIdentitySpan.html(`<i class="far fa-user-circle me-4"></i><span class="mt-n1">${response.response.identity}</span>`);
-                employeeEmailSpan.html(`<i class="far fa-envelope me-4"></i><span class="mt-n1">${response.response.email}</span>`);
-                employeePhoneSpan.html(`<i class="fas fa-phone-square-alt me-4"></i><span class="mt-n1">${response.response.phone}</span>`);
+                employee = response.response;
+                if (employee.leave === 1) reActivateEmployeeButton.show();
+                if (employee.image) employeeImageSpan.attr('src', `${baseAssetUrl}${employee.image}`);
+                employeeNameSpan.html(employee.name);
+                employeeIdentitySpan.html(`<i class="far fa-user-circle me-4"></i><span class="mt-n1">${employee.identity}</span>`);
+                employeeEmailSpan.html(`<i class="far fa-envelope me-4"></i><span class="mt-n1">${employee.email}</span>`);
+                employeePhoneSpan.html(`<i class="fas fa-phone-square-alt me-4"></i><span class="mt-n1">${employee.phone}</span>`);
                 $('#loader').hide();
             },
             error: function (error) {
@@ -162,6 +165,33 @@
                 toastr.error('Personel Kişisel Bilgileri Güncellenirken Serviste Bir Sorun Oluştu.');
                 UpdatePersonalInformationButton.attr('disabled', false).html('Güncelle');
             }
+        });
+    });
+
+    reActivateEmployeeButton.click(function () {
+        $.ajax({
+        	type: 'post',
+        	url: '{{ route('user.api.employee.reActivate') }}',
+        	headers: {
+        		'Accept': 'application/json',
+        		'Authorization': token
+        	},
+        	data: {
+                employeeId: employeeId,
+            },
+        	success: function (response) {
+                console.log(response);
+        	},
+        	error: function (error) {
+        		console.log(error);
+        		if (parseInt(error.status) === 422) {
+        			$.each(error.responseJSON.response, function (i, error) {
+        				toastr.error(error[0]);
+        			});
+        		} else {
+        			toastr.error(error.responseJSON.message);
+        		}
+        	}
         });
     });
 

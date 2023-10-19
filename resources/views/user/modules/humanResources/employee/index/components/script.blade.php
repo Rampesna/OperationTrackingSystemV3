@@ -88,7 +88,6 @@
        getEmployeesByCompanyIds();
     });
 
-    console.log(pageIndex);
     clearFilterButton.click(function () {
         keywordFilter.val('');
         leaveFilter.val(0);

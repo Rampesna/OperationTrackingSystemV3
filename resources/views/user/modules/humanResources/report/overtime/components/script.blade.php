@@ -207,7 +207,7 @@
     });
 
     DownloadExcelButton.click(function () {
-        overtimeReportDiv.jqxGrid('exportdata', 'xls', 'Yaş & Cinsiyet Raporu');
+        window.open('{{ route('user.web.overtimeReport.downloadOvertimeReport') }}?employeeIds=' + employeeIdsSelector.val() + '&typeIds=' + typeIdsSelector.val() + '&startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val())
     });
 
     SelectedCompanies.change(function () {

@@ -670,6 +670,23 @@ class EmployeeService implements IEmployeeService
                 ? 1 : 0;
         $employee->save();
 
+        $token = "Bearer 70|70Yw6CA4Wi0UdSE1gR0TGC9rC91WLTZsRvdIWUnr";
+        $endpoint = "http://inventory.ayssoft.com/api/user/employee/create";
+        $client = new \GuzzleHttp\Client();
+        $inventoryResponse = $client->request('POST', $endpoint, [
+            'headers' => [
+                'Authorization' => $token,
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'otsId' => $employee->id,
+                'name' => $employee->name,
+                'email' => $employee->email,
+                'password' => $employee->password,
+            ]
+        ]);
+
         return new ServiceResponse(
             true,
             'Employee created',
@@ -754,6 +771,20 @@ class EmployeeService implements IEmployeeService
             $operationService = new OperationService;
             $setUserInterestResponse = $operationService->SetUserInterest($employeeGuid);
 
+            $token = "Bearer 70|70Yw6CA4Wi0UdSE1gR0TGC9rC91WLTZsRvdIWUnr";
+            $endpoint = "http://inventory.ayssoft.com/api/user/employee/deleteByOtsId";
+            $client = new \GuzzleHttp\Client();
+            $inventoryResponse = $client->request('DELETE', $endpoint, [
+                'headers' => [
+                    'Authorization' => $token,
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'otsId' => $employeeId,
+                ]
+            ]);
+
             if ($setUserInterestResponse->isSuccess()) {
                 return new ServiceResponse(
                     true,
@@ -764,6 +795,45 @@ class EmployeeService implements IEmployeeService
             } else {
                 return $setUserInterestResponse;
             }
+        } else {
+            return $employee;
+        }
+    }
+
+    /**
+     * @param int $employeeId
+     */
+    public function reActivate(
+        int    $employeeId
+    ): ServiceResponse
+    {
+        $employee = $this->getById($employeeId);
+        if ($employee->isSuccess()) {
+            $employee->getData()->leave = 0;
+            $employee->getData()->suspend = 0;
+            $employee->getData()->password = bcrypt('123456');
+            $employee->getData()->save();
+
+            $token = "Bearer 70|70Yw6CA4Wi0UdSE1gR0TGC9rC91WLTZsRvdIWUnr";
+            $endpoint = "http://inventory.ayssoft.com/api/user/employee/reActivateByOtsId";
+            $client = new \GuzzleHttp\Client();
+            $inventoryResponse = $client->request('POST', $endpoint, [
+                'headers' => [
+                    'Authorization' => $token,
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'otsId' => $employeeId,
+                ]
+            ]);
+
+            return new ServiceResponse(
+                true,
+                'Employee reactivated',
+                200,
+                $employee->getData()
+            );
         } else {
             return $employee;
         }

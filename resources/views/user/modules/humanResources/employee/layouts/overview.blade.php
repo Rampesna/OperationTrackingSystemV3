@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="d-flex mb-4">
-
+                        <button class="btn btn-info" style="display: none" id="reActivateEmployeeButton">Personeli Tekrar İşe Al</button>
                     </div>
                 </div>
             </div>

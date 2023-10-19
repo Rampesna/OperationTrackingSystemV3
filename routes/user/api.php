@@ -111,6 +111,7 @@ Route::middleware([
         Route::post('create', [\App\Http\Controllers\Api\User\EmployeeController::class, 'create'])->name('user.api.employee.create');
         Route::put('update', [\App\Http\Controllers\Api\User\EmployeeController::class, 'update'])->name('user.api.employee.update');
         Route::put('leave', [\App\Http\Controllers\Api\User\EmployeeController::class, 'leave'])->name('user.api.employee.leave');
+        Route::post('reActivate', [\App\Http\Controllers\Api\User\EmployeeController::class, 'reActivate'])->name('user.api.employee.reActivate');
         Route::post('updateJobDepartment', [\App\Http\Controllers\Api\User\EmployeeController::class, 'updateJobDepartment'])->name('user.api.employee.updateJobDepartment');
     });
 

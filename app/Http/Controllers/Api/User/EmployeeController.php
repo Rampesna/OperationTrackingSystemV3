@@ -7,6 +7,7 @@ use App\Http\Requests\Api\User\EmployeeController\GetAllWorkersRequest;
 use App\Http\Requests\Api\User\EmployeeController\CreateRequest;
 use App\Http\Requests\Api\User\EmployeeController\UpdateRequest;
 use App\Http\Requests\Api\User\EmployeeController\LeaveRequest;
+use App\Http\Requests\Api\User\EmployeeController\ReActivateRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithPersonalInformationRequest;
 use App\Http\Requests\Api\User\EmployeeController\GetByCompanyIdsWithBalanceRequest;
@@ -354,6 +355,28 @@ class EmployeeController extends Controller
             return $this->error(
                 $leaveResponse->getMessage(),
                 $leaveResponse->getStatusCode()
+            );
+        }
+    }
+
+    /**
+     * @param ReActivateRequest $request
+     */
+    public function reActivate(ReActivateRequest $request)
+    {
+        $response = $this->employeeService->reActivate(
+            $request->employeeId
+        );
+        if ($response->isSuccess()) {
+            return $this->success(
+                $response->getMessage(),
+                $response->getData(),
+                $response->getStatusCode()
+            );
+        } else {
+            return $this->error(
+                $response->getMessage(),
+                $response->getStatusCode()
             );
         }
     }
